@@ -12,15 +12,16 @@ export default function Nav({ dark = true }) {
     <nav className={`sticky top-0 z-50 ${base}`} data-testid="top-nav">
       <div className="max-w-7xl mx-auto relative flex items-center justify-between px-6 py-4">
         <Link to="/" data-testid="nav-logo">
-          <Logo dark={dark} />
+          <Logo dark={dark} compact />
         </Link>
-        {/* SparkPrep's own main logo -- centered, alongside (not replacing) the Legenddary lockup above */}
+        {/* SparkPrep's own main logo -- the brand being promoted, so it gets
+            the dead-center spot at a larger size than the Legenddary mark. */}
         <Link
           to="/"
           className="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
           data-testid="nav-sparkprep-logo"
         >
-          <SparkPrepLogo height={44} />
+          <SparkPrepLogo height={64} />
         </Link>
         <div className="flex items-center gap-5 text-sm">
           {user?.beta_active && (

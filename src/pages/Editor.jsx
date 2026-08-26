@@ -18,7 +18,7 @@ import AICoverDialog from "@/components/AICoverDialog";
 import { Logo } from "@/components/Logo";
 import {
   Upload, Download, Wand2, ArrowLeft, Eye, EyeOff, Check, AlertTriangle, XCircle,
-  Sparkles, FileStack, Palette, Ruler, Layers, Trash2, Info,
+  Sparkles, FileStack, Palette, Ruler, Layers, Trash2, Info, ShieldCheck, ArrowRight,
   FilePlus, BookOpen, Image as ImageIcon, Paintbrush, FileCheck2,
 } from "lucide-react";
 
@@ -39,6 +39,26 @@ const SLOTS = [
 
 const statusIcon = (s) => s === "pass" ? <Check className="w-3.5 h-3.5" /> : s === "warning" ? <AlertTriangle className="w-3.5 h-3.5" /> : <XCircle className="w-3.5 h-3.5" />;
 const statusPill = (s) => s === "pass" ? "pill-pass" : s === "warning" ? "pill-warn" : "pill-fail";
+
+// Mirrors the backend's fix_action codes (file_processor.py run_compliance_checks)
+// -- shows exactly what Auto-Fix will do about a specific issue, not just that
+// something's wrong with it.
+const FIX_ACTION_LABELS = {
+  upscale_300dpi: "Fix: resample to 300 DPI",
+  convert_cmyk: "Fix: convert to CMYK color space",
+  flatten: "Fix: flatten transparency",
+  add_bleed: "Fix: bleed added automatically on export",
+  export_pdfx1a: "Fix: PDF/X-1a generated automatically on export",
+};
+
+function summarizeCompliance(compliance) {
+  if (!compliance || compliance.length === 0) return { verdict: "empty" };
+  const fails = compliance.filter((c) => c.status === "fail").length;
+  const warnings = compliance.filter((c) => c.status === "warning").length;
+  if (fails > 0) return { verdict: "fail", fails, warnings };
+  if (warnings > 0) return { verdict: "warning", warnings };
+  return { verdict: "pass" };
+}
 
 function InfoTip({ children, text }) {
   return (
@@ -64,7 +84,12 @@ export default function Editor() {
   const [uploadingSlot, setUploadingSlot] = useState(null);
   const [uploadingTemplate, setUploadingTemplate] = useState(false);
   const [fixing, setFixing] = useState(false);
+  const [interiorFixing, setInteriorFixing] = useState(false);
   const [exporting, setExporting] = useState(false);
+  const [checkingFinal, setCheckingFinal] = useState(false);
+  const [finalReview, setFinalReview] = useState(null);
+  const [coverFixResult, setCoverFixResult] = useState(null);
+  const [interiorFixResult, setInteriorFixResult] = useState(null);
 
   const load = useCallback(async () => {
     try {
@@ -163,21 +188,42 @@ export default function Editor() {
     } catch (e) { toast.error(fmtErr(e.response?.data?.detail)); }
   };
 
-  const autofix = async () => {
-    setFixing(true);
+  // Shared by the cover and interior Auto-Fix buttons: runs the fix, then
+  // immediately re-checks the result (the backend does this in the same
+  // call) so the UI can show a definite pass/fail/warning verdict and what
+  // to do next -- not just a toast that disappears.
+  const runAutofix = async (slot, setBusy, setResult) => {
+    setBusy(true);
+    setResult(null);
     try {
-      const { data } = await api.post(`/projects/${id}/autofix`);
-      setProject((p) => ({ ...p, file_metadata: data.file_metadata, compliance: data.compliance }));
-      // Only claim success when the fix actually resolved everything it
-      // attempted -- ghostscript_fix is only present when a gs-level fix
-      // (transparency/layers/PDF-X1a declaration) was needed at all.
-      if (data.ghostscript_fix && !data.ghostscript_fix.succeeded) {
-        toast.warning("Autofix attempted. Manual correction required.");
-      } else {
-        toast.success("Auto-Fix complete: CMYK + 300 DPI + flattened");
-      }
+      const { data } = await api.post(`/projects/${id}/autofix`, null, slot ? { params: { slot } } : undefined);
+      setProject((p) => {
+        if (slot) {
+          return { ...p, slots: { ...(p.slots || {}), [slot]: { ...data.file_metadata, compliance: data.compliance } } };
+        }
+        return { ...p, file_metadata: data.file_metadata, compliance: data.compliance };
+      });
+      const summary = summarizeCompliance(data.compliance);
+      const gsFailed = data.ghostscript_fix && !data.ghostscript_fix.succeeded;
+      setResult({ ...summary, gsFailed, gsReason: data.ghostscript_fix?.reason });
+      if (gsFailed) toast.warning("Scan complete — one issue needs a manual fix.");
+      else if (summary.verdict === "fail") toast.error(`Scan complete — ${summary.fails} issue${summary.fails === 1 ? "" : "s"} still need fixing.`);
+      else if (summary.verdict === "warning") toast.success(`Scan complete — passed with ${summary.warnings} note${summary.warnings === 1 ? "" : "s"}.`);
+      else toast.success("Scan complete — all checks passed.");
     } catch (e) { toast.error(fmtErr(e.response?.data?.detail)); }
-    finally { setFixing(false); }
+    finally { setBusy(false); }
+  };
+
+  const autofix = () => runAutofix(null, setFixing, setCoverFixResult);
+  const autofixInterior = () => runAutofix("interior", setInteriorFixing, setInteriorFixResult);
+
+  const runFinalReview = async () => {
+    setCheckingFinal(true);
+    try {
+      const { data } = await api.post(`/projects/${id}/final-review`);
+      setFinalReview(data);
+    } catch (e) { toast.error(fmtErr(e.response?.data?.detail)); }
+    finally { setCheckingFinal(false); }
   };
 
   const exportPdf = async () => {
@@ -220,10 +266,18 @@ export default function Editor() {
   if (!project || !specs) return <div className="p-10 font-mono-spec text-xs text-neutral-500">Loading editor…</div>;
 
   const isCover = project.project_type !== "interior";
+  const needsInterior = project.project_type === "interior" || project.project_type === "combined";
   const trim = specs.trim_sizes[project.trim_size] || { w: 6, h: 9, label: project.trim_size };
   const plat = specs.platforms[project.platform] || {};
   const compliance = project.slots?.full_wrap?.compliance || project.compliance || [];
+  const interiorCompliance = project.slots?.interior?.compliance || [];
+  const hasInteriorUpload = !!project.slots?.interior;
   const hasAnyUpload = Object.values(project.slots || {}).length > 0 || !!project.uploaded_file;
+  const coverSummary = summarizeCompliance(isCover ? compliance : []);
+  const interiorSummary = summarizeCompliance(needsInterior ? interiorCompliance : []);
+  const coverClear = !isCover || coverSummary.verdict === "pass" || coverSummary.verdict === "warning";
+  const interiorClear = !needsInterior || (hasInteriorUpload && (interiorSummary.verdict === "pass" || interiorSummary.verdict === "warning"));
+  const readyForFinalReview = hasAnyUpload && coverClear && interiorClear && (!needsInterior || hasInteriorUpload);
   // Free plan is preview + compliance only -- TIERS.free.monthly_exports is 0 on the
   // backend, which is the actual enforcement; this just avoids sending a free user
   // into a doomed export click instead of straight to the upgrade page.
@@ -457,21 +511,80 @@ export default function Editor() {
                   <InteriorPreview overlays={overlays} previewUrl={previewUrl} />
                 )}
               </div>
-              {/* Preflight report */}
-              <div className="p-4 border-t border-neutral-800" data-testid="compliance-list">
-                <div className="font-mono-spec text-[10px] tracking-widest uppercase text-[#D4AF37] mb-2">Preflight Report</div>
-                {compliance.length === 0 && <p className="text-xs text-neutral-500">Upload a file to see the compliance report.</p>}
-                <div className="grid sm:grid-cols-2 gap-2">
-                  {compliance.map((c, i) => (
-                    <div key={i} className="border border-neutral-800 bg-[#0D0D0D] p-3" data-testid={`compliance-${c.id}`}>
-                      <div className={`px-2 py-0.5 text-[9px] font-mono-spec tracking-widest uppercase inline-flex items-center gap-1 ${statusPill(c.status)}`}>
-                        {statusIcon(c.status)} {c.status}
-                      </div>
-                      <div className="font-display font-bold text-sm mt-1.5 tracking-tight text-white">{c.label}</div>
-                      <div className="text-[11px] text-neutral-400 mt-0.5 leading-relaxed">{c.message}</div>
-                    </div>
-                  ))}
+              {/* Preflight report -- Cover */}
+              {isCover && (
+                <div className="p-4 border-t border-neutral-800" data-testid="compliance-list">
+                  <div className="flex items-center justify-between flex-wrap gap-2 mb-2">
+                    <span className="font-mono-spec text-[10px] tracking-widest uppercase text-[#D4AF37]">{needsInterior ? "Cover Preflight Report" : "Preflight Report"}</span>
+                    {hasAnyUpload && (
+                      <button onClick={autofix} disabled={fixing} className="px-2.5 py-1 border border-neutral-700 text-neutral-300 hover:border-white text-[9px] font-mono-spec tracking-widest uppercase btn-industrial disabled:opacity-40" data-testid="rescan-cover">
+                        {fixing ? "Scanning…" : "Rescan"}
+                      </button>
+                    )}
+                  </div>
+                  {compliance.length === 0 && <p className="text-xs text-neutral-500">Upload a file to see the compliance report.</p>}
+                  {compliance.length > 0 && <ScanStatusBanner result={coverFixResult} summary={coverSummary} sectionLabel="Cover" nextHint={needsInterior ? "upload your interior file next" : "you're ready to run the Final Review"} />}
+                  <div className="grid sm:grid-cols-2 gap-2 mt-2">
+                    {compliance.map((c, i) => (
+                      <ComplianceCard key={i} c={c} />
+                    ))}
+                  </div>
                 </div>
+              )}
+
+              {/* Preflight report -- Interior (interior-only or combined projects) */}
+              {needsInterior && (
+                <div className="p-4 border-t border-neutral-800" data-testid="compliance-list-interior">
+                  <div className="flex items-center justify-between flex-wrap gap-2 mb-2">
+                    <span className="font-mono-spec text-[10px] tracking-widest uppercase text-[#D4AF37]">Interior Preflight Report</span>
+                    {hasInteriorUpload && (
+                      <button onClick={autofixInterior} disabled={interiorFixing} className="px-2.5 py-1 border border-neutral-700 text-neutral-300 hover:border-white text-[9px] font-mono-spec tracking-widest uppercase btn-industrial disabled:opacity-40" data-testid="rescan-interior">
+                        {interiorFixing ? "Scanning…" : "Rescan"}
+                      </button>
+                    )}
+                  </div>
+                  {!hasInteriorUpload && <p className="text-xs text-neutral-500">Upload your interior PDF above to see the compliance report.</p>}
+                  {hasInteriorUpload && interiorCompliance.length > 0 && <ScanStatusBanner result={interiorFixResult} summary={interiorSummary} sectionLabel="Interior" nextHint="you're ready to run the Final Review" />}
+                  {hasInteriorUpload && (
+                    <div className="grid sm:grid-cols-2 gap-2 mt-2">
+                      {interiorCompliance.map((c, i) => (
+                        <ComplianceCard key={i} c={c} />
+                      ))}
+                    </div>
+                  )}
+                  {hasInteriorUpload && interiorCompliance.length > 0 && !interiorFixResult && (
+                    <button onClick={autofixInterior} disabled={interiorFixing} className="mt-3 w-full btn-gold py-2.5 font-mono-spec text-[10px] tracking-widest uppercase disabled:opacity-40 btn-industrial flex items-center justify-center gap-2" data-testid="fix-interior">
+                      <Wand2 className="w-3.5 h-3.5" /> {interiorFixing ? "Running preflight…" : "Run Interior Auto-Fix Preflight"}
+                    </button>
+                  )}
+                </div>
+              )}
+
+              {/* Final Review -- appears once every required section is clean */}
+              <div className="p-4 border-t border-neutral-800" data-testid="final-review-section">
+                <div className="flex items-center justify-between flex-wrap gap-2 mb-2">
+                  <span className="font-mono-spec text-[10px] tracking-widest uppercase text-[#D4AF37]">Final Review</span>
+                </div>
+                {!readyForFinalReview && (
+                  <p className="text-xs text-neutral-500">
+                    {!hasAnyUpload ? "Upload your files and pass the section(s) above first." : "Finish the section(s) above (no failing checks) to unlock the final review."}
+                  </p>
+                )}
+                {readyForFinalReview && !finalReview && (
+                  <button onClick={runFinalReview} disabled={checkingFinal} className="w-full btn-gold py-3 font-mono-spec text-xs tracking-widest uppercase disabled:opacity-40 btn-industrial flex items-center justify-center gap-2" data-testid="run-final-review">
+                    <ShieldCheck className="w-4 h-4" /> {checkingFinal ? "Running final scan…" : "Run Final Scan"}
+                  </button>
+                )}
+                {finalReview && (
+                  <FinalReviewResult
+                    review={finalReview}
+                    onRecheck={runFinalReview}
+                    checking={checkingFinal}
+                    onExport={isFreeTier ? () => nav("/pricing") : exportPdf}
+                    exporting={exporting}
+                    isFreeTier={isFreeTier}
+                  />
+                )}
               </div>
             </div>
 
@@ -540,6 +653,101 @@ export default function Editor() {
         <AICoverDialog open={aiCoverOpen} onOpenChange={setAiCoverOpen} projectId={id} onGenerated={applySlotResult} />
       </div>
     </TooltipProvider>
+  );
+}
+
+function ComplianceCard({ c }) {
+  const fixLabel = c.status !== "pass" && c.auto_fix ? (FIX_ACTION_LABELS[c.fix_action] || "Fix available") : null;
+  return (
+    <div className="border border-neutral-800 bg-[#0D0D0D] p-3" data-testid={`compliance-${c.id}`}>
+      <div className={`px-2 py-0.5 text-[9px] font-mono-spec tracking-widest uppercase inline-flex items-center gap-1 ${statusPill(c.status)}`}>
+        {statusIcon(c.status)} {c.status}
+      </div>
+      <div className="font-display font-bold text-sm mt-1.5 tracking-tight text-white">{c.label}</div>
+      <div className="text-[11px] text-neutral-400 mt-0.5 leading-relaxed">{c.message}</div>
+      {fixLabel && (
+        <div className="text-[10px] text-[#D4AF37] mt-1.5 flex items-center gap-1">
+          <Wand2 className="w-3 h-3 shrink-0" /> {fixLabel}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Clear, persistent verdict after a scan/autofix run -- replacing a toast
+// that disappears with a banner that stays until the next action, showing
+// exactly what happened and what to do next (the gap that was blocking
+// completing the flow: a scan ran but nothing told the user pass/fail/next).
+function ScanStatusBanner({ result, summary, sectionLabel, nextHint }) {
+  const verdict = result || summary;
+  if (!verdict || verdict.verdict === "empty") return null;
+  const styles = {
+    fail: "border-red-900 bg-red-950/30 text-red-300",
+    warning: "border-amber-800 bg-amber-950/20 text-amber-300",
+    pass: "border-emerald-800 bg-emerald-950/20 text-emerald-300",
+  };
+  const icon = { fail: <XCircle className="w-4 h-4" />, warning: <AlertTriangle className="w-4 h-4" />, pass: <Check className="w-4 h-4" /> }[verdict.verdict];
+  const headline = {
+    fail: `${sectionLabel} — ${verdict.fails} issue${verdict.fails === 1 ? "" : "s"} still need fixing`,
+    warning: `${sectionLabel} passed with ${verdict.warnings} note${verdict.warnings === 1 ? "" : "s"}`,
+    pass: `${sectionLabel} — all checks passed`,
+  }[verdict.verdict];
+  return (
+    <div className={`border p-3 flex items-start gap-2.5 ${styles[verdict.verdict]}`} data-testid={`scan-status-${sectionLabel.toLowerCase()}`}>
+      {icon}
+      <div className="flex-1 min-w-0">
+        <div className="font-display font-bold text-sm">{headline}</div>
+        {verdict.gsFailed && <div className="text-[11px] mt-0.5 opacity-90">{verdict.gsReason || "This one needs a manual fix."}</div>}
+        {verdict.verdict === "fail" && <div className="text-[11px] mt-0.5 opacity-90">Run Auto-Fix again, or fix the issue(s) above manually, then rescan.</div>}
+        {verdict.verdict !== "fail" && <div className="text-[11px] mt-0.5 opacity-90 flex items-center gap-1">Next: {nextHint} <ArrowRight className="w-3 h-3" /></div>}
+      </div>
+    </div>
+  );
+}
+
+function StopLight({ status }) {
+  const lights = ["red", "yellow", "green"];
+  return (
+    <div className="flex flex-col gap-1.5 items-center bg-black/40 p-2 border border-neutral-800 shrink-0">
+      {lights.map((l) => (
+        <div
+          key={l}
+          className="w-5 h-5 rounded-full"
+          style={{
+            background: status === l ? { red: "#EF4444", yellow: "#EAB308", green: "#22C55E" }[l] : "#262626",
+            boxShadow: status === l ? `0 0 10px 2px ${{ red: "#EF4444", yellow: "#EAB308", green: "#22C55E" }[l]}` : "none",
+          }}
+          data-testid={`stoplight-${l}`}
+        />
+      ))}
+    </div>
+  );
+}
+
+function FinalReviewResult({ review, onRecheck, checking, onExport, exporting, isFreeTier }) {
+  const copy = {
+    red: "Not ready to export yet.",
+    yellow: "Exportable, but review the warnings first.",
+    green: "All clear — ready to export.",
+  }[review.status];
+  return (
+    <div className="border border-neutral-800 bg-[#0D0D0D] p-4 flex items-center gap-4" data-testid="final-review-result">
+      <StopLight status={review.status} />
+      <div className="flex-1 min-w-0">
+        <div className="font-display font-black text-base text-white">{copy}</div>
+        <div className="text-[11px] text-neutral-400 mt-0.5">{review.message}</div>
+        <div className="flex items-center gap-2 mt-3">
+          <button onClick={onRecheck} disabled={checking} className="px-3 py-1.5 border border-neutral-700 text-neutral-300 hover:border-white text-[9px] font-mono-spec tracking-widest uppercase btn-industrial disabled:opacity-40" data-testid="recheck-final">
+            {checking ? "Rescanning…" : "Rescan"}
+          </button>
+          {review.status !== "red" && (
+            <button onClick={onExport} disabled={exporting} className="px-4 py-1.5 btn-gold text-[9px] font-mono-spec tracking-widest uppercase btn-industrial disabled:opacity-40 flex items-center gap-1.5" data-testid="export-from-final-review">
+              <Download className="w-3 h-3" /> {exporting ? "Exporting…" : isFreeTier ? "Export — Upgrade Required" : "Export Now"}
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
   );
 }
 

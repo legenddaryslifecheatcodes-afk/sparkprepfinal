@@ -78,8 +78,8 @@ export default function Dashboard() {
 
   const tier = user?.tier || "free";
   const used = user?.exports_this_month ?? 0;
-  const limits = { free: 3, author: 15, creator_pro: 45, publisher: 100, studio: 300 };
-  const limit = limits[tier] || 3;
+  const limits = { free: 0, author: 15, creator_pro: 45, publisher: 100, studio: 300 };
+  const limit = limits[tier] ?? 0;
   const booksUsed = user?.books_this_month ?? 0;
   const bookLimits = { free: 0, author: 1, creator_pro: 3, publisher: 7, studio: 30 };
   const bookLimit = bookLimits[tier] ?? 0;

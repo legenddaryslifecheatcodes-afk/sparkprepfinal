@@ -28,7 +28,7 @@ export default function Register() {
     <div className="marketing min-h-screen">
       <Nav dark />
       <div className="max-w-md mx-auto px-6 py-24">
-        <span className="font-mono-spec text-xs tracking-widest uppercase text-neutral-500">[ Free tier · 2 exports / mo ]</span>
+        <span className="font-mono-spec text-xs tracking-widest uppercase text-neutral-500">[ Free tier · unlimited previews ]</span>
         <h1 className="font-display font-black text-4xl md:text-5xl tracking-tighter mt-4">Create<br/>account.</h1>
         <form onSubmit={submit} className="mt-10 space-y-5" data-testid="register-form">
           <div>

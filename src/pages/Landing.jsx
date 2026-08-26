@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import Nav from "@/components/Nav";
 import SeasonBanner from "@/components/SeasonBanner";
-import { LogoMark, LogoLockup } from "@/components/Logo";
+import { LogoMark, SparkPrepLogo } from "@/components/Logo";
 import BrandWatermark from "@/components/BrandWatermark";
 import { CheckCircle2, Zap, FileCheck2, Palette, Ruler, Layers, Flame, ArrowRight } from "lucide-react";
 
@@ -145,12 +145,15 @@ export default function Landing() {
       {/* CTA */}
       <section className="border-t border-neutral-900 bg-gradient-to-b from-[#0A0A0A] to-[#151007]">
         <div className="max-w-4xl mx-auto px-6 py-24 text-center">
-          <LogoLockup className="mx-auto" width={420} />
+          <div className="flex flex-col items-center gap-4">
+            <SparkPrepLogo height={140} />
+            <LogoMark size={44} />
+          </div>
           <h2 className="font-display font-black text-4xl md:text-6xl tracking-tighter mt-8">
             Stop guessing.<br />
             <span style={{ background: "linear-gradient(180deg, #E5C158, #D4AF37 55%, #B8933E)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Start printing.</span>
           </h2>
-          <p className="text-neutral-400 mt-6 max-w-xl mx-auto">Free tier includes 3 draft exports every month. No credit card. Or run a 99¢ audit right now, no account required.</p>
+          <p className="text-neutral-400 mt-6 max-w-xl mx-auto">Free tier includes unlimited previews & compliance reports — upgrade anytime to export. No credit card. Or run a 99¢ audit right now, no account required.</p>
           <div className="mt-10 flex flex-wrap justify-center gap-3">
             <Link to="/register" className="btn-gold px-8 py-4 font-mono-spec text-xs tracking-widest uppercase btn-industrial" data-testid="footer-cta">
               Get Started — It's Free

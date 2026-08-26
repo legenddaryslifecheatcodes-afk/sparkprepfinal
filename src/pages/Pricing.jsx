@@ -17,7 +17,7 @@ const TIERS = [
     price_label: "$0",
     books: "Preview & compliance only",
     features: [
-      "3 draft exports / month",
+      "No exports — upgrade to export",
       "Uploads up to 25 MB",
       "KDP + IngramSpark templates",
       "DPI, CMYK + spine calculator",

@@ -1,6 +1,13 @@
 // craco.config.js
 const path = require("path");
-require("dotenv").config();
+// Load the NODE_ENV-appropriate env file explicitly -- an unguarded
+// require("dotenv").config() here always loads plain .env first (which
+// points REACT_APP_BACKEND_URL at localhost for local dev), and since env
+// vars don't get overwritten once set, that silently won every production
+// build regardless of .env.production's value.
+require("dotenv").config({
+  path: process.env.NODE_ENV === "production" ? ".env.production" : ".env",
+});
 
 // Check if we're in development/preview mode (not production build)
 // Craco sets NODE_ENV=development for start, NODE_ENV=production for build

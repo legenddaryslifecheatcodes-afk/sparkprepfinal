@@ -158,8 +158,8 @@ export default function Account() {
   const { user } = useAuth();
   const tier = user?.tier || "free";
   const used = user?.exports_this_month ?? 0;
-  const limits = { free: 3, author: 15, creator_pro: 45, publisher: 100, studio: 300 };
-  const limit = limits[tier] || 3;
+  const limits = { free: 0, author: 15, creator_pro: 45, publisher: 100, studio: 300 };
+  const limit = limits[tier] ?? 0;
   return (
     <div className="min-h-screen bg-[#F7F7F9]">
       <Nav dark={false} />

@@ -18,7 +18,7 @@ import AICoverDialog from "@/components/AICoverDialog";
 import { Logo } from "@/components/Logo";
 import {
   Upload, Download, Wand2, ArrowLeft, Eye, EyeOff, Check, AlertTriangle, XCircle,
-  Sparkles, Box, Square, FileStack, Palette, Ruler, Layers, RotateCw, Trash2, Info,
+  Sparkles, FileStack, Palette, Ruler, Layers, Trash2, Info,
   FilePlus, BookOpen, Image as ImageIcon, Paintbrush, FileCheck2,
 } from "lucide-react";
 
@@ -57,7 +57,6 @@ export default function Editor() {
   const [specs, setSpecs] = useState(null);
   const [spine, setSpine] = useState(null);
   const [overlays, setOverlays] = useState({ bleed: true, trim: true, safe: true, barcode: false });
-  const [viewMode, setViewMode] = useState("flat");
   const [blurbOpen, setBlurbOpen] = useState(false);
   const [composerOpen, setComposerOpen] = useState(false);
   const [coverTemplateOpen, setCoverTemplateOpen] = useState(false);
@@ -232,404 +231,307 @@ export default function Editor() {
 
   return (
     <TooltipProvider delayDuration={200}>
-      <div className="min-h-screen bg-[#F7F7F5]">
-        {/* Topbar */}
-        <div className="h-14 border-b border-neutral-200 bg-white flex items-center justify-between px-6 sticky top-0 z-40" data-testid="editor-topbar">
-          <div className="flex items-center gap-4">
-            <button onClick={() => nav("/dashboard")} className="text-neutral-500 hover:text-black" data-testid="back-btn"><ArrowLeft className="w-4 h-4" /></button>
-            <Logo compact />
-            <div className="w-px h-6 bg-neutral-200 mx-2" />
-            <div>
-              <input
-                defaultValue={project.name}
-                onBlur={(e) => {
-                  const next = e.target.value.trim();
-                  if (next && next !== project.name) updateSpec({ name: next });
-                  else e.target.value = project.name;
-                }}
-                className="font-display font-bold text-sm tracking-tight bg-transparent border-b border-transparent hover:border-neutral-300 focus:border-black outline-none w-48"
-                data-testid="project-title-input"
-                title="Book title — required before you can export"
-              />
-              <div className="font-mono-spec text-[10px] tracking-widest text-neutral-500 uppercase">{plat.name} · {trim.label} · {project.page_count}pp</div>
+      <div className="min-h-screen bg-[#0A0A0A]">
+        {/* Header */}
+        <div className="border-b border-neutral-800 bg-[#0D0D0D] px-6 py-3 sticky top-0 z-40" data-testid="editor-topbar">
+          <div className="flex items-center justify-between flex-wrap gap-3">
+            <div className="flex items-center gap-3">
+              <button onClick={() => nav("/dashboard")} className="text-neutral-500 hover:text-white" data-testid="back-btn"><ArrowLeft className="w-4 h-4" /></button>
+              <Logo dark compact />
+              <div className="w-px h-8 bg-neutral-800 mx-1" />
+              <div>
+                <input
+                  defaultValue={project.name}
+                  onBlur={(e) => {
+                    const next = e.target.value.trim();
+                    if (next && next !== project.name) updateSpec({ name: next });
+                    else e.target.value = project.name;
+                  }}
+                  className="font-display font-bold text-sm tracking-tight bg-transparent border-b border-transparent hover:border-neutral-700 focus:border-white outline-none w-48 text-white"
+                  data-testid="project-title-input"
+                  title="Book title — required before you can export"
+                />
+                <div className="font-mono-spec text-[10px] tracking-widest text-neutral-500 uppercase">{plat.name} · {trim.label} · {project.page_count}pp</div>
+              </div>
             </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <InfoTip text="Compose a print-ready interior PDF from scratch with a fiction, workbook or poetry template.">
-              <button onClick={() => setComposerOpen(true)} className="px-3 py-2 border border-neutral-300 font-mono-spec text-[10px] tracking-widest uppercase hover:border-black flex items-center gap-1.5 btn-industrial" data-testid="composer-btn">
-                <BookOpen className="w-3.5 h-3.5" /> Compose Interior
-              </button>
-            </InfoTip>
-            <InfoTip text={isFreeTier ? "AI Blurb Writer requires the Author plan or higher." : "Generate 3 AI back-cover blurb variations with Claude Sonnet."}>
-              <button onClick={() => isFreeTier ? nav("/pricing") : setBlurbOpen(true)} className="px-3 py-2 border border-neutral-300 font-mono-spec text-[10px] tracking-widest uppercase hover:border-black flex items-center gap-1.5 btn-industrial" data-testid="blurb-btn">
-                <Sparkles className="w-3.5 h-3.5" /> AI Blurb{isFreeTier && " 🔒"}
-              </button>
-            </InfoTip>
-            {isCover && (
-              <InfoTip text="Start from a typographic cover template — replaces the full cover wrap, fully editable after.">
-                <button onClick={() => setCoverTemplateOpen(true)} className="px-3 py-2 border border-neutral-300 font-mono-spec text-[10px] tracking-widest uppercase hover:border-black flex items-center gap-1.5 btn-industrial" data-testid="cover-template-btn">
-                  <Palette className="w-3.5 h-3.5" /> Cover Templates
+            <div className="flex items-center gap-2">
+              <InfoTip text="Compose a print-ready interior PDF from scratch with a fiction, workbook or poetry template.">
+                <button onClick={() => setComposerOpen(true)} className="px-3 py-2 border border-neutral-700 text-neutral-300 font-mono-spec text-[10px] tracking-widest uppercase hover:border-white hover:text-white flex items-center gap-1.5 btn-industrial" data-testid="composer-btn">
+                  <BookOpen className="w-3.5 h-3.5" /> Compose Interior
                 </button>
               </InfoTip>
-            )}
-            {isCover && (
-              <InfoTip text={isFreeTier ? "AI Cover Generation requires the Author plan or higher." : "Generate cover art from a text description (Google Imagen)."}>
-                <button onClick={() => isFreeTier ? nav("/pricing") : setAiCoverOpen(true)} className="px-3 py-2 border border-neutral-300 font-mono-spec text-[10px] tracking-widest uppercase hover:border-black flex items-center gap-1.5 btn-industrial" data-testid="ai-cover-btn">
-                  <ImageIcon className="w-3.5 h-3.5" /> AI Cover{isFreeTier && " 🔒"}
+              <InfoTip text={isFreeTier ? "AI Blurb Writer requires the Author plan or higher." : "Generate 3 AI back-cover blurb variations with Claude Sonnet."}>
+                <button onClick={() => isFreeTier ? nav("/pricing") : setBlurbOpen(true)} className="px-3 py-2 border border-neutral-700 text-neutral-300 font-mono-spec text-[10px] tracking-widest uppercase hover:border-white hover:text-white flex items-center gap-1.5 btn-industrial" data-testid="blurb-btn">
+                  <Sparkles className="w-3.5 h-3.5" /> AI Blurb{isFreeTier && " 🔒"}
                 </button>
               </InfoTip>
-            )}
+              {isCover && (
+                <InfoTip text="Start from a typographic cover template — replaces the full cover wrap, fully editable after.">
+                  <button onClick={() => setCoverTemplateOpen(true)} className="px-3 py-2 border border-neutral-700 text-neutral-300 font-mono-spec text-[10px] tracking-widest uppercase hover:border-white hover:text-white flex items-center gap-1.5 btn-industrial" data-testid="cover-template-btn">
+                    <Palette className="w-3.5 h-3.5" /> Cover Templates
+                  </button>
+                </InfoTip>
+              )}
+              {isCover && (
+                <InfoTip text={isFreeTier ? "AI Cover Generation requires the Author plan or higher." : "Generate cover art from a text description (Google Imagen)."}>
+                  <button onClick={() => isFreeTier ? nav("/pricing") : setAiCoverOpen(true)} className="px-3 py-2 border border-neutral-700 text-neutral-300 font-mono-spec text-[10px] tracking-widest uppercase hover:border-white hover:text-white flex items-center gap-1.5 btn-industrial" data-testid="ai-cover-btn">
+                    <ImageIcon className="w-3.5 h-3.5" /> AI Cover{isFreeTier && " 🔒"}
+                  </button>
+                </InfoTip>
+              )}
+            </div>
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto px-6 py-8 space-y-6">
-          {/* SECTION 1 · TEMPLATE SPECIFICATIONS */}
-          <section className="bg-white border border-neutral-200" data-testid="section-specs">
-            <div className="p-5 border-b border-neutral-200 flex items-center gap-3 flex-wrap">
-              <span className="section-header">01 · Template Specifications</span>
-              <p className="text-sm text-neutral-600">Set the distributor blueprint. Every check and export below conforms to these values.</p>
-            </div>
-            <div className="p-5 grid md:grid-cols-6 gap-4">
-              <SpecField label="Distributor" tooltip="Distributor whose print requirements the file must pass.">
-                <Select value={project.platform} onValueChange={(v) => updateSpec({ platform: v })}>
-                  <SelectTrigger data-testid="spec-platform"><SelectValue /></SelectTrigger>
-                  <SelectContent>
-                    {Object.entries(specs.platforms).map(([k, v]) => <SelectItem key={k} value={k}>{v.name}</SelectItem>)}
-                  </SelectContent>
-                </Select>
-              </SpecField>
-              <SpecField label="Trim Size" tooltip="Final page dimensions after cutting. Sets required bleed + safe margins.">
-                <Select value={project.trim_size} onValueChange={(v) => updateSpec({ trim_size: v })}>
-                  <SelectTrigger data-testid="spec-trim"><SelectValue /></SelectTrigger>
-                  <SelectContent>
-                    {Object.entries(specs.trim_sizes).map(([k, v]) => <SelectItem key={k} value={k}>{v.label}</SelectItem>)}
-                  </SelectContent>
-                </Select>
-              </SpecField>
-              <SpecField label="Paper Type" tooltip="Paper stock affects spine width via pages-per-inch (PPI). White vs cream vs color.">
-                <Select value={project.paper_type} onValueChange={(v) => updateSpec({ paper_type: v })}>
-                  <SelectTrigger data-testid="spec-paper"><SelectValue /></SelectTrigger>
-                  <SelectContent>
-                    {Object.entries(specs.paper_types).map(([k, v]) => <SelectItem key={k} value={k}>{v.label}</SelectItem>)}
-                  </SelectContent>
-                </Select>
-              </SpecField>
-              <SpecField label="Binding" tooltip="Binding style — determines whether spine text is allowed and jacket flap dimensions.">
-                <Select value={project.binding} onValueChange={(v) => updateSpec({ binding: v })}>
-                  <SelectTrigger data-testid="spec-binding"><SelectValue /></SelectTrigger>
-                  <SelectContent>
-                    {Object.entries(specs.binding_types).map(([k, v]) => <SelectItem key={k} value={k}>{v.label}</SelectItem>)}
-                  </SelectContent>
-                </Select>
-              </SpecField>
-              <SpecField label="Page Count" tooltip="Total interior page count — used to calculate spine width.">
-                <Input type="number" min={24} value={project.page_count} onChange={(e) => updateSpec({ page_count: parseInt(e.target.value) || 0 })} data-testid="spec-pages" />
-              </SpecField>
-              <SpecField label="Project Type" tooltip="Cover only, interior only, or both.">
-                <Select value={project.project_type} onValueChange={(v) => updateSpec({ project_type: v })}>
-                  <SelectTrigger data-testid="spec-type"><SelectValue /></SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="cover">Cover only</SelectItem>
-                    <SelectItem value="interior">Interior only</SelectItem>
-                    <SelectItem value="combined">Cover + Interior</SelectItem>
-                  </SelectContent>
-                </Select>
-              </SpecField>
-              <SpecField label="Series (optional)" tooltip="Books sharing a series name get checked for consistent trim/binding/paper together from the dashboard.">
-                <Input
-                  defaultValue={project.series_name || ""}
-                  onBlur={(e) => {
-                    const next = e.target.value.trim();
-                    if (next !== (project.series_name || "")) updateSpec({ series_name: next || null });
-                  }}
-                  placeholder="e.g. The Print Trilogy"
-                  data-testid="spec-series"
-                />
-              </SpecField>
-            </div>
-            {/* Publisher template upload — auto-detect trim from a real distributor file instead of guessing from the presets above */}
-            <div className="border-t border-neutral-200 p-5" data-testid="template-upload-section">
-              <div className="flex items-start justify-between flex-wrap gap-4">
-                <div>
-                  <p className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">Or upload the publisher&apos;s template</p>
-                  <p className="text-sm text-neutral-600 mt-1">Upload the blank template PDF/image your distributor gave you and we&apos;ll auto-detect its trim dimensions instead of you picking a preset above.</p>
-                </div>
-                <label className={`px-4 py-2 border font-mono-spec text-[10px] tracking-widest uppercase cursor-pointer btn-industrial ${uploadingTemplate ? "opacity-50 pointer-events-none" : "border-neutral-300 hover:border-black"}`} data-testid="template-upload-label">
-                  {uploadingTemplate ? "Analyzing…" : "Upload template file"}
-                  <input
-                    type="file"
-                    accept=".pdf,.png,.jpg,.jpeg,.tif,.tiff"
-                    onChange={(e) => uploadPublisherTemplate(e.target.files?.[0])}
-                    disabled={uploadingTemplate}
-                    className="hidden"
-                    data-testid="template-upload-input"
+        <div className="max-w-[1600px] mx-auto px-6 py-6">
+          {/* THREE-COLUMN WORKSPACE: Job Setup · Live Layout · 3D Proof */}
+          <div className={`grid gap-4 ${isCover ? "lg:grid-cols-[340px_1fr_380px]" : "lg:grid-cols-[340px_1fr]"}`}>
+
+            {/* ===== LEFT · JOB SETUP ===== */}
+            <div className="bg-[#111111] border border-neutral-800 flex flex-col" data-testid="panel-job-setup">
+              <div className="p-4 border-b border-neutral-800">
+                <span className="font-mono-spec text-[10px] tracking-widest uppercase text-[#D4AF37]">Job Setup</span>
+                <p className="text-sm text-neutral-400 mt-1">Set the distributor blueprint, then drop your files.</p>
+              </div>
+              <div className="p-4 space-y-4 overflow-y-auto">
+                <DarkSpecField label="Distributor" tooltip="Distributor whose print requirements the file must pass.">
+                  <Select value={project.platform} onValueChange={(v) => updateSpec({ platform: v })}>
+                    <SelectTrigger data-testid="spec-platform"><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      {Object.entries(specs.platforms).map(([k, v]) => <SelectItem key={k} value={k}>{v.name}</SelectItem>)}
+                    </SelectContent>
+                  </Select>
+                </DarkSpecField>
+                <DarkSpecField label="Trim Size" tooltip="Final page dimensions after cutting. Sets required bleed + safe margins.">
+                  <Select value={project.trim_size} onValueChange={(v) => updateSpec({ trim_size: v })}>
+                    <SelectTrigger data-testid="spec-trim"><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      {Object.entries(specs.trim_sizes).map(([k, v]) => <SelectItem key={k} value={k}>{v.label}</SelectItem>)}
+                    </SelectContent>
+                  </Select>
+                </DarkSpecField>
+                <DarkSpecField label="Paper Type" tooltip="Paper stock affects spine width via pages-per-inch (PPI). White vs cream vs color.">
+                  <Select value={project.paper_type} onValueChange={(v) => updateSpec({ paper_type: v })}>
+                    <SelectTrigger data-testid="spec-paper"><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      {Object.entries(specs.paper_types).map(([k, v]) => <SelectItem key={k} value={k}>{v.label}</SelectItem>)}
+                    </SelectContent>
+                  </Select>
+                </DarkSpecField>
+                <DarkSpecField label="Binding" tooltip="Binding style — determines whether spine text is allowed and jacket flap dimensions.">
+                  <Select value={project.binding} onValueChange={(v) => updateSpec({ binding: v })}>
+                    <SelectTrigger data-testid="spec-binding"><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      {Object.entries(specs.binding_types).map(([k, v]) => <SelectItem key={k} value={k}>{v.label}</SelectItem>)}
+                    </SelectContent>
+                  </Select>
+                </DarkSpecField>
+                <DarkSpecField label="Page Count" tooltip="Total interior page count — used to calculate spine width.">
+                  <Input type="number" min={24} value={project.page_count} onChange={(e) => updateSpec({ page_count: parseInt(e.target.value) || 0 })} data-testid="spec-pages" />
+                </DarkSpecField>
+                <DarkSpecField label="Project Type" tooltip="Cover only, interior only, or both.">
+                  <Select value={project.project_type} onValueChange={(v) => updateSpec({ project_type: v })}>
+                    <SelectTrigger data-testid="spec-type"><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="cover">Cover only</SelectItem>
+                      <SelectItem value="interior">Interior only</SelectItem>
+                      <SelectItem value="combined">Cover + Interior</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </DarkSpecField>
+                <DarkSpecField label="Series (optional)" tooltip="Books sharing a series name get checked for consistent trim/binding/paper together from the dashboard.">
+                  <Input
+                    defaultValue={project.series_name || ""}
+                    onBlur={(e) => {
+                      const next = e.target.value.trim();
+                      if (next !== (project.series_name || "")) updateSpec({ series_name: next || null });
+                    }}
+                    placeholder="e.g. The Print Trilogy"
+                    data-testid="spec-series"
                   />
-                </label>
-              </div>
-              {project.detected_trim && (
-                <div className="mt-4 flex flex-wrap items-center gap-4 bg-neutral-50 border border-neutral-200 p-3" data-testid="detected-trim-readout">
-                  <FileCheck2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <div className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-600">
-                    <span className="text-neutral-400">Detected page size</span>{" "}
-                    <span className="text-neutral-900">{project.detected_trim.raw_width_inches}&quot; × {project.detected_trim.raw_height_inches}&quot;</span>
-                    <span className="text-neutral-400"> · Estimated trim after bleed</span>{" "}
-                    <span className="text-neutral-900">{project.detected_trim.estimated_trim_width}&quot; × {project.detected_trim.estimated_trim_height}&quot;</span>
-                  </div>
-                  <span className="text-xs text-neutral-500">Compare this against the Trim Size preset above and adjust it if it doesn&apos;t already match.</span>
+                </DarkSpecField>
+
+                {/* Publisher template upload — auto-detect trim from a real distributor file */}
+                <div className="border-t border-neutral-800 pt-4" data-testid="template-upload-section">
+                  <p className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">Or upload the publisher&apos;s template</p>
+                  <label className={`mt-2 block px-4 py-2.5 border border-dashed text-center font-mono-spec text-[10px] tracking-widest uppercase cursor-pointer btn-industrial ${uploadingTemplate ? "opacity-50 pointer-events-none border-neutral-700 text-neutral-500" : "border-neutral-700 text-neutral-400 hover:border-[#D4AF37] hover:text-[#D4AF37]"}`} data-testid="template-upload-label">
+                    {uploadingTemplate ? "Analyzing…" : "Upload template file"}
+                    <input
+                      type="file"
+                      accept=".pdf,.png,.jpg,.jpeg,.tif,.tiff"
+                      onChange={(e) => uploadPublisherTemplate(e.target.files?.[0])}
+                      disabled={uploadingTemplate}
+                      className="hidden"
+                      data-testid="template-upload-input"
+                    />
+                  </label>
+                  {project.detected_trim && (
+                    <div className="mt-3 flex items-start gap-2 bg-emerald-950/30 border border-emerald-900 p-2.5" data-testid="detected-trim-readout">
+                      <FileCheck2 className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
+                      <div className="font-mono-spec text-[9px] tracking-widest uppercase text-neutral-400 leading-relaxed">
+                        Detected <span className="text-neutral-200">{project.detected_trim.raw_width_inches}&quot;×{project.detected_trim.raw_height_inches}&quot;</span> · trim ~<span className="text-neutral-200">{project.detected_trim.estimated_trim_width}&quot;×{project.detected_trim.estimated_trim_height}&quot;</span>
+                      </div>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-            {/* Live spec readout */}
-            <div className="border-t border-neutral-200 p-5 grid grid-cols-2 md:grid-cols-6 gap-3">
-              <SpecReadout label="Spine width" value={spine ? `${spine.spine_width}"` : "—"} accent tooltip="Auto-calculated from page count × paper PPI." />
-              <SpecReadout label="Required bleed" value={`${plat.bleed}"`} tooltip="Extend background art this far past the trim so cutting variance doesn't leave white slivers." />
-              <SpecReadout label="Safe margin" value={`${plat.safe_margin_interior}"`} tooltip="Keep essential text/logos inside this margin from every edge." />
-              <SpecReadout label="Color space" value="CMYK" tooltip="All commercial print production uses CMYK ink, not screen RGB." />
-              <SpecReadout label="Required DPI" value="300" tooltip="Minimum resolution to print sharp text and detail." />
-              <SpecReadout label="PDF standard" value={plat.pdf_standard || "PDF/X-1a"} tooltip="Print-ready PDF variant with embedded fonts, CMYK, flattened transparency." />
-            </div>
-          </section>
 
-          {/* SECTION 2 · UPLOAD */}
-          <section className="bg-white border border-neutral-200" data-testid="section-upload">
-            <div className="p-5 border-b border-neutral-200 flex items-center gap-3">
-              <span className="section-header">02 · Upload</span>
-              <p className="text-sm text-neutral-600">Drop a full cover wrap — or upload each part separately. Every file is analyzed the moment it lands.</p>
-            </div>
-            <div className="p-5 grid md:grid-cols-5 gap-3">
-              {SLOTS.map((s) => (
-                <SlotDrop
-                  key={s.key}
-                  slot={s}
-                  data={project.slots?.[s.key]}
-                  uploading={uploadingSlot === s.key}
-                  onUpload={(f) => uploadToSlot(s.key, f)}
-                  onDelete={() => deleteSlot(s.key)}
-                />
-              ))}
-            </div>
-            {isCover && (
-              <div className="p-5 pt-0">
-                <IsbnBarcodePanel projectId={id} initialIsbn={project.isbn || ""} />
-              </div>
-            )}
-          </section>
+                {/* Upload slots */}
+                <div className="border-t border-neutral-800 pt-4" data-testid="section-upload">
+                  <p className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500 mb-3">Upload files</p>
+                  <div className="grid grid-cols-2 gap-2">
+                    {SLOTS.map((s) => (
+                      <SlotDrop
+                        key={s.key}
+                        slot={s}
+                        data={project.slots?.[s.key]}
+                        uploading={uploadingSlot === s.key}
+                        onUpload={(f) => uploadToSlot(s.key, f)}
+                        onDelete={() => deleteSlot(s.key)}
+                      />
+                    ))}
+                  </div>
+                </div>
 
-          {/* SECTION 3 · LIVE PREVIEW */}
-          <section className="bg-white border border-neutral-200" data-testid="section-preview">
-            <div className="p-5 border-b border-neutral-200 flex items-center gap-3 flex-wrap justify-between">
-              <div className="flex items-center gap-3">
-                <span className="section-header">03 · Live Preview</span>
-                <p className="text-sm text-neutral-600 hidden md:block">Toggle overlays, DPI warnings and 3D mockup in real time.</p>
-              </div>
-              <div className="flex items-center gap-2">
                 {isCover && (
-                  <div className="border border-neutral-300 flex" data-testid="view-toggle">
-                    <button onClick={() => setViewMode("flat")} className={`px-3 py-1.5 font-mono-spec text-[10px] tracking-widest uppercase flex items-center gap-1.5 ${viewMode === "flat" ? "bg-black text-white" : "hover:bg-neutral-50"}`} data-testid="view-flat">
-                      <Square className="w-3 h-3" /> Flat
-                    </button>
-                    <button onClick={() => setViewMode("3d")} className={`px-3 py-1.5 font-mono-spec text-[10px] tracking-widest uppercase flex items-center gap-1.5 ${viewMode === "3d" ? "bg-black text-white" : "hover:bg-neutral-50"}`} data-testid="view-3d">
-                      <Box className="w-3 h-3" /> 3D
-                    </button>
+                  <div className="border-t border-neutral-800 pt-4">
+                    <IsbnBarcodePanel projectId={id} initialIsbn={project.isbn || ""} />
                   </div>
                 )}
-                {OVERLAYS.map((o) => (
-                  <InfoTip key={o.key} text={o.tooltip}>
-                    <button onClick={() => setOverlays((prev) => ({ ...prev, [o.key]: !prev[o.key] }))} className="px-2.5 py-1.5 border border-neutral-300 font-mono-spec text-[10px] tracking-widest uppercase flex items-center gap-1.5 hover:border-black" data-testid={`overlay-${o.key}`}>
-                      <span className="w-2.5 h-2.5 border" style={{ borderColor: o.color, background: overlays[o.key] ? o.color : "transparent" }} />
-                      {o.label}
-                      {overlays[o.key] ? <Eye className="w-3 h-3" /> : <EyeOff className="w-3 h-3 text-neutral-400" />}
-                    </button>
-                  </InfoTip>
-                ))}
+              </div>
+
+              {/* Primary actions, pinned to the bottom of the Job Setup column */}
+              <div className="p-4 border-t border-neutral-800 space-y-2 mt-auto">
+                <button
+                  onClick={autofix}
+                  disabled={!hasAnyUpload || fixing}
+                  className="w-full btn-gold py-3.5 font-mono-spec text-xs tracking-widest uppercase disabled:opacity-40 btn-industrial flex items-center justify-center gap-2"
+                  data-testid="fix-all"
+                >
+                  <Wand2 className="w-4 h-4" /> {fixing ? "Running preflight…" : "Run Auto-Fix Preflight"}
+                </button>
+                <button
+                  onClick={isFreeTier ? () => nav("/pricing") : exportPdf}
+                  disabled={!hasAnyUpload || exporting}
+                  className="w-full py-3 border border-neutral-700 text-neutral-200 font-mono-spec text-xs tracking-widest uppercase hover:border-white disabled:opacity-40 btn-industrial flex items-center justify-center gap-2"
+                  data-testid="export-pdf"
+                >
+                  <Download className="w-4 h-4" /> {exporting ? "Exporting…" : isFreeTier ? "Export — Upgrade Required" : "Export PDF/X-1a"}
+                </button>
+                <div className="font-mono-spec text-[9px] tracking-widest uppercase text-neutral-600 text-center pt-1" data-testid="book-export-counter">
+                  {Math.max(0, 5 - (project.exports_used || 0))} of 5 exports remaining for this book
+                </div>
               </div>
             </div>
-            <div className="p-5 grid md:grid-cols-4 gap-4">
-              <div className="md:col-span-3 bg-[#EDEDE9] dot-grid flex items-center justify-center p-6 relative min-h-[460px]" data-testid="canvas-area">
+
+            {/* ===== CENTER · LIVE LAYOUT ===== */}
+            <div className="bg-[#111111] border border-neutral-800 flex flex-col" data-testid="panel-live-layout">
+              <div className="p-4 border-b border-neutral-800 flex items-center justify-between flex-wrap gap-2">
+                <div>
+                  <span className="font-mono-spec text-[10px] tracking-widest uppercase text-[#D4AF37]">Live Layout</span>
+                  <p className="text-sm text-neutral-400 mt-1">{isCover ? "Back · Spine · Front" : "Interior page preview"}</p>
+                </div>
+                <div className="flex items-center gap-1.5 flex-wrap">
+                  {OVERLAYS.map((o) => (
+                    <InfoTip key={o.key} text={o.tooltip}>
+                      <button onClick={() => setOverlays((prev) => ({ ...prev, [o.key]: !prev[o.key] }))} className="px-2 py-1 border border-neutral-700 font-mono-spec text-[9px] tracking-widest uppercase flex items-center gap-1 hover:border-white text-neutral-300" data-testid={`overlay-${o.key}`}>
+                        <span className="w-2 h-2 border" style={{ borderColor: o.color, background: overlays[o.key] ? o.color : "transparent" }} />
+                        {o.label}
+                        {overlays[o.key] ? <Eye className="w-2.5 h-2.5" /> : <EyeOff className="w-2.5 h-2.5 text-neutral-500" />}
+                      </button>
+                    </InfoTip>
+                  ))}
+                </div>
+              </div>
+              <div className="flex-1 bg-[#1A1A1A] dot-grid flex items-center justify-center p-6 relative min-h-[420px]" data-testid="canvas-area">
                 {!hasAnyUpload && (
                   <div className="text-center max-w-sm">
-                    <Upload className="w-8 h-8 text-neutral-400 mx-auto" />
-                    <p className="font-display font-bold text-lg mt-3 text-neutral-700">Upload a file above to see the live preview</p>
-                    <p className="text-xs text-neutral-500 mt-2">Trim, bleed, safe zone and DPI warnings will render instantly.</p>
+                    <Upload className="w-8 h-8 text-neutral-600 mx-auto" />
+                    <p className="font-display font-bold text-lg mt-3 text-neutral-300">Upload a file to see the live layout</p>
+                    <p className="text-xs text-neutral-500 mt-2">Trim, bleed, safe zone and DPI warnings render instantly.</p>
                   </div>
                 )}
-                {hasAnyUpload && isCover && viewMode === "3d" && (
-                  <div className="w-full h-[440px] bg-neutral-50 rounded-sm overflow-hidden border border-neutral-200 shadow-inner" data-testid="book-3d-wrap">
-                    <Book3DPro frontImageUrl={previewUrl} trim={spine?.trim} spineWidth={spine?.spine_width || 0.5} binding={project.binding} />
-                  </div>
-                )}
-                {hasAnyUpload && isCover && viewMode === "flat" && spine && (
+                {hasAnyUpload && isCover && spine && (
                   <FullCoverPreview trim={trim} spine={spine} bleed={plat.bleed || 0.125} overlays={overlays} previewUrl={previewUrl} />
                 )}
                 {hasAnyUpload && !isCover && (
                   <InteriorPreview overlays={overlays} previewUrl={previewUrl} />
                 )}
               </div>
-              {/* Compliance rail */}
-              <div className="space-y-2" data-testid="compliance-list">
-                <div className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">Compliance</div>
+              {/* Preflight report */}
+              <div className="p-4 border-t border-neutral-800" data-testid="compliance-list">
+                <div className="font-mono-spec text-[10px] tracking-widest uppercase text-[#D4AF37] mb-2">Preflight Report</div>
                 {compliance.length === 0 && <p className="text-xs text-neutral-500">Upload a file to see the compliance report.</p>}
-                {compliance.map((c, i) => (
-                  <div key={i} className="border border-neutral-200 p-3" data-testid={`compliance-${c.id}`}>
-                    <div className={`px-2 py-0.5 text-[9px] font-mono-spec tracking-widest uppercase inline-flex items-center gap-1 ${statusPill(c.status)}`}>
-                      {statusIcon(c.status)} {c.status}
+                <div className="grid sm:grid-cols-2 gap-2">
+                  {compliance.map((c, i) => (
+                    <div key={i} className="border border-neutral-800 bg-[#0D0D0D] p-3" data-testid={`compliance-${c.id}`}>
+                      <div className={`px-2 py-0.5 text-[9px] font-mono-spec tracking-widest uppercase inline-flex items-center gap-1 ${statusPill(c.status)}`}>
+                        {statusIcon(c.status)} {c.status}
+                      </div>
+                      <div className="font-display font-bold text-sm mt-1.5 tracking-tight text-white">{c.label}</div>
+                      <div className="text-[11px] text-neutral-400 mt-0.5 leading-relaxed">{c.message}</div>
                     </div>
-                    <div className="font-display font-bold text-sm mt-1.5 tracking-tight">{c.label}</div>
-                    <div className="text-[11px] text-neutral-600 mt-0.5 leading-relaxed">{c.message}</div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
-          </section>
 
-          {/* SECTION 4 · ONE-CLICK FIXES */}
-          <section className="bg-white border border-neutral-200" data-testid="section-fixes">
-            <div className="p-5 border-b border-neutral-200 flex items-center gap-3 flex-wrap justify-between">
-              <div className="flex items-center gap-3">
-                <span className="section-header">04 · One-Click Fixes</span>
-                <p className="text-sm text-neutral-600">Big, bright buttons that do the heavy lifting.</p>
+            {/* ===== RIGHT · 3D PROOF (cover projects only) ===== */}
+            {isCover && (
+              <div className="bg-[#111111] border border-neutral-800 flex flex-col" data-testid="panel-3d-proof">
+                <div className="p-4 border-b border-neutral-800">
+                  <span className="font-mono-spec text-[10px] tracking-widest uppercase text-[#D4AF37]">3D Proof</span>
+                  <p className="text-sm text-neutral-400 mt-1">Finished book mockup</p>
+                </div>
+                <div className="p-4">
+                  {hasAnyUpload ? (
+                    <div className="w-full h-[360px] bg-[#0D0D0D] rounded-sm overflow-hidden border border-neutral-800" data-testid="book-3d-wrap">
+                      <Book3DPro frontImageUrl={previewUrl} trim={spine?.trim} spineWidth={spine?.spine_width || 0.5} binding={project.binding} />
+                    </div>
+                  ) : (
+                    <div className="w-full h-[360px] bg-[#0D0D0D] border border-neutral-800 flex items-center justify-center">
+                      <p className="text-xs text-neutral-600 text-center px-6">Upload a cover to see the 3D proof</p>
+                    </div>
+                  )}
+                  <p className="text-[11px] text-neutral-500 text-center mt-2">{plat.name} · {trim.label} · {specs.binding_types?.[project.binding]?.label || project.binding}</p>
+                </div>
+
+                {/* Advanced fixes + manual adjustments, tucked under the 3D proof */}
+                <div className="p-4 border-t border-neutral-800 space-y-3">
+                  <div className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">Advanced fixes</div>
+                  <div className="grid grid-cols-2 gap-2">
+                    <MiniFixButton icon={Palette} label="CMYK" tooltip="Converts file to CMYK color space using US Web Coated SWOP v2 profile — required by IngramSpark & KDP." onClick={autofix} disabled={!hasAnyUpload} testid="fix-cmyk" />
+                    <MiniFixButton icon={Ruler} label="300 DPI" tooltip="Resamples the image to 300 DPI at the current trim + bleed dimensions." onClick={autofix} disabled={!hasAnyUpload} testid="fix-dpi" />
+                    <MiniFixButton icon={Layers} label="Bleed" tooltip={'Extends artwork into the 0.125" bleed zone so cutting variance doesn\'t leave white edges.'} onClick={autofix} disabled={!hasAnyUpload} testid="fix-bleed" />
+                    <MiniFixButton icon={Paintbrush} label="Spine" tooltip="Recalculates spine width from page count × paper PPI and re-centers spine text inside safe zones." onClick={() => toast.success("Spine width recalculated: " + spine?.spine_width + "\"")} disabled={!isCover} testid="fix-spine" />
+                  </div>
+                  <div className="pt-2 space-y-4">
+                    <SliderRow label="Spine offset" tooltip="Shift spine text left/right in fractions of an inch." unit="in" min={-0.25} max={0.25} step={0.005} value={adj.spine_offset} onChange={(v) => saveAdj({ spine_offset: v })} testid="adj-spine-offset" dark />
+                    <SliderRow label="Extra bleed" tooltip={'Add extra bleed beyond the distributor default (some print shops prefer 0.25").'} unit="in" min={0} max={0.25} step={0.005} value={adj.bleed_extra} onChange={(v) => saveAdj({ bleed_extra: v })} testid="adj-bleed-extra" dark />
+                    <SliderRow label="Image scale" tooltip="Scale the source image up or down inside the trim area." unit="×" min={0.5} max={1.5} step={0.01} value={adj.image_scale} onChange={(v) => saveAdj({ image_scale: v })} testid="adj-image-scale" dark />
+                    <SliderRow label="Target DPI" tooltip="Resample DPI target — 300 is standard for print." unit="dpi" min={200} max={600} step={10} value={adj.target_dpi} onChange={(v) => saveAdj({ target_dpi: v })} testid="adj-target-dpi" dark />
+                    <div>
+                      <Label className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">Color profile</Label>
+                      <Select value={adj.color_profile} onValueChange={(v) => saveAdj({ color_profile: v })}>
+                        <SelectTrigger className="mt-1.5" data-testid="adj-color-profile"><SelectValue /></SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="US Web Coated SWOP v2">US Web Coated SWOP v2 (default)</SelectItem>
+                          <SelectItem value="GRACoL 2013">GRACoL 2013 (premium color)</SelectItem>
+                          <SelectItem value="FOGRA39">FOGRA39 (European offset)</SelectItem>
+                          <SelectItem value="Japan Color 2001 Coated">Japan Color 2001 Coated</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <span className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500" data-testid="book-export-counter">
-                Exports remaining for this book: {Math.max(0, 5 - (project.exports_used || 0))} of 5
-              </span>
-            </div>
-            <div className="p-5 grid md:grid-cols-4 gap-3">
-              <BigButton
-                icon={Wand2}
-                label="Auto-Fix Everything"
-                tooltip="Runs every fix below in one shot: converts to CMYK, upscales to 300 DPI, flattens transparency and preps for PDF/X-1a export."
-                onClick={autofix}
-                busy={fixing}
-                disabled={!hasAnyUpload}
-                primary
-                testid="fix-all"
-              />
-              <BigButton
-                icon={Palette}
-                label="Convert to CMYK"
-                tooltip="Converts file to CMYK color space using US Web Coated SWOP v2 profile — required by IngramSpark & KDP."
-                onClick={autofix}
-                disabled={!hasAnyUpload}
-                testid="fix-cmyk"
-              />
-              <BigButton
-                icon={Ruler}
-                label="Fix DPI to 300"
-                tooltip="Resamples the image to 300 DPI at the current trim + bleed dimensions."
-                onClick={autofix}
-                disabled={!hasAnyUpload}
-                testid="fix-dpi"
-              />
-              <BigButton
-                icon={Layers}
-                label="Add Bleed"
-                tooltip={'Extends artwork into the 0.125" bleed zone so cutting variance doesn\'t leave white edges.'}
-                onClick={autofix}
-                disabled={!hasAnyUpload}
-                testid="fix-bleed"
-              />
-              <BigButton
-                icon={Paintbrush}
-                label="Align Spine"
-                tooltip="Recalculates spine width from page count × paper PPI and re-centers spine text inside safe zones."
-                onClick={() => toast.success("Spine width recalculated: " + spine?.spine_width + "\"")}
-                disabled={!isCover}
-                testid="fix-spine"
-              />
-              <BigButton
-                icon={Download}
-                label={isFreeTier ? "Generate PDF/X-1a — Upgrade Required" : "Generate PDF/X-1a"}
-                tooltip={isFreeTier
-                  ? "Free plan includes preview and compliance checks only. Upgrade to Author or higher to export a print-ready production PDF."
-                  : "Exports a print-ready PDF/X-1a:2001 with correct trim, bleed, spine, embedded fonts and flattened transparency."}
-                onClick={isFreeTier ? () => nav("/pricing") : exportPdf}
-                busy={exporting}
-                disabled={!hasAnyUpload}
-                primary
-                testid="export-pdf"
-              />
-              <BigButton
-                icon={Box}
-                label="Preview 3D Mockup"
-                tooltip="Switches the preview to a photoreal 3D book you can rotate and screenshot."
-                onClick={() => setViewMode("3d")}
-                disabled={!isCover || !hasAnyUpload}
-                testid="preview-3d"
-              />
-              <BigButton
-                icon={Sparkles}
-                label="AI Blurb Writer"
-                tooltip="Generate 3 back-cover blurb variations with Claude Sonnet."
-                onClick={() => setBlurbOpen(true)}
-                testid="ai-blurb"
-              />
-            </div>
-          </section>
+            )}
+          </div>
 
           {(project.project_type === "interior" || project.project_type === "combined") && (
-            <AdvancedInteriorCheckCard project={project} user={user} projectId={id} />
+            <div className="mt-4">
+              <AdvancedInteriorCheckCard project={project} user={user} projectId={id} />
+            </div>
           )}
-
-          {/* SECTION 5 · MANUAL EDITING */}
-          <section className="bg-white border border-neutral-200" data-testid="section-manual">
-            <div className="p-5 border-b border-neutral-200 flex items-center gap-3">
-              <span className="section-header">05 · Manual Adjustments</span>
-              <p className="text-sm text-neutral-600">Fine-tune with live preview updates. Values save automatically.</p>
-            </div>
-            <div className="p-5 grid md:grid-cols-2 gap-x-8 gap-y-5">
-              <SliderRow
-                label="Spine offset"
-                tooltip="Shift spine text left/right in fractions of an inch. Useful when the spine width sits between binding tolerances."
-                unit="in"
-                min={-0.25} max={0.25} step={0.005}
-                value={adj.spine_offset}
-                onChange={(v) => saveAdj({ spine_offset: v })}
-                testid="adj-spine-offset"
-              />
-              <SliderRow
-                label="Extra bleed"
-                tooltip={'Add extra bleed beyond the distributor default (some print shops prefer 0.25").'}
-                unit="in"
-                min={0} max={0.25} step={0.005}
-                value={adj.bleed_extra}
-                onChange={(v) => saveAdj({ bleed_extra: v })}
-                testid="adj-bleed-extra"
-              />
-              <SliderRow
-                label="Image scale"
-                tooltip="Scale the source image up or down inside the trim area."
-                unit="×"
-                min={0.5} max={1.5} step={0.01}
-                value={adj.image_scale}
-                onChange={(v) => saveAdj({ image_scale: v })}
-                testid="adj-image-scale"
-              />
-              <SliderRow
-                label="Target DPI"
-                tooltip="Resample DPI target — 300 is standard for print, 600 is overkill but pristine."
-                unit="dpi"
-                min={200} max={600} step={10}
-                value={adj.target_dpi}
-                onChange={(v) => saveAdj({ target_dpi: v })}
-                testid="adj-target-dpi"
-              />
-              <div>
-                <div className="flex items-center gap-2 mb-2">
-                  <Label className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">Color profile</Label>
-                  <InfoTip text="ICC color profile applied during CMYK conversion. SWOP v2 is North American offset standard."><Info className="w-3 h-3 text-neutral-400" /></InfoTip>
-                </div>
-                <Select value={adj.color_profile} onValueChange={(v) => saveAdj({ color_profile: v })}>
-                  <SelectTrigger data-testid="adj-color-profile"><SelectValue /></SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="US Web Coated SWOP v2">US Web Coated SWOP v2 (default)</SelectItem>
-                    <SelectItem value="GRACoL 2013">GRACoL 2013 (premium color)</SelectItem>
-                    <SelectItem value="FOGRA39">FOGRA39 (European offset)</SelectItem>
-                    <SelectItem value="Japan Color 2001 Coated">Japan Color 2001 Coated</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-          </section>
         </div>
 
         <BlurbDialog open={blurbOpen} onOpenChange={setBlurbOpen} defaultTitle={project.name} />
@@ -641,26 +543,14 @@ export default function Editor() {
   );
 }
 
-function SpecField({ label, tooltip, children }) {
+function DarkSpecField({ label, tooltip, children }) {
   return (
     <div>
       <div className="flex items-center gap-1.5 mb-1.5">
         <Label className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">{label}</Label>
-        <InfoTip text={tooltip}><Info className="w-3 h-3 text-neutral-400" /></InfoTip>
+        <InfoTip text={tooltip}><Info className="w-3 h-3 text-neutral-500" /></InfoTip>
       </div>
       {children}
-    </div>
-  );
-}
-
-function SpecReadout({ label, value, tooltip, accent }) {
-  return (
-    <div className={`p-3 ${accent ? "bg-[#FFF3E6] border border-[#FF6A00]/30" : "bg-neutral-50 border border-neutral-200"}`}>
-      <div className="flex items-center gap-1">
-        <div className="font-mono-spec text-[9px] tracking-widest uppercase text-neutral-500">{label}</div>
-        <InfoTip text={tooltip}><Info className="w-3 h-3 text-neutral-400" /></InfoTip>
-      </div>
-      <div className={`font-display font-black text-xl tracking-tight mt-1 ${accent ? "text-[#FF6A00]" : "text-neutral-900"}`}>{value}</div>
     </div>
   );
 }
@@ -670,17 +560,17 @@ function SlotDrop({ slot, data, uploading, onUpload, onDelete }) {
   const filled = !!data;
   return (
     <InfoTip text={slot.desc}>
-      <label className={`block relative border-2 border-dashed p-4 text-center cursor-pointer transition-colors ${filled ? "border-emerald-400 bg-emerald-50/40" : uploading ? "border-[#FF6A00]" : "border-neutral-300 hover:border-black hover:bg-neutral-50"}`} data-testid={`slot-${slot.key}`}>
+      <label className={`block relative border border-dashed p-3 text-center cursor-pointer transition-colors ${filled ? "border-emerald-700 bg-emerald-950/30" : uploading ? "border-[#FF6A00]" : "border-neutral-700 hover:border-[#D4AF37] hover:bg-neutral-900"}`} data-testid={`slot-${slot.key}`}>
         <input type="file" accept=".pdf,.jpg,.jpeg,.png,.tif,.tiff,.webp" onChange={(e) => onUpload(e.target.files?.[0])} disabled={uploading} className="hidden" data-testid={`slot-input-${slot.key}`} />
-        <Icon className={`w-5 h-5 mx-auto ${filled ? "text-emerald-600" : "text-neutral-400"}`} />
-        <div className="font-display font-bold text-sm mt-2 leading-tight">{filled ? "Uploaded" : uploading ? "Analyzing…" : slot.label}</div>
-        <div className="font-mono-spec text-[9px] tracking-widest text-neutral-500 mt-0.5 uppercase leading-tight">{filled ? data.original_filename : slot.desc}</div>
+        <Icon className={`w-4 h-4 mx-auto ${filled ? "text-emerald-500" : "text-neutral-500"}`} />
+        <div className="font-display font-bold text-xs mt-1.5 leading-tight text-neutral-200">{filled ? "Uploaded" : uploading ? "Analyzing…" : slot.label}</div>
+        <div className="font-mono-spec text-[8px] tracking-widest text-neutral-500 mt-0.5 uppercase leading-tight truncate">{filled ? data.original_filename : slot.desc}</div>
         {filled && data.dpi_x != null && (
-          <div className="mt-2 font-mono-spec text-[9px] tracking-widest text-neutral-600 uppercase">{data.width_px}×{data.height_px}px · {data.dpi_x} DPI · {data.color_mode}</div>
+          <div className="mt-1.5 font-mono-spec text-[8px] tracking-widest text-neutral-500 uppercase">{data.width_px}×{data.height_px}px · {data.dpi_x} DPI</div>
         )}
         {filled && (
-          <button onClick={(e) => { e.preventDefault(); e.stopPropagation(); onDelete(); }} className="absolute top-2 right-2 text-neutral-400 hover:text-red-500" data-testid={`slot-delete-${slot.key}`}>
-            <Trash2 className="w-3.5 h-3.5" />
+          <button onClick={(e) => { e.preventDefault(); e.stopPropagation(); onDelete(); }} className="absolute top-1.5 right-1.5 text-neutral-500 hover:text-red-500" data-testid={`slot-delete-${slot.key}`}>
+            <Trash2 className="w-3 h-3" />
           </button>
         )}
       </label>
@@ -688,34 +578,33 @@ function SlotDrop({ slot, data, uploading, onUpload, onDelete }) {
   );
 }
 
-function BigButton({ icon: Icon, label, tooltip, onClick, busy, disabled, primary, testid }) {
-  const cls = primary
-    ? "btn-spark text-white"
-    : "bg-white border border-neutral-300 text-neutral-900 hover:border-black";
+function MiniFixButton({ icon: Icon, label, tooltip, onClick, disabled, testid }) {
   return (
     <InfoTip text={tooltip}>
       <button
         onClick={onClick}
-        disabled={disabled || busy}
-        className={`${cls} p-4 flex flex-col items-start gap-2 font-display font-bold text-left btn-industrial min-h-[92px] w-full`}
+        disabled={disabled}
+        className="border border-neutral-700 text-neutral-300 hover:border-[#D4AF37] hover:text-[#D4AF37] disabled:opacity-40 p-2.5 flex flex-col items-center gap-1 font-mono-spec text-[9px] tracking-widest uppercase btn-industrial"
         data-testid={testid}
       >
-        <Icon className="w-5 h-5" />
-        <span className="text-sm tracking-tight leading-tight">{busy ? "Working…" : label}</span>
+        <Icon className="w-3.5 h-3.5" />
+        {label}
       </button>
     </InfoTip>
   );
 }
 
-function SliderRow({ label, tooltip, unit, min, max, step, value, onChange, testid }) {
+function SliderRow({ label, tooltip, unit, min, max, step, value, onChange, testid, dark }) {
+  const labelCls = dark ? "text-neutral-500" : "text-neutral-500";
+  const valueCls = dark ? "text-neutral-300" : "text-neutral-900";
   return (
     <div>
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-1.5">
-          <Label className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">{label}</Label>
-          <InfoTip text={tooltip}><Info className="w-3 h-3 text-neutral-400" /></InfoTip>
+          <Label className={`font-mono-spec text-[10px] tracking-widest uppercase ${labelCls}`}>{label}</Label>
+          <InfoTip text={tooltip}><Info className="w-3 h-3 text-neutral-500" /></InfoTip>
         </div>
-        <div className="font-mono-spec text-xs text-neutral-900">{typeof value === "number" ? value.toFixed(unit === "dpi" ? 0 : 3) : "—"} <span className="text-neutral-500">{unit}</span></div>
+        <div className={`font-mono-spec text-xs ${valueCls}`}>{typeof value === "number" ? value.toFixed(unit === "dpi" ? 0 : 3) : "—"} <span className="text-neutral-500">{unit}</span></div>
       </div>
       <input
         type="range" className="spark-range w-full"

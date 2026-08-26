@@ -10,18 +10,27 @@ export default function Nav({ dark = true }) {
   const linkCls = dark ? "text-neutral-400 hover:text-white transition-colors" : "text-neutral-600 hover:text-neutral-900 transition-colors";
   return (
     <nav className={`sticky top-0 z-50 ${base}`} data-testid="top-nav">
-      <div className="max-w-7xl mx-auto relative flex items-center justify-between px-6 py-4">
+      <div className="max-w-7xl mx-auto relative flex items-center justify-between px-6 py-4 overflow-visible">
         <Link to="/" data-testid="nav-logo">
           <Logo dark={dark} compact />
         </Link>
         {/* SparkPrep's own main logo -- the brand being promoted, so it gets
-            the dead-center spot at a larger size than the Legenddary mark. */}
+            the dead-center spot at a larger size than the Legenddary mark.
+            Matches the size of the SparkPrep logo in the landing page's
+            bottom CTA (height 140). It's taller than the nav bar itself and
+            deliberately overflows below it (transparent PNG, so this reads
+            as the logo "breaking out" of a slim bar rather than forcing the
+            whole sticky nav to be that tall all the time). Anchored to the
+            bar's top edge rather than vertically centered, since the nav
+            sticks to the very top of the viewport when scrolling -- centering
+            it would let the top half get clipped by the browser edge with
+            nowhere to overflow into. */}
         <Link
           to="/"
-          className="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+          className="hidden md:block absolute left-1/2 top-2 -translate-x-1/2 z-10"
           data-testid="nav-sparkprep-logo"
         >
-          <SparkPrepLogo height={64} />
+          <SparkPrepLogo height={140} />
         </Link>
         <div className="flex items-center gap-5 text-sm">
           {user?.beta_active && (

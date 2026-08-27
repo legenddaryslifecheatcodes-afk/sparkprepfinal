@@ -165,6 +165,35 @@ export default function Editor() {
     finally { setUploadingSlot(null); }
   };
 
+  // "Retake Photo" fix option for a low-DPI failure: opens the device
+  // camera directly (mobile browsers treat capture="environment" as "open
+  // the camera", not a plain file picker) and uploads straight to the
+  // same slot via the normal upload path -- a fresh photo is genuinely
+  // higher resolution, not a reconstruction, so no separate processing
+  // step is needed beyond the compliance recheck the upload already runs.
+  const retakePhoto = (slot) => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.capture = "environment";
+    input.onchange = (e) => uploadToSlot(slot, e.target.files?.[0]);
+    input.click();
+  };
+
+  const [enhancingSlot, setEnhancingSlot] = useState(null);
+  const aiEnhance = async (slot) => {
+    setEnhancingSlot(slot);
+    try {
+      const { data } = await api.post(`/projects/${id}/ai-enhance/${slot}`);
+      setProject((p) => ({ ...p, slots: { ...(p.slots || {}), [slot]: { ...data.file_metadata, compliance: data.compliance } } }));
+      toast.success("AI enhancement complete — rescan the results below.");
+    } catch (e) {
+      const msg = fmtErr(e.response?.data?.detail);
+      if (e.response?.status === 402) { toast.error(msg + " — Redirecting to pricing"); setTimeout(() => nav("/pricing"), 1500); }
+      else toast.error(msg);
+    } finally { setEnhancingSlot(null); }
+  };
+
   // Shared by CoverTemplateDialog + AICoverDialog -- both hand back the same
   // {slot, file_metadata, compliance} shape slot_upload does.
   const applySlotResult = (data) => {
@@ -270,6 +299,7 @@ export default function Editor() {
   const trim = specs.trim_sizes[project.trim_size] || { w: 6, h: 9, label: project.trim_size };
   const plat = specs.platforms[project.platform] || {};
   const compliance = project.slots?.full_wrap?.compliance || project.compliance || [];
+  const coverSlotName = project.slots?.front_cover && !project.slots?.full_wrap ? "front_cover" : "full_wrap";
   const interiorCompliance = project.slots?.interior?.compliance || [];
   const hasInteriorUpload = !!project.slots?.interior;
   const hasAnyUpload = Object.values(project.slots || {}).length > 0 || !!project.uploaded_file;
@@ -526,7 +556,14 @@ export default function Editor() {
                   {compliance.length > 0 && <ScanStatusBanner result={coverFixResult} summary={coverSummary} sectionLabel="Cover" nextHint={needsInterior ? "upload your interior file next" : "you're ready to run the Final Review"} />}
                   <div className="grid sm:grid-cols-2 gap-2 mt-2">
                     {compliance.map((c, i) => (
-                      <ComplianceCard key={i} c={c} />
+                      <ComplianceCard
+                        key={i} c={c}
+                        slot={coverSlotName}
+                        onRetake={retakePhoto}
+                        onEnhance={aiEnhance}
+                        enhancing={enhancingSlot === coverSlotName}
+                        isFreeTier={isFreeTier}
+                      />
                     ))}
                   </div>
                 </div>
@@ -656,8 +693,14 @@ export default function Editor() {
   );
 }
 
-function ComplianceCard({ c }) {
+function ComplianceCard({ c, slot, onRetake, onEnhance, enhancing, isFreeTier }) {
   const fixLabel = c.status !== "pass" && c.auto_fix ? (FIX_ACTION_LABELS[c.fix_action] || "Fix available") : null;
+  // Low-DPI specifically gets real fix options (a fresh camera photo, or an
+  // AI enhance pass) instead of just a label -- Auto-Fix's CMYK conversion
+  // never actually resampled pixel dimensions for this one, so leaving it
+  // at a label with no action was misleading about what "auto_fix: true"
+  // could actually do here.
+  const isDpiIssue = c.status !== "pass" && c.fix_action === "upscale_300dpi" && slot;
   return (
     <div className="border border-neutral-800 bg-[#0D0D0D] p-3" data-testid={`compliance-${c.id}`}>
       <div className={`px-2 py-0.5 text-[9px] font-mono-spec tracking-widest uppercase inline-flex items-center gap-1 ${statusPill(c.status)}`}>
@@ -665,9 +708,25 @@ function ComplianceCard({ c }) {
       </div>
       <div className="font-display font-bold text-sm mt-1.5 tracking-tight text-white">{c.label}</div>
       <div className="text-[11px] text-neutral-400 mt-0.5 leading-relaxed">{c.message}</div>
-      {fixLabel && (
+      {fixLabel && !isDpiIssue && (
         <div className="text-[10px] text-[#D4AF37] mt-1.5 flex items-center gap-1">
           <Wand2 className="w-3 h-3 shrink-0" /> {fixLabel}
+        </div>
+      )}
+      {isDpiIssue && (
+        <div className="mt-2 space-y-1.5">
+          <button onClick={() => onRetake(slot)} className="w-full px-2 py-1.5 border border-neutral-700 hover:border-[#D4AF37] text-neutral-200 text-[9px] font-mono-spec tracking-widest uppercase btn-industrial flex items-center justify-center gap-1.5" data-testid="fix-dpi-retake">
+            📷 Retake Photo
+          </button>
+          <button
+            onClick={() => onEnhance(slot)}
+            disabled={enhancing}
+            className="w-full px-2 py-1.5 border border-neutral-700 hover:border-[#D4AF37] text-neutral-200 text-[9px] font-mono-spec tracking-widest uppercase btn-industrial flex items-center justify-center gap-1.5 disabled:opacity-40"
+            data-testid="fix-dpi-ai-upscale"
+          >
+            ✨ {enhancing ? "Enhancing…" : `AI Upscale${isFreeTier ? " (Author plan+)" : ""}`}
+          </button>
+          <p className="text-[9px] text-neutral-600 leading-relaxed">Have the physical original? Retake beats AI upscale — a fresh photo is real resolution, not a reconstruction.</p>
         </div>
       )}
     </div>

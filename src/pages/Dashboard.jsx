@@ -4,6 +4,7 @@ import { api, fmtErr, API_URL } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import { toast } from "sonner";
 import Nav from "@/components/Nav";
+import FoundersBanner from "@/components/FoundersBanner";
 import NewProjectDialog from "@/components/NewProjectDialog";
 import BrandWatermark from "@/components/BrandWatermark";
 import { Plus, FileText, Trash2, Layers, ShieldAlert, PackageCheck, Download, ChevronDown } from "lucide-react";
@@ -88,6 +89,7 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-[#F7F7F9]">
       <Nav dark={false} />
+      <FoundersBanner />
       <div className="max-w-7xl mx-auto px-6 py-12">
         <div className="flex items-start justify-between flex-wrap gap-4">
           <div>

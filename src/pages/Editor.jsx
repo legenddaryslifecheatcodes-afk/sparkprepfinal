@@ -8,7 +8,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
+import { Checkbox } from "@/components/ui/checkbox";
 import Book3DPro from "@/components/Book3DPro";
+import ErrorBoundary from "@/components/ErrorBoundary";
 import BlurbDialog from "@/components/BlurbDialog";
 import ManuscriptComposerDialog from "@/components/ManuscriptComposerDialog";
 import IsbnBarcodePanel from "@/components/IsbnBarcodePanel";
@@ -29,12 +31,11 @@ const OVERLAYS = [
   { key: "barcode", label: "Barcode", color: "#22C55E", tooltip: "Reserved zone for the ISBN barcode block on the back cover." },
 ];
 
-const SLOTS = [
+const COVER_SLOTS = [
   { key: "full_wrap", label: "Full Cover Wrap", desc: "Back + Spine + Front in one PDF", icon: BookOpen },
   { key: "front_cover", label: "Front Cover", desc: "Standalone front artwork", icon: ImageIcon },
   { key: "spine", label: "Spine", desc: "Spine strip artwork", icon: Ruler },
   { key: "back_cover", label: "Back Cover", desc: "Blurb + barcode area", icon: FileStack },
-  { key: "interior", label: "Interior PDF", desc: "Manuscript pages", icon: FilePlus },
 ];
 
 const statusIcon = (s) => s === "pass" ? <Check className="w-3.5 h-3.5" /> : s === "warning" ? <AlertTriangle className="w-3.5 h-3.5" /> : <XCircle className="w-3.5 h-3.5" />;
@@ -42,14 +43,34 @@ const statusPill = (s) => s === "pass" ? "pill-pass" : s === "warning" ? "pill-w
 
 // Mirrors the backend's fix_action codes (file_processor.py run_compliance_checks)
 // -- shows exactly what Auto-Fix will do about a specific issue, not just that
-// something's wrong with it.
+// something's wrong with it. Kept in plain language -- the print-industry term
+// (DPI, CMYK, PDF/X-1a) is still shown on the check itself for anyone who wants
+// it, but what the button does should read like a sentence, not a spec sheet.
 const FIX_ACTION_LABELS = {
-  upscale_300dpi: "Fix: resample to 300 DPI",
-  convert_cmyk: "Fix: convert to CMYK color space",
-  flatten: "Fix: flatten transparency",
-  add_bleed: "Fix: bleed added automatically on export",
-  export_pdfx1a: "Fix: PDF/X-1a generated automatically on export",
+  upscale_300dpi: "Fix: sharpen the image so it prints clearly",
+  convert_cmyk: "Fix: convert the colors for printing",
+  flatten: "Fix: flatten so nothing prints wrong or missing",
+  add_bleed: "Fix: extra edge added automatically so there's no white line after trimming",
+  export_pdfx1a: "Fix: converted to the correct print file format automatically",
 };
+
+// The backend's compliance labels lead with the print-industry term (DPI,
+// CMYK, PDF/X-1a) since that's what a distributor's own rejection email will
+// say. Non-technical authors don't need to learn that vocabulary just to read
+// a pass/fail list, so this leads with plain English and keeps the technical
+// term in parentheses for anyone cross-checking against a distributor notice.
+function plainCheckLabel(c) {
+  const paren = c.label.match(/\([^)]*\)/)?.[0];
+  switch (c.id) {
+    case "pdf_dpi": return "Image Sharpness";
+    case "dpi": return paren ? `Image Sharpness ${paren}` : "Image Sharpness";
+    case "colorspace": return paren ? `Print Colors ${paren}` : "Print Colors";
+    case "transparency": return "Layers & Effects";
+    case "bleed": return paren ? `Edge Bleed ${paren}` : "Edge Bleed";
+    case "pdfx1a": return "Print File Format";
+    default: return c.label;
+  }
+}
 
 function summarizeCompliance(compliance) {
   if (!compliance || compliance.length === 0) return { verdict: "empty" };
@@ -102,6 +123,7 @@ export default function Editor() {
       const { data: spineRes } = await api.post("/specs/spine", {
         page_count: data.page_count, paper_type: data.paper_type,
         trim_size: data.trim_size, binding: data.binding, platform: data.platform,
+        spine_width_override: data.spine_width_override,
       });
       setSpine(spineRes);
     } catch (e) { toast.error(fmtErr(e.response?.data?.detail)); nav("/dashboard"); }
@@ -117,6 +139,7 @@ export default function Editor() {
       const { data: spineRes } = await api.post("/specs/spine", {
         page_count: data.page_count, paper_type: data.paper_type,
         trim_size: data.trim_size, binding: data.binding, platform: data.platform,
+        spine_width_override: data.spine_width_override,
       });
       setSpine(spineRes);
     } catch (e) { toast.error(fmtErr(e.response?.data?.detail)); }
@@ -161,6 +184,11 @@ export default function Editor() {
           : {}),
       }));
       toast.success(`${slot.replace("_", " ")} analyzed`);
+      // A Word/text manuscript gets converted into a print-ready interior on
+      // upload -- surface anything the converter couldn't carry over (no
+      // chapter headings found, embedded images/tables dropped) so it isn't
+      // silently lost in a response the user never sees.
+      (data.file_metadata?.compose_warnings || []).forEach((w) => toast.warning(w, { duration: 10000 }));
     } catch (e) { toast.error(fmtErr(e.response?.data?.detail)); }
     finally { setUploadingSlot(null); }
   };
@@ -285,9 +313,13 @@ export default function Editor() {
   const previewUrl = useMemo(() => {
     const token = localStorage.getItem("sp_token");
     const slots = project?.slots || {};
-    // Prefer full_wrap → front_cover → legacy uploaded_file
+    // Prefer full_wrap → front_cover → interior → legacy uploaded_file.
+    // Interior was missing entirely -- the preview always fell straight
+    // through to null for any interior-only project, showing "No file"
+    // even with a real interior PDF sitting in that slot.
     if (slots.full_wrap) return `${API_URL}/projects/${id}/slot/full_wrap/preview${token ? `?token=${token}` : ""}`;
     if (slots.front_cover) return `${API_URL}/projects/${id}/slot/front_cover/preview${token ? `?token=${token}` : ""}`;
+    if (slots.interior) return `${API_URL}/projects/${id}/slot/interior/preview${token ? `?token=${token}` : ""}`;
     if (project?.uploaded_file) return `${API_URL}/projects/${id}/preview${token ? `?token=${token}` : ""}`;
     return null;
   }, [project, id]);
@@ -339,16 +371,13 @@ export default function Editor() {
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <InfoTip text="Compose a print-ready interior PDF from scratch with a fiction, workbook or poetry template.">
-                <button onClick={() => setComposerOpen(true)} className="px-3 py-2 border border-neutral-700 text-neutral-300 font-mono-spec text-[10px] tracking-widest uppercase hover:border-white hover:text-white flex items-center gap-1.5 btn-industrial" data-testid="composer-btn">
-                  <BookOpen className="w-3.5 h-3.5" /> Compose Interior
-                </button>
-              </InfoTip>
-              <InfoTip text={isFreeTier ? "AI Blurb Writer requires the Author plan or higher." : "Generate 3 AI back-cover blurb variations with Claude Sonnet."}>
-                <button onClick={() => isFreeTier ? nav("/pricing") : setBlurbOpen(true)} className="px-3 py-2 border border-neutral-700 text-neutral-300 font-mono-spec text-[10px] tracking-widest uppercase hover:border-white hover:text-white flex items-center gap-1.5 btn-industrial" data-testid="blurb-btn">
-                  <Sparkles className="w-3.5 h-3.5" /> AI Blurb{isFreeTier && " 🔒"}
-                </button>
-              </InfoTip>
+              {isCover && (
+                <InfoTip text={isFreeTier ? "AI Blurb Writer requires the Author plan or higher." : "Generate 3 AI back-cover blurb variations with Claude Sonnet."}>
+                  <button onClick={() => isFreeTier ? nav("/pricing") : setBlurbOpen(true)} className="px-3 py-2 border border-neutral-700 text-neutral-300 font-mono-spec text-[10px] tracking-widest uppercase hover:border-white hover:text-white flex items-center gap-1.5 btn-industrial" data-testid="blurb-btn">
+                    <Sparkles className="w-3.5 h-3.5" /> AI Blurb{isFreeTier && " 🔒"}
+                  </button>
+                </InfoTip>
+              )}
               {isCover && (
                 <InfoTip text="Start from a typographic cover template — replaces the full cover wrap, fully editable after.">
                   <button onClick={() => setCoverTemplateOpen(true)} className="px-3 py-2 border border-neutral-700 text-neutral-300 font-mono-spec text-[10px] tracking-widest uppercase hover:border-white hover:text-white flex items-center gap-1.5 btn-industrial" data-testid="cover-template-btn">
@@ -380,7 +409,7 @@ export default function Editor() {
               <div className="p-4 space-y-4 overflow-y-auto">
                 <DarkSpecField label="Distributor" tooltip="Distributor whose print requirements the file must pass.">
                   <Select value={project.platform} onValueChange={(v) => updateSpec({ platform: v })}>
-                    <SelectTrigger data-testid="spec-platform"><SelectValue /></SelectTrigger>
+                    <SelectTrigger className="text-white" data-testid="spec-platform"><SelectValue /></SelectTrigger>
                     <SelectContent>
                       {Object.entries(specs.platforms).map(([k, v]) => <SelectItem key={k} value={k}>{v.name}</SelectItem>)}
                     </SelectContent>
@@ -388,7 +417,7 @@ export default function Editor() {
                 </DarkSpecField>
                 <DarkSpecField label="Trim Size" tooltip="Final page dimensions after cutting. Sets required bleed + safe margins.">
                   <Select value={project.trim_size} onValueChange={(v) => updateSpec({ trim_size: v })}>
-                    <SelectTrigger data-testid="spec-trim"><SelectValue /></SelectTrigger>
+                    <SelectTrigger className="text-white" data-testid="spec-trim"><SelectValue /></SelectTrigger>
                     <SelectContent>
                       {Object.entries(specs.trim_sizes).map(([k, v]) => <SelectItem key={k} value={k}>{v.label}</SelectItem>)}
                     </SelectContent>
@@ -396,7 +425,7 @@ export default function Editor() {
                 </DarkSpecField>
                 <DarkSpecField label="Paper Type" tooltip="Paper stock affects spine width via pages-per-inch (PPI). White vs cream vs color.">
                   <Select value={project.paper_type} onValueChange={(v) => updateSpec({ paper_type: v })}>
-                    <SelectTrigger data-testid="spec-paper"><SelectValue /></SelectTrigger>
+                    <SelectTrigger className="text-white" data-testid="spec-paper"><SelectValue /></SelectTrigger>
                     <SelectContent>
                       {Object.entries(specs.paper_types).map(([k, v]) => <SelectItem key={k} value={k}>{v.label}</SelectItem>)}
                     </SelectContent>
@@ -404,18 +433,56 @@ export default function Editor() {
                 </DarkSpecField>
                 <DarkSpecField label="Binding" tooltip="Binding style — determines whether spine text is allowed and jacket flap dimensions.">
                   <Select value={project.binding} onValueChange={(v) => updateSpec({ binding: v })}>
-                    <SelectTrigger data-testid="spec-binding"><SelectValue /></SelectTrigger>
+                    <SelectTrigger className="text-white" data-testid="spec-binding"><SelectValue /></SelectTrigger>
                     <SelectContent>
                       {Object.entries(specs.binding_types).map(([k, v]) => <SelectItem key={k} value={k}>{v.label}</SelectItem>)}
                     </SelectContent>
                   </Select>
                 </DarkSpecField>
+                {spine?.binding_unsupported_on_platform && (
+                  <div className="bg-amber-950/30 border border-amber-900 p-2.5 -mt-1" data-testid="binding-unsupported-warning">
+                    <p className="text-[11px] text-amber-400 leading-relaxed">
+                      {specs.platforms?.[project.platform]?.name || project.platform} doesn't actually offer{" "}
+                      {specs.binding_types?.[project.binding]?.label || project.binding} as a submission type — their own cover tools don't have this option. Pick a binding they actually support, or switch distributors.
+                    </p>
+                  </div>
+                )}
                 <DarkSpecField label="Page Count" tooltip="Total interior page count — used to calculate spine width.">
-                  <Input type="number" min={24} value={project.page_count} onChange={(e) => updateSpec({ page_count: parseInt(e.target.value) || 0 })} data-testid="spec-pages" />
+                  <Input className="text-white" type="number" min={24} value={project.page_count} onChange={(e) => updateSpec({ page_count: parseInt(e.target.value) || 0 })} data-testid="spec-pages" />
                 </DarkSpecField>
+                {(project.binding === "hardcover_case" || project.binding === "hardcover_jacket") && (
+                  <DarkSpecField
+                    label="Spine Width Override (optional)"
+                    tooltip="Hardcover spine width usually isn't a public formula — most distributors compute it from their own internal table by exact page count and paper weight. Get the real number from the distributor's own calculator and enter it here so SparkPrep builds your cover around the exact figure instead of an estimate."
+                  >
+                    <Input
+                      className="text-white"
+                      type="number"
+                      step="0.001"
+                      min={0}
+                      placeholder={spine?.spine_width ? `${spine.spine_is_estimate ? "Estimate" : "Calculated"}: ${spine.spine_width}"` : "e.g. 0.313"}
+                      defaultValue={project.spine_width_override ?? ""}
+                      onBlur={(e) => {
+                        const raw = e.target.value.trim();
+                        const next = raw === "" ? 0 : parseFloat(raw);
+                        if (next !== (project.spine_width_override || 0)) updateSpec({ spine_width_override: next });
+                      }}
+                      data-testid="spec-spine-override"
+                    />
+                    {spine?.spine_is_estimate ? (
+                      <p className="text-[11px] text-neutral-500 mt-1.5 leading-relaxed">
+                        This distributor's hardcover spine isn't published as a formula, so this is only an estimate. Verify the real number using the distributor's own cover/spine calculator and paste it here. Leave blank to use the estimate ({spine?.spine_width ? `${spine.spine_width}"` : "…"}).
+                      </p>
+                    ) : (
+                      <p className="text-[11px] text-neutral-500 mt-1.5 leading-relaxed">
+                        Calculated from this distributor's own published spine table — no need to override unless you have a more specific figure. Leave blank to use it ({spine?.spine_width ? `${spine.spine_width}"` : "…"}).
+                      </p>
+                    )}
+                  </DarkSpecField>
+                )}
                 <DarkSpecField label="Project Type" tooltip="Cover only, interior only, or both.">
                   <Select value={project.project_type} onValueChange={(v) => updateSpec({ project_type: v })}>
-                    <SelectTrigger data-testid="spec-type"><SelectValue /></SelectTrigger>
+                    <SelectTrigger className="text-white" data-testid="spec-type"><SelectValue /></SelectTrigger>
                     <SelectContent>
                       <SelectItem value="cover">Cover only</SelectItem>
                       <SelectItem value="interior">Interior only</SelectItem>
@@ -425,6 +492,7 @@ export default function Editor() {
                 </DarkSpecField>
                 <DarkSpecField label="Series (optional)" tooltip="Books sharing a series name get checked for consistent trim/binding/paper together from the dashboard.">
                   <Input
+                    className="text-white"
                     defaultValue={project.series_name || ""}
                     onBlur={(e) => {
                       const next = e.target.value.trim();
@@ -461,45 +529,91 @@ export default function Editor() {
 
                 {/* Upload slots */}
                 <div className="border-t border-neutral-800 pt-4" data-testid="section-upload">
-                  <p className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500 mb-3">Upload files</p>
-                  <div className="grid grid-cols-2 gap-2">
-                    {SLOTS.map((s) => (
-                      <SlotDrop
-                        key={s.key}
-                        slot={s}
-                        data={project.slots?.[s.key]}
-                        uploading={uploadingSlot === s.key}
-                        onUpload={(f) => uploadToSlot(s.key, f)}
-                        onDelete={() => deleteSlot(s.key)}
+                  {needsInterior && (
+                    <div className={isCover ? "mb-4" : ""}>
+                      <p className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500 mb-2">Upload your book</p>
+                      <BigInteriorDrop
+                        data={project.slots?.interior}
+                        uploading={uploadingSlot === "interior"}
+                        onUpload={(f) => uploadToSlot("interior", f)}
+                        onDelete={() => deleteSlot("interior")}
                       />
-                    ))}
-                  </div>
+                      <p className="text-xs text-neutral-500 mt-2 leading-relaxed">
+                        Your whole manuscript, in the order it should print. Word (.docx) and plain text are converted into a print-ready
+                        interior automatically; a PDF is used as-is. Don't have any file yet?{" "}
+                        <button onClick={() => setComposerOpen(true)} className="text-[#D4AF37] hover:underline" data-testid="composer-btn">Paste your text into a ready-made layout</button>{" "}
+                        instead — opens a dialog where you pick a novel/workbook/poetry layout, paste your manuscript text directly into a box, and it generates the print-ready PDF for you.
+                      </p>
+                    </div>
+                  )}
+                  {isCover && (
+                    <>
+                      <p className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500 mb-3">Upload cover files</p>
+                      <div className="grid grid-cols-2 gap-2">
+                        {COVER_SLOTS.map((s) => (
+                          <SlotDrop
+                            key={s.key}
+                            slot={s}
+                            data={project.slots?.[s.key]}
+                            uploading={uploadingSlot === s.key}
+                            onUpload={(f) => uploadToSlot(s.key, f)}
+                            onDelete={() => deleteSlot(s.key)}
+                          />
+                        ))}
+                      </div>
+                    </>
+                  )}
                 </div>
 
                 {isCover && (
                   <div className="border-t border-neutral-800 pt-4">
                     <IsbnBarcodePanel projectId={id} initialIsbn={project.isbn || ""} />
+                    <label className="mt-3 flex items-start gap-2 cursor-pointer" data-testid="cover-has-barcode-toggle">
+                      <Checkbox
+                        checked={!!project.cover_has_barcode}
+                        onCheckedChange={(v) => updateSpec({ cover_has_barcode: !!v })}
+                        className="mt-0.5 border-neutral-500 data-[state=checked]:bg-[#D4AF37] data-[state=checked]:border-[#D4AF37] data-[state=checked]:text-black"
+                      />
+                      <span className="text-[11px] text-neutral-400 leading-relaxed">
+                        My cover art already has a barcode built in — don't add another one on export.
+                      </span>
+                    </label>
                   </div>
                 )}
+
+                <div className="border-t border-neutral-800 pt-4">
+                  <PromoCodeRedeem projectId={id} onRedeemed={load} />
+                </div>
               </div>
 
-              {/* Primary actions, pinned to the bottom of the Job Setup column */}
+              {/* Primary actions, pinned to the bottom of the Job Setup column.
+                  Targets whichever file this project actually has -- the cover
+                  autofix 404s on a book-only project since it only ever looks
+                  at the legacy top-level upload, not the interior slot. */}
               <div className="p-4 border-t border-neutral-800 space-y-2 mt-auto">
                 <button
-                  onClick={autofix}
-                  disabled={!hasAnyUpload || fixing}
+                  onClick={isCover ? autofix : autofixInterior}
+                  disabled={(isCover ? !hasAnyUpload : !hasInteriorUpload) || fixing || interiorFixing}
                   className="w-full btn-gold py-3.5 font-mono-spec text-xs tracking-widest uppercase disabled:opacity-40 btn-industrial flex items-center justify-center gap-2"
                   data-testid="fix-all"
                 >
-                  <Wand2 className="w-4 h-4" /> {fixing ? "Running preflight…" : "Run Auto-Fix Preflight"}
+                  <Wand2 className="w-4 h-4" /> {(fixing || interiorFixing) ? "Checking…" : isCover ? "Check & Fix Cover" : "Check & Fix Interior"}
                 </button>
                 <button
                   onClick={isFreeTier ? () => nav("/pricing") : exportPdf}
-                  disabled={!hasAnyUpload || exporting}
+                  disabled={!hasAnyUpload || exporting || !coverClear || !interiorClear}
+                  title={!coverClear || !interiorClear ? "Fix the issues found above before exporting" : undefined}
                   className="w-full py-3 border border-neutral-700 text-neutral-200 font-mono-spec text-xs tracking-widest uppercase hover:border-white disabled:opacity-40 btn-industrial flex items-center justify-center gap-2"
                   data-testid="export-pdf"
                 >
-                  <Download className="w-4 h-4" /> {exporting ? "Exporting…" : isFreeTier ? "Export — Upgrade Required" : "Export PDF/X-1a"}
+                  <Download className="w-4 h-4" />
+                  {exporting
+                    ? "Exporting…"
+                    : isFreeTier
+                    ? "Export — Upgrade Required"
+                    : (!coverClear || !interiorClear)
+                    ? "Fix Errors to Export"
+                    : "Export Print-Ready File"}
                 </button>
                 <div className="font-mono-spec text-[9px] tracking-widest uppercase text-neutral-600 text-center pt-1" data-testid="book-export-counter">
                   {Math.max(0, 5 - (project.exports_used || 0))} of 5 exports remaining for this book
@@ -541,18 +655,18 @@ export default function Editor() {
                   <InteriorPreview overlays={overlays} previewUrl={previewUrl} />
                 )}
               </div>
-              {/* Preflight report -- Cover */}
+              {/* Check results -- Cover */}
               {isCover && (
                 <div className="p-4 border-t border-neutral-800" data-testid="compliance-list">
                   <div className="flex items-center justify-between flex-wrap gap-2 mb-2">
-                    <span className="font-mono-spec text-[10px] tracking-widest uppercase text-[#D4AF37]">{needsInterior ? "Cover Preflight Report" : "Preflight Report"}</span>
+                    <span className="font-mono-spec text-[10px] tracking-widest uppercase text-[#D4AF37]">{needsInterior ? "Cover Check Results" : "Check Results"}</span>
                     {hasAnyUpload && (
                       <button onClick={autofix} disabled={fixing} className="px-2.5 py-1 border border-neutral-700 text-neutral-300 hover:border-white text-[9px] font-mono-spec tracking-widest uppercase btn-industrial disabled:opacity-40" data-testid="rescan-cover">
-                        {fixing ? "Scanning…" : "Rescan"}
+                        {fixing ? "Checking…" : "Recheck"}
                       </button>
                     )}
                   </div>
-                  {compliance.length === 0 && <p className="text-xs text-neutral-500">Upload a file to see the compliance report.</p>}
+                  {compliance.length === 0 && <p className="text-xs text-neutral-500">Upload a file to see the results here.</p>}
                   {compliance.length > 0 && <ScanStatusBanner result={coverFixResult} summary={coverSummary} sectionLabel="Cover" nextHint={needsInterior ? "upload your interior file next" : "you're ready to run the Final Review"} />}
                   <div className="grid sm:grid-cols-2 gap-2 mt-2">
                     {compliance.map((c, i) => (
@@ -569,18 +683,25 @@ export default function Editor() {
                 </div>
               )}
 
-              {/* Preflight report -- Interior (interior-only or combined projects) */}
+              {/* Check results -- Interior (interior-only or combined projects) */}
               {needsInterior && (
                 <div className="p-4 border-t border-neutral-800" data-testid="compliance-list-interior">
-                  <div className="flex items-center justify-between flex-wrap gap-2 mb-2">
-                    <span className="font-mono-spec text-[10px] tracking-widest uppercase text-[#D4AF37]">Interior Preflight Report</span>
+                  <div className="flex items-center justify-between flex-wrap gap-2 mb-1">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="font-mono-spec text-[10px] tracking-widest uppercase text-[#D4AF37]">Interior Check Results</span>
+                      <span className="font-mono-spec text-[8px] tracking-widest uppercase text-neutral-500 border border-neutral-700 px-1.5 py-0.5">Free · Page 1 only</span>
+                    </div>
                     {hasInteriorUpload && (
                       <button onClick={autofixInterior} disabled={interiorFixing} className="px-2.5 py-1 border border-neutral-700 text-neutral-300 hover:border-white text-[9px] font-mono-spec tracking-widest uppercase btn-industrial disabled:opacity-40" data-testid="rescan-interior">
-                        {interiorFixing ? "Scanning…" : "Rescan"}
+                        {interiorFixing ? "Checking…" : "Recheck"}
                       </button>
                     )}
                   </div>
-                  {!hasInteriorUpload && <p className="text-xs text-neutral-500">Upload your interior PDF above to see the compliance report.</p>}
+                  <p className="text-xs text-neutral-500 mb-2">
+                    This checks page 1 of your file for free. To scan every page (up to 300), run the{" "}
+                    <span className="text-neutral-300">Advanced Interior Check</span> near the bottom of this page — price depends on your plan.
+                  </p>
+                  {!hasInteriorUpload && <p className="text-xs text-neutral-500">Upload your book above to see the results here.</p>}
                   {hasInteriorUpload && interiorCompliance.length > 0 && <ScanStatusBanner result={interiorFixResult} summary={interiorSummary} sectionLabel="Interior" nextHint="you're ready to run the Final Review" />}
                   {hasInteriorUpload && (
                     <div className="grid sm:grid-cols-2 gap-2 mt-2">
@@ -591,7 +712,7 @@ export default function Editor() {
                   )}
                   {hasInteriorUpload && interiorCompliance.length > 0 && !interiorFixResult && (
                     <button onClick={autofixInterior} disabled={interiorFixing} className="mt-3 w-full btn-gold py-2.5 font-mono-spec text-[10px] tracking-widest uppercase disabled:opacity-40 btn-industrial flex items-center justify-center gap-2" data-testid="fix-interior">
-                      <Wand2 className="w-3.5 h-3.5" /> {interiorFixing ? "Running preflight…" : "Run Interior Auto-Fix Preflight"}
+                      <Wand2 className="w-3.5 h-3.5" /> {interiorFixing ? "Checking…" : "Check & Fix Interior"}
                     </button>
                   )}
                 </div>
@@ -635,7 +756,15 @@ export default function Editor() {
                 <div className="p-4">
                   {hasAnyUpload ? (
                     <div className="w-full h-[360px] bg-[#0D0D0D] rounded-sm overflow-hidden border border-neutral-800" data-testid="book-3d-wrap">
-                      <Book3DPro frontImageUrl={previewUrl} trim={spine?.trim} spineWidth={spine?.spine_width || 0.5} binding={project.binding} />
+                      <ErrorBoundary
+                        fallback={
+                          <div className="w-full h-full flex items-center justify-center text-center px-6">
+                            <p className="text-xs text-neutral-500">3D preview couldn't load this time — the rest of the editor is unaffected. Try refreshing.</p>
+                          </div>
+                        }
+                      >
+                        <Book3DPro frontImageUrl={previewUrl} trim={spine?.trim} spineWidth={spine?.spine_width || 0.5} binding={project.binding} />
+                      </ErrorBoundary>
                     </div>
                   ) : (
                     <div className="w-full h-[360px] bg-[#0D0D0D] border border-neutral-800 flex items-center justify-center">
@@ -662,7 +791,7 @@ export default function Editor() {
                     <div>
                       <Label className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">Color profile</Label>
                       <Select value={adj.color_profile} onValueChange={(v) => saveAdj({ color_profile: v })}>
-                        <SelectTrigger className="mt-1.5" data-testid="adj-color-profile"><SelectValue /></SelectTrigger>
+                        <SelectTrigger className="mt-1.5 text-white" data-testid="adj-color-profile"><SelectValue /></SelectTrigger>
                         <SelectContent>
                           <SelectItem value="US Web Coated SWOP v2">US Web Coated SWOP v2 (default)</SelectItem>
                           <SelectItem value="GRACoL 2013">GRACoL 2013 (premium color)</SelectItem>
@@ -706,7 +835,7 @@ function ComplianceCard({ c, slot, onRetake, onEnhance, enhancing, isFreeTier })
       <div className={`px-2 py-0.5 text-[9px] font-mono-spec tracking-widest uppercase inline-flex items-center gap-1 ${statusPill(c.status)}`}>
         {statusIcon(c.status)} {c.status}
       </div>
-      <div className="font-display font-bold text-sm mt-1.5 tracking-tight text-white">{c.label}</div>
+      <div className="font-display font-bold text-sm mt-1.5 tracking-tight text-white">{plainCheckLabel(c)}</div>
       <div className="text-[11px] text-neutral-400 mt-0.5 leading-relaxed">{c.message}</div>
       {fixLabel && !isDpiIssue && (
         <div className="text-[10px] text-[#D4AF37] mt-1.5 flex items-center gap-1">
@@ -822,12 +951,69 @@ function DarkSpecField({ label, tooltip, children }) {
   );
 }
 
+function PromoCodeRedeem({ projectId, onRedeemed }) {
+  const [code, setCode] = useState("");
+  const [busy, setBusy] = useState(false);
+
+  const redeem = async () => {
+    if (!code.trim()) return;
+    setBusy(true);
+    try {
+      const { data } = await api.post(`/projects/${projectId}/redeem-promo`, { code: code.trim() });
+      toast.success(data.unlocked || "Code redeemed");
+      setCode("");
+      await onRedeemed();
+    } catch (e) {
+      toast.error(fmtErr(e.response?.data?.detail));
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <div>
+      <Label className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">Have a promo code?</Label>
+      <div className="flex gap-2 mt-1.5">
+        <Input
+          value={code}
+          onChange={(e) => setCode(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && redeem()}
+          placeholder="e.g. SPARK-XXXX-XXXX"
+          className="font-mono uppercase text-white"
+          data-testid="promo-code-input"
+        />
+        <button
+          onClick={redeem}
+          disabled={busy || !code.trim()}
+          className="px-4 py-2 border border-neutral-700 text-neutral-200 hover:border-[#D4AF37] hover:text-[#D4AF37] text-[10px] font-mono-spec tracking-widest uppercase btn-industrial disabled:opacity-40 shrink-0"
+          data-testid="promo-code-redeem"
+        >
+          {busy ? "Checking…" : "Redeem"}
+        </button>
+      </div>
+    </div>
+  );
+}
+
 function SlotDrop({ slot, data, uploading, onUpload, onDelete }) {
   const Icon = slot.icon;
   const filled = !!data;
+  const [dragOver, setDragOver] = useState(false);
+  const handleDrop = (e) => {
+    e.preventDefault();
+    setDragOver(false);
+    const file = e.dataTransfer.files?.[0];
+    if (file) onUpload(file);
+  };
   return (
     <InfoTip text={slot.desc}>
-      <label className={`block relative border border-dashed p-3 text-center cursor-pointer transition-colors ${filled ? "border-emerald-700 bg-emerald-950/30" : uploading ? "border-[#FF6A00]" : "border-neutral-700 hover:border-[#D4AF37] hover:bg-neutral-900"}`} data-testid={`slot-${slot.key}`}>
+      <label
+        onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+        onDragLeave={() => setDragOver(false)}
+        onDrop={handleDrop}
+        className={`block relative border border-dashed p-3 text-center cursor-pointer transition-colors ${filled ? "border-emerald-700 bg-emerald-950/30" : dragOver ? "border-[#D4AF37] bg-neutral-900" : uploading ? "border-[#FF6A00]" : "border-neutral-700 hover:border-[#D4AF37] hover:bg-neutral-900"}`}
+        data-testid={`slot-${slot.key}`}
+      >
         <input type="file" accept=".pdf,.jpg,.jpeg,.png,.tif,.tiff,.webp" onChange={(e) => onUpload(e.target.files?.[0])} disabled={uploading} className="hidden" data-testid={`slot-input-${slot.key}`} />
         <Icon className={`w-4 h-4 mx-auto ${filled ? "text-emerald-500" : "text-neutral-500"}`} />
         <div className="font-display font-bold text-xs mt-1.5 leading-tight text-neutral-200">{filled ? "Uploaded" : uploading ? "Analyzing…" : slot.label}</div>
@@ -842,6 +1028,55 @@ function SlotDrop({ slot, data, uploading, onUpload, onDelete }) {
         )}
       </label>
     </InfoTip>
+  );
+}
+
+// Large, plain-language dropzone for the interior manuscript -- unlike the small
+// cover-piece tiles above, this is often the very first and only file a
+// non-technical author needs to upload, so it gets its own full-width target
+// and no jargon in the copy.
+function BigInteriorDrop({ data, uploading, onUpload, onDelete }) {
+  const filled = !!data;
+  const [dragOver, setDragOver] = useState(false);
+  const handleDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragOver(false);
+    const file = e.dataTransfer.files?.[0];
+    if (file) onUpload(file);
+  };
+  return (
+    <label
+      onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+      onDragLeave={() => setDragOver(false)}
+      onDrop={handleDrop}
+      className={`block relative border-2 border-dashed p-5 text-center cursor-pointer transition-colors ${filled ? "border-emerald-700 bg-emerald-950/30" : dragOver ? "border-[#D4AF37] bg-neutral-900" : uploading ? "border-[#FF6A00]" : "border-neutral-700 hover:border-[#D4AF37] hover:bg-neutral-900"}`}
+      data-testid="slot-interior"
+    >
+      <input type="file" accept=".pdf,.docx,.txt,.jpg,.jpeg,.png,.tif,.tiff,.webp" onChange={(e) => onUpload(e.target.files?.[0])} disabled={uploading} className="hidden" data-testid="slot-input-interior" />
+      <FilePlus className={`w-6 h-6 mx-auto ${filled ? "text-emerald-500" : "text-neutral-500"}`} />
+      {!filled && (
+        <div className="mt-3 inline-block btn-gold px-5 py-2.5 font-mono-spec text-[10px] tracking-widest uppercase btn-industrial pointer-events-none">
+          {uploading ? "Checking your file…" : "Choose Your Book File"}
+        </div>
+      )}
+      <div className="font-display font-bold text-sm mt-2 text-neutral-200">
+        {filled ? "Book uploaded" : uploading ? "Reading your file…" : "or drop it here — PDF, Word, or text"}
+      </div>
+      {filled && (
+        <div className="font-mono-spec text-[9px] tracking-widest text-neutral-500 mt-1 uppercase leading-tight truncate">
+          {data.original_filename}
+        </div>
+      )}
+      {filled && data.dpi_x != null && (
+        <div className="mt-2 font-mono-spec text-[9px] tracking-widest text-neutral-500 uppercase">{data.width_px}×{data.height_px}px · {data.dpi_x} DPI</div>
+      )}
+      {filled && (
+        <button onClick={(e) => { e.preventDefault(); e.stopPropagation(); onDelete(); }} className="absolute top-2 right-2 text-neutral-500 hover:text-red-500" data-testid="slot-delete-interior">
+          <Trash2 className="w-3.5 h-3.5" />
+        </button>
+      )}
+    </label>
   );
 }
 

@@ -89,21 +89,41 @@ export default function AdvancedInteriorCheckCard({ project, user, projectId }) 
         ) : status.paid ? (
           <div data-testid="interior-check-results">
             <div className="flex items-center gap-2 text-sm font-semibold text-[#8A6D24]">
-              <ShieldCheck className="w-4 h-4" /> Unlocked — full {MAX_PAGES}-page check complete
+              <ShieldCheck className="w-4 h-4" /> Unlocked — full check complete
             </div>
+            {/* Real proof of scope, not a marketing claim: the exact page count of
+                THIS book and how many of those pages actually got examined, so it's
+                verifiable against the real file instead of a generic "full check". */}
+            {status.total_pages > 0 && (
+              <div className="mt-1.5 inline-flex items-center gap-1.5 border border-[#D4A857]/50 bg-[#D4A857]/10 px-2.5 py-1" data-testid="pages-checked-proof">
+                <span className="font-mono-spec text-[10px] tracking-widest uppercase text-[#8A6D24] font-bold">
+                  {status.pages_checked} of {status.total_pages} pages checked
+                </span>
+              </div>
+            )}
             {status.findings?.length ? (
               <ul className="mt-3 space-y-2">
                 {status.findings.map((f, i) => (
                   <li key={i} className="text-sm border border-[#D4A857]/40 bg-white px-3 py-2">
-                    <span className="font-mono-spec text-[9px] tracking-widest uppercase mr-2 text-neutral-500">
-                      {f.severity}
-                    </span>
-                    {f.title}
+                    <div>
+                      <span className="font-mono-spec text-[9px] tracking-widest uppercase mr-2 text-neutral-500">
+                        {f.severity}
+                      </span>
+                      {f.title}
+                    </div>
+                    {f.why_it_fails && <p className="text-xs text-neutral-600 mt-1 leading-relaxed">{f.why_it_fails}</p>}
+                    {f.pinpoint?.pages?.length > 0 && (
+                      <p className="font-mono-spec text-[9px] tracking-widest uppercase text-neutral-500 mt-1">
+                        Page{f.pinpoint.pages.length > 1 ? "s" : ""}: {f.pinpoint.pages.join(", ")}
+                      </p>
+                    )}
                   </li>
                 ))}
               </ul>
             ) : (
-              <p className="text-sm text-neutral-600 mt-2">No structural issues found across the full interior.</p>
+              <p className="text-sm text-neutral-600 mt-2">
+                No structural issues found across all {status.total_pages || MAX_PAGES} pages.
+              </p>
             )}
           </div>
         ) : (

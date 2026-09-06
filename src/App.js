@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "@/context/AuthContext";
 import { Toaster } from "sonner";
+import ErrorBoundary from "@/components/ErrorBoundary";
 import Landing from "@/pages/Landing";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
@@ -33,8 +34,28 @@ function AdminOnly({ children }) {
   return children;
 }
 
+function CrashFallback() {
+  return (
+    <div className="min-h-screen bg-black text-white flex items-center justify-center px-6">
+      <div className="text-center max-w-sm">
+        <div className="font-display font-black text-xl mb-2">Something went wrong.</div>
+        <p className="text-sm text-neutral-400 mb-6">
+          This page hit an unexpected error. Your work is saved -- reloading should fix it.
+        </p>
+        <button
+          onClick={() => window.location.reload()}
+          className="btn-gold px-6 py-3 font-mono-spec text-xs tracking-widest uppercase btn-industrial"
+        >
+          Reload
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export default function App() {
   return (
+    <ErrorBoundary fallback={<CrashFallback />}>
     <AuthProvider>
       <BrowserRouter>
         <Toaster richColors position="top-center" />
@@ -59,5 +80,6 @@ export default function App() {
         </Routes>
       </BrowserRouter>
     </AuthProvider>
+    </ErrorBoundary>
   );
 }

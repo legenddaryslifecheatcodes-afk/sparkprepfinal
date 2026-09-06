@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import Nav from "@/components/Nav";
 import SeasonBanner from "@/components/SeasonBanner";
+import FoundersLaunchBanner from "@/components/FoundersLaunchBanner";
 import { LogoMark, SparkPrepLogo } from "@/components/Logo";
 import BrandWatermark from "@/components/BrandWatermark";
 import { CheckCircle2, Zap, FileCheck2, Palette, Ruler, Layers, Flame, ArrowRight } from "lucide-react";
@@ -8,6 +9,7 @@ import { CheckCircle2, Zap, FileCheck2, Palette, Ruler, Layers, Flame, ArrowRigh
 export default function Landing() {
   return (
     <div className="marketing min-h-screen noise-overlay">
+      <FoundersLaunchBanner />
       <SeasonBanner />
       <Nav dark />
 

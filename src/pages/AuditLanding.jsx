@@ -16,6 +16,10 @@ export default function AuditLanding() {
   const [specs, setSpecs] = useState(null);
   const [platform, setPlatform] = useState("kdp");
   const [trim, setTrim] = useState("6x9");
+  const [fileType, setFileType] = useState("interior");
+  const [binding, setBinding] = useState("paperback");
+  const [pageCount, setPageCount] = useState(200);
+  const [paperType, setPaperType] = useState("white_50lb");
   const [uploading, setUploading] = useState(false);
   const [auditId, setAuditId] = useState(null);
   const [uploadingTemplate, setUploadingTemplate] = useState(false);
@@ -29,7 +33,10 @@ export default function AuditLanding() {
   // whichever action happens first instead of requiring a separate step.
   const ensureAuditId = async () => {
     if (auditId) return auditId;
-    const { data } = await api.post("/audit/start", { platform, trim_size: trim });
+    const { data } = await api.post("/audit/start", {
+      platform, trim_size: trim, file_type: fileType,
+      ...(fileType === "cover" ? { binding, page_count: pageCount, paper_type: paperType } : {}),
+    });
     setAuditId(data.audit_id);
     return data.audit_id;
   };
@@ -142,9 +149,60 @@ export default function AuditLanding() {
                     </SelectContent>
                   </Select>
                 </div>
+                <div>
+                  <Label className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">What are you uploading?</Label>
+                  <Select value={fileType} onValueChange={setFileType} disabled={!!auditId}>
+                    <SelectTrigger className="mt-1 bg-transparent border-neutral-700 text-white" data-testid="audit-file-type"><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="interior">Interior (manuscript pages)</SelectItem>
+                      <SelectItem value="cover">Cover (front + spine + back)</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <p className="text-[11px] text-neutral-500 mt-1.5 leading-relaxed">
+                    A cover's correct size depends on its spine width, which depends on binding and page count — pick "Cover" so the size/resolution check compares against the real full-wrap size, not a plain page size.
+                  </p>
+                </div>
+                {fileType === "cover" && (
+                  <div className="grid grid-cols-2 gap-3" data-testid="audit-cover-fields">
+                    <div>
+                      <Label className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">Binding</Label>
+                      <Select value={binding} onValueChange={setBinding} disabled={!!auditId}>
+                        <SelectTrigger className="mt-1 bg-transparent border-neutral-700 text-white" data-testid="audit-binding"><SelectValue /></SelectTrigger>
+                        <SelectContent>
+                          {specs && Object.entries(specs.binding_types).map(([k, v]) => (
+                            <SelectItem key={k} value={k}>{v.label}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div>
+                      <Label className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">Paper type</Label>
+                      <Select value={paperType} onValueChange={setPaperType} disabled={!!auditId}>
+                        <SelectTrigger className="mt-1 bg-transparent border-neutral-700 text-white" data-testid="audit-paper-type"><SelectValue /></SelectTrigger>
+                        <SelectContent>
+                          {specs && Object.entries(specs.paper_types).map(([k, v]) => (
+                            <SelectItem key={k} value={k}>{v.label}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="col-span-2">
+                      <Label className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">Interior page count</Label>
+                      <input
+                        type="number" min={1} value={pageCount} disabled={!!auditId}
+                        onChange={(e) => setPageCount(parseInt(e.target.value) || 0)}
+                        className="mt-1 w-full bg-transparent border border-neutral-700 text-white px-3 py-2 text-sm"
+                        data-testid="audit-page-count"
+                      />
+                      <p className="text-[11px] text-neutral-500 mt-1.5 leading-relaxed">
+                        Used only to estimate spine width for the size check. For a hardcover binding this is a formula-based estimate, not the distributor's own exact number — the report will note this.
+                      </p>
+                    </div>
+                  </div>
+                )}
               </div>
 
-              <div className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500 mt-6 mb-3">[ Step 03 · Upload · Drop your cover or interior file ]</div>
+              <div className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500 mt-6 mb-3">[ Step 03 · Upload · Drop your {fileType} file ]</div>
               <label className={`block border-2 border-dashed p-8 text-center cursor-pointer hover:bg-white/5 transition-colors ${uploading ? "border-white" : "border-neutral-700"}`} data-testid="audit-drop">
                 <input type="file" accept=".pdf,.jpg,.jpeg,.png,.tif,.tiff,.webp" onChange={onFile} disabled={uploading} className="hidden" data-testid="audit-file-input" />
                 <Upload className="w-8 h-8 mx-auto text-neutral-500" />

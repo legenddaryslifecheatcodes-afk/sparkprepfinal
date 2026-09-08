@@ -4,6 +4,7 @@ import SeasonBanner from "@/components/SeasonBanner";
 import FoundersLaunchBanner from "@/components/FoundersLaunchBanner";
 import { LogoMark, SparkPrepLogo } from "@/components/Logo";
 import BrandWatermark from "@/components/BrandWatermark";
+import GuaranteeSeal from "@/components/GuaranteeSeal";
 import { CheckCircle2, Zap, FileCheck2, Palette, Ruler, Layers, Flame, ArrowRight } from "lucide-react";
 
 export default function Landing() {
@@ -62,7 +63,11 @@ export default function Landing() {
           </div>
 
           {/* Editor mock */}
-          <div className="md:col-span-5">
+          <div className="md:col-span-5 relative">
+            <GuaranteeSeal
+              size={128}
+              className="hidden sm:block absolute -top-8 -right-6 z-10 -rotate-12 drop-shadow-[0_6px_18px_rgba(0,0,0,0.55)]"
+            />
             <div className="marketing-surface border-[#D4AF37]/20 p-4 relative">
               <div className="flex items-center justify-between text-xs font-mono-spec text-neutral-500 mb-3 uppercase tracking-widest">
                 <span>Cover · 6" × 9"</span>

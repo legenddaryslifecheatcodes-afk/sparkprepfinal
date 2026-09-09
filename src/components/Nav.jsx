@@ -10,7 +10,7 @@ export default function Nav({ dark = true }) {
   const linkCls = dark ? "text-neutral-400 hover:text-white transition-colors" : "text-neutral-600 hover:text-neutral-900 transition-colors";
   return (
     <nav className={`sticky top-0 z-50 ${base}`} data-testid="top-nav">
-      <div className="max-w-7xl mx-auto relative flex items-center justify-between px-6 py-4 overflow-visible">
+      <div className="max-w-7xl mx-auto relative flex flex-wrap items-center justify-between gap-y-1 px-6 py-4 overflow-visible">
         <Link to="/" data-testid="nav-logo">
           <Logo dark={dark} compact />
         </Link>
@@ -22,9 +22,12 @@ export default function Nav({ dark = true }) {
             as the logo "breaking out" of a slim bar rather than forcing the
             whole sticky nav to be that tall all the time). Anchored to the
             bar's top edge rather than vertically centered, since the nav
-            sticks to the very top of the viewport when scrolling -- centering
-            it would let the top half get clipped by the browser edge with
-            nowhere to overflow into. */}
+            sticks to the very top of the viewport when scrolling --
+            centering it would let the top half get clipped by the browser
+            edge with nowhere to overflow into. Desktop only: at narrower
+            widths this absolute-centered placement collides with the nav
+            links (Specs/Pricing/Audit/Login), which don't collapse behind a
+            hamburger menu -- see the mobile version below instead. */}
         <Link
           to="/"
           className="hidden md:block absolute left-1/2 top-2 -translate-x-1/2 z-10"
@@ -63,6 +66,18 @@ export default function Nav({ dark = true }) {
             </>
           )}
         </div>
+        {/* Mobile version of the SparkPrep logo above: the desktop one is
+            absolutely centered and overlaps the nav links at narrower
+            widths (this nav has no hamburger/collapsed-menu state), so
+            below md this renders as an ordinary flex child instead --
+            `w-full` forces the flex-wrap container to break here, giving it
+            its own centered row under the links rather than sitting on top
+            of them. Without this, SparkPrep's own logo was either invisible
+            under 768px (the original bug) or overlapping nav text (the
+            first attempt at fixing it). */}
+        <Link to="/" className="md:hidden w-full flex justify-center pt-1" data-testid="nav-sparkprep-logo-mobile">
+          <SparkPrepLogo height={64} />
+        </Link>
       </div>
     </nav>
   );

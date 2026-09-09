@@ -65,8 +65,8 @@ export default function Landing() {
           {/* Editor mock */}
           <div className="md:col-span-5 relative">
             <GuaranteeSeal
-              size={128}
-              className="hidden sm:block absolute -top-8 -right-6 z-10 -rotate-12 drop-shadow-[0_6px_18px_rgba(0,0,0,0.55)]"
+              size={104}
+              className="block absolute -top-6 -right-3 sm:-top-8 sm:-right-6 sm:w-[128px] sm:h-[128px] z-10 -rotate-12 drop-shadow-[0_6px_18px_rgba(0,0,0,0.55)]"
             />
             <div className="marketing-surface border-[#D4AF37]/20 p-4 relative">
               <div className="flex items-center justify-between text-xs font-mono-spec text-neutral-500 mb-3 uppercase tracking-widest">

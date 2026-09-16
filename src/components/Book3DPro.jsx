@@ -1,5 +1,5 @@
-import { useRef, useMemo, useState, Suspense } from "react";
-import { Canvas, useLoader, useFrame } from "@react-three/fiber";
+import { useRef, useMemo, useState, useEffect, Suspense } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, ContactShadows, Environment } from "@react-three/drei";
 import * as THREE from "three";
 import { Download, RotateCw } from "lucide-react";
@@ -106,20 +106,119 @@ function makeGrainTexture(strength = 0) {
   return t;
 }
 
-function BookMesh({ frontImageUrl, w, h, d, autoSpin, binding }) {
+// Neutral slate book-cloth placeholder with a simple title mark -- shown
+// when there's no cover uploaded yet, and as the fallback if a real cover
+// URL fails to load, so the front face never just renders solid black with
+// no indication anything went wrong.
+function makePlaceholderCoverTexture() {
+  const c = document.createElement("canvas");
+  c.width = 400; c.height = 600;
+  const ctx = c.getContext("2d");
+  const grad = ctx.createLinearGradient(0, 0, 0, 600);
+  grad.addColorStop(0, "#4b5563");
+  grad.addColorStop(1, "#374151");
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, 400, 600);
+  ctx.strokeStyle = "rgba(255,255,255,0.25)";
+  ctx.lineWidth = 2;
+  ctx.strokeRect(24, 24, 352, 552);
+  ctx.fillStyle = "rgba(255,255,255,0.75)";
+  ctx.font = "600 22px 'Courier New', monospace";
+  ctx.textAlign = "center";
+  ctx.fillText("SPARKPREP", 200, 285);
+  ctx.font = "400 13px 'Courier New', monospace";
+  ctx.fillStyle = "rgba(255,255,255,0.5)";
+  ctx.fillText("NO COVER LOADED", 200, 315);
+  const t = new THREE.CanvasTexture(c);
+  t.colorSpace = THREE.SRGBColorSpace;
+  return t;
+}
+
+// Slices a loaded full-wrap texture into an independent clone for one panel
+// (back/spine/front), each with its own offset/repeat so it samples only
+// that panel's region of the source image. Cloning shares the underlying
+// GPU upload (no re-fetch/re-decode) but lets each face scroll/crop
+// independently -- required since offset/repeat are per-Texture-instance,
+// not per-material.
+function sliceCoverTexture(sourceTex, region) {
+  const tex = sourceTex.clone();
+  tex.needsUpdate = true;
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.anisotropy = 8;
+  if (region) {
+    tex.wrapS = THREE.ClampToEdgeWrapping;
+    tex.wrapT = THREE.ClampToEdgeWrapping;
+    tex.repeat.set(region.repeatX, 1);
+    tex.offset.set(region.offsetX, 0);
+  }
+  return tex;
+}
+
+function BookMesh({ frontImageUrl, coverCrop, w, h, d, autoSpin, binding }) {
   const meshRef = useRef();
   const profile = BINDING_PROFILES[binding] || BINDING_PROFILES.paperback;
 
   const pageTex = useMemo(() => makePageEdgeTexture(profile.pageEdge), [profile.pageEdge]);
-  const spineTex = useMemo(() => makeSpineTexture(profile.spine.tint), [profile.spine.tint]);
+  const proceduralSpineTex = useMemo(() => makeSpineTexture(profile.spine.tint), [profile.spine.tint]);
   const grainTex = useMemo(() => makeGrainTexture(profile.grainStrength), [profile.grainStrength]);
+  // Always-available, no-network placeholder -- used both when there's no
+  // cover uploaded yet and when a real cover URL fails to load, so a broken
+  // texture never just silently renders as flat black with no explanation.
+  const placeholderTex = useMemo(() => makePlaceholderCoverTexture(), []);
 
-  const coverTex = useLoader(
-    THREE.TextureLoader,
-    frontImageUrl || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='600'%3E%3Crect width='400' height='600' fill='%23111'/%3E%3Ctext x='200' y='300' text-anchor='middle' fill='%23888' font-family='monospace' font-size='16'%3ENo cover%3C/text%3E%3C/svg%3E"
-  );
-  coverTex.colorSpace = THREE.SRGBColorSpace;
-  coverTex.anisotropy = 8;
+  // coverCrop, when present, is the backend's raw full-wrap geometry (in
+  // inches: back_x/spine_x/front_x/panel_width/spine_width/total_width) for
+  // a "Full Cover Wrap" upload -- back+spine+front flattened into one image.
+  // Converted here to unitless [0,1] UV fractions for each of the three
+  // panels. A standalone front-cover-only upload has no coverCrop, so the
+  // whole image is used as-is for the front face and the spine/back faces
+  // keep their procedural placeholder texture (there's no real spine/back
+  // art to show in that case).
+  const panelRegions = useMemo(() => {
+    if (!coverCrop?.total_width) return null;
+    const tw = coverCrop.total_width;
+    return {
+      back: { offsetX: coverCrop.back_x / tw, repeatX: coverCrop.panel_width / tw },
+      spine: { offsetX: coverCrop.spine_x / tw, repeatX: coverCrop.spine_width / tw },
+      front: { offsetX: coverCrop.front_x / tw, repeatX: coverCrop.panel_width / tw },
+    };
+  }, [coverCrop]);
+
+  const [covers, setCovers] = useState({ front: placeholderTex, spine: null, back: null });
+
+  useEffect(() => {
+    if (!frontImageUrl) { setCovers({ front: placeholderTex, spine: null, back: null }); return; }
+    let cancelled = false;
+    const loader = new THREE.TextureLoader();
+    loader.setCrossOrigin("anonymous");
+    loader.load(
+      frontImageUrl,
+      (tex) => {
+        if (cancelled) return;
+        if (panelRegions) {
+          // Real full-wrap art exists for all three panels -- slice each
+          // face its own region instead of stretching the whole wrap
+          // across the front alone (which read as "wrapped around
+          // backwards") or leaving the spine/back on the flat placeholder
+          // tint with no real art at all.
+          setCovers({
+            front: sliceCoverTexture(tex, panelRegions.front),
+            spine: sliceCoverTexture(tex, panelRegions.spine),
+            back: sliceCoverTexture(tex, panelRegions.back),
+          });
+        } else {
+          setCovers({ front: sliceCoverTexture(tex, null), spine: null, back: null });
+        }
+      },
+      undefined,
+      (err) => {
+        if (cancelled) return;
+        console.error("Book3DPro: failed to load cover texture", frontImageUrl, err);
+        setCovers({ front: placeholderTex, spine: null, back: null });
+      }
+    );
+    return () => { cancelled = true; };
+  }, [frontImageUrl, panelRegions, placeholderTex]);
 
   useFrame(({ clock }) => {
     if (autoSpin && meshRef.current) {
@@ -128,25 +227,34 @@ function BookMesh({ frontImageUrl, w, h, d, autoSpin, binding }) {
     }
   });
 
-  // Material order for BoxGeometry: [+X, -X, +Y, -Y, +Z, -Z]
+  // Material order for BoxGeometry: [+X, -X, +Y, -Y, +Z, -Z]. Front (+Z,
+  // index 4) always gets real art when any cover is uploaded, front-cover-
+  // only or full-wrap. Spine (-X, index 1) and back (-Z, index 5) get real
+  // art too when a full-wrap upload provides it, otherwise the procedural
+  // placeholder tint -- this applies identically regardless of binding
+  // (paperback / hardcover case / hardcover jacket all build this same
+  // array; only the roughness/metalness/tint in `profile` differs).
   const materials = useMemo(() => {
     const pageMat = new THREE.MeshStandardMaterial({ map: pageTex, roughness: 0.85, metalness: 0.02 });
     const spineMat = new THREE.MeshStandardMaterial({
-      map: spineTex, roughness: profile.spine.roughness, metalness: profile.spine.metalness,
+      map: covers.spine || proceduralSpineTex, roughness: profile.spine.roughness, metalness: profile.spine.metalness,
     });
     const backMat = new THREE.MeshStandardMaterial({
-      map: spineTex, roughness: profile.spine.roughness, metalness: profile.spine.metalness * 0.7,
+      map: covers.back || proceduralSpineTex, roughness: profile.spine.roughness, metalness: profile.spine.metalness * 0.7,
     });
     const frontMat = new THREE.MeshStandardMaterial({
-      map: coverTex,
+      map: covers.front,
       roughness: profile.cover.roughness,
       metalness: profile.cover.metalness,
       envMapIntensity: profile.cover.envMapIntensity,
       // dust-jacket grain adds micro roughness variation
       roughnessMap: grainTex || null,
     });
+    frontMat.needsUpdate = true;
+    spineMat.needsUpdate = true;
+    backMat.needsUpdate = true;
     return [pageMat, spineMat, pageMat, pageMat, frontMat, backMat];
-  }, [pageTex, spineTex, coverTex, grainTex, profile]);
+  }, [pageTex, proceduralSpineTex, covers, grainTex, profile]);
 
   const boardW = w + profile.boardOverhang * 2;
   const boardH = h + profile.boardOverhang * 2;
@@ -173,7 +281,7 @@ function BookMesh({ frontImageUrl, w, h, d, autoSpin, binding }) {
   );
 }
 
-function Scene({ frontImageUrl, trim, spineWidth, autoSpin, binding }) {
+function Scene({ frontImageUrl, coverCrop, trim, spineWidth, autoSpin, binding }) {
   const scale = 0.28;
   const w = (trim?.w || 6) * scale;
   const h = (trim?.h || 9) * scale;
@@ -199,7 +307,7 @@ function Scene({ frontImageUrl, trim, spineWidth, autoSpin, binding }) {
 
       <Suspense fallback={null}>
         <Environment preset="studio" background={false} />
-        <BookMesh frontImageUrl={frontImageUrl} w={w} h={h} d={d} autoSpin={autoSpin} binding={binding} />
+        <BookMesh frontImageUrl={frontImageUrl} coverCrop={coverCrop} w={w} h={h} d={d} autoSpin={autoSpin} binding={binding} />
         <ContactShadows
           position={[0, -h / 2 - 0.01, 0]}
           opacity={0.55}
@@ -224,7 +332,7 @@ function Scene({ frontImageUrl, trim, spineWidth, autoSpin, binding }) {
   );
 }
 
-export default function Book3DPro({ frontImageUrl, trim, spineWidth = 0.5, binding = "paperback" }) {
+export default function Book3DPro({ frontImageUrl, coverCrop = null, trim, spineWidth = 0.5, binding = "paperback" }) {
   const canvasRef = useRef();
   const [autoSpin, setAutoSpin] = useState(false);
   const profile = BINDING_PROFILES[binding] || BINDING_PROFILES.paperback;
@@ -250,7 +358,7 @@ export default function Book3DPro({ frontImageUrl, trim, spineWidth = 0.5, bindi
         gl={{ preserveDrawingBuffer: true, antialias: true, toneMapping: THREE.ACESFilmicToneMapping }}
         camera={{ position: [2.4, 1.0, 3.6], fov: 30 }}
       >
-        <Scene frontImageUrl={frontImageUrl} trim={trim} spineWidth={spineWidth} autoSpin={autoSpin} binding={binding} />
+        <Scene frontImageUrl={frontImageUrl} coverCrop={coverCrop} trim={trim} spineWidth={spineWidth} autoSpin={autoSpin} binding={binding} />
       </Canvas>
       <div className="absolute bottom-3 left-3 flex gap-2" data-testid="book-3d-pro-controls">
         <button

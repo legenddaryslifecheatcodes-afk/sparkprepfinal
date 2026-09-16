@@ -21,7 +21,7 @@ import { Logo } from "@/components/Logo";
 import {
   Upload, Download, Wand2, ArrowLeft, Eye, EyeOff, Check, AlertTriangle, XCircle,
   Sparkles, FileStack, Palette, Ruler, Layers, Trash2, Info, ShieldCheck, ArrowRight,
-  FilePlus, BookOpen, Image as ImageIcon, Paintbrush, FileCheck2,
+  FilePlus, BookOpen, Image as ImageIcon, Paintbrush, FileCheck2, Droplet, Crop,
 } from "lucide-react";
 
 const OVERLAYS = [
@@ -52,6 +52,7 @@ const FIX_ACTION_LABELS = {
   flatten: "Fix: flatten so nothing prints wrong or missing",
   add_bleed: "Fix: extra edge added automatically so there's no white line after trimming",
   export_pdfx1a: "Fix: converted to the correct print file format automatically",
+  scale_safe_margin: "Fix: nudge text/art back inside the safe margin automatically",
 };
 
 // The backend's compliance labels lead with the print-industry term (DPI,
@@ -323,6 +324,58 @@ export default function Editor() {
     if (project?.uploaded_file) return `${API_URL}/projects/${id}/preview${token ? `?token=${token}` : ""}`;
     return null;
   }, [project, id]);
+
+  // Which slot previewUrl actually resolved to -- the 3D mockup needs this to
+  // know whether the image is a full back+spine+front wrap (crop to just the
+  // front panel) or already a standalone front-cover image (use as-is).
+  const previewSlot = useMemo(() => {
+    const slots = project?.slots || {};
+    if (slots.full_wrap) return "full_wrap";
+    if (slots.front_cover) return "front_cover";
+    if (slots.interior) return "interior";
+    if (project?.uploaded_file) return "full_wrap"; // legacy uploads were always the full cover
+    return null;
+  }, [project]);
+
+  // Book3DPro renders inside a WebGL texture, not an <img> tag -- fetching
+  // through the shared `api` client (real Authorization header, not a
+  // query-param token) and handing it a local blob: URL sidesteps any CORS/
+  // crossOrigin edge case around loading an authenticated image into WebGL,
+  // and blob: URLs never trigger tainted-canvas issues since they're never
+  // actually cross-origin from the browser's point of view.
+  const [book3dTextureUrl, setBook3dTextureUrl] = useState(null);
+  useEffect(() => {
+    let objectUrl = null;
+    let cancelled = false;
+    if (!previewUrl) { setBook3dTextureUrl(null); return; }
+    (async () => {
+      try {
+        const { data } = await api.get(previewUrl.replace(API_URL, ""), { responseType: "blob" });
+        if (cancelled) return;
+        objectUrl = URL.createObjectURL(data);
+        setBook3dTextureUrl(objectUrl);
+      } catch {
+        if (!cancelled) setBook3dTextureUrl(null);
+      }
+    })();
+    return () => {
+      cancelled = true;
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
+    };
+  }, [previewUrl]);
+
+  // Raw back/spine/front panel geometry (in inches) for a full-wrap image,
+  // from the same layout math the backend uses (accounts for hardcover
+  // jacket flaps / case-laminate gutters, not just a plain trim+spine
+  // split) -- Book3DPro converts this to per-face UV crops so all three
+  // faces sample their own real art instead of the front face stretching
+  // the whole flattened wrap across itself, or the spine/back faces
+  // staying on the flat placeholder tint despite real art being uploaded.
+  const coverCrop = useMemo(() => {
+    const full = spine?.full_cover;
+    if (previewSlot !== "full_wrap" || !full?.total_width || !full?.panel_width) return null;
+    return full;
+  }, [spine, previewSlot]);
 
   if (!project || !specs) return <div className="p-10 font-mono-spec text-xs text-neutral-500">Loading editor…</div>;
 
@@ -763,7 +816,7 @@ export default function Editor() {
                           </div>
                         }
                       >
-                        <Book3DPro frontImageUrl={previewUrl} trim={spine?.trim} spineWidth={spine?.spine_width || 0.5} binding={project.binding} />
+                        <Book3DPro frontImageUrl={book3dTextureUrl} coverCrop={coverCrop} trim={spine?.trim} spineWidth={spine?.spine_width || 0.5} binding={project.binding} />
                       </ErrorBoundary>
                     </div>
                   ) : (
@@ -782,6 +835,8 @@ export default function Editor() {
                     <MiniFixButton icon={Ruler} label="300 DPI" tooltip="Resamples the image to 300 DPI at the current trim + bleed dimensions." onClick={autofix} disabled={!hasAnyUpload} testid="fix-dpi" />
                     <MiniFixButton icon={Layers} label="Bleed" tooltip={'Extends artwork into the 0.125" bleed zone so cutting variance doesn\'t leave white edges.'} onClick={autofix} disabled={!hasAnyUpload} testid="fix-bleed" />
                     <MiniFixButton icon={Paintbrush} label="Spine" tooltip="Recalculates spine width from page count × paper PPI and re-centers spine text inside safe zones." onClick={() => toast.success("Spine width recalculated: " + spine?.spine_width + "\"")} disabled={!isCover} testid="fix-spine" />
+                    <MiniFixButton icon={Droplet} label="Ink Coverage" tooltip="Clamps total ink coverage to your distributor's limit (240% — 270% for Lulu) so dense dark areas don't smudge or dry slowly, without weakening black." onClick={autofix} disabled={!hasAnyUpload} testid="fix-ink-coverage" />
+                    <MiniFixButton icon={Crop} label="Safe Margin" tooltip="Scales cover text/art that's sitting too close to the trim edge back inside the 0.25″ safe zone, without cropping or resizing your cover." onClick={autofix} disabled={!isCover} testid="fix-safe-margin" />
                   </div>
                   <div className="pt-2 space-y-4">
                     <SliderRow label="Spine offset" tooltip="Shift spine text left/right in fractions of an inch." unit="in" min={-0.25} max={0.25} step={0.005} value={adj.spine_offset} onChange={(v) => saveAdj({ spine_offset: v })} testid="adj-spine-offset" dark />

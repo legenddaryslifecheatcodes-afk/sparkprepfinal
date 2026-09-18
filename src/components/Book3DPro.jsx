@@ -189,12 +189,14 @@ function BookMesh({ frontImageUrl, coverCrop, w, h, d, autoSpin, binding }) {
   useEffect(() => {
     if (!frontImageUrl) { setCovers({ front: placeholderTex, spine: null, back: null }); return; }
     let cancelled = false;
+    let loadedTex = null;
     const loader = new THREE.TextureLoader();
     loader.setCrossOrigin("anonymous");
     loader.load(
       frontImageUrl,
       (tex) => {
-        if (cancelled) return;
+        if (cancelled) { tex.dispose(); return; }
+        loadedTex = tex;
         if (panelRegions) {
           // Real full-wrap art exists for all three panels -- slice each
           // face its own region instead of stretching the whole wrap
@@ -217,7 +219,16 @@ function BookMesh({ frontImageUrl, coverCrop, w, h, d, autoSpin, binding }) {
         setCovers({ front: placeholderTex, spine: null, back: null });
       }
     );
-    return () => { cancelled = true; };
+    // Each render's face textures are clones (sliceCoverTexture) that share
+    // the loaded texture's underlying GPU upload -- disposing the source
+    // after cloning would break the clones, so this only tears down the
+    // PREVIOUS load's source texture when a new cover replaces it (re-fix,
+    // re-upload, project switch), rather than leaking one GPU texture per
+    // change over a long editing session.
+    return () => {
+      cancelled = true;
+      if (loadedTex) loadedTex.dispose();
+    };
   }, [frontImageUrl, panelRegions, placeholderTex]);
 
   useFrame(({ clock }) => {

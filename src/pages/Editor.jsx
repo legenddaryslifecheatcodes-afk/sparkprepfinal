@@ -55,6 +55,39 @@ const FIX_ACTION_LABELS = {
   scale_safe_margin: "Fix: nudge text/art back inside the safe margin automatically",
 };
 
+// These two checks aren't things the customer (or Auto-Fix) ever needs to
+// act on -- export always adds bleed and always (re)stamps PDF/X-1a
+// regardless of what's currently true about the uploaded file (see
+// file_processor.py's "we always add bleed on export" / server.py's
+// ALWAYS_FIXED_AT_EXPORT). Showing them as yellow warnings implied an
+// action was needed when there genuinely isn't one.
+const EXPORT_HANDLED_IDS = new Set(["bleed", "pdfx1a"]);
+
+// Action-verb label for the actual "fix this" button on a card, as opposed
+// to FIX_ACTION_LABELS' descriptive sentence -- keyed by the more specific
+// finding id first since a few different ids share the same fix_action
+// (e.g. colorspace and total_ink_coverage both resolve via convert_cmyk,
+// but need different button copy).
+function fixButtonLabel(c) {
+  if (c.id === "total_ink_coverage") {
+    const limit = c.label.match(/limit (\d+)%/)?.[1];
+    return limit ? `Clamp Ink to ${limit}%` : "Clamp Ink Coverage";
+  }
+  if (c.id === "colorspace") return "Convert to CMYK";
+  if (c.id === "interior_page_size_mismatch" || c.id === "interior_safety_margin" || c.id === "cover_safety_margin") {
+    return "Nudge to Safe Margin";
+  }
+  if (c.fix_action === "flatten") return "Flatten Layers";
+  return "Apply Fix";
+}
+
+// Does this section have at least one issue Auto-Fix All can actually
+// resolve? (excludes the always-handled-at-export ids above, which never
+// need a fix action of their own)
+function hasFixableIssues(compliance) {
+  return (compliance || []).some((c) => c.status !== "pass" && c.auto_fix && !EXPORT_HANDLED_IDS.has(c.id));
+}
+
 // The backend's compliance labels lead with the print-industry term (DPI,
 // CMYK, PDF/X-1a) since that's what a distributor's own rejection email will
 // say. Non-technical authors don't need to learn that vocabulary just to read
@@ -721,6 +754,11 @@ export default function Editor() {
                   </div>
                   {compliance.length === 0 && <p className="text-xs text-neutral-500">Upload a file to see the results here.</p>}
                   {compliance.length > 0 && <ScanStatusBanner result={coverFixResult} summary={coverSummary} sectionLabel="Cover" nextHint={needsInterior ? "upload your interior file next" : "you're ready to run the Final Review"} />}
+                  {hasFixableIssues(compliance) && (
+                    <button onClick={autofix} disabled={fixing} className="w-full mt-2 btn-gold py-2.5 font-mono-spec text-[10px] tracking-widest uppercase disabled:opacity-40 btn-industrial flex items-center justify-center gap-2" data-testid="autofix-all-cover">
+                      <Wand2 className="w-3.5 h-3.5" /> {fixing ? "Fixing…" : "Auto-Fix All Issues"}
+                    </button>
+                  )}
                   <div className="grid sm:grid-cols-2 gap-2 mt-2">
                     {compliance.map((c, i) => (
                       <ComplianceCard
@@ -730,6 +768,8 @@ export default function Editor() {
                         onEnhance={aiEnhance}
                         enhancing={enhancingSlot === coverSlotName}
                         isFreeTier={isFreeTier}
+                        onFix={autofix}
+                        fixing={fixing}
                       />
                     ))}
                   </div>
@@ -756,17 +796,17 @@ export default function Editor() {
                   </p>
                   {!hasInteriorUpload && <p className="text-xs text-neutral-500">Upload your book above to see the results here.</p>}
                   {hasInteriorUpload && interiorCompliance.length > 0 && <ScanStatusBanner result={interiorFixResult} summary={interiorSummary} sectionLabel="Interior" nextHint="you're ready to run the Final Review" />}
+                  {hasInteriorUpload && hasFixableIssues(interiorCompliance) && (
+                    <button onClick={autofixInterior} disabled={interiorFixing} className="w-full mt-2 btn-gold py-2.5 font-mono-spec text-[10px] tracking-widest uppercase disabled:opacity-40 btn-industrial flex items-center justify-center gap-2" data-testid="autofix-all-interior">
+                      <Wand2 className="w-3.5 h-3.5" /> {interiorFixing ? "Fixing…" : "Auto-Fix All Issues"}
+                    </button>
+                  )}
                   {hasInteriorUpload && (
                     <div className="grid sm:grid-cols-2 gap-2 mt-2">
                       {interiorCompliance.map((c, i) => (
-                        <ComplianceCard key={i} c={c} />
+                        <ComplianceCard key={i} c={c} slot="interior" onFix={autofixInterior} fixing={interiorFixing} />
                       ))}
                     </div>
-                  )}
-                  {hasInteriorUpload && interiorCompliance.length > 0 && !interiorFixResult && (
-                    <button onClick={autofixInterior} disabled={interiorFixing} className="mt-3 w-full btn-gold py-2.5 font-mono-spec text-[10px] tracking-widest uppercase disabled:opacity-40 btn-industrial flex items-center justify-center gap-2" data-testid="fix-interior">
-                      <Wand2 className="w-3.5 h-3.5" /> {interiorFixing ? "Checking…" : "Check & Fix Interior"}
-                    </button>
                   )}
                 </div>
               )}
@@ -877,7 +917,22 @@ export default function Editor() {
   );
 }
 
-function ComplianceCard({ c, slot, onRetake, onEnhance, enhancing, isFreeTier }) {
+function ComplianceCard({ c, slot, onRetake, onEnhance, enhancing, isFreeTier, onFix, fixing }) {
+  // Bleed/PDF-X-1a are never actually actionable -- export always handles
+  // them regardless of what's true right now -- so they get their own
+  // quiet, non-alarming confirmation instead of living in the same yellow
+  // "warning" bucket as a real unresolved issue.
+  if (EXPORT_HANDLED_IDS.has(c.id)) {
+    return (
+      <div className="border border-sky-900 bg-sky-950/20 p-3" data-testid={`compliance-${c.id}`}>
+        <div className="font-display font-bold text-sm tracking-tight text-white">{plainCheckLabel(c)}</div>
+        <div className="text-[11px] text-sky-300 mt-1 flex items-center gap-1.5">
+          <Check className="w-3.5 h-3.5 shrink-0" /> Handled automatically during export
+        </div>
+      </div>
+    );
+  }
+
   const fixLabel = c.status !== "pass" && c.auto_fix ? (FIX_ACTION_LABELS[c.fix_action] || "Fix available") : null;
   // Low-DPI specifically gets real fix options (a fresh camera photo, or an
   // AI enhance pass) instead of just a label -- Auto-Fix's CMYK conversion
@@ -885,6 +940,12 @@ function ComplianceCard({ c, slot, onRetake, onEnhance, enhancing, isFreeTier })
   // at a label with no action was misleading about what "auto_fix: true"
   // could actually do here.
   const isDpiIssue = c.status !== "pass" && c.fix_action === "upscale_300dpi" && slot;
+  // Every other fixable finding in a slot gets resolved by that same slot's
+  // one autofix() call (it fixes everything fixable in one pass, then
+  // rechecks) -- there's no per-finding fix endpoint, so the button here
+  // triggers the same call the section's own Auto-Fix All button does;
+  // this card just re-renders as "pass" once that response lands.
+  const canFixNow = fixLabel && !isDpiIssue && onFix && slot;
   return (
     <div className="border border-neutral-800 bg-[#0D0D0D] p-3" data-testid={`compliance-${c.id}`}>
       <div className={`px-2 py-0.5 text-[9px] font-mono-spec tracking-widest uppercase inline-flex items-center gap-1 ${statusPill(c.status)}`}>
@@ -896,6 +957,16 @@ function ComplianceCard({ c, slot, onRetake, onEnhance, enhancing, isFreeTier })
         <div className="text-[10px] text-[#D4AF37] mt-1.5 flex items-center gap-1">
           <Wand2 className="w-3 h-3 shrink-0" /> {fixLabel}
         </div>
+      )}
+      {canFixNow && (
+        <button
+          onClick={() => onFix(slot)}
+          disabled={fixing}
+          className="w-full mt-2 px-2 py-1.5 bg-[#D4AF37] hover:bg-[#c4a02f] text-black text-[9px] font-mono-spec tracking-widest uppercase btn-industrial flex items-center justify-center gap-1.5 disabled:opacity-40"
+          data-testid={`fix-now-${c.id}`}
+        >
+          {fixing ? "Fixing…" : fixButtonLabel(c)}
+        </button>
       )}
       {isDpiIssue && (
         <div className="mt-2 space-y-1.5">

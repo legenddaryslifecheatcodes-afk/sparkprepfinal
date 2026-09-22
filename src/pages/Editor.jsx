@@ -1027,23 +1027,57 @@ function FinalReviewResult({ review, onRecheck, checking, onExport, exporting, i
     yellow: "Exportable, but review the warnings first.",
     green: "All clear — ready to export.",
   }[review.status];
+
+  // The stoplight verdict alone was leaving the user stuck with no idea what
+  // was actually wrong or what to do about it -- the real explanation (title,
+  // message, whether SparkPrep can auto-fix it) was already in review.sections
+  // the whole time, just never rendered. Surface every non-passing check, and
+  // be explicit when a check has no auto-fix (e.g. "your book is too thin for
+  // spine text") so the user isn't stuck rescanning something that requires
+  // editing the file itself before it can ever pass.
+  const problemChecks = Object.entries(review.sections || {}).flatMap(([sectionName, s]) =>
+    (s.compliance || [])
+      .filter((c) => c.status !== "pass")
+      .map((c) => ({ ...c, sectionName }))
+  );
+  const multiSection = Object.keys(review.sections || {}).length > 1;
+
   return (
-    <div className="border border-neutral-800 bg-[#0D0D0D] p-4 flex items-center gap-4" data-testid="final-review-result">
-      <StopLight status={review.status} />
-      <div className="flex-1 min-w-0">
-        <div className="font-display font-black text-base text-white">{copy}</div>
-        <div className="text-[11px] text-neutral-400 mt-0.5">{review.message}</div>
-        <div className="flex items-center gap-2 mt-3">
-          <button onClick={onRecheck} disabled={checking} className={rescanBtnClass(checking, review.status !== "green")} data-testid="recheck-final">
-            {checking ? "Rescanning…" : (review.status !== "green" ? "▸ Rescan" : "Rescan")}
-          </button>
-          {review.status !== "red" && (
-            <button onClick={onExport} disabled={exporting} className="px-4 py-1.5 btn-gold text-[9px] font-mono-spec tracking-widest uppercase btn-industrial disabled:opacity-40 flex items-center gap-1.5" data-testid="export-from-final-review">
-              <Download className="w-3 h-3" /> {exporting ? "Exporting…" : isFreeTier ? "Export — Upgrade Required" : "Export Now"}
+    <div className="border border-neutral-800 bg-[#0D0D0D] p-4" data-testid="final-review-result">
+      <div className="flex items-center gap-4">
+        <StopLight status={review.status} />
+        <div className="flex-1 min-w-0">
+          <div className="font-display font-black text-base text-white">{copy}</div>
+          <div className="text-[11px] text-neutral-400 mt-0.5">{review.message}</div>
+          <div className="flex items-center gap-2 mt-3">
+            <button onClick={onRecheck} disabled={checking} className={rescanBtnClass(checking, review.status !== "green")} data-testid="recheck-final">
+              {checking ? "Rescanning…" : (review.status !== "green" ? "▸ Rescan" : "Rescan")}
             </button>
-          )}
+            {review.status !== "red" && (
+              <button onClick={onExport} disabled={exporting} className="px-4 py-1.5 btn-gold text-[9px] font-mono-spec tracking-widest uppercase btn-industrial disabled:opacity-40 flex items-center gap-1.5" data-testid="export-from-final-review">
+                <Download className="w-3 h-3" /> {exporting ? "Exporting…" : isFreeTier ? "Export — Upgrade Required" : "Export Now"}
+              </button>
+            )}
+          </div>
         </div>
       </div>
+      {problemChecks.length > 0 && (
+        <div className="mt-3 pt-3 border-t border-neutral-800 space-y-2" data-testid="final-review-problems">
+          {problemChecks.map((c, i) => (
+            <div key={i}>
+              {multiSection && (
+                <div className="text-[9px] text-neutral-600 font-mono-spec tracking-widest uppercase mb-1">{c.sectionName}</div>
+              )}
+              <ComplianceCard c={c} slot={null} onRetake={() => {}} onEnhance={() => {}} enhancing={false} isFreeTier={isFreeTier} />
+              {!c.auto_fix && (
+                <div className="text-[10px] text-neutral-500 mt-1 pl-1">
+                  This one isn't something Auto-Fix can safely do on its own — it needs a change in your original design file, then a re-upload. Rescanning won't clear it by itself.
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

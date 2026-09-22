@@ -25,6 +25,8 @@ const FRIENDLY = {
   cover_safety_margin: "Text too close to the edge",
   interior_safety_margin: "Text outside the safe margin",
   interior_page_size_mismatch: "Wrong page size",
+  cover_spine_text_forbidden: "Spine text not allowed at this page count",
+  cover_spine_text_margin: "Spine text too close to the fold",
 };
 const friendly = (i) => FRIENDLY[i.id] || i.label;
 

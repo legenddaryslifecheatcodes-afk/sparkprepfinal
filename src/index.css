@@ -234,3 +234,14 @@ input[type=range].spark-range::-moz-range-thumb {
   border-radius: 999px;
   border: 2px solid #fff;
 }
+
+/* A rescan/recheck button that still needs attention pulses gold instead of sitting still --
+   see Editor.jsx's rescanBtnClass. */
+@keyframes sp-rescan-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.55); }
+  50% { box-shadow: 0 0 0 6px rgba(212, 175, 55, 0); }
+}
+.sp-rescan-pulse { animation: sp-rescan-pulse 1.6s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .sp-rescan-pulse { animation: none; }
+}

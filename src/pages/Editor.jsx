@@ -17,6 +17,7 @@ import IsbnBarcodePanel from "@/components/IsbnBarcodePanel";
 import AdvancedInteriorCheckCard from "@/components/AdvancedInteriorCheckCard";
 import CoverTemplateDialog from "@/components/CoverTemplateDialog";
 import AICoverDialog from "@/components/AICoverDialog";
+import RepairBay from "@/components/RepairBay";
 import { Logo } from "@/components/Logo";
 import {
   Upload, Download, Wand2, ArrowLeft, Eye, EyeOff, Check, AlertTriangle, XCircle,
@@ -37,6 +38,17 @@ const COVER_SLOTS = [
   { key: "spine", label: "Spine", desc: "Spine strip artwork", icon: Ruler },
   { key: "back_cover", label: "Back Cover", desc: "Blurb + barcode area", icon: FileStack },
 ];
+
+// A rescan/recheck button that still needs attention gets the loud gold treatment (same visual
+// language as the Repair Bay's pulsing "press Enter" prompt) instead of blending into a quiet gray
+// ghost button -- "there is something to push" has to be obvious at a glance, not something you
+// have to already know to look for.
+const rescanBtnClass = (busy, needsAttention) =>
+  `px-3 py-1.5 text-[9px] font-mono-spec tracking-widest uppercase btn-industrial disabled:opacity-40 ${
+    needsAttention && !busy
+      ? "btn-gold sp-rescan-pulse font-bold"
+      : "border border-neutral-700 text-neutral-300 hover:border-white"
+  }`;
 
 const statusIcon = (s) => s === "pass" ? <Check className="w-3.5 h-3.5" /> : s === "warning" ? <AlertTriangle className="w-3.5 h-3.5" /> : <XCircle className="w-3.5 h-3.5" />;
 const statusPill = (s) => s === "pass" ? "pill-pass" : s === "warning" ? "pill-warn" : "pill-fail";
@@ -112,6 +124,8 @@ export default function Editor() {
   const [finalReview, setFinalReview] = useState(null);
   const [coverFixResult, setCoverFixResult] = useState(null);
   const [interiorFixResult, setInteriorFixResult] = useState(null);
+  // Live Auto-Fix screen (the four-agent verified pipeline); see components/RepairBay.jsx
+  const [bay, setBay] = useState(null);
 
   const load = useCallback(async () => {
     try {
@@ -250,7 +264,37 @@ export default function Editor() {
   // immediately re-checks the result (the backend does this in the same
   // call) so the UI can show a definite pass/fail/warning verdict and what
   // to do next -- not just a toast that disappears.
-  const runAutofix = async (slot, setBusy, setResult) => {
+  const runAutofix = (slot, setBusy, setResult) => {
+    setBusy(true);
+    setResult(null);
+    setBay({ slot, setBusy, setResult });
+  };
+
+  // Same project/verdict update the classic Auto-Fix does, fed by the Repair Bay's
+  // events instead of one blocking call (stage = "result" after the repair is
+  // verified, "confirm" after the customer's Enter-to-rescan).
+  const applyBayResult = (b) => (data) => {
+    setProject((p) => {
+      if (b.slot) {
+        return { ...p, slots: { ...(p.slots || {}), [b.slot]: { ...data.file_metadata, compliance: data.compliance } } };
+      }
+      return { ...p, file_metadata: data.file_metadata, compliance: data.compliance };
+    });
+    const summary = summarizeCompliance(data.compliance);
+    const gsFailed = data.ghostscript_fix && !data.ghostscript_fix.succeeded;
+    b.setResult({ ...summary, gsFailed, gsReason: data.ghostscript_fix?.reason });
+  };
+
+  const closeBay = (retry) => {
+    const b = bay;
+    setBay(null);
+    if (!b) return;
+    b.setBusy(false);
+    if (retry) setTimeout(() => runAutofix(b.slot, b.setBusy, b.setResult), 60);
+  };
+
+  // Classic one-shot Auto-Fix: used only if the server doesn't have the verified pipeline yet.
+  const runAutofixLegacy = async (slot, setBusy, setResult) => {
     setBusy(true);
     setResult(null);
     try {
@@ -714,8 +758,8 @@ export default function Editor() {
                   <div className="flex items-center justify-between flex-wrap gap-2 mb-2">
                     <span className="font-mono-spec text-[10px] tracking-widest uppercase text-[#D4AF37]">{needsInterior ? "Cover Check Results" : "Check Results"}</span>
                     {hasAnyUpload && (
-                      <button onClick={autofix} disabled={fixing} className="px-2.5 py-1 border border-neutral-700 text-neutral-300 hover:border-white text-[9px] font-mono-spec tracking-widest uppercase btn-industrial disabled:opacity-40" data-testid="rescan-cover">
-                        {fixing ? "Checking…" : "Recheck"}
+                      <button onClick={autofix} disabled={fixing} className={rescanBtnClass(fixing, coverSummary.verdict !== "pass")} data-testid="rescan-cover">
+                        {fixing ? "Checking…" : (coverSummary.verdict !== "pass" ? "▸ Recheck Cover" : "Recheck")}
                       </button>
                     )}
                   </div>
@@ -745,8 +789,8 @@ export default function Editor() {
                       <span className="font-mono-spec text-[8px] tracking-widest uppercase text-neutral-500 border border-neutral-700 px-1.5 py-0.5">Free · Page 1 only</span>
                     </div>
                     {hasInteriorUpload && (
-                      <button onClick={autofixInterior} disabled={interiorFixing} className="px-2.5 py-1 border border-neutral-700 text-neutral-300 hover:border-white text-[9px] font-mono-spec tracking-widest uppercase btn-industrial disabled:opacity-40" data-testid="rescan-interior">
-                        {interiorFixing ? "Checking…" : "Recheck"}
+                      <button onClick={autofixInterior} disabled={interiorFixing} className={rescanBtnClass(interiorFixing, interiorSummary.verdict !== "pass")} data-testid="rescan-interior">
+                        {interiorFixing ? "Checking…" : (interiorSummary.verdict !== "pass" ? "▸ Recheck Interior" : "Recheck")}
                       </button>
                     )}
                   </div>
@@ -872,6 +916,16 @@ export default function Editor() {
         <ManuscriptComposerDialog open={composerOpen} onOpenChange={setComposerOpen} defaultProject={project} />
         <CoverTemplateDialog open={coverTemplateOpen} onOpenChange={setCoverTemplateOpen} projectId={id} onApplied={applySlotResult} />
         <AICoverDialog open={aiCoverOpen} onOpenChange={setAiCoverOpen} projectId={id} onGenerated={applySlotResult} />
+        {bay && (
+          <RepairBay
+            projectId={id}
+            slot={bay.slot}
+            fileLabel={bay.slot === "interior" ? "interior" : "cover"}
+            onResult={applyBayResult(bay)}
+            onClose={closeBay}
+            onLegacyFallback={() => { const b = bay; setBay(null); runAutofixLegacy(b.slot, b.setBusy, b.setResult); }}
+          />
+        )}
       </div>
     </TooltipProvider>
   );
@@ -980,8 +1034,8 @@ function FinalReviewResult({ review, onRecheck, checking, onExport, exporting, i
         <div className="font-display font-black text-base text-white">{copy}</div>
         <div className="text-[11px] text-neutral-400 mt-0.5">{review.message}</div>
         <div className="flex items-center gap-2 mt-3">
-          <button onClick={onRecheck} disabled={checking} className="px-3 py-1.5 border border-neutral-700 text-neutral-300 hover:border-white text-[9px] font-mono-spec tracking-widest uppercase btn-industrial disabled:opacity-40" data-testid="recheck-final">
-            {checking ? "Rescanning…" : "Rescan"}
+          <button onClick={onRecheck} disabled={checking} className={rescanBtnClass(checking, review.status !== "green")} data-testid="recheck-final">
+            {checking ? "Rescanning…" : (review.status !== "green" ? "▸ Rescan" : "Rescan")}
           </button>
           {review.status !== "red" && (
             <button onClick={onExport} disabled={exporting} className="px-4 py-1.5 btn-gold text-[9px] font-mono-spec tracking-widest uppercase btn-industrial disabled:opacity-40 flex items-center gap-1.5" data-testid="export-from-final-review">

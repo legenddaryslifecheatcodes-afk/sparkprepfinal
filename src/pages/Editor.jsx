@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo, useCallback } from "react";
+import { useEffect, useState, useMemo, useCallback, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { api, fmtErr, API_URL } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
@@ -18,6 +18,8 @@ import AdvancedInteriorCheckCard from "@/components/AdvancedInteriorCheckCard";
 import CoverTemplateDialog from "@/components/CoverTemplateDialog";
 import AICoverDialog from "@/components/AICoverDialog";
 import RepairBay from "@/components/RepairBay";
+import BookPassBar from "@/components/BookPassBar";
+import { usePricing, isBookModel } from "@/lib/pricing";
 import { Logo } from "@/components/Logo";
 import {
   Upload, Download, Wand2, ArrowLeft, Eye, EyeOff, Check, AlertTriangle, XCircle,
@@ -126,6 +128,11 @@ export default function Editor() {
   const [interiorFixResult, setInteriorFixResult] = useState(null);
   // Live Auto-Fix screen (the four-agent verified pipeline); see components/RepairBay.jsx
   const [bay, setBay] = useState(null);
+  const pricing = usePricing();
+  const bookModel = isBookModel(pricing);
+  const [bookNudge, setBookNudge] = useState(0);
+  const [bookStartedAt, setBookStartedAt] = useState(0);
+  const bookBarRef = useRef(null);
 
   const load = useCallback(async () => {
     try {
@@ -337,7 +344,15 @@ export default function Editor() {
       const token = localStorage.getItem("sp_token");
       window.open(`${API_URL}${data.download_url.replace("/api", "")}${token ? `?token=${token}` : ""}`, "_blank");
     } catch (e) {
-      const msg = fmtErr(e.response?.data?.detail);
+      const detail = e.response?.data?.detail;
+      const msg = fmtErr(detail);
+      if (e.response?.status === 402 && detail?.code === "book_required") {
+        // Book model: show the Start/Get-a-book bar instead of bouncing to pricing.
+        toast.error(msg);
+        setBookNudge((n) => n + 1);
+        bookBarRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+        return;
+      }
       const isBookLimit = msg?.includes("export limit for this book");
       if (e.response?.status === 402 && !isBookLimit) { toast.error(msg + " — Redirecting to pricing"); setTimeout(() => nav("/pricing"), 1500); }
       else toast.error(msg);
@@ -469,7 +484,7 @@ export default function Editor() {
             </div>
             <div className="flex items-center gap-2">
               {isCover && (
-                <InfoTip text={isFreeTier ? "AI Blurb Writer requires the Author plan or higher." : "Generate 3 AI back-cover blurb variations with Claude Sonnet."}>
+                <InfoTip text={isFreeTier ? (bookModel ? "AI Blurb Writer is included with a book." : "AI Blurb Writer requires the Author plan or higher.") : "Generate 3 AI back-cover blurb variations with Claude Sonnet."}>
                   <button onClick={() => isFreeTier ? nav("/pricing") : setBlurbOpen(true)} className="px-3 py-2 border border-neutral-700 text-neutral-300 font-mono-spec text-[10px] tracking-widest uppercase hover:border-white hover:text-white flex items-center gap-1.5 btn-industrial" data-testid="blurb-btn">
                     <Sparkles className="w-3.5 h-3.5" /> AI Blurb{isFreeTier && " 🔒"}
                   </button>
@@ -483,7 +498,7 @@ export default function Editor() {
                 </InfoTip>
               )}
               {isCover && (
-                <InfoTip text={isFreeTier ? "AI Cover Generation requires the Author plan or higher." : "Generate cover art from a text description (Google Imagen)."}>
+                <InfoTip text={isFreeTier ? (bookModel ? "AI Cover Generation is included with a book." : "AI Cover Generation requires the Author plan or higher.") : "Generate cover art from a text description (Google Imagen)."}>
                   <button onClick={() => isFreeTier ? nav("/pricing") : setAiCoverOpen(true)} className="px-3 py-2 border border-neutral-700 text-neutral-300 font-mono-spec text-[10px] tracking-widest uppercase hover:border-white hover:text-white flex items-center gap-1.5 btn-industrial" data-testid="ai-cover-btn">
                     <ImageIcon className="w-3.5 h-3.5" /> AI Cover{isFreeTier && " 🔒"}
                   </button>
@@ -494,6 +509,9 @@ export default function Editor() {
         </div>
 
         <div className="max-w-[1600px] mx-auto px-6 py-6">
+          <div className="mb-4 empty:hidden" ref={bookBarRef}>
+            <BookPassBar projectId={id} bookRequiredAt={bookNudge} onStarted={() => setBookStartedAt(Date.now())} />
+          </div>
           {/* THREE-COLUMN WORKSPACE: Job Setup · Live Layout · 3D Proof */}
           <div className={`grid gap-4 ${isCover ? "lg:grid-cols-[340px_1fr_380px]" : "lg:grid-cols-[340px_1fr]"}`}>
 
@@ -707,13 +725,15 @@ export default function Editor() {
                   {exporting
                     ? "Exporting…"
                     : isFreeTier
-                    ? "Export — Upgrade Required"
+                    ? (bookModel ? "Export — Get A Book" : "Export — Upgrade Required")
                     : (!coverClear || !interiorClear)
                     ? "Fix Errors to Export"
                     : "Export Print-Ready File"}
                 </button>
                 <div className="font-mono-spec text-[9px] tracking-widest uppercase text-neutral-600 text-center pt-1" data-testid="book-export-counter">
-                  {Math.max(0, 5 - (project.exports_used || 0))} of 5 exports remaining for this book
+                  {bookModel
+                    ? `Unlimited exports while your book is active${pricing?.book ? ` (${pricing.book.window_days} days)` : ""}`
+                    : `${Math.max(0, 5 - (project.exports_used || 0))} of 5 exports remaining for this book`}
                 </div>
               </div>
             </div>
@@ -796,7 +816,7 @@ export default function Editor() {
                   </div>
                   <p className="text-xs text-neutral-500 mb-2">
                     This checks page 1 of your file for free. To scan every page (up to 300), run the{" "}
-                    <span className="text-neutral-300">Advanced Interior Check</span> near the bottom of this page — price depends on your plan.
+                    <span className="text-neutral-300">Advanced Interior Check</span> near the bottom of this page — {bookModel ? "included with your book." : "price depends on your plan."}
                   </p>
                   {!hasInteriorUpload && <p className="text-xs text-neutral-500">Upload your book above to see the results here.</p>}
                   {hasInteriorUpload && interiorCompliance.length > 0 && <ScanStatusBanner result={interiorFixResult} summary={interiorSummary} sectionLabel="Interior" nextHint="you're ready to run the Final Review" />}
@@ -838,6 +858,7 @@ export default function Editor() {
                     onExport={isFreeTier ? () => nav("/pricing") : exportPdf}
                     exporting={exporting}
                     isFreeTier={isFreeTier}
+                    lockedExportLabel={bookModel ? "Export — Get A Book" : "Export — Upgrade Required"}
                   />
                 )}
               </div>
@@ -907,7 +928,7 @@ export default function Editor() {
 
           {(project.project_type === "interior" || project.project_type === "combined") && (
             <div className="mt-4">
-              <AdvancedInteriorCheckCard project={project} user={user} projectId={id} />
+              <AdvancedInteriorCheckCard project={project} user={user} projectId={id} onProjectChange={load} refreshKey={bookStartedAt} />
             </div>
           )}
         </div>
@@ -962,7 +983,7 @@ function ComplianceCard({ c, slot, onRetake, onEnhance, enhancing, isFreeTier })
             className="w-full px-2 py-1.5 border border-neutral-700 hover:border-[#D4AF37] text-neutral-200 text-[9px] font-mono-spec tracking-widest uppercase btn-industrial flex items-center justify-center gap-1.5 disabled:opacity-40"
             data-testid="fix-dpi-ai-upscale"
           >
-            ✨ {enhancing ? "Enhancing…" : `AI Upscale${isFreeTier ? " (Author plan+)" : ""}`}
+            ✨ {enhancing ? "Enhancing…" : `AI Upscale${isFreeTier ? " 🔒" : ""}`}
           </button>
           <p className="text-[9px] text-neutral-600 leading-relaxed">Have the physical original? Retake beats AI upscale — a fresh photo is real resolution, not a reconstruction.</p>
         </div>
@@ -1021,7 +1042,7 @@ function StopLight({ status }) {
   );
 }
 
-function FinalReviewResult({ review, onRecheck, checking, onExport, exporting, isFreeTier }) {
+function FinalReviewResult({ review, onRecheck, checking, onExport, exporting, isFreeTier, lockedExportLabel }) {
   const copy = {
     red: "Not ready to export yet.",
     yellow: "Exportable, but review the warnings first.",
@@ -1055,7 +1076,7 @@ function FinalReviewResult({ review, onRecheck, checking, onExport, exporting, i
             </button>
             {review.status !== "red" && (
               <button onClick={onExport} disabled={exporting} className="px-4 py-1.5 btn-gold text-[9px] font-mono-spec tracking-widest uppercase btn-industrial disabled:opacity-40 flex items-center gap-1.5" data-testid="export-from-final-review">
-                <Download className="w-3 h-3" /> {exporting ? "Exporting…" : isFreeTier ? "Export — Upgrade Required" : "Export Now"}
+                <Download className="w-3 h-3" /> {exporting ? "Exporting…" : isFreeTier ? lockedExportLabel : "Export Now"}
               </button>
             )}
           </div>

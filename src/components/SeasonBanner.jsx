@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { api } from "@/lib/api";
+import { usePricing, money } from "@/lib/pricing";
 import { Flame, Timer } from "lucide-react";
 
 /**
@@ -11,6 +12,8 @@ import { Flame, Timer } from "lucide-react";
  */
 export default function SeasonBanner({ variant = "bar" }) {
   const [season, setSeason] = useState(null);
+  const pricing = usePricing();
+  const auditPrice = pricing ? ` for ${money(pricing.audit.price_cents)}` : "";
   useEffect(() => {
     api.get("/season").then(({ data }) => setSeason(data)).catch(() => {});
   }, []);
@@ -39,12 +42,12 @@ export default function SeasonBanner({ variant = "bar" }) {
             {isActive ? (
               <>
                 <span className="font-bold">99-Day Audit Season is live</span>
-                <span className="opacity-80"> · The final {season.days_remaining} days of the year — audit any book for 99¢</span>
+                <span className="opacity-80"> · The final {season.days_remaining} days of the year — audit any book{auditPrice}</span>
               </>
             ) : (
               <>
                 <span className="font-bold">99-Day Audit Season launches Sept 23</span>
-                <span className="opacity-80"> · In {season.days_until} days · The last 99 days of 2026 for 99¢ audits</span>
+                <span className="opacity-80"> · In {season.days_until} days · The last 99 days of 2026{auditPrice ? ` —${auditPrice} audits` : ""}</span>
               </>
             )}
           </div>

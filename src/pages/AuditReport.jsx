@@ -3,6 +3,7 @@ import { useParams, useSearchParams, Link } from "react-router-dom";
 import { api, fmtErr } from "@/lib/api";
 import Nav from "@/components/Nav";
 import { Check, AlertTriangle, XCircle, MapPin, BookOpen, Wrench, Timer, CheckCircle2 } from "lucide-react";
+import { usePricing, money, isBookModel } from "@/lib/pricing";
 
 const sevIcon = (s) => s === "pass" ? <Check className="w-4 h-4" /> : s === "warning" ? <AlertTriangle className="w-4 h-4" /> : <XCircle className="w-4 h-4" />;
 const sevClass = (s) => s === "pass" ? "text-emerald-400 border-emerald-400/30 bg-emerald-500/10" : s === "warning" ? "text-amber-400 border-amber-400/30 bg-amber-500/10" : "text-red-400 border-red-400/30 bg-red-500/10";
@@ -13,6 +14,7 @@ export default function AuditReport() {
   const sessionId = params.get("session_id");
   const [status, setStatus] = useState(sessionId ? "verifying" : "loading");
   const [audit, setAudit] = useState(null);
+  const pricing = usePricing();
 
   useEffect(() => {
     (async () => {
@@ -61,6 +63,7 @@ export default function AuditReport() {
 
   const findings = audit?.full_report || [];
   const s = audit?.summary || {};
+  const creditCta = isBookModel(pricing) && audit?.paid;
 
   return (
     <div className="marketing min-h-screen noise-overlay">
@@ -91,6 +94,20 @@ export default function AuditReport() {
             </div>
           </div>
         </div>
+
+        {creditCta && (
+          <div className="mt-4 border border-emerald-700/60 bg-emerald-950/30 p-5 flex items-center justify-between gap-4 flex-wrap" data-testid="audit-credit-cta">
+            <div>
+              <div className="font-display font-black text-xl text-white">Let SparkPrep fix it for you.</div>
+              <p className="text-sm text-emerald-200 mt-1">
+                Your {money(pricing.audit.credit_cents)} audit is credited in full toward your book — {money(pricing.book.price_cents - pricing.audit.credit_cents)} for one book, cover, interior, or both.
+              </p>
+            </div>
+            <Link to={`/pricing?audit=${id}`} className="bg-white text-black px-5 py-3 font-mono-spec text-xs tracking-widest uppercase hover:bg-neutral-200 btn-industrial" data-testid="audit-credit-btn">
+              Use My Credit
+            </Link>
+          </div>
+        )}
 
         {/* Detailed findings */}
         <div className="mt-8 space-y-3" data-testid="findings-list">

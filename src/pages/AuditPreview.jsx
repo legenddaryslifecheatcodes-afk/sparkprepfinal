@@ -4,6 +4,7 @@ import { api, fmtErr } from "@/lib/api";
 import { toast } from "sonner";
 import Nav from "@/components/Nav";
 import { Check, AlertTriangle, XCircle, Lock, Sparkles } from "lucide-react";
+import { usePricing, money, isBookModel } from "@/lib/pricing";
 
 const sevIcon = (s) => s === "pass" ? <Check className="w-4 h-4" /> : s === "warning" ? <AlertTriangle className="w-4 h-4" /> : <XCircle className="w-4 h-4" />;
 const sevClass = (s) => s === "pass" ? "text-emerald-400 border-emerald-400/30 bg-emerald-500/10" : s === "warning" ? "text-amber-400 border-amber-400/30 bg-amber-500/10" : "text-red-400 border-red-400/30 bg-red-500/10";
@@ -13,6 +14,7 @@ export default function AuditPreview() {
   const [audit, setAudit] = useState(null);
   const [checkingOut, setCheckingOut] = useState(false);
   const nav = useNavigate();
+  const pricing = usePricing();
 
   useEffect(() => {
     api.get(`/audit/${id}`).then(({ data }) => setAudit(data)).catch(() => nav("/audit"));
@@ -109,7 +111,10 @@ export default function AuditPreview() {
             </div>
             <div className="text-right">
               <div className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">One-time</div>
-              <div className="font-display font-black text-6xl tracking-tighter mt-1">$0<span className="text-neutral-500">.99</span></div>
+              <div className="font-display font-black text-6xl tracking-tighter mt-1">{pricing ? money(pricing.audit.price_cents) : "…"}</div>
+              {isBookModel(pricing) && (
+                <div className="mt-1 text-xs text-emerald-300">Credited in full toward your book</div>
+              )}
               <button
                 onClick={unlock}
                 disabled={checkingOut}

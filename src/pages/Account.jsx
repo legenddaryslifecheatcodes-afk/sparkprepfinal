@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import Nav from "@/components/Nav";
 import { Input } from "@/components/ui/input";
 import { Users, Copy, LogOut, Trash2 } from "lucide-react";
+import { usePricing, money, isBookModel } from "@/lib/pricing";
 
 function TeamPanel({ tier }) {
   const [status, setStatus] = useState(null);
@@ -160,12 +161,53 @@ export default function Account() {
   const used = user?.exports_this_month ?? 0;
   const limits = { free: 0, author: 15, creator_pro: 45, publisher: 100, studio: 300 };
   const limit = limits[tier] ?? 0;
+  const pricing = usePricing();
+  const bookModel = isBookModel(pricing);
+  const [books, setBooks] = useState(null);
+  useEffect(() => {
+    if (!bookModel) return;
+    api.get("/me/books").then(({ data }) => setBooks(data)).catch(() => setBooks(null));
+  }, [bookModel]);
   return (
     <div className="min-h-screen bg-[#F7F7F9]">
       <Nav dark={false} />
       <div className="max-w-3xl mx-auto px-6 py-16">
         <span className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">[ Account ]</span>
         <h1 className="font-display font-black text-5xl tracking-tighter mt-2">Billing & usage.</h1>
+        {bookModel ? (
+        <div className="grid md:grid-cols-2 gap-4 mt-10">
+          <div className="bg-white border border-neutral-200 p-6" data-testid="account-books">
+            <div className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">Your books</div>
+            <div className="font-display font-black text-3xl tracking-tight mt-2">
+              {books ? `${books.available_books} ready · ${books.active_windows.length} active` : "—"}
+            </div>
+            <div className="mt-4 font-mono-spec text-[10px] tracking-widest uppercase text-neutral-600">
+              Each book: cover, interior, or both · {pricing.book.window_days} days of unlimited exports
+            </div>
+            <Link to="/pricing" className="mt-6 inline-block border border-black px-5 py-2 font-mono-spec text-[10px] tracking-widest uppercase hover:bg-black hover:text-white transition-colors btn-industrial" data-testid="account-get-book">
+              Get A Book — {money(pricing.book.price_cents)}
+            </Link>
+          </div>
+          <div className="bg-white border border-neutral-200 p-6" data-testid="account-subscription">
+            <div className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">Subscription</div>
+            <div className="font-display font-black text-3xl tracking-tight mt-2">
+              {books?.subscription ? books.subscription.plan_name : "None"}
+            </div>
+            <div className="mt-4 font-mono-spec text-[10px] tracking-widest uppercase text-neutral-600">
+              {books?.subscription
+                ? `Status: ${books.subscription.status || "active"} · new book each month`
+                : `${money(pricing.plans.find((p) => p.id === "book_1")?.price_cents)}/month for 1 book every month`}
+            </div>
+          </div>
+          <div className="bg-white border border-neutral-200 p-6 md:col-span-2">
+            <div className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">Profile</div>
+            <div className="grid grid-cols-2 mt-4 gap-4 text-sm">
+              <div><div className="text-neutral-500 text-xs">Name</div><div className="font-mono-spec">{user?.name}</div></div>
+              <div><div className="text-neutral-500 text-xs">Email</div><div className="font-mono-spec">{user?.email}</div></div>
+            </div>
+          </div>
+        </div>
+        ) : (
         <div className="grid md:grid-cols-2 gap-4 mt-10">
           <div className="bg-white border border-neutral-200 p-6" data-testid="account-plan">
             <div className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">Current Plan</div>
@@ -194,6 +236,7 @@ export default function Account() {
           </div>
           <TeamPanel tier={tier} />
         </div>
+        )}
       </div>
     </div>
   );

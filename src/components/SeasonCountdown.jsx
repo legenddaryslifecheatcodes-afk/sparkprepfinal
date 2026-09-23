@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { api } from "@/lib/api";
+import { usePricing, money } from "@/lib/pricing";
 import { Flame } from "lucide-react";
 
 /**
@@ -9,6 +10,7 @@ import { Flame } from "lucide-react";
 export default function SeasonCountdown() {
   const [season, setSeason] = useState(null);
   const [now, setNow] = useState(new Date());
+  const pricing = usePricing();
 
   useEffect(() => {
     api.get("/season").then(({ data }) => setSeason(data)).catch(() => {});
@@ -39,7 +41,7 @@ export default function SeasonCountdown() {
         <span className="font-mono-spec text-[10px] tracking-widest uppercase text-[#FF6A00]">99-Day Audit Season · Pre-Launch</span>
       </div>
       <h3 className="font-display font-black text-2xl md:text-3xl tracking-tighter mt-3 text-white">
-        Launches Sept 23. The last 99 days of 2026 for 99¢ audits.
+        Launches Sept 23. The last 99 days of 2026{pricing ? ` for ${money(pricing.audit.price_cents)} audits` : ""}.
       </h3>
       <div className="mt-6 grid grid-cols-4 gap-2 md:gap-3" data-testid="countdown-cells">
         {cells.map((c, i) => (

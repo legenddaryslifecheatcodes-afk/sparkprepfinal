@@ -1,16 +1,17 @@
 import { Link } from "react-router-dom";
 import Nav from "@/components/Nav";
 import SeasonBanner from "@/components/SeasonBanner";
-import FoundersLaunchBanner from "@/components/FoundersLaunchBanner";
 import { LogoMark, SparkPrepLogo } from "@/components/Logo";
 import BrandWatermark from "@/components/BrandWatermark";
 import GuaranteeSeal from "@/components/GuaranteeSeal";
 import { CheckCircle2, Zap, FileCheck2, Palette, Ruler, Layers, Flame, ArrowRight } from "lucide-react";
+import { usePricing, money, isBookModel } from "@/lib/pricing";
 
 export default function Landing() {
+  const pricing = usePricing();
+  const auditPrice = pricing ? `${money(pricing.audit.price_cents)} ` : "";
   return (
     <div className="marketing min-h-screen noise-overlay">
-      <FoundersLaunchBanner />
       <SeasonBanner />
       <Nav dark />
 
@@ -47,7 +48,7 @@ export default function Landing() {
                 Prep My First Book <ArrowRight className="w-4 h-4" />
               </Link>
               <Link to="/audit" className="btn-spark px-7 py-4 font-mono-spec text-xs tracking-widest uppercase text-white flex items-center gap-2 btn-industrial" data-testid="hero-cta-audit">
-                <Flame className="w-3.5 h-3.5" /> Try the 99¢ Audit
+                <Flame className="w-3.5 h-3.5" /> Try the {auditPrice}Audit
               </Link>
               <Link to="/pricing" className="border border-neutral-700 text-white px-7 py-4 font-mono-spec text-xs tracking-widest uppercase hover:border-[#D4AF37] hover:text-[#D4AF37] btn-industrial" data-testid="hero-cta-secondary">
                 See Pricing
@@ -160,13 +161,13 @@ export default function Landing() {
             Stop guessing.<br />
             <span style={{ background: "linear-gradient(180deg, #E5C158, #D4AF37 55%, #B8933E)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Start printing.</span>
           </h2>
-          <p className="text-neutral-400 mt-6 max-w-xl mx-auto">Free tier includes unlimited previews & compliance reports — upgrade anytime to export. No credit card. Or run a 99¢ audit right now, no account required.</p>
+          <p className="text-neutral-400 mt-6 max-w-xl mx-auto">Free tier includes unlimited previews & compliance reports — {isBookModel(pricing) ? `export when you're ready for ${money(pricing.book.price_cents)} a book` : "upgrade anytime to export"}. No credit card. Or run {auditPrice ? `a ${auditPrice}` : "an "}audit right now, no account required.</p>
           <div className="mt-10 flex flex-wrap justify-center gap-3">
             <Link to="/register" className="btn-gold px-8 py-4 font-mono-spec text-xs tracking-widest uppercase btn-industrial" data-testid="footer-cta">
               Get Started — It's Free
             </Link>
             <Link to="/audit" className="btn-spark text-white px-8 py-4 font-mono-spec text-xs tracking-widest uppercase btn-industrial" data-testid="footer-audit">
-              Or Run a 99¢ Audit
+              Or Run {auditPrice ? `a ${auditPrice}` : "an "}Audit
             </Link>
           </div>
         </div>

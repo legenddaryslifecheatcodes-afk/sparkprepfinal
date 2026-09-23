@@ -4,13 +4,20 @@ import { api, fmtErr, API_URL } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import { toast } from "sonner";
 import Nav from "@/components/Nav";
-import FoundersBanner from "@/components/FoundersBanner";
 import NewProjectDialog from "@/components/NewProjectDialog";
 import BrandWatermark from "@/components/BrandWatermark";
 import { Plus, FileText, Trash2, Layers, ShieldAlert, PackageCheck, Download, ChevronDown } from "lucide-react";
+import { usePricing, money, isBookModel } from "@/lib/pricing";
 
 export default function Dashboard() {
   const { user } = useAuth();
+  const pricing = usePricing();
+  const bookModel = isBookModel(pricing);
+  const [books, setBooks] = useState(null);
+  useEffect(() => {
+    if (!bookModel) return;
+    api.get("/me/books").then(({ data }) => setBooks(data)).catch(() => setBooks(null));
+  }, [bookModel]);
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
@@ -89,7 +96,6 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-[#F7F7F9]">
       <Nav dark={false} />
-      <FoundersBanner />
       <div className="max-w-7xl mx-auto px-6 py-12">
         <div className="flex items-start justify-between flex-wrap gap-4">
           <div>
@@ -103,6 +109,9 @@ export default function Dashboard() {
         </div>
 
         {/* Usage */}
+        {bookModel ? (
+          <BookStats books={books} pricing={pricing} projectCount={projects.length} />
+        ) : (
         <div className="grid md:grid-cols-5 gap-4 mt-10">
           <div className="bg-white border border-neutral-200 p-6" data-testid="stat-tier">
             <div className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">Plan</div>
@@ -133,6 +142,7 @@ export default function Dashboard() {
             <div className="font-display font-black text-2xl mt-2 tracking-tight">{tier === "free" ? 2 : 4}</div>
           </div>
         </div>
+        )}
 
         {/* Series consistency */}
         {series.length > 0 && (
@@ -276,6 +286,50 @@ export default function Dashboard() {
         </div>
       </div>
       <NewProjectDialog open={open} onOpenChange={setOpen} onCreated={(p) => { setOpen(false); nav(`/editor/${p.id}`); }} />
+    </div>
+  );
+}
+
+function BookStats({ books, pricing, projectCount }) {
+  const available = books?.available_books ?? 0;
+  const active = books?.active_windows || [];
+  const soonest = active.length ? Math.min(...active.map((w) => w.seconds_left)) : null;
+  const sub = books?.subscription;
+  const monthly = pricing?.plans?.find((p) => p.id === "book_1");
+  const daysLeft = soonest != null ? Math.max(0, Math.ceil(soonest / 86400)) : null;
+  return (
+    <div className="grid md:grid-cols-4 gap-4 mt-10" data-testid="book-stats">
+      <div className="bg-white border border-neutral-200 p-6" data-testid="stat-books-ready">
+        <div className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">Books ready to start</div>
+        <div className="font-display font-black text-2xl mt-2 tracking-tight">{books ? available : "—"}</div>
+        <Link to="/pricing" className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500 hover:text-black mt-4 inline-block">
+          Get a book · {money(pricing?.book?.price_cents)} →
+        </Link>
+      </div>
+      <div className="bg-white border border-neutral-200 p-6" data-testid="stat-books-active">
+        <div className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">Active books</div>
+        <div className="font-display font-black text-2xl mt-2 tracking-tight">{books ? active.length : "—"}</div>
+        {daysLeft != null && (
+          <div className="mt-2 font-mono-spec text-[9px] tracking-widest uppercase text-neutral-500">
+            Next window ends in {daysLeft} day{daysLeft === 1 ? "" : "s"}
+          </div>
+        )}
+      </div>
+      <div className="bg-white border border-neutral-200 p-6" data-testid="stat-subscription">
+        <div className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">Subscription</div>
+        <div className="font-display font-black text-2xl mt-2 tracking-tight">
+          {sub ? `${sub.plan_name}${sub.status && sub.status !== "active" ? ` · ${sub.status}` : ""}` : "None"}
+        </div>
+        {!sub && monthly && (
+          <Link to="/pricing" className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500 hover:text-black mt-4 inline-block">
+            {money(monthly.price_cents)}/month →
+          </Link>
+        )}
+      </div>
+      <div className="bg-white border border-neutral-200 p-6" data-testid="stat-projects">
+        <div className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">Projects</div>
+        <div className="font-display font-black text-2xl mt-2 tracking-tight">{projectCount}</div>
+      </div>
     </div>
   );
 }

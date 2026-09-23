@@ -9,10 +9,13 @@ import BrandWatermark from "@/components/BrandWatermark";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { Upload, ShieldAlert, Zap, FileSearch, FileCheck2 } from "lucide-react";
+import { usePricing, money, isBookModel } from "@/lib/pricing";
 
 const PROVENANCE_LABEL = { extracted: "Extracted", calculated: "Calculated", geometry: "From geometry", unresolved: "Unresolved" };
 
 export default function AuditLanding() {
+  const pricing = usePricing();
+  const auditPrice = pricing ? money(pricing.audit.price_cents) : "";
   const [specs, setSpecs] = useState(null);
   const [platform, setPlatform] = useState("kdp");
   const [trim, setTrim] = useState("6x9");
@@ -81,7 +84,7 @@ export default function AuditLanding() {
         <div className="relative max-w-6xl mx-auto px-6 pt-20 pb-24 grid md:grid-cols-12 gap-8 items-start">
           <div className="md:col-span-7">
             <span className="font-mono-spec text-xs tracking-widest uppercase text-neutral-400 border border-neutral-700 px-3 py-1.5 inline-flex items-center gap-2" data-testid="audit-tag">
-              <ShieldAlert className="w-3 h-3" /> [ 99¢ Failure Audit — No Signup ]
+              <ShieldAlert className="w-3 h-3" /> [ {auditPrice ? `${auditPrice} ` : ""}Failure Audit — No Signup ]
             </span>
             <h1 className="font-display font-black text-5xl md:text-7xl tracking-tighter mt-6 leading-[0.92]" data-testid="audit-title">
               Know exactly<br />why you'll get<br /><span className="text-neutral-500">rejected.</span>
@@ -210,7 +213,8 @@ export default function AuditLanding() {
                 <div className="font-mono-spec text-[10px] tracking-widest text-neutral-500 mt-1 uppercase">PDF · JPG · PNG · TIFF · WebP (up to 50 MB)</div>
               </label>
               <p className="mt-6 font-mono-spec text-[10px] tracking-widest text-neutral-500 uppercase leading-relaxed">
-                Preview is free. Unlock the full pinpointed report for <span className="text-white">$0.99</span>. No subscription, no account.
+                Preview is free. Unlock the full pinpointed report for <span className="text-white">{auditPrice}</span>. No subscription, no account.
+                {isBookModel(pricing) && <> The full amount is credited toward your book if you fix it with SparkPrep.</>}
               </p>
             </div>
           </div>

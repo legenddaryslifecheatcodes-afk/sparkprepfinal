@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import { api } from "@/lib/api";
+import { usePricing, isBookModel } from "@/lib/pricing";
 import { useAuth } from "@/context/AuthContext";
 import Nav from "@/components/Nav";
 import { CheckCircle2 } from "lucide-react";
@@ -10,6 +11,7 @@ export default function PaymentSuccess() {
   const sessionId = params.get("session_id");
   const [status, setStatus] = useState("polling");
   const { refreshUser } = useAuth();
+  const bookModel = isBookModel(usePricing());
 
   useEffect(() => {
     if (!sessionId) { setStatus("error"); return; }
@@ -40,10 +42,16 @@ export default function PaymentSuccess() {
       <div className="max-w-lg mx-auto px-6 py-24 text-center">
         <CheckCircle2 className={`w-16 h-16 mx-auto ${status === "paid" ? "text-emerald-400" : "text-neutral-500"}`} />
         <h1 className="font-display font-black text-4xl tracking-tighter mt-6" data-testid="payment-success-title">
-          {status === "paid" ? "You're upgraded." : status === "polling" ? "Confirming payment…" : "Checking status…"}
+          {status === "paid" ? "Payment confirmed." : status === "polling" ? "Confirming payment…" : "Checking status…"}
         </h1>
         <p className="text-neutral-400 mt-4">
-          {status === "paid" ? "Head back to your dashboard and export away." : "Give us a few seconds while Stripe confirms."}
+          {status === "paid"
+            ? (bookModel
+              ? "Your book is ready. Open your project and press Start This Book — your unlimited-export window begins then."
+              : "Head back to your dashboard and export away.")
+            : status === "timeout"
+            ? "Stripe is taking longer than usual. Your payment is safe — check your dashboard in a minute, or contact support if it doesn't appear."
+            : "Give us a few seconds while Stripe confirms."}
         </p>
         {status === "paid" && (
           <Link to="/dashboard" className="mt-8 inline-block bg-white text-black px-6 py-3 font-mono-spec text-xs tracking-widest uppercase hover:bg-neutral-200 btn-industrial" data-testid="success-dashboard">

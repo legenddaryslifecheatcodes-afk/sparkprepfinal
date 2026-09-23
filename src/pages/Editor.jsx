@@ -353,6 +353,11 @@ export default function Editor() {
         bookBarRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
         return;
       }
+      if (e.response?.status === 409 && detail?.code === "different_book") {
+        // One book pass = one book. Keep the explanation (and the support email) on screen long enough to read.
+        toast.error(msg, { duration: 20000 });
+        return;
+      }
       const isBookLimit = msg?.includes("export limit for this book");
       if (e.response?.status === 402 && !isBookLimit) { toast.error(msg + " — Redirecting to pricing"); setTimeout(() => nav("/pricing"), 1500); }
       else toast.error(msg);
@@ -512,6 +517,20 @@ export default function Editor() {
           <div className="mb-4 empty:hidden" ref={bookBarRef}>
             <BookPassBar projectId={id} bookRequiredAt={bookNudge} onStarted={() => setBookStartedAt(Date.now())} />
           </div>
+          {bookModel && project.project_type !== "combined" && (
+            <div className="mb-4 flex items-center justify-between gap-3 flex-wrap border border-neutral-800 bg-[#111111] px-4 py-2.5" data-testid="add-other-half">
+              <span className="text-xs text-neutral-400">
+                Need the {project.project_type === "cover" ? "interior" : "cover"} too? It's part of this same book — no extra charge.
+              </span>
+              <button
+                onClick={() => updateSpec({ project_type: "combined" })}
+                className="px-3 py-1.5 border border-neutral-600 text-neutral-200 hover:border-white font-mono-spec text-[10px] tracking-widest uppercase btn-industrial"
+                data-testid="add-other-half-btn"
+              >
+                Add the {project.project_type === "cover" ? "interior" : "cover"}
+              </button>
+            </div>
+          )}
           {/* THREE-COLUMN WORKSPACE: Job Setup · Live Layout · 3D Proof */}
           <div className={`grid gap-4 ${isCover ? "lg:grid-cols-[340px_1fr_380px]" : "lg:grid-cols-[340px_1fr]"}`}>
 

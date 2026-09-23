@@ -238,7 +238,73 @@ export default function AdminBeta() {
             </div>
           )}
         </div>
+
+        <BookFlags />
       </div>
+    </div>
+  );
+}
+
+// Exports the same-book check blocked ("different") or let through while unsure ("unclear").
+// "Same book — allow" resets that book's fingerprint so its next export becomes the new baseline.
+function BookFlags() {
+  const [flags, setFlags] = useState(null);
+  const [busy, setBusy] = useState(null);
+
+  const load = () => api.get("/admin/book-flags").then(({ data }) => setFlags(data.flags)).catch(() => setFlags([]));
+  useEffect(() => { load(); }, []);
+
+  const allow = async (projectId) => {
+    setBusy(projectId);
+    try {
+      await api.post("/admin/book-flags/rebaseline", { project_id: projectId });
+      toast.success("Allowed — their next export becomes the new baseline.");
+      load();
+    } catch (e) { toast.error(fmtErr(e.response?.data?.detail)); }
+    finally { setBusy(null); }
+  };
+
+  const open = (flags || []).filter((f) => !f.reviewed);
+  return (
+    <div className="mt-12" data-testid="book-flags">
+      <span className="font-mono-spec text-[10px] tracking-widest uppercase text-[#D4AF37]">[ Same-book check ]</span>
+      <h2 className="font-display font-black text-2xl tracking-tight mt-1">Flagged books</h2>
+      <p className="text-sm text-neutral-400 mt-1 max-w-2xl">
+        One book pass covers one book and its revisions. <span className="text-red-300">Blocked</span> means the files looked like a
+        different book. <span className="text-amber-300">Unsure</span> means the export was allowed but couldn't be confirmed.
+        If a customer emails that it really is the same book, press "Same book — allow".
+      </p>
+      {flags === null ? (
+        <div className="mt-4 font-mono-spec text-xs text-neutral-500">Loading…</div>
+      ) : open.length === 0 ? (
+        <div className="mt-4 text-sm text-neutral-500">Nothing to review.</div>
+      ) : (
+        <div className="mt-4 space-y-2">
+          {open.map((f) => (
+            <div key={f.id} className="marketing-surface p-4 flex items-center justify-between gap-4 flex-wrap" data-testid="book-flag-row">
+              <div className="text-sm">
+                <span className={`font-mono-spec text-[10px] tracking-widest uppercase mr-2 ${f.blocked ? "text-red-400" : "text-amber-400"}`}>
+                  {f.blocked ? "Blocked" : "Unsure"}
+                </span>
+                <span className="text-white font-semibold">{f.project_name || "Untitled"}</span>
+                <span className="text-neutral-400"> · {f.user_email || f.user_id}</span>
+                <div className="font-mono-spec text-[10px] text-neutral-500 mt-1">
+                  {new Date(f.created_at).toLocaleString()}
+                  {f.details?.interior_similarity != null && ` · interior match ${Math.round(f.details.interior_similarity * 100)}%`}
+                  {f.details?.cover_similarity != null && ` · cover match ${Math.round(f.details.cover_similarity * 100)}%`}
+                </div>
+              </div>
+              <button
+                onClick={() => allow(f.project_id)}
+                disabled={busy === f.project_id}
+                className="px-3 py-1.5 border border-[#D4AF37] text-[#D4AF37] font-mono-spec text-[10px] tracking-widest uppercase hover:bg-[#D4AF37]/10 disabled:opacity-50"
+              >
+                Same book — allow
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

@@ -4,13 +4,15 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { api, fmtErr } from "@/lib/api";
+import { usePricing, isBookModel } from "@/lib/pricing";
 import { toast } from "sonner";
 
 export default function NewProjectDialog({ open, onOpenChange, onCreated }) {
   const [specs, setSpecs] = useState(null);
+  const bookModel = isBookModel(usePricing());
   const [form, setForm] = useState({
     name: "Untitled Book", platform: "kdp", trim_size: "6x9",
-    paper_type: "white_50lb", binding: "paperback", page_count: 200, project_type: "cover",
+    paper_type: "white_50lb", binding: "paperback", page_count: 200, project_type: "combined",
     series_name: "",
   });
   const [busy, setBusy] = useState(false);
@@ -91,16 +93,21 @@ export default function NewProjectDialog({ open, onOpenChange, onCreated }) {
               <Input type="number" min={24} value={form.page_count} onChange={e=>setForm({...form, page_count: parseInt(e.target.value)||0})} className="mt-1" data-testid="np-pages" />
             </div>
             <div>
-              <Label className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">Type</Label>
+              <Label className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">This book needs</Label>
               <Select value={form.project_type} onValueChange={v => setForm({...form, project_type: v})}>
                 <SelectTrigger className="mt-1" data-testid="np-type"><SelectValue /></SelectTrigger>
                 <SelectContent>
+                  <SelectItem value="combined">Cover + Interior</SelectItem>
                   <SelectItem value="cover">Cover only</SelectItem>
                   <SelectItem value="interior">Interior only</SelectItem>
-                  <SelectItem value="combined">Cover + Interior</SelectItem>
                 </SelectContent>
               </Select>
             </div>
+            {bookModel && (
+              <p className="col-span-2 text-xs text-neutral-500" data-testid="np-one-book-note">
+                Cover, interior, or both is one book at one price. Keep both parts in this one project, and add the other part later if you need to.
+              </p>
+            )}
           </div>
           <div>
             <Label className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">Series (optional)</Label>

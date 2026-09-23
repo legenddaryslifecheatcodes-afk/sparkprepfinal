@@ -284,7 +284,7 @@ function BookModel({ pricing, busy, onBuy, auditId, user, nav }) {
             <div key={p.id} className="border border-neutral-800 p-6 flex items-center justify-between gap-4 flex-wrap opacity-80" data-testid={`plan-${p.id}`}>
               <div>
                 <div className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">{p.audience}</div>
-                <div className="font-display font-black text-xl mt-1">{p.name} · {money(p.price_cents)}/mo</div>
+                <div className="font-display font-black text-xl mt-1">{p.name}</div>
               </div>
               <span className="font-mono-spec text-[10px] tracking-widest uppercase border border-neutral-700 px-2 py-1 text-neutral-400">Coming soon</span>
             </div>

@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Checkbox } from "@/components/ui/checkbox";
-import Book3DPro from "@/components/Book3DPro";
+import BookMockup from "@/components/BookMockup";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import BlurbDialog from "@/components/BlurbDialog";
 import ManuscriptComposerDialog from "@/components/ManuscriptComposerDialog";
@@ -401,7 +401,7 @@ export default function Editor() {
     return null;
   }, [project]);
 
-  // Book3DPro renders inside a WebGL texture, not an <img> tag -- fetching
+  // The book mockup draws the cover as a CSS background -- fetching
   // through the shared `api` client (real Authorization header, not a
   // query-param token) and handing it a local blob: URL sidesteps any CORS/
   // crossOrigin edge case around loading an authenticated image into WebGL,
@@ -431,7 +431,7 @@ export default function Editor() {
   // Raw back/spine/front panel geometry (in inches) for a full-wrap image,
   // from the same layout math the backend uses (accounts for hardcover
   // jacket flaps / case-laminate gutters, not just a plain trim+spine
-  // split) -- Book3DPro converts this to per-face UV crops so all three
+  // split) -- BookMockup crops each face to its own panel so all three
   // faces sample their own real art instead of the front face stretching
   // the whole flattened wrap across itself, or the spine/back faces
   // staying on the flat placeholder tint despite real art being uploaded.
@@ -891,23 +891,24 @@ export default function Editor() {
                   <p className="text-sm text-neutral-400 mt-1">Finished book mockup</p>
                 </div>
                 <div className="p-4">
-                  {hasAnyUpload ? (
-                    <div className="w-full h-[360px] bg-[#0D0D0D] rounded-sm overflow-hidden border border-neutral-800" data-testid="book-3d-wrap">
-                      <ErrorBoundary
-                        fallback={
-                          <div className="w-full h-full flex items-center justify-center text-center px-6">
-                            <p className="text-xs text-neutral-500">3D preview couldn't load this time — the rest of the editor is unaffected. Try refreshing.</p>
-                          </div>
-                        }
-                      >
-                        <Book3DPro frontImageUrl={book3dTextureUrl} coverCrop={coverCrop} trim={spine?.trim} spineWidth={spine?.spine_width || 0.5} binding={project.binding} />
-                      </ErrorBoundary>
-                    </div>
-                  ) : (
-                    <div className="w-full h-[360px] bg-[#0D0D0D] border border-neutral-800 flex items-center justify-center">
-                      <p className="text-xs text-neutral-600 text-center px-6">Upload a cover to see the 3D proof</p>
-                    </div>
-                  )}
+                  <div className="w-full h-[440px] rounded-sm overflow-hidden border border-neutral-800" data-testid="book-3d-wrap">
+                    <ErrorBoundary
+                      fallback={
+                        <div className="w-full h-full flex items-center justify-center text-center px-6 bg-[#0D0D0D]">
+                          <p className="text-xs text-neutral-500">The book preview couldn't load this time — the rest of the editor is unaffected. Try refreshing.</p>
+                        </div>
+                      }
+                    >
+                      <BookMockup
+                        imageUrl={previewSlot === "full_wrap" || previewSlot === "front_cover" ? book3dTextureUrl : null}
+                        crop={coverCrop}
+                        trim={spine?.trim || trim}
+                        spineWidth={spine?.spine_width || 0.5}
+                        hasCover={previewSlot === "full_wrap" || previewSlot === "front_cover"}
+                        spineTextAllowed={spine?.spine_text_allowed}
+                      />
+                    </ErrorBoundary>
+                  </div>
                   <p className="text-[11px] text-neutral-500 text-center mt-2">{plat.name} · {trim.label} · {specs.binding_types?.[project.binding]?.label || project.binding}</p>
                 </div>
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams, Link } from "react-router-dom";
-import { api, fmtErr } from "@/lib/api";
+import { api, fmtErr, API_URL } from "@/lib/api";
 import Nav from "@/components/Nav";
 import { Check, AlertTriangle, XCircle, MapPin, BookOpen, Wrench, Timer, CheckCircle2 } from "lucide-react";
 import { usePricing, money, isBookModel } from "@/lib/pricing";
@@ -77,6 +77,17 @@ export default function AuditReport() {
         <p className="text-neutral-400 mt-3">
           <span className="font-mono-spec text-white">{audit?.platform_name}</span> · trim <span className="font-mono-spec text-white">{audit?.trim_label}</span> · file <span className="font-mono-spec text-white">{audit?.file_metadata?.original_filename}</span>
         </p>
+        {audit?.paid && (
+          <a
+            href={`${API_URL}/audit/${id}/report`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-4 inline-block border border-white px-5 py-2.5 font-mono-spec text-xs tracking-widest uppercase hover:bg-white hover:text-black transition-colors"
+            data-testid="audit-report-pdf"
+          >
+            Download PDF Report
+          </a>
+        )}
 
         {/* Overall banner */}
         <div className="mt-8 marketing-surface p-6">

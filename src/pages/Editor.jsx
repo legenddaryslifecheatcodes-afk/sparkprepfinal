@@ -458,6 +458,15 @@ export default function Editor() {
   if (!project || !specs) return <div className="p-10 font-mono-spec text-xs text-neutral-500">Loading editor…</div>;
 
   const isCover = project.project_type !== "interior";
+  // Which cover-upload screen to show. Independent of Binding (paperback /
+  // hardcover case / hardcover jacket, its own field) -- this only decides
+  // whether the customer sees one combined-file drop zone or three separate
+  // ones, never the cover's actual shape. Falls back to whatever's already
+  // uploaded for a project created before this choice existed, so nobody's
+  // existing work suddenly looks unset.
+  const effectiveCoverMode = project.cover_upload_mode
+    || (project.slots?.full_wrap ? "full"
+        : (project.slots?.front_cover || project.slots?.spine || project.slots?.back_cover) ? "separate" : null);
   const needsInterior = project.project_type === "interior" || project.project_type === "combined";
   const trim = specs.trim_sizes[project.trim_size] || { w: 6, h: 9, label: project.trim_size };
   const plat = specs.platforms[project.platform] || {};
@@ -697,18 +706,53 @@ export default function Editor() {
                   {isCover && (
                     <>
                       <p className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500 mb-3">Upload cover files</p>
-                      <div className="grid grid-cols-2 gap-2">
-                        {COVER_SLOTS.map((s) => (
-                          <SlotDrop
-                            key={s.key}
-                            slot={s}
-                            data={project.slots?.[s.key]}
-                            uploading={uploadingSlot === s.key}
-                            onUpload={(f) => uploadToSlot(s.key, f)}
-                            onDelete={() => deleteSlot(s.key)}
-                          />
-                        ))}
-                      </div>
+                      {!effectiveCoverMode ? (
+                        <div className="grid grid-cols-2 gap-2" data-testid="cover-mode-choice">
+                          <button
+                            type="button"
+                            onClick={() => updateSpec({ cover_upload_mode: "full" })}
+                            className="border border-neutral-700 hover:border-[#D4AF37] p-4 text-left transition-colors"
+                            data-testid="cover-mode-full"
+                          >
+                            <BookOpen className="w-5 h-5 text-[#D4AF37] mb-2" />
+                            <div className="text-sm font-bold text-white">One combined file</div>
+                            <div className="text-xs text-neutral-500 mt-1">Back, spine and front already laid out together in one file.</div>
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => updateSpec({ cover_upload_mode: "separate" })}
+                            className="border border-neutral-700 hover:border-[#D4AF37] p-4 text-left transition-colors"
+                            data-testid="cover-mode-separate"
+                          >
+                            <Layers className="w-5 h-5 text-[#D4AF37] mb-2" />
+                            <div className="text-sm font-bold text-white">Front, spine &amp; back separately</div>
+                            <div className="text-xs text-neutral-500 mt-1">Upload each piece on its own — SparkPrep lines them up for you.</div>
+                          </button>
+                        </div>
+                      ) : (
+                        <>
+                          <div className={effectiveCoverMode === "full" ? "grid grid-cols-1 gap-2" : "grid grid-cols-2 gap-2"}>
+                            {COVER_SLOTS.filter((s) => effectiveCoverMode === "full" ? s.key === "full_wrap" : s.key !== "full_wrap").map((s) => (
+                              <SlotDrop
+                                key={s.key}
+                                slot={s}
+                                data={project.slots?.[s.key]}
+                                uploading={uploadingSlot === s.key}
+                                onUpload={(f) => uploadToSlot(s.key, f)}
+                                onDelete={() => deleteSlot(s.key)}
+                              />
+                            ))}
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => updateSpec({ cover_upload_mode: effectiveCoverMode === "full" ? "separate" : "full" })}
+                            className="mt-2 text-[11px] text-neutral-500 hover:text-[#D4AF37] underline underline-offset-2"
+                            data-testid="cover-mode-switch"
+                          >
+                            Switch to {effectiveCoverMode === "full" ? "front / spine / back separately" : "one combined file"}
+                          </button>
+                        </>
+                      )}
                     </>
                   )}
                 </div>

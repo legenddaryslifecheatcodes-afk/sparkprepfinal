@@ -18,6 +18,7 @@ import AdvancedInteriorCheckCard from "@/components/AdvancedInteriorCheckCard";
 import CoverTemplateDialog from "@/components/CoverTemplateDialog";
 import AICoverDialog from "@/components/AICoverDialog";
 import RepairBay from "@/components/RepairBay";
+import BookReadyCelebration from "@/components/BookReadyCelebration";
 import BookPassBar from "@/components/BookPassBar";
 import { usePricing, isBookModel } from "@/lib/pricing";
 import { Logo } from "@/components/Logo";
@@ -128,6 +129,11 @@ export default function Editor() {
   const [interiorFixResult, setInteriorFixResult] = useState(null);
   // Live Auto-Fix screen (the four-agent verified pipeline); see components/RepairBay.jsx
   const [bay, setBay] = useState(null);
+  // The one big "your whole book is print-ready" moment -- see BookReadyCelebration.jsx.
+  // celebratedRef guards the gap between computing readiness and the PATCH that records
+  // it landing, so a fast re-render can't fire this twice for the same milestone.
+  const [showCelebration, setShowCelebration] = useState(false);
+  const celebratedRef = useRef(false);
   const pricing = usePricing();
   const bookModel = isBookModel(pricing);
   const [bookNudge, setBookNudge] = useState(0);
@@ -152,6 +158,36 @@ export default function Editor() {
   }, [id, nav]);
 
   useEffect(() => { load(); }, [load]);
+
+  // ---- The one big "your whole book is print-ready" moment. Placed before the
+  // component's early "loading" return below (hooks can't follow a conditional
+  // return), so readiness is computed inline here rather than reusing the
+  // isCover/needsInterior/etc. variables declared after that guard.
+  //
+  // Deliberately a HIGHER bar than the export endpoint's own gate (which only
+  // blocks on "fail", letting a "warning" like uncorrected RGB through) --
+  // verified live that a fresh upload with zero repairs run already clears
+  // that bar (RGB is only ever a warning), which would fire this celebration
+  // before anything was actually fixed. Matches Repair Bay's own definition
+  // of "resolved" instead (agent1_triage.actionable(): anything not "pass"
+  // is real, unfinished work) -- "ready" here means nothing left to fix at
+  // all, not merely "technically exportable."
+  useEffect(() => {
+    if (!project) return;
+    const needsCoverNow = project.project_type !== "interior";
+    const needsInteriorNow = project.project_type === "interior" || project.project_type === "combined";
+    const coverUploaded = !needsCoverNow || !!(project.slots?.full_wrap?.stored_filename || project.slots?.front_cover?.stored_filename);
+    const interiorUploaded = !needsInteriorNow || !!project.slots?.interior?.stored_filename;
+    const hasUnresolvedIssue = Object.values(project.slots || {}).some((s) => (s.compliance || []).some((c) => c.status !== "pass"));
+    const ready = coverUploaded && interiorUploaded && !hasUnresolvedIssue;
+    if (ready && !project.book_ready_celebrated_at && !celebratedRef.current) {
+      celebratedRef.current = true;
+      setShowCelebration(true);
+      api.patch(`/projects/${id}`, { book_ready_celebrated_at: new Date().toISOString() })
+        .then(({ data }) => setProject(data))
+        .catch(() => { celebratedRef.current = false; });
+    }
+  }, [project, id]);
 
   // ---- Update spec fields inline (top section is editable so users can iterate)
   const updateSpec = async (patch) => {
@@ -1023,6 +1059,13 @@ export default function Editor() {
             onResult={applyBayResult(bay)}
             onClose={closeBay}
             onLegacyFallback={() => { const b = bay; setBay(null); runAutofixLegacy(b.slot, b.setBusy, b.setResult); }}
+          />
+        )}
+        {showCelebration && (
+          <BookReadyCelebration
+            title={project.name && project.name.toLowerCase() !== "untitled book" ? `"${project.name}"` : "Your book"}
+            onExport={() => { setShowCelebration(false); exportPdf(); }}
+            onClose={() => setShowCelebration(false)}
           />
         )}
       </div>

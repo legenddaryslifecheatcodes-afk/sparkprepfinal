@@ -29,10 +29,17 @@ export default function Nav({ dark = true }) {
             edge with nowhere to overflow into. Desktop only: at narrower
             widths this absolute-centered placement collides with the nav
             links (Specs/Pricing/Audit/Login), which don't collapse behind a
-            hamburger menu -- see the mobile version below instead. */}
+            hamburger menu -- see the mobile version below instead.
+            -z-10 + pointer-events-none: this used to sit ABOVE the nav
+            links (z-10), so its wide top portion visually covered and
+            intercepted clicks on "$1.99 Audit" at normal desktop widths --
+            a real click-target bug, not just a look. Sitting behind the
+            links (which stay in normal flow, so they keep their own
+            default stacking) means only the portion below the bar, where
+            nothing else is, actually reads as "breaking out." */}
         <Link
           to="/"
-          className="hidden md:block absolute left-1/2 top-2 -translate-x-1/2 z-10"
+          className="hidden md:block absolute left-1/2 top-2 -translate-x-1/2 -z-10 pointer-events-none"
           data-testid="nav-sparkprep-logo"
         >
           <SparkPrepLogo height={140} />

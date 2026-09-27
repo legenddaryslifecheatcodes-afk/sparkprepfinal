@@ -167,7 +167,10 @@ export default function Editor() {
     } catch (e) { toast.error(fmtErr(e.response?.data?.detail)); }
   };
 
-  // ---- Publisher template upload (auto-detect spec from a real distributor template file)
+  // ---- Publisher template upload. Its one job: tell us which distributor
+  // this template is for. Trim, paper, page count etc. stay manual, typed in
+  // by the customer -- this never auto-fills those, only suggests Distributor,
+  // and only when a real, verified marker was found in the file (never a guess).
   const uploadPublisherTemplate = async (file) => {
     if (!file) return;
     setUploadingTemplate(true);
@@ -183,7 +186,18 @@ export default function Editor() {
         publisher_template_metadata: data.metadata,
         detected_trim: data.detected_trim,
       }));
-      toast.success("Publisher template analyzed");
+      const detected = data.detected_spec?.publisher;
+      if (detected && detected !== "unknown" && specs.platforms?.[detected]) {
+        const name = specs.platforms[detected].name;
+        if (detected !== project.platform) {
+          await updateSpec({ platform: detected });
+          toast.success(`Detected ${name} — set as your distributor. Change it below if that's wrong.`);
+        } else {
+          toast.success(`Confirmed: this is a ${name} template.`);
+        }
+      } else {
+        toast.success("Template read — couldn't tell which distributor it's for, so Distributor is unchanged.");
+      }
     } catch (e) { toast.error(fmtErr(e.response?.data?.detail)); }
     finally { setUploadingTemplate(false); }
   };

@@ -50,10 +50,10 @@ export default function Landing() {
               <Link to="/audit" className="btn-spark px-7 py-4 font-mono-spec text-xs tracking-widest uppercase text-white flex items-center gap-2 btn-industrial" data-testid="hero-cta-audit">
                 <Flame className="w-3.5 h-3.5" /> Try the {auditPrice}Audit
               </Link>
-              <Link to="/pricing" className="border border-neutral-700 text-white px-7 py-4 font-mono-spec text-xs tracking-widest uppercase hover:border-[#D4AF37] hover:text-[#D4AF37] btn-industrial" data-testid="hero-cta-secondary">
-                See Pricing
-              </Link>
             </div>
+            {/* "See Pricing" used to sit here as a third hero button -- pricing is
+                one click away in the nav on every page, so a dedicated hero button
+                for it just competed with the two real entry points above. */}
 
             <div className="mt-10 flex flex-wrap gap-6 text-xs font-mono-spec tracking-widest text-neutral-500 uppercase">
               <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-[#D4AF37]" /> IngramSpark</span>
@@ -162,12 +162,12 @@ export default function Landing() {
             <span style={{ background: "linear-gradient(180deg, #E5C158, #D4AF37 55%, #B8933E)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Start printing.</span>
           </h2>
           <p className="text-neutral-400 mt-6 max-w-xl mx-auto">Free tier includes unlimited previews & compliance reports — {isBookModel(pricing) ? `export when you're ready for ${money(pricing.book.price_cents)} a book` : "upgrade anytime to export"}. No credit card. Or run {auditPrice ? `a ${auditPrice}` : "an "}audit right now, no account required.</p>
-          <div className="mt-10 flex flex-wrap justify-center gap-3">
+          {/* One button, not two -- the $X audit path is already offered once, in the
+              hero above. Repeating both choices again here just re-opens a decision
+              someone visiting this far down the page has usually already made. */}
+          <div className="mt-10 flex justify-center">
             <Link to="/register" className="btn-gold px-8 py-4 font-mono-spec text-xs tracking-widest uppercase btn-industrial" data-testid="footer-cta">
               Get Started — It's Free
-            </Link>
-            <Link to="/audit" className="btn-spark text-white px-8 py-4 font-mono-spec text-xs tracking-widest uppercase btn-industrial" data-testid="footer-audit">
-              Or Run {auditPrice ? `a ${auditPrice}` : "an "}Audit
             </Link>
           </div>
         </div>

@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo, useCallback, useRef } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { api, fmtErr, API_URL } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import { toast } from "sonner";
@@ -14,18 +14,19 @@ import ErrorBoundary from "@/components/ErrorBoundary";
 import BlurbDialog from "@/components/BlurbDialog";
 import ManuscriptComposerDialog from "@/components/ManuscriptComposerDialog";
 import IsbnBarcodePanel from "@/components/IsbnBarcodePanel";
-import AdvancedInteriorCheckCard from "@/components/AdvancedInteriorCheckCard";
 import CoverTemplateDialog from "@/components/CoverTemplateDialog";
 import AICoverDialog from "@/components/AICoverDialog";
 import RepairBay from "@/components/RepairBay";
 import BookReadyCelebration from "@/components/BookReadyCelebration";
+import CertifiedModal from "@/components/CertifiedModal";
+import StepGuide, { STEP_GLOW_CLASS } from "@/components/StepGuide";
 import BookPassBar from "@/components/BookPassBar";
-import { usePricing, isBookModel } from "@/lib/pricing";
+import { usePricing, isBookModel, money, specialNote } from "@/lib/pricing";
 import { Logo } from "@/components/Logo";
 import {
   Upload, Download, Wand2, ArrowLeft, Eye, EyeOff, Check, AlertTriangle, XCircle,
   Sparkles, FileStack, Palette, Ruler, Layers, Trash2, Info, ShieldCheck, ArrowRight,
-  FilePlus, BookOpen, Image as ImageIcon, Paintbrush, FileCheck2, Droplet, Crop,
+  FilePlus, BookOpen, Image as ImageIcon, Paintbrush, FileCheck2, Droplet, Crop, Package,
 } from "lucide-react";
 
 const OVERLAYS = [
@@ -42,16 +43,81 @@ const COVER_SLOTS = [
   { key: "back_cover", label: "Back Cover", desc: "Blurb + barcode area", icon: FileStack },
 ];
 
-// A rescan/recheck button that still needs attention gets the loud gold treatment (same visual
-// language as the Repair Bay's pulsing "press Enter" prompt) instead of blending into a quiet gray
-// ghost button -- "there is something to push" has to be obvious at a glance, not something you
-// have to already know to look for.
-const rescanBtnClass = (busy, needsAttention) =>
-  `px-3 py-1.5 text-[9px] font-mono-spec tracking-widest uppercase btn-industrial disabled:opacity-40 ${
-    needsAttention && !busy
-      ? "btn-gold sp-rescan-pulse font-bold"
-      : "border border-neutral-700 text-neutral-300 hover:border-white"
-  }`;
+// The owner's funnel (book model): the free scan is real, but only "found N issues" is shown.
+// The details are the $1.99 audit; fixing them is the book. A clean file is simply told so.
+function LockedResults({ summary, pricing, onUnlock, unlocking, hasInterior }) {
+  if (!summary?.scanned) return <p className="text-xs text-neutral-500">Upload a file to scan it here.</p>;
+  const auditPrice = pricing ? money(pricing.audit.price_cents) : "";
+  const bookPrice = pricing?.book ? money(pricing.book.price_cents) : "";
+  const n = summary.issues;
+  return (
+    <div data-testid="results-locked">
+      <div className="grid grid-cols-2 gap-x-3 gap-y-1 mb-3">
+        {(summary.checks_run || []).map((s) => (
+          <div key={s} className="flex items-center gap-1.5 text-xs text-neutral-400"><Check className="w-3 h-3 text-emerald-500 shrink-0" /> {s} checked</div>
+        ))}
+      </div>
+      {n > 0 ? (
+        <div className="border border-[#D4AF37]/60 bg-[#D4AF37]/10 p-4" data-testid="results-issues-found">
+          <div className="font-display font-bold text-white">SparkPrep found {n} issue{n === 1 ? "" : "s"} that may stop this file from being accepted.</div>
+          <p className="text-sm text-neutral-300 mt-1">See exactly what needs attention and where it occurs — in under a minute.</p>
+          <button onClick={() => onUnlock("standard")} disabled={!!unlocking} className="mt-3 w-full btn-gold py-3 font-mono-spec text-xs tracking-widest uppercase btn-industrial disabled:opacity-50" data-testid="unlock-results-btn">
+            {unlocking === "standard" ? "Opening secure checkout…" : `See My Results${auditPrice ? ` — ${auditPrice}` : ""}${hasInterior ? " · page 1" : ""}`}
+          </button>
+          {specialNote(pricing, "audit") && (
+            <p className="text-[11px] text-emerald-300 mt-1.5 text-center">{specialNote(pricing, "audit")}</p>
+          )}
+          {hasInterior && pricing?.advanced_audit && (
+            <button onClick={() => onUnlock("advanced")} disabled={!!unlocking} className="mt-2 w-full border border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37]/10 py-2.5 font-mono-spec text-[10px] tracking-widest uppercase btn-industrial disabled:opacity-50" data-testid="unlock-advanced-btn">
+              {unlocking === "advanced" ? "Opening secure checkout…" : `Advanced Audit — every page — ${money(pricing.advanced_audit.price_cents)}`}
+            </button>
+          )}
+          {auditPrice && bookPrice && (
+            <p className="text-[11px] text-neutral-400 mt-2 text-center">Whatever you pay for the audit is credited toward your {bookPrice} book.</p>
+          )}
+        </div>
+      ) : (
+        <div className="border border-emerald-700/60 bg-emerald-950/30 p-4" data-testid="results-clean">
+          <div className="font-display font-bold text-white flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400" /> No compliance issues detected</div>
+          <p className="text-sm text-neutral-300 mt-1">Your file passed SparkPrep's checks. Thank you for trying SparkPrep!</p>
+        </div>
+      )}
+      {hasInterior && (
+        <p className="text-[11px] text-neutral-500 mt-2" data-testid="page-one-note">
+          For interiors, the scan and audit check page 1. Checking every page (up to 300) is included with a SparkPrep book.
+        </p>
+      )}
+    </div>
+  );
+}
+
+// After the $1.99 audit: the details are visible, and fixing them is the book.
+function FixItCta({ issues, pricing, onFix, auditId, onUpgrade }) {
+  const upgradeCents = onUpgrade && pricing?.advanced_audit ? pricing.advanced_audit.price_cents - pricing.audit.price_cents : 0;
+  const auditPrice = pricing ? money(pricing.audit.price_cents) : "";
+  return (
+    <div className="border border-[#D4AF37]/60 bg-[#D4AF37]/10 p-4 mb-3" data-testid="fix-it-cta">
+      <div className="font-display font-bold text-white">SparkPrep can fix {issues === 1 ? "this issue" : "these issues"} for you right now.</div>
+      <p className="text-sm text-neutral-300 mt-1">No need to go anywhere else — Repair Bay fixes them and hands you print-ready files.{auditPrice ? ` Your ${auditPrice} audit is credited toward your book.` : ""}</p>
+      <div className="mt-3 flex flex-wrap gap-2">
+        <button onClick={onFix} className="px-4 py-2 btn-gold font-mono-spec text-[10px] tracking-widest uppercase btn-industrial" data-testid="fix-it-cta-btn">Fix It With SparkPrep</button>
+        {auditId && (
+          <a href={`/audit/${auditId}/report`} className="px-4 py-2 border border-neutral-600 text-neutral-200 hover:border-white font-mono-spec text-[10px] tracking-widest uppercase btn-industrial" data-testid="view-audit-report">
+            View Your Full Audit Report
+          </a>
+        )}
+        {upgradeCents > 0 && (
+          <button onClick={onUpgrade} className="px-4 py-2 border border-neutral-600 text-neutral-200 hover:border-white font-mono-spec text-[10px] tracking-widest uppercase btn-industrial" data-testid="upgrade-advanced-audit">
+            Check Every Page — {money(upgradeCents)} more
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// Only shown for Hardcover -- Dust Jacket binding, alongside the jacket above.
+const CASE_SLOT = { key: "case_wrap", label: "Case Cover", desc: "Plain wrap under the jacket", icon: Package };
 
 const statusIcon = (s) => s === "pass" ? <Check className="w-3.5 h-3.5" /> : s === "warning" ? <AlertTriangle className="w-3.5 h-3.5" /> : <XCircle className="w-3.5 h-3.5" />;
 const statusPill = (s) => s === "pass" ? "pill-pass" : s === "warning" ? "pill-warn" : "pill-fail";
@@ -88,10 +154,14 @@ function plainCheckLabel(c) {
   }
 }
 
+// Still needs the user: not passing, and not something export fixes by itself (fixed_on_export -- e.g. ink over
+// the limit on a black & white interior or a PDF cover: owner, "why can't we fix this for the users").
+const isOpenIssue = (c) => c.status !== "pass" && !c.fixed_on_export;
+
 function summarizeCompliance(compliance) {
   if (!compliance || compliance.length === 0) return { verdict: "empty" };
   const fails = compliance.filter((c) => c.status === "fail").length;
-  const warnings = compliance.filter((c) => c.status === "warning").length;
+  const warnings = compliance.filter((c) => c.status === "warning" && !c.fixed_on_export).length;
   if (fails > 0) return { verdict: "fail", fails, warnings };
   if (warnings > 0) return { verdict: "warning", warnings };
   return { verdict: "pass" };
@@ -113,6 +183,7 @@ export default function Editor() {
   const [project, setProject] = useState(null);
   const [specs, setSpecs] = useState(null);
   const [spine, setSpine] = useState(null);
+  const [caseSpine, setCaseSpine] = useState(null);   // a dust-jacket book's case cover has its own size
   const [overlays, setOverlays] = useState({ bleed: true, trim: true, safe: true, barcode: false });
   const [blurbOpen, setBlurbOpen] = useState(false);
   const [composerOpen, setComposerOpen] = useState(false);
@@ -122,6 +193,8 @@ export default function Editor() {
   const [uploadingTemplate, setUploadingTemplate] = useState(false);
   const [fixing, setFixing] = useState(false);
   const [interiorFixing, setInteriorFixing] = useState(false);
+  const [caseFixing, setCaseFixing] = useState(false);
+  const [, setCaseFixResult] = useState(null);
   const [exporting, setExporting] = useState(false);
   const [checkingFinal, setCheckingFinal] = useState(false);
   const [finalReview, setFinalReview] = useState(null);
@@ -133,12 +206,27 @@ export default function Editor() {
   // celebratedRef guards the gap between computing readiness and the PATCH that records
   // it landing, so a fast re-render can't fire this twice for the same milestone.
   const [showCelebration, setShowCelebration] = useState(false);
+  const [exportResult, setExportResult] = useState(null);   // SparkPrep Certified (or what's still open), after export
   const celebratedRef = useRef(false);
   const pricing = usePricing();
   const bookModel = isBookModel(pricing);
   const [bookNudge, setBookNudge] = useState(0);
   const [bookStartedAt, setBookStartedAt] = useState(0);
   const bookBarRef = useRef(null);
+
+  const loadSpine = useCallback(async (d) => {
+    const body = {
+      page_count: d.page_count, paper_type: d.paper_type,
+      trim_size: d.trim_size, binding: d.binding, platform: d.platform,
+      spine_width_override: d.spine_width_override,
+    };
+    const [{ data: spineRes }, caseRes] = await Promise.all([
+      api.post("/specs/spine", body),
+      d.binding === "hardcover_jacket" ? api.post("/specs/spine", { ...body, binding: "hardcover_case" }) : Promise.resolve(null),
+    ]);
+    setSpine(spineRes);
+    setCaseSpine(caseRes?.data || null);
+  }, []);
 
   const load = useCallback(async () => {
     try {
@@ -148,16 +236,45 @@ export default function Editor() {
       ]);
       setProject(data);
       setSpecs(sp);
-      const { data: spineRes } = await api.post("/specs/spine", {
-        page_count: data.page_count, paper_type: data.paper_type,
-        trim_size: data.trim_size, binding: data.binding, platform: data.platform,
-        spine_width_override: data.spine_width_override,
-      });
-      setSpine(spineRes);
+      await loadSpine(data);
     } catch (e) { toast.error(fmtErr(e.response?.data?.detail)); nav("/dashboard"); }
-  }, [id, nav]);
+  }, [id, nav, loadSpine]);
 
   useEffect(() => { load(); }, [load]);
+
+  // ---- The owner's funnel (see LockedResults): $1.99 shows results, the book fixes them.
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [unlocking, setUnlocking] = useState(false);
+  const unlockResults = async (level = "standard") => {
+    setUnlocking(level);
+    try {
+      const { data } = await api.post(`/projects/${id}/results-unlock/checkout`, { origin_url: window.location.origin, level });
+      if (data.already_unlocked) { await load(); return; }
+      window.location.href = data.checkout_url;
+    } catch (e) {
+      toast.error(fmtErr(e.response?.data?.detail));
+    } finally { setUnlocking(false); }
+  };
+  // Back from Stripe: confirm the payment ourselves (the webhook may still be on its way), then reload.
+  useEffect(() => {
+    const sessionId = searchParams.get("results_session");
+    if (!sessionId || !project?.results_audit_id) return;
+    (async () => {
+      try {
+        const { data } = await api.get(`/audit/${project.results_audit_id}/verify`, { params: { session_id: sessionId } });
+        if (data.paid) { toast.success("Your results are unlocked."); await load(); }
+      } catch (e) { toast.error(fmtErr(e.response?.data?.detail)); }
+      setSearchParams({}, { replace: true });
+    })();
+  }, [searchParams, project?.results_audit_id]); // eslint-disable-line react-hooks/exhaustive-deps
+  // Repairs are the product: without the book, point at the Start/Get-a-book bar instead.
+  const needsBook = (what) => {
+    if (project?.owns_product !== false) return false;
+    toast(`${what} is part of the SparkPrep book — that's where SparkPrep fixes everything for you.`);
+    setBookNudge((n) => n + 1);
+    bookBarRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    return true;
+  };
 
   // ---- The one big "your whole book is print-ready" moment. Placed before the
   // component's early "loading" return below (hooks can't follow a conditional
@@ -173,13 +290,22 @@ export default function Editor() {
   // is real, unfinished work) -- "ready" here means nothing left to fix at
   // all, not merely "technically exportable."
   useEffect(() => {
-    if (!project) return;
+    // A locked (free demo) project shows no issue details, so "no issues shown" means nothing here.
+    if (!project || project.results_locked) return;
     const needsCoverNow = project.project_type !== "interior";
     const needsInteriorNow = project.project_type === "interior" || project.project_type === "combined";
     const coverUploaded = !needsCoverNow || !!(project.slots?.full_wrap?.stored_filename || project.slots?.front_cover?.stored_filename);
     const interiorUploaded = !needsInteriorNow || !!project.slots?.interior?.stored_filename;
-    const hasUnresolvedIssue = Object.values(project.slots || {}).some((s) => (s.compliance || []).some((c) => c.status !== "pass"));
-    const ready = coverUploaded && interiorUploaded && !hasUnresolvedIssue;
+    // Hardcover with Dust Jacket needs a third file (the plain case under
+    // the jacket) before the book's actually done -- see CASE_SLOT.
+    const needsCaseNow = needsCoverNow && project.binding === "hardcover_jacket";
+    const caseUploaded = !needsCaseNow || !!project.slots?.case_wrap?.stored_filename;
+    // The case has no Repair Bay (a plain wrap; export converts it to CMYK
+    // itself), so only a real failure on it holds the celebration back --
+    // otherwise an RGB case would block it forever with nothing to press.
+    const hasUnresolvedIssue = Object.entries(project.slots || {}).some(([key, s]) =>
+      (s.compliance || []).some(isOpenIssue));
+    const ready = coverUploaded && interiorUploaded && caseUploaded && !hasUnresolvedIssue;
     if (ready && !project.book_ready_celebrated_at && !celebratedRef.current) {
       celebratedRef.current = true;
       setShowCelebration(true);
@@ -189,17 +315,19 @@ export default function Editor() {
     }
   }, [project, id]);
 
+  // An old Final Review result (e.g. a red one from before the fixes) must never stay on screen next to a pass:
+  // whenever any file's checks change, the old review is cleared and the step guide asks for a fresh one.
+  const complianceSig = JSON.stringify(Object.entries(project?.slots || {}).map(([k, sl]) =>
+    [k, (sl.compliance || []).map((c) => `${c.id}:${c.status}`)]));
+  // ...and the same for the cover/interior banners: they show the file's CURRENT checks, never an earlier run's.
+  useEffect(() => { setFinalReview(null); setCoverFixResult(null); setInteriorFixResult(null); }, [complianceSig]);
+
   // ---- Update spec fields inline (top section is editable so users can iterate)
   const updateSpec = async (patch) => {
     try {
       const { data } = await api.patch(`/projects/${id}`, patch);
-      setProject(data);
-      const { data: spineRes } = await api.post("/specs/spine", {
-        page_count: data.page_count, paper_type: data.paper_type,
-        trim_size: data.trim_size, binding: data.binding, platform: data.platform,
-        spine_width_override: data.spine_width_override,
-      });
-      setSpine(spineRes);
+      setProject(data);   // the server re-checks uploaded covers against the new specs
+      await loadSpine(data);
     } catch (e) { toast.error(fmtErr(e.response?.data?.detail)); }
   };
 
@@ -256,6 +384,13 @@ export default function Editor() {
           : {}),
       }));
       toast.success(`${slot.replace("_", " ")} analyzed`);
+      // The page count (and so the spine and every cover size) comes from the interior itself.
+      if (data.page_count_set) {
+        toast.info(`Page count set to ${data.page_count_set.to} from your interior (it said ${data.page_count_set.from}). Your cover size now matches it.`, { duration: 10000 });
+      }
+      // A free (locked) project's "found N issues" summary is computed by the server across all files,
+      // so reload the project rather than leaving the panel on its pre-upload state.
+      if (data.results_locked || data.page_count_set) await load();
       // A Word/text manuscript gets converted into a print-ready interior on
       // upload -- surface anything the converter couldn't carry over (no
       // chapter headings found, embedded images/tables dropped) so it isn't
@@ -282,11 +417,12 @@ export default function Editor() {
 
   const [enhancingSlot, setEnhancingSlot] = useState(null);
   const aiEnhance = async (slot) => {
+    if (needsBook("AI Upscale")) return;
     setEnhancingSlot(slot);
     try {
       const { data } = await api.post(`/projects/${id}/ai-enhance/${slot}`);
       setProject((p) => ({ ...p, slots: { ...(p.slots || {}), [slot]: { ...data.file_metadata, compliance: data.compliance } } }));
-      toast.success("AI enhancement complete — rescan the results below.");
+      toast.success("AI Upscale done — your cover is now sharpened for print.");
     } catch (e) {
       const msg = fmtErr(e.response?.data?.detail);
       if (e.response?.status === 402) { toast.error(msg + " — Redirecting to pricing"); setTimeout(() => nav("/pricing"), 1500); }
@@ -322,6 +458,7 @@ export default function Editor() {
   // call) so the UI can show a definite pass/fail/warning verdict and what
   // to do next -- not just a toast that disappears.
   const runAutofix = (slot, setBusy, setResult) => {
+    if (needsBook("Repair Bay")) return;
     setBusy(true);
     setResult(null);
     setBay({ slot, setBusy, setResult });
@@ -335,7 +472,11 @@ export default function Editor() {
       if (b.slot) {
         return { ...p, slots: { ...(p.slots || {}), [b.slot]: { ...data.file_metadata, compliance: data.compliance } } };
       }
-      return { ...p, file_metadata: data.file_metadata, compliance: data.compliance };
+      // A cover fix (slot null) must update the cover's slot too -- the results list reads the slot, so updating
+      // only the top-level copy left the old issues on screen after a successful fix.
+      const coverKey = p.slots?.full_wrap ? "full_wrap" : p.slots?.front_cover ? "front_cover" : null;
+      return { ...p, file_metadata: data.file_metadata, compliance: data.compliance,
+               ...(coverKey ? { slots: { ...(p.slots || {}), [coverKey]: { ...data.file_metadata, compliance: data.compliance } } } : {}) };
     });
     const summary = summarizeCompliance(data.compliance);
     const gsFailed = data.ghostscript_fix && !data.ghostscript_fix.succeeded;
@@ -347,6 +488,7 @@ export default function Editor() {
     setBay(null);
     if (!b) return;
     b.setBusy(false);
+    load();   // the screen always ends a repair showing exactly what the server has
     if (retry) setTimeout(() => runAutofix(b.slot, b.setBusy, b.setResult), 60);
   };
 
@@ -375,8 +517,12 @@ export default function Editor() {
 
   const autofix = () => runAutofix(null, setFixing, setCoverFixResult);
   const autofixInterior = () => runAutofix("interior", setInteriorFixing, setInteriorFixResult);
+  // The case cover gets the same Repair Bay and AI Upscale as the jacket -- SparkPrep brings it to spec itself
+  // rather than asking for a new file (owner, 2026-10-05).
+  const autofixCase = () => runAutofix("case_wrap", setCaseFixing, setCaseFixResult);
 
   const runFinalReview = async () => {
+    if (needsBook("Final Review")) return;
     setCheckingFinal(true);
     try {
       const { data } = await api.post(`/projects/${id}/final-review`);
@@ -385,14 +531,54 @@ export default function Editor() {
     finally { setCheckingFinal(false); }
   };
 
+  // Saves the export (print files + the book's report) straight to the customer's Downloads folder. It used to
+  // window.open() a new tab AFTER the export finished -- browsers only allow that within a few seconds of the
+  // click, and the every-page certification check made export take longer, so the download was silently
+  // blocked as a pop-up: no files, no report. A same-page download isn't a pop-up, so nothing blocks it.
+  const downloadExport = async (d) => {
+    const token = localStorage.getItem("sp_token");
+    const res = await api.get(d.download_url.replace(/^\/api/, ""), { params: token ? { token } : undefined, responseType: "blob" });
+    const url = URL.createObjectURL(res.data);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${(project?.name || "SparkPrep book").replace(/[\\/:*?"<>|]/g, "")} - SparkPrep.${d.export_name.split(".").pop()}`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 60000);
+  };
+
+  // Export runs as a background job on the server (a long book's every-page check can outlast the ~100 s one
+  // request may take); the page checks on it every few seconds and shows a clear "working on it" screen.
+  const [exportSeconds, setExportSeconds] = useState(0);
+  const runExportJob = async () => {
+    const { data: started } = await api.post(`/projects/${id}/export-jobs`);
+    for (;;) {
+      await new Promise((r) => setTimeout(r, 2500));
+      const { data: st } = await api.get(`/export-jobs/${started.job_id}`);
+      setExportSeconds(st.seconds || 0);
+      if (st.status === "done") return st.result;
+      if (st.status === "error") {
+        const err = new Error("export failed");
+        err.response = { status: st.status_code, data: { detail: st.detail } };   // same shape the old handler read
+        throw err;
+      }
+    }
+  };
+
   const exportPdf = async () => {
     setExporting(true);
+    setExportSeconds(0);
     try {
-      const { data } = await api.post(`/projects/${id}/export`);
-      toast.success("PDF/X-1a ready");
+      const data = await runExportJob();
       setProject((p) => ({ ...p, exports_used: data.book_exports_used }));
-      const token = localStorage.getItem("sp_token");
-      window.open(`${API_URL}${data.download_url.replace("/api", "")}${token ? `?token=${token}` : ""}`, "_blank");
+      setExportResult({ ...data, downloaded: null });
+      try {
+        await downloadExport(data);
+        setExportResult((r) => (r ? { ...r, downloaded: true } : r));
+      } catch {
+        setExportResult((r) => (r ? { ...r, downloaded: false } : r));   // the modal's Download button still works
+      }
     } catch (e) {
       const detail = e.response?.data?.detail;
       const msg = fmtErr(detail);
@@ -432,10 +618,14 @@ export default function Editor() {
     // Interior was missing entirely -- the preview always fell straight
     // through to null for any interior-only project, showing "No file"
     // even with a real interior PDF sitting in that slot.
-    if (slots.full_wrap) return `${API_URL}/projects/${id}/slot/full_wrap/preview${token ? `?token=${token}` : ""}`;
-    if (slots.front_cover) return `${API_URL}/projects/${id}/slot/front_cover/preview${token ? `?token=${token}` : ""}`;
-    if (slots.interior) return `${API_URL}/projects/${id}/slot/interior/preview${token ? `?token=${token}` : ""}`;
-    if (project?.uploaded_file) return `${API_URL}/projects/${id}/preview${token ? `?token=${token}` : ""}`;
+    // `v` = the stored file's name: every fix or new upload writes a new file, so the address changes and the
+    // browser fetches the new picture. Without it the layout and the 3D proof kept showing the OLD file after a
+    // fix -- not matching what the checks were saying.
+    const q = (slot) => `?${token ? `token=${token}&` : ""}v=${encodeURIComponent(slots[slot]?.stored_filename || project?.uploaded_file || "")}`;
+    if (slots.full_wrap) return `${API_URL}/projects/${id}/slot/full_wrap/preview${q("full_wrap")}`;
+    if (slots.front_cover) return `${API_URL}/projects/${id}/slot/front_cover/preview${q("front_cover")}`;
+    if (slots.interior) return `${API_URL}/projects/${id}/slot/interior/preview${q("interior")}`;
+    if (project?.uploaded_file) return `${API_URL}/projects/${id}/preview${q("legacy")}`;
     return null;
   }, [project, id]);
 
@@ -458,10 +648,13 @@ export default function Editor() {
   // and blob: URLs never trigger tainted-canvas issues since they're never
   // actually cross-origin from the browser's point of view.
   const [book3dTextureUrl, setBook3dTextureUrl] = useState(null);
+  const [book3dFailed, setBook3dFailed] = useState(false);
   useEffect(() => {
     let objectUrl = null;
     let cancelled = false;
-    if (!previewUrl) { setBook3dTextureUrl(null); return; }
+    setBook3dFailed(false);
+    setBook3dTextureUrl(null);       // never keep showing the previous file's picture while the new one loads
+    if (!previewUrl) return undefined;
     (async () => {
       try {
         const { data } = await api.get(previewUrl.replace(API_URL, ""), { responseType: "blob" });
@@ -469,7 +662,7 @@ export default function Editor() {
         objectUrl = URL.createObjectURL(data);
         setBook3dTextureUrl(objectUrl);
       } catch {
-        if (!cancelled) setBook3dTextureUrl(null);
+        if (!cancelled) { setBook3dTextureUrl(null); setBook3dFailed(true); }
       }
     })();
     return () => {
@@ -500,10 +693,26 @@ export default function Editor() {
   // ones, never the cover's actual shape. Falls back to whatever's already
   // uploaded for a project created before this choice existed, so nobody's
   // existing work suddenly looks unset.
+  const hasCoverPieces = !!(project.slots?.front_cover || project.slots?.spine || project.slots?.back_cover);
   const effectiveCoverMode = project.cover_upload_mode
-    || (project.slots?.full_wrap ? "full"
-        : (project.slots?.front_cover || project.slots?.spine || project.slots?.back_cover) ? "separate" : null);
+    || (project.slots?.full_wrap ? "full" : hasCoverPieces ? "separate" : null);
+  // Separate pieces are assembled for paperbacks only: a hardcover wrap also needs hinge/wrap (and flap)
+  // areas that separate front/back pieces don't carry, so hardcovers always take one combined file.
+  const piecesAllowed = (project.binding || "paperback") === "paperback";
+  const coverMode = piecesAllowed ? effectiveCoverMode : "full";
+  const inches = (n) => `${(Math.round(Number(n) * 1000 + 1e-6) / 1000).toFixed(3).replace(/\.?0+$/, "")}"`;
+  const fc = spine?.full_cover;
+  const coverSizes = fc?.total_width ? {
+    full: `${inches(fc.total_width)} × ${inches(fc.total_height)}`,
+    panel: `${inches(fc.panel_width + 2 * fc.bleed)} × ${inches(fc.panel_height + 2 * fc.bleed)}`,
+    spine: `${inches(fc.spine_width)} × ${inches(fc.panel_height + 2 * fc.bleed)}`,
+  } : null;
   const needsInterior = project.project_type === "interior" || project.project_type === "combined";
+  const interiorPages = project.slots?.interior?.pdf_pages || null;
+  // A hardcover whose distributor publishes no spine formula: the size can't be known until the user
+  // enters the number from their template (the server won't check or export the cover without it).
+  const spineRequired = ["hardcover_case", "hardcover_jacket"].includes(project.binding) && !project.spine_width_override && !!spine?.spine_is_estimate;
+  const caseSize = caseSpine?.full_cover?.total_width ? `${inches(caseSpine.full_cover.total_width)} × ${inches(caseSpine.full_cover.total_height)}` : null;
   const trim = specs.trim_sizes[project.trim_size] || { w: 6, h: 9, label: project.trim_size };
   const plat = specs.platforms[project.platform] || {};
   const compliance = project.slots?.full_wrap?.compliance || project.compliance || [];
@@ -515,11 +724,113 @@ export default function Editor() {
   const interiorSummary = summarizeCompliance(needsInterior ? interiorCompliance : []);
   const coverClear = !isCover || coverSummary.verdict === "pass" || coverSummary.verdict === "warning";
   const interiorClear = !needsInterior || (hasInteriorUpload && (interiorSummary.verdict === "pass" || interiorSummary.verdict === "warning"));
-  const readyForFinalReview = hasAnyUpload && coverClear && interiorClear && (!needsInterior || hasInteriorUpload);
+  // Hardcover with Dust Jacket needs a third file (the plain case) before
+  // it's actually export-ready -- see CASE_SLOT / the upload block above.
+  const needsCase = isCover && project.binding === "hardcover_jacket";
+  const hasCaseUpload = !!project.slots?.case_wrap;
+  const caseSummary = summarizeCompliance(needsCase ? (project.slots?.case_wrap?.compliance || []) : []);
+  const caseClear = !needsCase || (hasCaseUpload && (caseSummary.verdict === "pass" || caseSummary.verdict === "warning"));
+  const readyForFinalReview = hasAnyUpload && coverClear && interiorClear && caseClear && (!needsInterior || hasInteriorUpload) && (!needsCase || hasCaseUpload);
+  const unlockedIssues = Object.values(project.slots || {}).reduce((n, s) => n + (s.compliance || []).filter(isOpenIssue).length, 0);
   // Free plan is preview + compliance only -- TIERS.free.monthly_exports is 0 on the
   // backend, which is the actual enforcement; this just avoids sending a free user
   // into a doomed export click instead of straight to the upgrade page.
   const isFreeTier = (user?.tier || "free") === "free";
+
+  // ---- Step guide (owner, 2026-09-30): first-time users see five steps, the current one glows, and ONE button
+  // does the next thing. Every fix action lives in the guide -- nowhere else on the page.
+  const titleSet = !!(project.name && project.name.trim() && project.name.trim().toLowerCase() !== "untitled book");
+  const coverUploadedG = !isCover || !!(project.slots?.full_wrap || project.slots?.front_cover || project.uploaded_file);
+  const filesUploaded = coverUploadedG && (!needsInterior || hasInteriorUpload) && (!needsCase || hasCaseUpload);
+  const missingFiles = [!coverUploadedG && "your cover", needsInterior && !hasInteriorUpload && "your interior",
+    needsCase && !hasCaseUpload && "your case cover"].filter(Boolean);
+  const coverIssues = isCover ? compliance.filter(isOpenIssue) : [];
+  const interiorIssues = needsInterior ? interiorCompliance.filter(isOpenIssue) : [];
+  const caseIssues = needsCase ? (project.slots?.case_wrap?.compliance || []).filter(isOpenIssue) : [];
+  const isDpi = (c) => c.fix_action === "upscale_300dpi";
+  const coverFixable = coverIssues.filter((c) => c.auto_fix && !isDpi(c));
+  const coverDpi = coverIssues.filter(isDpi);
+  const coverManual = coverIssues.filter((c) => !c.auto_fix && !isDpi(c));
+  const interiorFixable = interiorIssues.filter((c) => c.auto_fix);
+  const interiorManual = interiorIssues.filter((c) => !c.auto_fix);
+  const caseFixable = caseIssues.filter((c) => c.auto_fix && !isDpi(c));
+  const caseDpi = caseIssues.filter(isDpi);
+  const caseManual = caseIssues.filter((c) => !c.auto_fix && !isDpi(c));
+  const allFixed = filesUploaded && !project.results_locked && !coverIssues.length && !interiorIssues.length && !caseIssues.length;
+  // Export runs every check on every page of the final files, so exporting (e.g. from the celebration's
+  // "Export Now") also completes the final check -- the guide never points back at step 4 afterwards.
+  const finalDone = (!!finalReview && finalReview.status !== "red") || !!exportResult;
+  const guideSteps = [
+    { key: "details", label: "Book details", done: titleSet && !spineRequired },
+    { key: "upload", label: "Upload", done: filesUploaded },
+    { key: "fix", label: "Fix", done: allFixed },
+    { key: "final", label: "Final check", done: finalDone },
+    { key: "export", label: "Export & certify", done: !!exportResult },
+  ];
+  const currentStep = (guideSteps.find((st) => !st.done) || guideSteps[guideSteps.length - 1]).key;
+  const glowIf = (key) => (currentStep === key ? STEP_GLOW_CLASS : "");
+  const goTo = (testid, focus) => {
+    const el = document.querySelector(`[data-testid="${testid}"]`);
+    el?.scrollIntoView({ behavior: "smooth", block: "center" });
+    if (focus) setTimeout(() => el?.focus?.(), 350);
+  };
+  const FRIENDLY_ISSUE = { colorspace: "print colors", cover_safety_margin: "text too close to the edge", dpi: "sharpness",
+    interior_page_size_mismatch: "page size", interior_safety_margin: "text too close to the page edge", total_ink_coverage: "ink coverage",
+    transparency: "transparency", cover_spine_text_margin: "spine text position", cover_size: "cover size" };
+  const names = (list) => [...new Set(list.map((c) => FRIENDLY_ISSUE[c.id] || plainCheckLabel(c).split(" (")[0].toLowerCase()))].join(", ");
+  let guideNow;
+  if (currentStep === "details") {
+    guideNow = !titleSet
+      ? { title: "Give your book its title", detail: "Type it at the top left — it goes on your files and your report. Then check the distributor, trim size, paper, binding and page count on the left.",
+          action: { label: "Name my book", onClick: () => goTo("project-title-input", true) } }
+      : { title: "Enter your spine width", detail: `Copy the spine width printed on your ${plat.name || "distributor"} cover template into the Spine Width box on the left.`,
+          action: { label: "Go to Spine Width", onClick: () => goTo("spec-spine-override", true) } };
+  } else if (currentStep === "upload") {
+    guideNow = { title: "Upload your files", detail: `Still needed: ${missingFiles.join(", ")}. Your original files stay untouched on your computer.`,
+      action: { label: "Go to upload", onClick: () => goTo("section-upload") } };
+  } else if (currentStep === "fix") {
+    if (project.results_locked) {
+      guideNow = { title: project.results_summary?.issues ? `SparkPrep found ${project.results_summary.issues} issue${project.results_summary.issues === 1 ? "" : "s"}` : "Your scan is ready",
+        detail: "Start your book (or get one) and SparkPrep fixes everything for you. Just want to see what was found? That's the $1.99 option just below.",
+        action: { label: "Fix them with my book", onClick: () => { setBookNudge((n) => n + 1); bookBarRef.current?.scrollIntoView({ behavior: "smooth", block: "center" }); } } };
+    } else if (project.owns_product === false) {
+      guideNow = { title: `${unlockedIssues} thing${unlockedIssues === 1 ? "" : "s"} to fix`, detail: "SparkPrep fixes these for you as part of your book — no other tools needed.",
+        action: { label: "Get a book to fix them", onClick: () => needsBook("Fixing") } };
+    } else if (coverFixable.length) {
+      guideNow = { title: "Fix your cover", detail: `SparkPrep will fix: ${names(coverFixable)} — and check its own work before showing you.`,
+        action: { label: "Fix my cover", onClick: autofix, busy: fixing, busyLabel: "Fixing…" } };
+    } else if (coverDpi.length) {
+      guideNow = { title: "Sharpen your cover", detail: "Your cover is under 300 DPI, so it could print soft. AI Upscale brings it to a true 300 DPI.",
+        action: { label: "AI Upscale my cover", onClick: () => aiEnhance(coverSlotName), busy: enhancingSlot === coverSlotName, busyLabel: "Upscaling…" },
+        secondary: { label: "Or upload a sharper image instead", onClick: () => retakePhoto(coverSlotName) } };
+    } else if (interiorFixable.length) {
+      guideNow = { title: "Fix your interior", detail: `SparkPrep will fix: ${names(interiorFixable)}.`,
+        action: { label: "Fix my interior", onClick: autofixInterior, busy: interiorFixing, busyLabel: "Fixing…" } };
+    } else if (caseFixable.length) {
+      guideNow = { title: "Fix your case cover", detail: `SparkPrep will fix: ${names(caseFixable)} — and check its own work before showing you.`,
+        action: { label: "Fix my case cover", onClick: autofixCase, busy: caseFixing, busyLabel: "Fixing…" } };
+    } else if (caseDpi.length) {
+      guideNow = { title: "Sharpen your case cover", detail: "Your case cover is under 300 DPI, so it could print soft. AI Upscale brings it to 300 DPI. (For the very sharpest print, a higher-resolution original is even better.)",
+        action: { label: "AI Upscale my case cover", onClick: () => aiEnhance("case_wrap"), busy: enhancingSlot === "case_wrap", busyLabel: "Upscaling…" },
+        secondary: { label: "Or upload a sharper case image instead", onClick: () => retakePhoto("case_wrap") } };
+    } else if (coverManual.length || interiorManual.length || caseManual.length) {
+      const which = coverManual.length ? "cover" : interiorManual.length ? "interior" : "case cover";
+      const first = (coverManual[0] || interiorManual[0] || caseManual[0]);
+      guideNow = { title: `Your ${which} needs a new file`, detail: `${plainCheckLabel(first)}: ${first.message} SparkPrep can't change this one by itself — fix it in your design file and upload it again.`,
+        action: { label: `Upload a new ${which}`, onClick: () => goTo("section-upload") } };
+    }
+  } else if (currentStep === "final") {
+    guideNow = finalReview?.status === "red"
+      ? { title: "The final check found something", detail: finalReview.message, action: { label: "Run the final check again", onClick: runFinalReview, busy: checkingFinal, busyLabel: "Checking…" } }
+      : { title: "Run the final check", detail: "SparkPrep re-checks your whole book together before export.", action: { label: "Run final check", onClick: runFinalReview, busy: checkingFinal, busyLabel: "Checking…" } };
+  } else if (!exportResult) {
+    guideNow = { title: "Export your print-ready files", detail: "SparkPrep checks every page of your final files and, when everything is clear, stamps them SparkPrep Certified.",
+      action: { label: project.owns_product === false ? "Get a book to export" : "Export my book", onClick: project.owns_product === false ? () => needsBook("Export") : exportPdf, busy: exporting, busyLabel: "Checking every page…" } };
+  } else {
+    guideNow = { title: exportResult.certified ? "Your book is SparkPrep Certified" : "Exported — a few things are still open",
+      detail: exportResult.certified ? "Your print files and your Certified report are in your download." : "Your Preflight Report in the download shows how to fix each one. Fix them and export again to earn SparkPrep Certified.",
+      action: { label: "Export again", onClick: exportPdf, busy: exporting, busyLabel: "Checking every page…" } };
+  }
 
   return (
     <TooltipProvider delayDuration={200}>
@@ -574,7 +885,11 @@ export default function Editor() {
 
         <div className="max-w-[1600px] mx-auto px-6 py-6">
           <div className="mb-4 empty:hidden" ref={bookBarRef}>
-            <BookPassBar projectId={id} bookRequiredAt={bookNudge} onStarted={() => setBookStartedAt(Date.now())} />
+            <BookPassBar
+              projectId={id} bookRequiredAt={bookNudge}
+              onStarted={() => { setBookStartedAt(Date.now()); load(); }}
+              creditAuditId={!project.results_locked && project.owns_product === false ? project.results_audit_id : undefined}
+            />
           </div>
           {bookModel && project.project_type !== "combined" && (
             <div className="mb-4 flex items-center justify-between gap-3 flex-wrap border border-neutral-800 bg-[#111111] px-4 py-2.5" data-testid="add-other-half">
@@ -590,11 +905,16 @@ export default function Editor() {
               </button>
             </div>
           )}
+          <div className="sticky top-[64px] z-30 bg-[#0A0A0A] pb-1" data-testid="step-guide-pin">
+            <StepGuide steps={guideSteps} current={currentStep} now={guideNow}
+              rescan={filesUploaded && !project.results_locked && project.owns_product !== false
+                ? { onClick: runFinalReview, busy: checkingFinal } : null} />
+          </div>
           {/* THREE-COLUMN WORKSPACE: Job Setup · Live Layout · 3D Proof */}
           <div className={`grid gap-4 ${isCover ? "lg:grid-cols-[340px_1fr_380px]" : "lg:grid-cols-[340px_1fr]"}`}>
 
             {/* ===== LEFT · JOB SETUP ===== */}
-            <div className="bg-[#111111] border border-neutral-800 flex flex-col" data-testid="panel-job-setup">
+            <div className={`bg-[#111111] border border-neutral-800 flex flex-col ${glowIf("details")}`} data-testid="panel-job-setup">
               <div className="p-4 border-b border-neutral-800">
                 <span className="font-mono-spec text-[10px] tracking-widest uppercase text-[#D4AF37]">Job Setup</span>
                 <p className="text-sm text-neutral-400 mt-1">Set the distributor blueprint, then drop your files.</p>
@@ -640,20 +960,29 @@ export default function Editor() {
                     </p>
                   </div>
                 )}
-                <DarkSpecField label="Page Count" tooltip="Total interior page count — used to calculate spine width.">
+                <DarkSpecField label="Page Count" tooltip="Total interior page count — used to calculate spine width. Uploading your interior fills this in for you.">
                   <Input className="text-white" type="number" min={24} value={project.page_count} onChange={(e) => updateSpec({ page_count: parseInt(e.target.value) || 0 })} data-testid="spec-pages" />
+                  {interiorPages ? (
+                    interiorPages === project.page_count ? (
+                      <p className="text-[11px] text-neutral-500 mt-1.5" data-testid="pages-from-interior">Matches your interior ({interiorPages} pages).</p>
+                    ) : (
+                      <p className="text-[11px] text-amber-400 mt-1.5 leading-relaxed" data-testid="pages-mismatch">
+                        Your interior has {interiorPages} pages, but this says {project.page_count}. The spine and cover size follow this number — make sure it's the page count you enter at {plat.name || "your distributor"}.
+                      </p>
+                    )
+                  ) : null}
                 </DarkSpecField>
                 {(project.binding === "hardcover_case" || project.binding === "hardcover_jacket") && (
                   <DarkSpecField
-                    label="Spine Width Override (optional)"
-                    tooltip="Hardcover spine width usually isn't a public formula — most distributors compute it from their own internal table by exact page count and paper weight. Get the real number from the distributor's own calculator and enter it here so SparkPrep builds your cover around the exact figure instead of an estimate."
+                    label={spineRequired ? "Spine Width — required" : "Spine Width"}
+                    tooltip="For a hardcover, your distributor's cover template shows the exact spine width for your page count and paper. Copy it here and SparkPrep builds your cover around that exact figure."
                   >
                     <Input
                       className="text-white"
                       type="number"
                       step="0.001"
                       min={0}
-                      placeholder={spine?.spine_width ? `${spine.spine_is_estimate ? "Estimate" : "Calculated"}: ${spine.spine_width}"` : "e.g. 0.313"}
+                      placeholder={spine?.spine_width && !spine.spine_is_estimate ? `Calculated: ${spine.spine_display || spine.spine_width}"` : "e.g. 0.313"}
                       defaultValue={project.spine_width_override ?? ""}
                       onBlur={(e) => {
                         const raw = e.target.value.trim();
@@ -662,13 +991,24 @@ export default function Editor() {
                       }}
                       data-testid="spec-spine-override"
                     />
-                    {spine?.spine_is_estimate ? (
+                    {spineRequired ? (
+                      <p className="text-[11px] text-red-400 mt-1.5 leading-relaxed" data-testid="spine-required">
+                        Copy the spine width printed on your {plat.name || "distributor"} cover template (for example 0.313) into this box — {plat.name || "your distributor"} sets a hardcover's spine for your exact page count and paper on that template. Until then, SparkPrep can't size or check your cover.
+                      </p>
+                    ) : project.spine_width_override ? (
                       <p className="text-[11px] text-neutral-500 mt-1.5 leading-relaxed">
-                        This distributor's hardcover spine isn't published as a formula, so this is only an estimate. Verify the real number using the distributor's own cover/spine calculator and paste it here. Leave blank to use the estimate ({spine?.spine_width ? `${spine.spine_width}"` : "…"}).
+                        Using your number: {project.spine_width_override}". Clear the box to go back to the calculated width.
+                      </p>
+                    ) : spine?.spine_source === "ingramspark_templates" ? (
+                      <p className="text-[11px] text-neutral-500 mt-1.5 leading-relaxed" data-testid="spine-from-templates">
+                        Calculated: <span className="text-white">{spine.spine_display}"</span> for {spine.page_count_used} pages — SparkPrep's
+                        hardcover spine formula matches IngramSpark's own cover templates. Double-check it against the spine printed on
+                        your IngramSpark template; if they ever differ, type the template's number here.
                       </p>
                     ) : (
                       <p className="text-[11px] text-neutral-500 mt-1.5 leading-relaxed">
-                        Calculated from this distributor's own published spine table — no need to override unless you have a more specific figure. Leave blank to use it ({spine?.spine_width ? `${spine.spine_width}"` : "…"}).
+                        Calculated from {plat.name || "this distributor"}'s published spine table ({spine?.spine_display ? `${spine.spine_display}"` : "…"}).
+                        Leave blank to use it, or type the number from your cover template.
                       </p>
                     )}
                   </DarkSpecField>
@@ -721,7 +1061,11 @@ export default function Editor() {
                 </div>
 
                 {/* Upload slots */}
-                <div className="border-t border-neutral-800 pt-4" data-testid="section-upload">
+                <div className={`border-t border-neutral-800 pt-4 ${glowIf("upload")}`} data-testid="section-upload">
+                  <p className="text-[11px] text-neutral-500 mb-3 flex items-start gap-1.5" data-testid="original-safe-note">
+                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-px" />
+                    Your original file stays untouched on your computer — SparkPrep works on its own copy.
+                  </p>
                   {needsInterior && (
                     <div className={isCover ? "mb-4" : ""}>
                       <p className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500 mb-2">Upload your book</p>
@@ -742,7 +1086,12 @@ export default function Editor() {
                   {isCover && (
                     <>
                       <p className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500 mb-3">Upload cover files</p>
-                      {!effectiveCoverMode ? (
+                      {!piecesAllowed && hasCoverPieces && (
+                        <p className="text-xs text-amber-400 mb-3 leading-relaxed" data-testid="hardcover-needs-one-file">
+                          Hardcover covers need one combined file — the hinge and wrap areas{project.binding === "hardcover_jacket" ? " and the jacket's flaps" : ""} aren't part of separate front and back pieces.
+                        </p>
+                      )}
+                      {!coverMode ? (
                         <div className="grid grid-cols-2 gap-2" data-testid="cover-mode-choice">
                           <button
                             type="button"
@@ -767,8 +1116,8 @@ export default function Editor() {
                         </div>
                       ) : (
                         <>
-                          <div className={effectiveCoverMode === "full" ? "grid grid-cols-1 gap-2" : "grid grid-cols-2 gap-2"}>
-                            {COVER_SLOTS.filter((s) => effectiveCoverMode === "full" ? s.key === "full_wrap" : s.key !== "full_wrap").map((s) => (
+                          <div className={coverMode === "full" ? "grid grid-cols-1 gap-2" : "grid grid-cols-2 gap-2"}>
+                            {COVER_SLOTS.filter((s) => coverMode === "full" ? s.key === "full_wrap" : s.key !== "full_wrap").map((s) => (
                               <SlotDrop
                                 key={s.key}
                                 slot={s}
@@ -779,17 +1128,66 @@ export default function Editor() {
                               />
                             ))}
                           </div>
-                          <button
-                            type="button"
-                            onClick={() => updateSpec({ cover_upload_mode: effectiveCoverMode === "full" ? "separate" : "full" })}
-                            className="mt-2 text-[11px] text-neutral-500 hover:text-[#D4AF37] underline underline-offset-2"
-                            data-testid="cover-mode-switch"
-                          >
-                            Switch to {effectiveCoverMode === "full" ? "front / spine / back separately" : "one combined file"}
-                          </button>
+                          {spineRequired ? (
+                            <p className="mt-2 text-xs text-red-400 leading-relaxed" data-testid="cover-size-needed">
+                              Enter your Spine Width above first — your cover's exact size depends on it.
+                            </p>
+                          ) : coverSizes && (
+                            <p className="mt-2 text-xs text-neutral-400 leading-relaxed" data-testid="cover-size-needed">
+                              {coverMode === "full"
+                                ? <>Your cover file must be exactly <span className="text-white">{coverSizes.full}</span> — back, spine and front together, with bleed.</>
+                                : <>Front and back: <span className="text-white">{coverSizes.panel}</span> each, with bleed on every side. Spine: <span className="text-white">{coverSizes.spine}</span>. SparkPrep lines them up for you.</>}
+                            </p>
+                          )}
+                          {piecesAllowed && (
+                            <button
+                              type="button"
+                              onClick={() => updateSpec({ cover_upload_mode: coverMode === "full" ? "separate" : "full" })}
+                              className="mt-2 text-[11px] text-neutral-500 hover:text-[#D4AF37] underline underline-offset-2"
+                              data-testid="cover-mode-switch"
+                            >
+                              Switch to {coverMode === "full" ? "front / spine / back separately" : "one combined file"}
+                            </button>
+                          )}
                         </>
                       )}
                     </>
+                  )}
+                  {/* IngramSpark won't process a Hardcover with Dust Jacket book until
+                      three files are uploaded: case, jacket, interior. It sends both a
+                      Case Laminate and a Dust Jacket template for the book, and both
+                      are needed. */}
+                  {isCover && project.binding === "hardcover_jacket" && (
+                    <div className="mt-4 pt-4 border-t border-neutral-800">
+                      <p className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500 mb-1">Case cover (goes under the jacket)</p>
+                      <p className="text-xs text-neutral-500 mb-3 leading-relaxed">
+                        Dust jacket books also need a plain case file — this is what's printed on the hardcover boards themselves, hidden once the jacket's wrapped around it. It doesn't need to match your jacket art; a plain background color (or just the spine text) is completely normal.
+                      </p>
+                      {!spineRequired && caseSize && (
+                        <p className="text-xs text-neutral-400 mb-3 leading-relaxed" data-testid="case-size-needed">
+                          Your case file must be exactly <span className="text-white">{caseSize}</span> — both boards, spine and the wrap, with bleed.
+                        </p>
+                      )}
+                      <SlotDrop
+                        slot={CASE_SLOT}
+                        data={project.slots?.case_wrap}
+                        uploading={uploadingSlot === "case_wrap"}
+                        onUpload={(f) => uploadToSlot("case_wrap", f)}
+                        onDelete={() => deleteSlot("case_wrap")}
+                      />
+                      {(project.slots?.case_wrap?.compliance || []).filter(isOpenIssue).map((c) => (
+                        <div
+                          key={c.id}
+                          className={`mt-2 flex items-start gap-2 text-xs leading-relaxed ${c.status === "fail" ? "text-red-400" : "text-amber-400"}`}
+                          data-testid={`case-issue-${c.id}`}
+                        >
+                          {c.status === "fail" ? <XCircle className="w-3.5 h-3.5 shrink-0 mt-0.5" /> : <AlertTriangle className="w-3.5 h-3.5 shrink-0 mt-0.5" />}
+                          <span>
+                            {c.id === "colorspace" ? "Your case file is RGB. It's converted to print-ready CMYK automatically when you export, nothing to do." : c.message}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
                   )}
                 </div>
 
@@ -814,35 +1212,7 @@ export default function Editor() {
                 </div>
               </div>
 
-              {/* Primary actions, pinned to the bottom of the Job Setup column.
-                  Targets whichever file this project actually has -- the cover
-                  autofix 404s on a book-only project since it only ever looks
-                  at the legacy top-level upload, not the interior slot. */}
-              <div className="p-4 border-t border-neutral-800 space-y-2 mt-auto">
-                <button
-                  onClick={isCover ? autofix : autofixInterior}
-                  disabled={(isCover ? !hasAnyUpload : !hasInteriorUpload) || fixing || interiorFixing}
-                  className="w-full btn-gold py-3.5 font-mono-spec text-xs tracking-widest uppercase disabled:opacity-40 btn-industrial flex items-center justify-center gap-2"
-                  data-testid="fix-all"
-                >
-                  <Wand2 className="w-4 h-4" /> {(fixing || interiorFixing) ? "Checking…" : isCover ? "Check & Fix Cover" : "Check & Fix Interior"}
-                </button>
-                <button
-                  onClick={isFreeTier ? () => nav("/pricing") : exportPdf}
-                  disabled={!hasAnyUpload || exporting || !coverClear || !interiorClear}
-                  title={!coverClear || !interiorClear ? "Fix the issues found above before exporting" : undefined}
-                  className="w-full py-3 border border-neutral-700 text-neutral-200 font-mono-spec text-xs tracking-widest uppercase hover:border-white disabled:opacity-40 btn-industrial flex items-center justify-center gap-2"
-                  data-testid="export-pdf"
-                >
-                  <Download className="w-4 h-4" />
-                  {exporting
-                    ? "Exporting…"
-                    : isFreeTier
-                    ? (bookModel ? "Export — Get A Book" : "Export — Upgrade Required")
-                    : (!coverClear || !interiorClear)
-                    ? "Fix Errors to Export"
-                    : "Export Print-Ready File"}
-                </button>
+              <div className="p-4 border-t border-neutral-800 mt-auto">
                 <div className="font-mono-spec text-[9px] tracking-widest uppercase text-neutral-600 text-center pt-1" data-testid="book-export-counter">
                   {bookModel
                     ? `Unlimited exports while your book is active${pricing?.book ? ` (${pricing.book.window_days} days)` : ""}`
@@ -885,54 +1255,53 @@ export default function Editor() {
                   <InteriorPreview overlays={overlays} previewUrl={previewUrl} />
                 )}
               </div>
+              {project.results_locked && (
+                <div className={`p-4 border-t border-neutral-800 ${glowIf("fix")}`} data-testid="compliance-list">
+                  <span className="font-mono-spec text-[10px] tracking-widest uppercase text-[#D4AF37] block mb-2">Check Results</span>
+                  <LockedResults summary={project.results_summary} pricing={pricing} onUnlock={unlockResults} unlocking={unlocking} hasInterior={needsInterior} />
+                </div>
+              )}
+              {!project.results_locked && project.owns_product === false && unlockedIssues > 0 && (
+                <div className="px-4 pt-4 border-t border-neutral-800">
+                  <FixItCta
+                    issues={unlockedIssues} pricing={pricing} onFix={() => needsBook("Repair Bay")} auditId={project.results_audit_id}
+                    onUpgrade={project.results_can_upgrade ? () => unlockResults("advanced") : undefined}
+                  />
+                </div>
+              )}
+
               {/* Check results -- Cover */}
-              {isCover && (
-                <div className="p-4 border-t border-neutral-800" data-testid="compliance-list">
+              {!project.results_locked && isCover && (
+                <div className={`p-4 border-t border-neutral-800 ${currentStep === "fix" && coverIssues.length ? STEP_GLOW_CLASS : ""}`} data-testid="compliance-list">
                   <div className="flex items-center justify-between flex-wrap gap-2 mb-2">
                     <span className="font-mono-spec text-[10px] tracking-widest uppercase text-[#D4AF37]">{needsInterior ? "Cover Check Results" : "Check Results"}</span>
-                    {hasAnyUpload && (
-                      <button onClick={autofix} disabled={fixing} className={rescanBtnClass(fixing, coverSummary.verdict !== "pass")} data-testid="rescan-cover">
-                        {fixing ? "Checking…" : (coverSummary.verdict !== "pass" ? "▸ Recheck Cover" : "Recheck")}
-                      </button>
-                    )}
                   </div>
                   {compliance.length === 0 && <p className="text-xs text-neutral-500">Upload a file to see the results here.</p>}
-                  {compliance.length > 0 && <ScanStatusBanner result={coverFixResult} summary={coverSummary} sectionLabel="Cover" nextHint={needsInterior ? "upload your interior file next" : "you're ready to run the Final Review"} />}
+                  {compliance.length > 0 && <ScanStatusBanner result={coverFixResult} summary={coverSummary} sectionLabel="Cover" />}
                   <div className="grid sm:grid-cols-2 gap-2 mt-2">
                     {compliance.map((c, i) => (
-                      <ComplianceCard
-                        key={i} c={c}
-                        slot={coverSlotName}
-                        onRetake={retakePhoto}
-                        onEnhance={aiEnhance}
-                        enhancing={enhancingSlot === coverSlotName}
-                        isFreeTier={isFreeTier}
-                      />
+                      <ComplianceCard key={i} c={c} />
                     ))}
                   </div>
                 </div>
               )}
 
               {/* Check results -- Interior (interior-only or combined projects) */}
-              {needsInterior && (
-                <div className="p-4 border-t border-neutral-800" data-testid="compliance-list-interior">
+              {!project.results_locked && needsInterior && (
+                <div className={`p-4 border-t border-neutral-800 ${currentStep === "fix" && !coverIssues.length && interiorIssues.length ? STEP_GLOW_CLASS : ""}`} data-testid="compliance-list-interior">
                   <div className="flex items-center justify-between flex-wrap gap-2 mb-1">
                     <div className="flex items-center gap-2 flex-wrap">
                       <span className="font-mono-spec text-[10px] tracking-widest uppercase text-[#D4AF37]">Interior Check Results</span>
-                      <span className="font-mono-spec text-[8px] tracking-widest uppercase text-neutral-500 border border-neutral-700 px-1.5 py-0.5">Free · Page 1 only</span>
+                      <span className="font-mono-spec text-[8px] tracking-widest uppercase text-neutral-500 border border-neutral-700 px-1.5 py-0.5">First page checked</span>
                     </div>
-                    {hasInteriorUpload && (
-                      <button onClick={autofixInterior} disabled={interiorFixing} className={rescanBtnClass(interiorFixing, interiorSummary.verdict !== "pass")} data-testid="rescan-interior">
-                        {interiorFixing ? "Checking…" : (interiorSummary.verdict !== "pass" ? "▸ Recheck Interior" : "Recheck")}
-                      </button>
-                    )}
                   </div>
                   <p className="text-xs text-neutral-500 mb-2">
-                    This checks page 1 of your file for free. To scan every page (up to 300), run the{" "}
-                    <span className="text-neutral-300">Advanced Interior Check</span> near the bottom of this page — {bookModel ? "included with your book." : "price depends on your plan."}
+                    {bookModel
+                      ? <>Right now SparkPrep has checked the first page of your interior. When you export, it checks every page (up to 300) before your book can be SparkPrep Certified.</>
+                      : <>This checks the first page of your interior. Every page (up to 300) is checked with a book.</>}
                   </p>
                   {!hasInteriorUpload && <p className="text-xs text-neutral-500">Upload your book above to see the results here.</p>}
-                  {hasInteriorUpload && interiorCompliance.length > 0 && <ScanStatusBanner result={interiorFixResult} summary={interiorSummary} sectionLabel="Interior" nextHint="you're ready to run the Final Review" />}
+                  {hasInteriorUpload && interiorCompliance.length > 0 && <ScanStatusBanner result={interiorFixResult} summary={interiorSummary} sectionLabel="Interior" />}
                   {hasInteriorUpload && (
                     <div className="grid sm:grid-cols-2 gap-2 mt-2">
                       {interiorCompliance.map((c, i) => (
@@ -940,16 +1309,11 @@ export default function Editor() {
                       ))}
                     </div>
                   )}
-                  {hasInteriorUpload && interiorCompliance.length > 0 && !interiorFixResult && (
-                    <button onClick={autofixInterior} disabled={interiorFixing} className="mt-3 w-full btn-gold py-2.5 font-mono-spec text-[10px] tracking-widest uppercase disabled:opacity-40 btn-industrial flex items-center justify-center gap-2" data-testid="fix-interior">
-                      <Wand2 className="w-3.5 h-3.5" /> {interiorFixing ? "Checking…" : "Check & Fix Interior"}
-                    </button>
-                  )}
                 </div>
               )}
 
               {/* Final Review -- appears once every required section is clean */}
-              <div className="p-4 border-t border-neutral-800" data-testid="final-review-section">
+              <div className={`p-4 border-t border-neutral-800 ${glowIf("final")}`} data-testid="final-review-section">
                 <div className="flex items-center justify-between flex-wrap gap-2 mb-2">
                   <span className="font-mono-spec text-[10px] tracking-widest uppercase text-[#D4AF37]">Final Review</span>
                 </div>
@@ -959,20 +1323,10 @@ export default function Editor() {
                   </p>
                 )}
                 {readyForFinalReview && !finalReview && (
-                  <button onClick={runFinalReview} disabled={checkingFinal} className="w-full btn-gold py-3 font-mono-spec text-xs tracking-widest uppercase disabled:opacity-40 btn-industrial flex items-center justify-center gap-2" data-testid="run-final-review">
-                    <ShieldCheck className="w-4 h-4" /> {checkingFinal ? "Running final scan…" : "Run Final Scan"}
-                  </button>
+                  <p className="text-xs text-neutral-400">Ready — run it with the glowing button in the step guide at the top.</p>
                 )}
                 {finalReview && (
-                  <FinalReviewResult
-                    review={finalReview}
-                    onRecheck={runFinalReview}
-                    checking={checkingFinal}
-                    onExport={isFreeTier ? () => nav("/pricing") : exportPdf}
-                    exporting={exporting}
-                    isFreeTier={isFreeTier}
-                    lockedExportLabel={bookModel ? "Export — Get A Book" : "Export — Upgrade Required"}
-                  />
+                  <FinalReviewResult review={finalReview} />
                 )}
               </div>
             </div>
@@ -999,6 +1353,7 @@ export default function Editor() {
                         trim={spine?.trim || trim}
                         spineWidth={spine?.spine_width || 0.5}
                         hasCover={previewSlot === "full_wrap" || previewSlot === "front_cover"}
+                        imageFailed={book3dFailed}
                         spineTextAllowed={spine?.spine_text_allowed}
                       />
                     </ErrorBoundary>
@@ -1006,22 +1361,12 @@ export default function Editor() {
                   <p className="text-[11px] text-neutral-500 text-center mt-2">{plat.name} · {trim.label} · {specs.binding_types?.[project.binding]?.label || project.binding}</p>
                 </div>
 
-                {/* Advanced fixes + manual adjustments, tucked under the 3D proof */}
-                <div className="p-4 border-t border-neutral-800 space-y-3">
-                  <div className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">Advanced fixes</div>
-                  <div className="grid grid-cols-2 gap-2">
-                    <MiniFixButton icon={Palette} label="CMYK" tooltip="Converts file to CMYK color space using US Web Coated SWOP v2 profile — required by IngramSpark & KDP." onClick={autofix} disabled={!hasAnyUpload} testid="fix-cmyk" />
-                    <MiniFixButton icon={Ruler} label="300 DPI" tooltip="Resamples the image to 300 DPI at the current trim + bleed dimensions." onClick={autofix} disabled={!hasAnyUpload} testid="fix-dpi" />
-                    <MiniFixButton icon={Layers} label="Bleed" tooltip={'Extends artwork into the 0.125" bleed zone so cutting variance doesn\'t leave white edges.'} onClick={autofix} disabled={!hasAnyUpload} testid="fix-bleed" />
-                    <MiniFixButton icon={Paintbrush} label="Spine" tooltip="Recalculates spine width from page count × paper PPI and re-centers spine text inside safe zones." onClick={() => toast.success("Spine width recalculated: " + spine?.spine_width + "\"")} disabled={!isCover} testid="fix-spine" />
-                    <MiniFixButton icon={Droplet} label="Ink Coverage" tooltip="Clamps total ink coverage to your distributor's limit (240% — 270% for Lulu) so dense dark areas don't smudge or dry slowly, without weakening black." onClick={autofix} disabled={!hasAnyUpload} testid="fix-ink-coverage" />
-                    <MiniFixButton icon={Crop} label="Safe Margin" tooltip="Scales cover text/art that's sitting too close to the trim edge back inside the 0.25″ safe zone, without cropping or resizing your cover." onClick={autofix} disabled={!isCover} testid="fix-safe-margin" />
-                  </div>
+                {/* Manual adjustments for experts, folded away -- every fix lives in the step guide */}
+                <details className="p-4 border-t border-neutral-800 group" data-testid="expert-settings">
+                  <summary className="cursor-pointer font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500 hover:text-neutral-300 list-none">
+                    ▸ Expert settings <span className="normal-case tracking-normal text-neutral-600">— most people never need these</span>
+                  </summary>
                   <div className="pt-2 space-y-4">
-                    <SliderRow label="Spine offset" tooltip="Shift spine text left/right in fractions of an inch." unit="in" min={-0.25} max={0.25} step={0.005} value={adj.spine_offset} onChange={(v) => saveAdj({ spine_offset: v })} testid="adj-spine-offset" dark />
-                    <SliderRow label="Extra bleed" tooltip={'Add extra bleed beyond the distributor default (some print shops prefer 0.25").'} unit="in" min={0} max={0.25} step={0.005} value={adj.bleed_extra} onChange={(v) => saveAdj({ bleed_extra: v })} testid="adj-bleed-extra" dark />
-                    <SliderRow label="Image scale" tooltip="Scale the source image up or down inside the trim area." unit="×" min={0.5} max={1.5} step={0.01} value={adj.image_scale} onChange={(v) => saveAdj({ image_scale: v })} testid="adj-image-scale" dark />
-                    <SliderRow label="Target DPI" tooltip="Resample DPI target — 300 is standard for print." unit="dpi" min={200} max={600} step={10} value={adj.target_dpi} onChange={(v) => saveAdj({ target_dpi: v })} testid="adj-target-dpi" dark />
                     <div>
                       <Label className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">Color profile</Label>
                       <Select value={adj.color_profile} onValueChange={(v) => saveAdj({ color_profile: v })}>
@@ -1035,16 +1380,11 @@ export default function Editor() {
                       </Select>
                     </div>
                   </div>
-                </div>
+                </details>
               </div>
             )}
           </div>
 
-          {(project.project_type === "interior" || project.project_type === "combined") && (
-            <div className="mt-4">
-              <AdvancedInteriorCheckCard project={project} user={user} projectId={id} onProjectChange={load} refreshKey={bookStartedAt} />
-            </div>
-          )}
         </div>
 
         <BlurbDialog open={blurbOpen} onOpenChange={setBlurbOpen} defaultTitle={project.name} />
@@ -1055,17 +1395,34 @@ export default function Editor() {
           <RepairBay
             projectId={id}
             slot={bay.slot}
-            fileLabel={bay.slot === "interior" ? "interior" : "cover"}
+            fileLabel={bay.slot === "interior" ? "interior" : bay.slot === "case_wrap" ? "case cover" : "cover"}
             onResult={applyBayResult(bay)}
             onClose={closeBay}
             onLegacyFallback={() => { const b = bay; setBay(null); runAutofixLegacy(b.slot, b.setBusy, b.setResult); }}
           />
         )}
+        {exporting && (
+          <div className="fixed inset-0 z-[94] bg-black/85 backdrop-blur-sm flex items-center justify-center p-4" data-testid="exporting-overlay" role="status" aria-live="polite">
+            <div className="max-w-md text-center">
+              <div className="mx-auto w-14 h-14 rounded-full border-4 border-[#D4AF37]/30 border-t-[#D4AF37] animate-spin" />
+              <div className="font-display font-black text-2xl text-white mt-6">Building your print files…</div>
+              <p className="text-neutral-400 text-sm mt-3 leading-relaxed">
+                SparkPrep is checking every page of your final files for SparkPrep Certified. Long books can take a few
+                minutes — keep this tab open. Your files will download by themselves when it's done.
+              </p>
+              <div className="font-mono-spec text-[11px] tracking-widest text-[#D4AF37] mt-4">{exportSeconds}s</div>
+            </div>
+          </div>
+        )}
+        {exportResult && !exportResult.closed && (
+          <CertifiedModal result={exportResult} title={project.name || "Your book"} onDownload={() => downloadExport(exportResult)}
+            onClose={() => setExportResult((r) => (r ? { ...r, closed: true } : r))} />
+        )}
         {showCelebration && (
           <BookReadyCelebration
             title={project.name && project.name.toLowerCase() !== "untitled book" ? `"${project.name}"` : "Your book"}
-            onExport={() => { setShowCelebration(false); exportPdf(); }}
-            onClose={() => setShowCelebration(false)}
+            onExport={() => { setShowCelebration(false); if (bay) closeBay(); exportPdf(); }}
+            onClose={() => { setShowCelebration(false); if (bay) closeBay(); }}
           />
         )}
       </div>
@@ -1073,14 +1430,28 @@ export default function Editor() {
   );
 }
 
-function ComplianceCard({ c, slot, onRetake, onEnhance, enhancing, isFreeTier }) {
+function ComplianceCard({ c }) {
+  if (c.fixed_on_export) {
+    return (
+      <div className="border border-emerald-900 bg-[#0D0D0D] p-3" data-testid={`compliance-${c.id}`} data-fixed-on-export="true">
+        <div className="px-2 py-0.5 text-[9px] font-mono-spec tracking-widest uppercase inline-flex items-center gap-1 bg-emerald-950/40 text-emerald-300 border border-emerald-800">
+          <Wand2 className="w-3 h-3" /> Fixed automatically
+        </div>
+        <div className="font-display font-bold text-sm mt-1.5 tracking-tight text-white">{plainCheckLabel(c)}</div>
+        <div className="text-[11px] text-neutral-400 mt-0.5 leading-relaxed">
+          SparkPrep fixes this by itself when it builds your print files — nothing for you to do. The export then
+          measures every page to prove it.
+        </div>
+      </div>
+    );
+  }
   const fixLabel = c.status !== "pass" && c.auto_fix ? (FIX_ACTION_LABELS[c.fix_action] || "Fix available") : null;
   // Low-DPI specifically gets real fix options (a fresh camera photo, or an
   // AI enhance pass) instead of just a label -- Auto-Fix's CMYK conversion
   // never actually resampled pixel dimensions for this one, so leaving it
   // at a label with no action was misleading about what "auto_fix: true"
   // could actually do here.
-  const isDpiIssue = c.status !== "pass" && c.fix_action === "upscale_300dpi" && slot;
+  const isDpiIssue = c.status !== "pass" && c.fix_action === "upscale_300dpi";
   return (
     <div className="border border-neutral-800 bg-[#0D0D0D] p-3" data-testid={`compliance-${c.id}`}>
       <div className={`px-2 py-0.5 text-[9px] font-mono-spec tracking-widest uppercase inline-flex items-center gap-1 ${statusPill(c.status)}`}>
@@ -1094,19 +1465,8 @@ function ComplianceCard({ c, slot, onRetake, onEnhance, enhancing, isFreeTier })
         </div>
       )}
       {isDpiIssue && (
-        <div className="mt-2 space-y-1.5">
-          <button onClick={() => onRetake(slot)} className="w-full px-2 py-1.5 border border-neutral-700 hover:border-[#D4AF37] text-neutral-200 text-[9px] font-mono-spec tracking-widest uppercase btn-industrial flex items-center justify-center gap-1.5" data-testid="fix-dpi-retake">
-            📷 Retake Photo
-          </button>
-          <button
-            onClick={() => onEnhance(slot)}
-            disabled={enhancing}
-            className="w-full px-2 py-1.5 border border-neutral-700 hover:border-[#D4AF37] text-neutral-200 text-[9px] font-mono-spec tracking-widest uppercase btn-industrial flex items-center justify-center gap-1.5 disabled:opacity-40"
-            data-testid="fix-dpi-ai-upscale"
-          >
-            ✨ {enhancing ? "Enhancing…" : `AI Upscale${isFreeTier ? " 🔒" : ""}`}
-          </button>
-          <p className="text-[9px] text-neutral-600 leading-relaxed">Have the physical original? Retake beats AI upscale — a fresh photo is real resolution, not a reconstruction.</p>
+        <div className="text-[10px] text-[#D4AF37] mt-1.5 flex items-center gap-1">
+          <Wand2 className="w-3 h-3 shrink-0" /> Fixed with AI Upscale — use the step guide at the top
         </div>
       )}
     </div>
@@ -1117,7 +1477,7 @@ function ComplianceCard({ c, slot, onRetake, onEnhance, enhancing, isFreeTier })
 // that disappears with a banner that stays until the next action, showing
 // exactly what happened and what to do next (the gap that was blocking
 // completing the flow: a scan ran but nothing told the user pass/fail/next).
-function ScanStatusBanner({ result, summary, sectionLabel, nextHint }) {
+function ScanStatusBanner({ result, summary, sectionLabel }) {
   const verdict = result || summary;
   if (!verdict || verdict.verdict === "empty") return null;
   const styles = {
@@ -1127,8 +1487,8 @@ function ScanStatusBanner({ result, summary, sectionLabel, nextHint }) {
   };
   const icon = { fail: <XCircle className="w-4 h-4" />, warning: <AlertTriangle className="w-4 h-4" />, pass: <Check className="w-4 h-4" /> }[verdict.verdict];
   const headline = {
-    fail: `${sectionLabel} — ${verdict.fails} issue${verdict.fails === 1 ? "" : "s"} still need fixing`,
-    warning: `${sectionLabel} passed with ${verdict.warnings} note${verdict.warnings === 1 ? "" : "s"}`,
+    fail: `${sectionLabel} — ${verdict.fails} issue${verdict.fails === 1 ? "" : "s"} to fix`,
+    warning: `${sectionLabel} — ${verdict.warnings} thing${verdict.warnings === 1 ? "" : "s"} to fix before print`,
     pass: `${sectionLabel} — all checks passed`,
   }[verdict.verdict];
   return (
@@ -1137,8 +1497,7 @@ function ScanStatusBanner({ result, summary, sectionLabel, nextHint }) {
       <div className="flex-1 min-w-0">
         <div className="font-display font-bold text-sm">{headline}</div>
         {verdict.gsFailed && <div className="text-[11px] mt-0.5 opacity-90">{verdict.gsReason || "This one needs a manual fix."}</div>}
-        {verdict.verdict === "fail" && <div className="text-[11px] mt-0.5 opacity-90">Run Auto-Fix again, or fix the issue(s) above manually, then rescan.</div>}
-        {verdict.verdict !== "fail" && <div className="text-[11px] mt-0.5 opacity-90 flex items-center gap-1">Next: {nextHint} <ArrowRight className="w-3 h-3" /></div>}
+        {verdict.verdict !== "pass" && <div className="text-[11px] mt-0.5 opacity-90">The step guide at the top shows what to press.</div>}
       </div>
     </div>
   );
@@ -1163,7 +1522,7 @@ function StopLight({ status }) {
   );
 }
 
-function FinalReviewResult({ review, onRecheck, checking, onExport, exporting, isFreeTier, lockedExportLabel }) {
+function FinalReviewResult({ review }) {
   const copy = {
     red: "Not ready to export yet.",
     yellow: "Exportable, but review the warnings first.",
@@ -1179,7 +1538,7 @@ function FinalReviewResult({ review, onRecheck, checking, onExport, exporting, i
   // editing the file itself before it can ever pass.
   const problemChecks = Object.entries(review.sections || {}).flatMap(([sectionName, s]) =>
     (s.compliance || [])
-      .filter((c) => c.status !== "pass")
+      .filter(isOpenIssue)
       .map((c) => ({ ...c, sectionName }))
   );
   const multiSection = Object.keys(review.sections || {}).length > 1;
@@ -1191,16 +1550,6 @@ function FinalReviewResult({ review, onRecheck, checking, onExport, exporting, i
         <div className="flex-1 min-w-0">
           <div className="font-display font-black text-base text-white">{copy}</div>
           <div className="text-[11px] text-neutral-400 mt-0.5">{review.message}</div>
-          <div className="flex items-center gap-2 mt-3">
-            <button onClick={onRecheck} disabled={checking} className={rescanBtnClass(checking, review.status !== "green")} data-testid="recheck-final">
-              {checking ? "Rescanning…" : (review.status !== "green" ? "▸ Rescan" : "Rescan")}
-            </button>
-            {review.status !== "red" && (
-              <button onClick={onExport} disabled={exporting} className="px-4 py-1.5 btn-gold text-[9px] font-mono-spec tracking-widest uppercase btn-industrial disabled:opacity-40 flex items-center gap-1.5" data-testid="export-from-final-review">
-                <Download className="w-3 h-3" /> {exporting ? "Exporting…" : isFreeTier ? lockedExportLabel : "Export Now"}
-              </button>
-            )}
-          </div>
         </div>
       </div>
       {problemChecks.length > 0 && (
@@ -1210,10 +1559,10 @@ function FinalReviewResult({ review, onRecheck, checking, onExport, exporting, i
               {multiSection && (
                 <div className="text-[9px] text-neutral-600 font-mono-spec tracking-widest uppercase mb-1">{c.sectionName}</div>
               )}
-              <ComplianceCard c={c} slot={null} onRetake={() => {}} onEnhance={() => {}} enhancing={false} isFreeTier={isFreeTier} />
+              <ComplianceCard c={c} />
               {!c.auto_fix && (
                 <div className="text-[10px] text-neutral-500 mt-1 pl-1">
-                  This one isn't something Auto-Fix can safely do on its own — it needs a change in your original design file, then a re-upload. Rescanning won't clear it by itself.
+                  SparkPrep can't change this one by itself — fix it in your original design file and upload it again.
                 </div>
               )}
             </div>
@@ -1365,43 +1714,7 @@ function BigInteriorDrop({ data, uploading, onUpload, onDelete }) {
   );
 }
 
-function MiniFixButton({ icon: Icon, label, tooltip, onClick, disabled, testid }) {
-  return (
-    <InfoTip text={tooltip}>
-      <button
-        onClick={onClick}
-        disabled={disabled}
-        className="border border-neutral-700 text-neutral-300 hover:border-[#D4AF37] hover:text-[#D4AF37] disabled:opacity-40 p-2.5 flex flex-col items-center gap-1 font-mono-spec text-[9px] tracking-widest uppercase btn-industrial"
-        data-testid={testid}
-      >
-        <Icon className="w-3.5 h-3.5" />
-        {label}
-      </button>
-    </InfoTip>
-  );
-}
 
-function SliderRow({ label, tooltip, unit, min, max, step, value, onChange, testid, dark }) {
-  const labelCls = dark ? "text-neutral-500" : "text-neutral-500";
-  const valueCls = dark ? "text-neutral-300" : "text-neutral-900";
-  return (
-    <div>
-      <div className="flex items-center justify-between mb-2">
-        <div className="flex items-center gap-1.5">
-          <Label className={`font-mono-spec text-[10px] tracking-widest uppercase ${labelCls}`}>{label}</Label>
-          <InfoTip text={tooltip}><Info className="w-3 h-3 text-neutral-500" /></InfoTip>
-        </div>
-        <div className={`font-mono-spec text-xs ${valueCls}`}>{typeof value === "number" ? value.toFixed(unit === "dpi" ? 0 : 3) : "—"} <span className="text-neutral-500">{unit}</span></div>
-      </div>
-      <input
-        type="range" className="spark-range w-full"
-        min={min} max={max} step={step} value={value ?? 0}
-        onChange={(e) => onChange(parseFloat(e.target.value))}
-        data-testid={testid}
-      />
-    </div>
-  );
-}
 
 // ---- Flat preview (unchanged geometry, colors updated to brand)
 function FullCoverPreview({ trim, spine, bleed, overlays, previewUrl }) {

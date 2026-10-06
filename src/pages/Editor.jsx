@@ -547,6 +547,20 @@ export default function Editor() {
     a.remove();
     setTimeout(() => URL.revokeObjectURL(url), 60000);
   };
+  // One finished file under its plain name ("My Book - Interior.pdf"). A distributor's upload box can't see inside
+  // a ZIP, so each file is its own download (owner, 2026-10-05: "I can't find the downloaded files").
+  const downloadExportFile = async (f) => {
+    const token = localStorage.getItem("sp_token");
+    const res = await api.get(f.download_url.replace(/^\/api/, ""), { params: token ? { token } : undefined, responseType: "blob" });
+    const url = URL.createObjectURL(res.data);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = f.filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 60000);
+  };
 
   // Export runs as a background job on the server (a long book's every-page check can outlast the ~100 s one
   // request may take); the page checks on it every few seconds and shows a clear "working on it" screen.
@@ -572,6 +586,11 @@ export default function Editor() {
     try {
       const data = await runExportJob();
       setProject((p) => ({ ...p, exports_used: data.book_exports_used }));
+      if (data.files?.length) {
+        // Each file gets its own button on the finished screen -- no ZIP to dig through.
+        setExportResult({ ...data, downloaded: undefined });
+        return;
+      }
       setExportResult({ ...data, downloaded: null });
       try {
         await downloadExport(data);
@@ -1415,7 +1434,7 @@ export default function Editor() {
           </div>
         )}
         {exportResult && !exportResult.closed && (
-          <CertifiedModal result={exportResult} title={project.name || "Your book"} onDownload={() => downloadExport(exportResult)}
+          <CertifiedModal result={exportResult} title={project.name || "Your book"} onDownload={() => downloadExport(exportResult)} onDownloadFile={downloadExportFile}
             onClose={() => setExportResult((r) => (r ? { ...r, closed: true } : r))} />
         )}
         {showCelebration && (

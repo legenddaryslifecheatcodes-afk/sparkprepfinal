@@ -416,6 +416,31 @@ export default function Editor() {
   };
 
   const [enhancingSlot, setEnhancingSlot] = useState(null);
+
+  // While SparkPrep is fixing, upscaling, uploading or exporting, the browser's Back (a touchpad swipe, the mouse's
+  // side button, Alt+Left) must not drop the customer on the Dashboard mid-repair. Owner, 2026-10-05: "it kicked me
+  // out" -- pressing "Fix my case cover" was followed half a second later by the Dashboard loading, no crash, no
+  // logout. A same-address history entry is added while busy: Back only removes it (the page stays put) and says why.
+  // Closing or refreshing the tab asks first.
+  const busyNow = !!bay || exporting || !!enhancingSlot || !!uploadingSlot;
+  useEffect(() => {
+    if (!busyNow) return undefined;
+    const guard = () => window.history.pushState({ ...(window.history.state || {}), spGuard: true }, "", window.location.href);
+    guard();
+    const onPop = () => {
+      guard();
+      toast("SparkPrep is still working on your book — stay on this page until it finishes.", { duration: 6000 });
+    };
+    const onBeforeUnload = (e) => { e.preventDefault(); e.returnValue = ""; };
+    window.addEventListener("popstate", onPop);
+    window.addEventListener("beforeunload", onBeforeUnload);
+    return () => {
+      window.removeEventListener("popstate", onPop);
+      window.removeEventListener("beforeunload", onBeforeUnload);
+      if (window.history.state?.spGuard) window.history.back();   // drop the extra entry -- same page, nothing moves
+    };
+  }, [busyNow]);
+
   const aiEnhance = async (slot) => {
     if (needsBook("AI Upscale")) return;
     setEnhancingSlot(slot);

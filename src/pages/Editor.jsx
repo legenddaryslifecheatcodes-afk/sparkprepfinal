@@ -820,8 +820,9 @@ export default function Editor() {
   };
   const FRIENDLY_ISSUE = { colorspace: "print colors", cover_safety_margin: "text too close to the edge", dpi: "sharpness",
     interior_page_size_mismatch: "page size", interior_safety_margin: "text too close to the page edge", total_ink_coverage: "ink coverage",
-    transparency: "transparency", cover_spine_text_margin: "spine text position", cover_size: "cover size",
-    cover_template_leftovers: "template parts left on the cover", cover_isbn_mismatch: "ISBN doesn't match the book" };
+    transparency: "transparency", cover_spine_text_margin: "spine text doesn't fit the spine", cover_size: "cover size",
+    cover_template_leftovers: "template parts left on the cover", cover_isbn_mismatch: "ISBN doesn't match the book",
+    cover_jacket_fold: "text on a jacket fold" };
   const names = (list) => [...new Set(list.map((c) => FRIENDLY_ISSUE[c.id] || plainCheckLabel(c).split(" (")[0].toLowerCase()))].join(", ");
   let guideNow;
   if (currentStep === "details") {

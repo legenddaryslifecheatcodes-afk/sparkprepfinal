@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { toast } from "sonner";
 import { api } from "@/lib/api";
 import { usePricing, money } from "@/lib/pricing";
 import { Flame, Timer } from "lucide-react";
@@ -13,10 +14,21 @@ import { Flame, Timer } from "lucide-react";
 export default function SeasonBanner({ variant = "bar" }) {
   const [season, setSeason] = useState(null);
   const pricing = usePricing();
+  const location = useLocation();
   const auditPrice = pricing ? ` for ${money(pricing.audit.price_cents)}` : "";
   useEffect(() => {
     api.get("/season").then(({ data }) => setSeason(data)).catch(() => {});
   }, []);
+
+  // Same-page Link click while already on /audit is otherwise a silent no-op --
+  // see the matching comment in Nav.jsx.
+  const onAuditClick = (e) => {
+    if (location.pathname === "/audit") {
+      e.preventDefault();
+      document.querySelector('[data-testid="audit-drop"]')?.scrollIntoView({ behavior: "smooth", block: "center" });
+      toast("Start by uploading your cover or interior below. SparkPrep tells you honestly whether it found issues; you only pay to see exactly what and where.");
+    }
+  };
 
   if (!season || season.phase === "closed") return null;
 
@@ -24,7 +36,7 @@ export default function SeasonBanner({ variant = "bar" }) {
 
   if (variant === "chip") {
     return (
-      <Link to="/audit" className="inline-flex items-center gap-2 border border-[#FF6A00] bg-[#FF6A00]/10 text-[#FF6A00] px-3 py-1.5 font-mono-spec text-[10px] tracking-widest uppercase hover:bg-[#FF6A00]/20 transition-colors" data-testid="season-chip">
+      <Link to="/audit" onClick={onAuditClick} className="inline-flex items-center gap-2 border border-[#FF6A00] bg-[#FF6A00]/10 text-[#FF6A00] px-3 py-1.5 font-mono-spec text-[10px] tracking-widest uppercase hover:bg-[#FF6A00]/20 transition-colors" data-testid="season-chip">
         <Flame className="w-3 h-3" />
         {isActive
           ? <><span>99-Day Audit Season · </span><span>{season.days_remaining}d left</span></>
@@ -52,7 +64,7 @@ export default function SeasonBanner({ variant = "bar" }) {
             )}
           </div>
         </div>
-        <Link to="/audit" className="font-mono-spec text-[10px] tracking-widest uppercase bg-white text-[#FF6A00] px-3 py-1 hover:bg-neutral-100 transition-colors btn-industrial whitespace-nowrap" data-testid="season-cta">
+        <Link to="/audit" onClick={onAuditClick} className="font-mono-spec text-[10px] tracking-widest uppercase bg-white text-[#FF6A00] px-3 py-1 hover:bg-neutral-100 transition-colors btn-industrial whitespace-nowrap" data-testid="season-cta">
           {isActive ? "Run Audit →" : "Preview Now →"}
         </Link>
       </div>

@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { useParams, useSearchParams, Link } from "react-router-dom";
 import { api, fmtErr, API_URL } from "@/lib/api";
 import Nav from "@/components/Nav";
-import { Check, AlertTriangle, XCircle, MapPin, BookOpen, Wrench, Timer, CheckCircle2 } from "lucide-react";
+import { toast } from "sonner";
+import { Check, AlertTriangle, XCircle, MapPin, BookOpen, Wrench, CheckCircle2 } from "lucide-react";
 import { usePricing, money, isBookModel } from "@/lib/pricing";
 
 const sevIcon = (s) => s === "pass" ? <Check className="w-4 h-4" /> : s === "warning" ? <AlertTriangle className="w-4 h-4" /> : <XCircle className="w-4 h-4" />;
@@ -64,6 +65,14 @@ export default function AuditReport() {
   const findings = audit?.full_report || [];
   const s = audit?.summary || {};
   const creditCta = isBookModel(pricing) && audit?.paid;
+  const advanced = audit?.level === "advanced";
+  const upgradeCents = pricing?.advanced_audit && pricing?.audit ? pricing.advanced_audit.price_cents - pricing.audit.price_cents : null;
+  const upgrade = async () => {
+    try {
+      const { data } = await api.post(`/audit/${id}/checkout`, { origin_url: window.location.origin, level: "advanced" });
+      window.location.href = data.checkout_url;
+    } catch (e) { toast.error(fmtErr(e.response?.data?.detail) || "Checkout failed"); }
+  };
 
   return (
     <div className="marketing min-h-screen noise-overlay">
@@ -71,7 +80,9 @@ export default function AuditReport() {
       <div className="max-w-5xl mx-auto px-6 py-12">
         <div className="flex items-center gap-2 mb-3">
           <CheckCircle2 className="w-5 h-5 text-emerald-400" />
-          <span className="font-mono-spec text-[10px] tracking-widest uppercase text-emerald-400" data-testid="paid-badge">[ Paid · Full Report Unlocked ]</span>
+          <span className="font-mono-spec text-[10px] tracking-widest uppercase text-emerald-400" data-testid="paid-badge">
+            {advanced ? "[ Paid · Advanced Audit · Every Page Checked ]" : "[ Paid · Audit Unlocked ]"}
+          </span>
         </div>
         <h1 className="font-display font-black text-4xl md:text-6xl tracking-tighter" data-testid="report-title">Your print failure report.</h1>
         <p className="text-neutral-400 mt-3">
@@ -101,17 +112,32 @@ export default function AuditReport() {
             <div className="flex gap-6 font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">
               <div><div>Critical</div><div className="text-red-400 text-2xl font-display">{s.critical_failures ?? 0}</div></div>
               <div><div>Warnings</div><div className="text-amber-400 text-2xl font-display">{s.warnings ?? 0}</div></div>
-              <div><div>Fix time</div><div className="text-white text-2xl font-display">{s.estimated_fix_minutes ?? 0}m</div></div>
             </div>
           </div>
         </div>
 
-        {creditCta && (
+        {!advanced && ["interior", "combined"].includes(audit?.file_type) && (
+          <p className="mt-4 text-xs text-neutral-500" data-testid="audit-page-one-note">
+            For interiors, this audit checks <span className="text-neutral-300">page 1</span> of the file. The Advanced Audit checks every page (up to 300), and so does a SparkPrep book.
+          </p>
+        )}
+        {audit?.can_upgrade && upgradeCents > 0 && (
+          <div className="mt-4 border border-neutral-700 p-4 flex items-center justify-between gap-4 flex-wrap" data-testid="audit-upgrade">
+            <div className="text-sm text-neutral-300">
+              <span className="font-display font-bold text-white">Check every page.</span> Upgrade to the Advanced Audit — you pay only the {money(upgradeCents)} difference, and it's all credited toward your book.
+            </div>
+            <button onClick={upgrade} className="px-4 py-2 border border-white text-white hover:bg-white hover:text-black font-mono-spec text-[10px] tracking-widest uppercase btn-industrial" data-testid="audit-upgrade-btn">
+              Upgrade — {money(upgradeCents)}
+            </button>
+          </div>
+        )}
+
+        {creditCta && findings.length > 0 && (
           <div className="mt-4 border border-emerald-700/60 bg-emerald-950/30 p-5 flex items-center justify-between gap-4 flex-wrap" data-testid="audit-credit-cta">
             <div>
-              <div className="font-display font-black text-xl text-white">Let SparkPrep fix it for you.</div>
+              <div className="font-display font-black text-xl text-white">SparkPrep can fix {findings.length === 1 ? "this issue" : "these issues"} for you right now.</div>
               <p className="text-sm text-emerald-200 mt-1">
-                Your {money(pricing.audit.credit_cents)} audit is credited in full toward your book — {money(pricing.book.price_cents - pricing.audit.credit_cents)} for one book, cover, interior, or both.
+                No need to go anywhere else.{audit?.credit_cents > 0 && <> Your {money(audit.credit_cents)} audit is credited in full toward your book — {money(pricing.book.price_cents - audit.credit_cents)} for one book, cover, interior, or both.</>}
               </p>
             </div>
             <Link to={`/pricing?audit=${id}`} className="bg-white text-black px-5 py-3 font-mono-spec text-xs tracking-widest uppercase hover:bg-neutral-200 btn-industrial" data-testid="audit-credit-btn">
@@ -160,42 +186,34 @@ export default function AuditReport() {
                 </div>
               )}
 
-              {/* Fix steps */}
-              <div className="mt-4 pl-3 border-l-2 border-neutral-700">
-                <div className="flex items-center gap-2 font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">
-                  <Wrench className="w-3 h-3" /> How to fix it
+              {/* The audit detects; SparkPrep's book fixes. No repair tutorial here (owner's rule). */}
+              {f.one_click_fix && (
+                <div className="mt-5 pt-4 border-t border-neutral-800 font-mono-spec text-[10px] tracking-widest uppercase text-emerald-400 flex items-center gap-1.5">
+                  <Wrench className="w-3 h-3" /> SparkPrep fixes this for you automatically
                 </div>
-                <ol className="mt-2 space-y-1.5 text-sm text-neutral-200 list-decimal pl-5">
-                  {f.fix_steps?.map((step, si) => (<li key={si} className="leading-relaxed">{step}</li>))}
-                </ol>
-              </div>
-
-              {/* Meta row */}
-              <div className="mt-5 flex flex-wrap gap-4 pt-4 border-t border-neutral-800 font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">
-                <div className="flex items-center gap-1.5"><Wrench className="w-3 h-3" /> Tools: <span className="text-white">{f.fix_tools?.join(" · ")}</span></div>
-                <div className="flex items-center gap-1.5"><Timer className="w-3 h-3" /> Time: <span className="text-white">{f.est_fix_minutes} min</span></div>
-                {f.one_click_fix && <div className="text-emerald-400">One-click fix in SparkPrep editor</div>}
-              </div>
+              )}
             </div>
           ))}
           {findings.length === 0 && (
             <div className="marketing-surface p-8 text-center">
               <CheckCircle2 className="w-10 h-10 mx-auto text-emerald-400" />
               <p className="font-display font-bold text-2xl mt-4 text-white">Your file passes every check.</p>
-              <p className="text-neutral-400 text-sm mt-2">Ready for submission.</p>
+              <p className="text-neutral-400 text-sm mt-2">Ready for submission. Thank you for using SparkPrep!</p>
             </div>
           )}
         </div>
 
-        {/* Upsell to full editor */}
-        <div className="mt-10 marketing-surface p-6 text-center">
-          <span className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">[ Want us to fix it? ]</span>
-          <h3 className="font-display font-black text-2xl md:text-3xl tracking-tighter mt-3">Skip the manual work.</h3>
-          <p className="text-neutral-400 mt-3 max-w-xl mx-auto text-sm">Start a free SparkPrep account and every "one-click fix" above happens automatically on export — CMYK, 300 DPI, flatten, PDF/X-1a.</p>
-          <Link to="/register" className="mt-6 inline-block bg-white text-black px-6 py-3 font-mono-spec text-xs tracking-widest uppercase hover:bg-neutral-200 btn-industrial" data-testid="upsell-signup">
-            Start Free Account
-          </Link>
-        </div>
+        {/* Upsell to the product: the audit only finds problems; the book fixes them */}
+        {findings.length > 0 && (
+          <div className="mt-10 marketing-surface p-6 text-center">
+            <span className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">[ Want us to fix it? ]</span>
+            <h3 className="font-display font-black text-2xl md:text-3xl tracking-tighter mt-3">Skip the manual work.</h3>
+            <p className="text-neutral-400 mt-3 max-w-xl mx-auto text-sm">SparkPrep can fix every issue above for you right now — no need to go anywhere else. With a SparkPrep book, Repair Bay fixes your files and exports them print-ready (CMYK, 300 DPI, flattened, PDF/X-1a).</p>
+            <Link to={creditCta ? `/pricing?audit=${id}` : "/register"} className="mt-6 inline-block bg-white text-black px-6 py-3 font-mono-spec text-xs tracking-widest uppercase hover:bg-neutral-200 btn-industrial" data-testid="upsell-signup">
+              {creditCta ? "Fix It With SparkPrep" : "Start Free Account"}
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );

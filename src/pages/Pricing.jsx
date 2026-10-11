@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { api, fmtErr } from "@/lib/api";
-import { usePricing, money, isBookModel } from "@/lib/pricing";
+import { usePricing, money, isBookModel, specialNote, savePercent } from "@/lib/pricing";
 import { useAuth } from "@/context/AuthContext";
 import { toast } from "sonner";
 import Nav from "@/components/Nav";
@@ -103,6 +103,12 @@ export default function Pricing() {
   const auditId = params.get("audit");
   const pricing = usePricing();
   const bookModel = isBookModel(pricing);
+  // The credit is whatever was actually paid for that audit (standard, Advanced, or both), so ask the server.
+  const [auditCredit, setAuditCredit] = useState(null);
+  useEffect(() => {
+    if (!auditId) return;
+    api.get(`/audit/${auditId}`).then(({ data }) => setAuditCredit(data.credit_cents || 0)).catch(() => setAuditCredit(0));
+  }, [auditId]);
 
   const legacyCheckout = async (tier) => {
     if (tier === "free") { nav(user ? "/dashboard" : "/register"); return; }
@@ -149,7 +155,7 @@ export default function Pricing() {
           ) : bookModel ? (
             <>
               <h1 className="font-display font-black text-5xl md:text-6xl tracking-tighter mt-3">One price per book.<br />Cover, interior, or both.</h1>
-              <p className="text-neutral-400 mt-4 max-w-xl">No plans to decode. Every book includes the full interior deep-check, Auto-Fix with independent verification, and {pricing.book.window_days} days of unlimited exports.</p>
+              <p className="text-neutral-400 mt-4 max-w-xl">No plans to decode. Every book includes the SparkPrep Standard Check of every page, Auto-Fix with independent verification, and {pricing.book.window_days} days of unlimited exports.</p>
             </>
           ) : (
             <>
@@ -167,7 +173,7 @@ export default function Pricing() {
           <>
             <AuditCard pricing={pricing} bookModel={bookModel} />
             {bookModel
-              ? <BookModel pricing={pricing} busy={busy} onBuy={bookCheckout} auditId={auditId} user={user} nav={nav} />
+              ? <BookModel pricing={pricing} busy={busy} onBuy={bookCheckout} auditId={auditId} auditCredit={auditCredit} user={user} nav={nav} />
               : <LegacyLadder busy={busy} onChoose={legacyCheckout} />}
           </>
         )}
@@ -189,14 +195,26 @@ function AuditCard({ pricing, bookModel }) {
           </div>
           <h2 className="font-display font-black text-4xl md:text-5xl tracking-tighter mt-4">{money(price)} Print Failure Audit.</h2>
           <p className="text-neutral-400 mt-3 max-w-xl leading-relaxed">
-            One-time pay. Upload a cover or interior and get a pixel-level pinpointed audit — with the exact publisher rule cited, region flagged, and step-by-step fix instructions.
-            {bookModel && <> <span className="text-white">The full {money(pricing.audit.credit_cents)} is credited toward your book</span> if you fix it with SparkPrep.</>}
+            One-time pay. Upload a cover or interior and get a pixel-level pinpointed audit — what failed, the exact region, and the publisher rule it breaks.
+            {pricing.advanced_audit ? " Covers are checked in full; interiors on page 1." : ""}
+            {bookModel && <> <span className="text-white">Whatever you pay is credited toward your book</span> if you fix it with SparkPrep.</>}
           </p>
+          {specialNote(pricing, "audit") && (
+            <p className="mt-2 text-sm text-emerald-300" data-testid="pricing-audit-special">
+              {specialNote(pricing, "audit")}{savePercent(pricing, "audit") ? ` — save ${savePercent(pricing, "audit")}%` : ""}
+            </p>
+          )}
+          {pricing.advanced_audit && (
+            <p className="mt-3 text-sm text-neutral-300" data-testid="pricing-advanced-audit">
+              <span className="text-white font-semibold">Advanced Audit — {money(pricing.advanced_audit.price_cents)}:</span> the same audit on every page of your interior (up to {pricing.advanced_audit.max_pages}).
+              {specialNote(pricing, "advanced_audit") && <span className="text-emerald-300"> {specialNote(pricing, "advanced_audit")}{savePercent(pricing, "advanced_audit") ? ` — save ${savePercent(pricing, "advanced_audit")}%` : ""}.</span>}
+            </p>
+          )}
           <div className="mt-5 flex flex-wrap gap-2 font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">
             <span className="border border-neutral-700 px-2 py-1">✓ No account</span>
             <span className="border border-neutral-700 px-2 py-1">✓ No subscription</span>
             <span className="border border-neutral-700 px-2 py-1">✓ Publisher rule cited</span>
-            <span className="border border-neutral-700 px-2 py-1">✓ Fix steps</span>
+            <span className="border border-neutral-700 px-2 py-1">✓ Exact location</span>
           </div>
         </div>
         <div className="text-right">
@@ -211,9 +229,9 @@ function AuditCard({ pricing, bookModel }) {
   );
 }
 
-function BookModel({ pricing, busy, onBuy, auditId, user, nav }) {
+function BookModel({ pricing, busy, onBuy, auditId, auditCredit, user, nav }) {
   const book = pricing.book;
-  const credit = auditId ? pricing.audit.credit_cents : 0;
+  const credit = auditId ? (auditCredit || 0) : 0;
   const plans = pricing.plans || [];
   const main = plans.find((p) => p.id === "book_1");
   const later = plans.filter((p) => p.id !== "book_1");
@@ -295,7 +313,10 @@ function BookModel({ pricing, busy, onBuy, auditId, user, nav }) {
       <div className="mt-10 marketing-surface p-6 flex items-center justify-between gap-4 flex-wrap">
         <div>
           <div className="font-display font-black text-xl">Just looking?</div>
-          <p className="text-sm text-neutral-400 mt-1">Free account: upload, preview and see the full compliance report. Buy a book when you're ready to export.</p>
+          <p className="text-sm text-neutral-400 mt-1">
+            Free account: upload your book and SparkPrep runs a real scan of it. See exactly what it found for {money(pricing.audit.price_cents)} (credited toward your book).
+            Get a book when you want SparkPrep to fix everything and hand you print-ready files.
+          </p>
         </div>
         <button onClick={() => nav(user ? "/dashboard" : "/register")} className="px-5 py-2.5 border border-neutral-700 hover:border-white font-mono-spec text-xs tracking-widest uppercase btn-industrial" data-testid="start-free">
           Start Free

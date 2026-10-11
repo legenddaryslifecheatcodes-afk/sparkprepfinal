@@ -3,12 +3,11 @@ import { useParams, useNavigate } from "react-router-dom";
 import { api, fmtErr } from "@/lib/api";
 import { toast } from "sonner";
 import Nav from "@/components/Nav";
-import { Check, AlertTriangle, XCircle, Lock, Sparkles } from "lucide-react";
-import { usePricing, money, isBookModel } from "@/lib/pricing";
+import { Check, Sparkles } from "lucide-react";
+import { usePricing, money, isBookModel, specialNote, savePercent } from "@/lib/pricing";
 
-const sevIcon = (s) => s === "pass" ? <Check className="w-4 h-4" /> : s === "warning" ? <AlertTriangle className="w-4 h-4" /> : <XCircle className="w-4 h-4" />;
-const sevClass = (s) => s === "pass" ? "text-emerald-400 border-emerald-400/30 bg-emerald-500/10" : s === "warning" ? "text-amber-400 border-amber-400/30 bg-amber-500/10" : "text-red-400 border-red-400/30 bg-red-500/10";
-
+// Owner's rule: one defined audit, no free preview. Before paying, the customer sees only the honest total --
+// never which issues, their severity, or a rejection risk. The server enforces this too (audit_get).
 export default function AuditPreview() {
   const { id } = useParams();
   const [audit, setAudit] = useState(null);
@@ -17,13 +16,16 @@ export default function AuditPreview() {
   const pricing = usePricing();
 
   useEffect(() => {
-    api.get(`/audit/${id}`).then(({ data }) => setAudit(data)).catch(() => nav("/audit"));
-  }, [id]);
+    api.get(`/audit/${id}`).then(({ data }) => {
+      if (data.paid) nav(`/audit/${id}/report`, { replace: true });
+      else setAudit(data);
+    }).catch(() => nav("/audit"));
+  }, [id]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const unlock = async () => {
-    setCheckingOut(true);
+  const unlock = async (level = "standard") => {
+    setCheckingOut(level);
     try {
-      const { data } = await api.post(`/audit/${id}/checkout`, { origin_url: window.location.origin });
+      const { data } = await api.post(`/audit/${id}/checkout`, { origin_url: window.location.origin, level });
       window.location.href = data.checkout_url;
     } catch (e) {
       toast.error(fmtErr(e.response?.data?.detail) || "Checkout failed");
@@ -32,101 +34,82 @@ export default function AuditPreview() {
   };
 
   if (!audit) return <div className="marketing min-h-screen"><Nav dark /><div className="p-10 font-mono-spec text-xs text-neutral-500">Loading…</div></div>;
-  const s = audit.summary || {};
-  const riskColor = s.rejection_risk === "high" ? "text-red-400 border-red-400/40" : s.rejection_risk === "medium" ? "text-amber-400 border-amber-400/40" : s.rejection_risk === "low" ? "text-yellow-300 border-yellow-300/40" : "text-emerald-400 border-emerald-400/40";
+  const total = audit.summary?.total_issues ?? 0;
+  const isInterior = audit.file_type === "interior";
+  const price = pricing ? money(pricing.audit.price_cents) : "";
 
   return (
     <div className="marketing min-h-screen noise-overlay">
       <Nav dark />
-      <div className="max-w-5xl mx-auto px-6 py-12">
-        <span className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">[ Preview · Audit {id.slice(0, 8)} ]</span>
-        <h1 className="font-display font-black text-4xl md:text-6xl tracking-tighter mt-3" data-testid="preview-title">
-          {s.critical_failures > 0 ? "This won't pass." : s.warnings > 0 ? "This might squeak by." : "This looks clean."}
-        </h1>
-        <p className="text-neutral-400 mt-3">Auditing against <span className="font-mono-spec text-white">{audit.platform_name}</span> · trim <span className="font-mono-spec text-white">{audit.trim_label}</span> · file <span className="font-mono-spec text-white">{audit.file_metadata?.original_filename}</span></p>
+      <div className="max-w-3xl mx-auto px-6 py-12">
+        <span className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">[ Audit {id.slice(0, 8)} ]</span>
+        <p className="text-neutral-400 mt-3">
+          Checked against <span className="font-mono-spec text-white">{audit.platform_name}</span> · trim <span className="font-mono-spec text-white">{audit.trim_label}</span> · file <span className="font-mono-spec text-white">{audit.file_metadata?.original_filename}</span>
+        </p>
 
-        {/* Summary tiles */}
-        <div className="grid md:grid-cols-4 gap-3 mt-10">
-          <div className={`marketing-surface p-5 border ${riskColor}`} data-testid="summary-risk">
-            <div className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">Rejection risk</div>
-            <div className="font-display font-black text-3xl mt-2 tracking-tight capitalize">{s.rejection_risk || "—"}</div>
-          </div>
-          <div className="marketing-surface p-5" data-testid="summary-critical">
-            <div className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">Critical failures</div>
-            <div className="font-display font-black text-3xl mt-2 tracking-tight text-red-400">{s.critical_failures ?? 0}</div>
-          </div>
-          <div className="marketing-surface p-5" data-testid="summary-warnings">
-            <div className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">Warnings</div>
-            <div className="font-display font-black text-3xl mt-2 tracking-tight text-amber-400">{s.warnings ?? 0}</div>
-          </div>
-          <div className="marketing-surface p-5" data-testid="summary-fix">
-            <div className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">Est. time to fix</div>
-            <div className="font-display font-black text-3xl mt-2 tracking-tight">{s.estimated_fix_minutes ?? 0}<span className="text-neutral-500 text-lg"> min</span></div>
-          </div>
-        </div>
-
-        {/* Preview issue list */}
-        <div className="mt-10 space-y-2" data-testid="preview-issues">
-          {audit.preview?.map((f, i) => (
-            <div key={i} className="marketing-surface p-5" data-testid={`preview-issue-${i}`}>
-              <div className="flex items-start gap-3">
-                <div className={`px-2 py-0.5 border font-mono-spec text-[10px] tracking-widest uppercase inline-flex items-center gap-1 ${sevClass(f.severity)}`}>
-                  {sevIcon(f.severity)} {f.severity}
-                </div>
-                <div className="flex-1">
-                  <div className="font-display font-bold text-lg tracking-tight text-white">{f.title}</div>
-                  <p className="text-sm text-neutral-400 mt-1 leading-relaxed">{f.why_it_fails}</p>
-                </div>
-                {f.one_click_fix && (
-                  <div className="font-mono-spec text-[9px] tracking-widest uppercase text-emerald-400 whitespace-nowrap">One-click fix available</div>
+        {total > 0 ? (
+          <div className="mt-8 marketing-surface p-8 border-white/30" data-testid="unlock-cta">
+            <h1 className="font-display font-black text-3xl md:text-4xl tracking-tighter" data-testid="preview-title">
+              SparkPrep found {total} issue{total === 1 ? "" : "s"} that may stop this file from being accepted.
+            </h1>
+            <ul className="mt-6 space-y-2 text-sm text-neutral-300">
+              <li className="flex items-center gap-2"><Sparkles className="w-4 h-4 text-white" /> Exactly where each problem is</li>
+              <li className="flex items-center gap-2"><Sparkles className="w-4 h-4 text-white" /> What failed and why it gets rejected</li>
+              <li className="flex items-center gap-2"><Sparkles className="w-4 h-4 text-white" /> The publisher requirement it breaks</li>
+              <li className="flex items-center gap-2"><Sparkles className="w-4 h-4 text-white" /> A downloadable PDF of your audit</li>
+            </ul>
+            <button
+              onClick={() => unlock("standard")}
+              disabled={!!checkingOut}
+              className="mt-7 w-full bg-white text-black px-6 py-4 font-mono-spec text-xs tracking-widest uppercase hover:bg-neutral-200 disabled:opacity-50 btn-industrial"
+              data-testid="unlock-btn"
+            >
+              {checkingOut === "standard" ? "Redirecting…" : `See My Results${price ? ` — ${price}` : ""}${isInterior ? " · page 1" : ""}`}
+            </button>
+            {specialNote(pricing, "audit") && (
+              <div className="mt-2 text-center text-xs text-emerald-300" data-testid="audit-special-note">
+                {specialNote(pricing, "audit")}{savePercent(pricing, "audit") ? ` — save ${savePercent(pricing, "audit")}%` : ""}
+              </div>
+            )}
+            {isInterior && pricing?.advanced_audit && (
+              <div className="mt-5 border border-neutral-700 p-4" data-testid="advanced-audit-offer">
+                <div className="font-display font-bold text-white">Advanced Audit — every page</div>
+                <p className="text-sm text-neutral-400 mt-1">The same audit on every page of your interior (up to {pricing.advanced_audit.max_pages}), not just page 1.</p>
+                <button
+                  onClick={() => unlock("advanced")}
+                  disabled={!!checkingOut}
+                  className="mt-3 w-full border border-white text-white px-6 py-3 font-mono-spec text-xs tracking-widest uppercase hover:bg-white hover:text-black disabled:opacity-50 btn-industrial"
+                  data-testid="unlock-advanced-btn"
+                >
+                  {checkingOut === "advanced" ? "Redirecting…" : `Advanced Audit — ${money(pricing.advanced_audit.price_cents)}`}
+                </button>
+                {specialNote(pricing, "advanced_audit") && (
+                  <div className="mt-2 text-center text-xs text-emerald-300">
+                    {specialNote(pricing, "advanced_audit")}{savePercent(pricing, "advanced_audit") ? ` — save ${savePercent(pricing, "advanced_audit")}%` : ""}
+                  </div>
                 )}
               </div>
-              {/* Locked details */}
-              <div className="mt-4 border-t border-neutral-800 pt-4 flex items-center gap-3 text-neutral-500 font-mono-spec text-[10px] tracking-widest uppercase">
-                <Lock className="w-3.5 h-3.5" /> Publisher rule cited · Fix steps · Tools · Pinpoint region — unlock below
-              </div>
+            )}
+            <div className="mt-4 text-center text-xs text-neutral-400">
+              {isBookModel(pricing) && "Whatever you pay is credited in full toward your SparkPrep book. "}Secure via Stripe · No account needed.
             </div>
-          ))}
-          {(!audit.preview || audit.preview.length === 0) && (
-            <div className="marketing-surface p-8 text-center">
-              <Check className="w-8 h-8 mx-auto text-emerald-400" />
-              <p className="font-display font-bold text-xl mt-4 text-white">No issues detected in preview.</p>
-              <p className="text-neutral-400 text-sm mt-2">The paid deep audit still runs additional checks — worth confirming for peace of mind.</p>
-            </div>
-          )}
-        </div>
-
-        {/* Unlock CTA */}
-        <div className="mt-12 marketing-surface p-8 border-white/30" data-testid="unlock-cta">
-          <div className="flex items-start justify-between gap-8 flex-wrap">
-            <div className="flex-1 min-w-[260px]">
-              <span className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">[ Unlock the full report ]</span>
-              <h2 className="font-display font-black text-3xl md:text-4xl tracking-tighter mt-3">Get the exact rule cited,<br />the pinpoint region, and every fix step.</h2>
-              <ul className="mt-5 space-y-2 text-sm text-neutral-300">
-                <li className="flex items-center gap-2"><Sparkles className="w-4 h-4 text-white" /> Cited publisher rule for every finding</li>
-                <li className="flex items-center gap-2"><Sparkles className="w-4 h-4 text-white" /> Exact region / pixels / inches with the problem</li>
-                <li className="flex items-center gap-2"><Sparkles className="w-4 h-4 text-white" /> Step-by-step fix instructions</li>
-                <li className="flex items-center gap-2"><Sparkles className="w-4 h-4 text-white" /> Tools needed + estimated minutes</li>
-              </ul>
-            </div>
-            <div className="text-right">
-              <div className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">One-time</div>
-              <div className="font-display font-black text-6xl tracking-tighter mt-1">{pricing ? money(pricing.audit.price_cents) : "…"}</div>
-              {isBookModel(pricing) && (
-                <div className="mt-1 text-xs text-emerald-300">Credited in full toward your book</div>
-              )}
-              <button
-                onClick={unlock}
-                disabled={checkingOut}
-                className="mt-5 bg-white text-black px-6 py-3.5 font-mono-spec text-xs tracking-widest uppercase hover:bg-neutral-200 disabled:opacity-50 btn-industrial"
-                data-testid="unlock-btn"
-              >
-                {checkingOut ? "Redirecting…" : "Unlock Full Report"}
-              </button>
-              <div className="mt-3 font-mono-spec text-[9px] tracking-widest uppercase text-neutral-500">Secure via Stripe · No account</div>
-            </div>
+            <p className="mt-6 text-sm text-neutral-400">Then let SparkPrep fix it for you — no need to go anywhere else.</p>
           </div>
-        </div>
+        ) : (
+          <div className="mt-8 marketing-surface p-8 text-center" data-testid="audit-clean">
+            <Check className="w-10 h-10 mx-auto text-emerald-400" />
+            <p className="font-display font-bold text-2xl mt-4 text-white">
+              {isInterior ? "No issues found on page 1 of your interior." : "No issues found."}
+            </p>
+            <p className="text-neutral-400 text-sm mt-2">Your file passed SparkPrep's checks. Thank you for trying SparkPrep!</p>
+          </div>
+        )}
+
+        {isInterior && (
+          <p className="mt-6 text-xs text-neutral-500 leading-relaxed" data-testid="audit-page-one-note">
+            For interiors, the standard audit checks <span className="text-neutral-300">page 1</span> of your file. The Advanced Audit checks every page (up to 300), and so does a SparkPrep book.
+          </p>
+        )}
       </div>
     </div>
   );

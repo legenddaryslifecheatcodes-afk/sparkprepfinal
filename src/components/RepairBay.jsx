@@ -367,7 +367,7 @@ function Gauge({ health, healthBefore, show, state }) {
   const pct = Math.max(0, Math.min(100, health));
   const angle = -90 + (pct / 100) * 180;
   const color = state === "clean" ? "#10B981" : state === "repairing" ? "#F59E0B" : state === "misfire" ? "#DC2626" : "#525252";
-  const label = state === "clean" ? "RUNNING CLEAN" : state === "repairing" ? "REPAIRING" : state === "misfire" ? "MISFIRING" : "STANDBY";
+  const label = state === "clean" ? "RUNNING CLEAN" : state === "repairing" ? "REPAIRING" : state === "misfire" ? "PARTLY FIXED" : "STANDBY";
   return (
     <div className="shrink-0 w-32 sm:w-40 text-center" data-testid="repair-gauge" data-health={show ? pct : ""} data-state={state}>
       <svg viewBox="0 0 120 70" className="w-full">

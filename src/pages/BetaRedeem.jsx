@@ -27,7 +27,7 @@ export default function BetaRedeem() {
     e.preventDefault();
     if (!code.trim()) return toast.error("Enter your beta code");
     if (!email.trim()) return toast.error("Enter your email");
-    if (password.length < 6) return toast.error("Password must be at least 6 characters");
+    if (password.length < 8) return toast.error("Password must be at least 8 characters");
     setBusy(true);
     try {
       const { data } = await api.post("/beta/redeem", {
@@ -117,7 +117,7 @@ export default function BetaRedeem() {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="At least 6 characters"
+                placeholder="At least 8 characters"
                 className="mt-2 w-full bg-black border border-neutral-800 focus:border-[#D4AF37] px-4 py-3 text-sm text-white outline-none"
                 data-testid="beta-password-input"
                 autoComplete="new-password"

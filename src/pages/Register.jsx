@@ -40,8 +40,8 @@ export default function Register() {
             <input type="email" required value={email} onChange={e=>setEmail(e.target.value)} className="mt-2 w-full bg-transparent border border-neutral-700 px-4 py-3 text-white focus:outline-none focus:border-white transition-colors" data-testid="register-email" />
           </div>
           <div>
-            <label className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">Password (min 6)</label>
-            <input type="password" required minLength={6} value={pw} onChange={e=>setPw(e.target.value)} className="mt-2 w-full bg-transparent border border-neutral-700 px-4 py-3 text-white focus:outline-none focus:border-white transition-colors" data-testid="register-password" />
+            <label className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">Password (min 8)</label>
+            <input type="password" required minLength={8} value={pw} onChange={e=>setPw(e.target.value)} className="mt-2 w-full bg-transparent border border-neutral-700 px-4 py-3 text-white focus:outline-none focus:border-white transition-colors" data-testid="register-password" />
           </div>
           <button type="submit" disabled={busy} className="w-full btn-gold py-3.5 font-mono-spec text-xs tracking-widest uppercase disabled:opacity-50 btn-industrial" data-testid="register-submit">
             {busy ? "Creating…" : "Create Account"}

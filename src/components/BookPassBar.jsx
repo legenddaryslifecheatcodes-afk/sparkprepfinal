@@ -18,7 +18,8 @@ function remaining(sec) {
 
 // Book-pass model only: each book gets a 7-day window of unlimited exports, started here.
 // Hidden when the server isn't on the book model (the endpoint 404s).
-export default function BookPassBar({ projectId, bookRequiredAt, onStarted }) {
+// creditAuditId: this project's paid "See My Results" audit, credited toward the book at checkout.
+export default function BookPassBar({ projectId, bookRequiredAt, onStarted, creditAuditId }) {
   const [book, setBook] = useState(null);
   const [starting, setStarting] = useState(false);
   const [left, setLeft] = useState(null);
@@ -78,7 +79,7 @@ export default function BookPassBar({ projectId, bookRequiredAt, onStarted }) {
           <BookOpen className="w-4 h-4 text-[#D4AF37] shrink-0 mt-0.5" />
           <div className="text-sm text-neutral-200">
             <span className="font-bold text-white">You have {book.available_books} book{book.available_books === 1 ? "" : "s"} ready.</span>{" "}
-            Start this one to unlock {book.window_days} days of unlimited exports and the full interior deep-check.
+            Start this one to unlock {book.window_days} days of unlimited exports and the SparkPrep Standard Check of every page.
             <div className="text-[11px] text-neutral-400 mt-0.5">The {book.window_days}-day clock starts when you press Start.</div>
           </div>
         </div>
@@ -95,12 +96,13 @@ export default function BookPassBar({ projectId, bookRequiredAt, onStarted }) {
       <div className="flex items-start gap-3">
         <BookOpen className="w-4 h-4 text-neutral-400 shrink-0 mt-0.5" />
         <div className="text-sm text-neutral-300">
-          {book.active ? "This book's export window has ended. " : "Previews and compliance reports are free. "}
-          To export, get a book — <span className="text-white font-semibold">{money(book.book_price_cents)}</span> one-time
+          {book.active ? "This book's export window has ended. " : ""}
+          Let SparkPrep fix everything and hand you print-ready files — get a book for <span className="text-white font-semibold">{money(book.book_price_cents)}</span> one-time
           {sub && <> or <span className="text-white font-semibold">{money(sub.price_cents)}/month</span></>}. Cover, interior, or both — same price.
+          {creditAuditId && <> Your audit fee is credited.</>}
         </div>
       </div>
-      <Link to="/pricing" className="px-4 py-2 bg-white text-black font-mono-spec text-[10px] tracking-widest uppercase hover:bg-neutral-200 btn-industrial" data-testid="get-book-btn">
+      <Link to={creditAuditId ? `/pricing?audit=${creditAuditId}` : "/pricing"} className="px-4 py-2 bg-white text-black font-mono-spec text-[10px] tracking-widest uppercase hover:bg-neutral-200 btn-industrial" data-testid="get-book-btn">
         Get A Book
       </Link>
     </div>

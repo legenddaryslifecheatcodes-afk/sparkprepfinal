@@ -161,7 +161,16 @@ export default function Landing() {
             Stop guessing.<br />
             <span style={{ background: "linear-gradient(180deg, #E5C158, #D4AF37 55%, #B8933E)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Start printing.</span>
           </h2>
-          <p className="text-neutral-400 mt-6 max-w-xl mx-auto">Free tier includes unlimited previews & compliance reports — {isBookModel(pricing) ? `export when you're ready for ${money(pricing.book.price_cents)} a book` : "upgrade anytime to export"}. No credit card. Or run {auditPrice ? `a ${auditPrice}` : "an "}audit right now, no account required.</p>
+          {isBookModel(pricing) ? (
+            <p className="text-neutral-400 mt-6 max-w-xl mx-auto">
+              Try SparkPrep free: create an account, upload your book, and watch SparkPrep run a real scan of your file.
+              Want to see exactly what it found? Unlock your complete audit for {auditPrice.trim()}. When SparkPrep fixes your book and hands you
+              print-ready files, that {auditPrice.trim()} is credited toward your {money(pricing.book.price_cents)} book.
+              No subscription. No credit card required to try SparkPrep.
+            </p>
+          ) : (
+            <p className="text-neutral-400 mt-6 max-w-xl mx-auto">Create a free account for unlimited previews & compliance checks in the Editor — upgrade anytime to export. No credit card to start.</p>
+          )}
           {/* One button, not two -- the $X audit path is already offered once, in the
               hero above. Repeating both choices again here just re-opens a decision
               someone visiting this far down the page has usually already made. */}

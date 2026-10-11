@@ -19,7 +19,7 @@ const VIEWS = {
 const PAGE_EDGE = "repeating-linear-gradient(90deg, #f3ecdd 0px, #f3ecdd 1px, #e2d8c3 1px, #e2d8c3 2px)";
 const PAGE_EDGE_H = "repeating-linear-gradient(0deg, #f3ecdd 0px, #f3ecdd 1px, #e2d8c3 1px, #e2d8c3 2px)";
 
-export default function BookMockup({ imageUrl, crop, trim, spineWidth, hasCover, spineTextAllowed = true }) {
+export default function BookMockup({ imageUrl, crop, trim, spineWidth, hasCover, spineTextAllowed = true, imageFailed = false }) {
   const boxRef = useRef(null);
   const [box, setBox] = useState({ w: 360, h: 420 });
   const [rot, setRot] = useState(VIEWS.angled);
@@ -34,15 +34,19 @@ export default function BookMockup({ imageUrl, crop, trim, spineWidth, hasCover,
     return () => ro.disconnect();
   }, []);
 
-  const trimW = trim?.w || 6;
-  const trimH = trim?.h || 9;
-  const spineIn = Math.max(0.02, spineWidth || 0.5);
-  // Fit the book (and its spine when turned) inside the stage with room to rotate.
-  const H = Math.max(120, Math.min(box.h * 0.72, (box.w * 0.62) * (trimH / trimW)));
-  const W = H * (trimW / trimH);
-  const D = Math.max(3, H * (spineIn / trimH));
-
   const full = crop && crop.total_width && crop.panel_width ? crop : null;
+  // Each face is drawn at the REAL panel's shape when the cover's geometry is known. A dust jacket's front panel
+  // is 6.438" x 9.25" for a 6x9 book (it wraps the board), not the 6x9 trim -- drawing it at the trim's shape
+  // cut the right ~0.44" off the front, which hid letters at the edge (owner, 2026-10-05: "the R and the Y are
+  // missing, the T from MINDSET") while the caption said "exactly what will print".
+  const faceW = full ? full.panel_width : (trim?.w || 6);
+  const faceH = full ? full.panel_height : (trim?.h || 9);
+  const spineIn = Math.max(0.02, full ? full.spine_width : (spineWidth || 0.5));
+  // Fit the book (and its spine when turned) inside the stage with room to rotate.
+  const H = Math.max(120, Math.min(box.h * 0.72, (box.w * 0.62) * (faceH / faceW)));
+  const W = H * (faceW / faceH);
+  const D = Math.max(3, H * (spineIn / faceH));
+
   const scale = full ? H / full.panel_height : 0;                        // px per inch
   const y0 = full ? (full.total_height - full.panel_height) / 2 : 0;     // top trim line, inches
   const panelBg = (xIn) => (full && imageUrl ? {
@@ -111,7 +115,9 @@ export default function BookMockup({ imageUrl, crop, trim, spineWidth, hasCover,
               </div>
             )}
             {hasCover && !imageUrl && (
-              <div className="absolute inset-0 flex items-center justify-center font-mono-spec text-[10px] tracking-widest uppercase text-white/70">Loading cover…</div>
+              <div className="absolute inset-0 flex items-center justify-center text-center px-4 font-mono-spec text-[10px] tracking-widest uppercase text-white/80" data-testid="mockup-image-state">
+                {imageFailed ? "Couldn't load your cover preview — refresh the page to try again" : "Loading your cover…"}
+              </div>
             )}
             <div className="absolute inset-0 pointer-events-none" style={{ background: "linear-gradient(105deg, rgba(0,0,0,.18) 0%, rgba(255,255,255,.10) 6%, rgba(255,255,255,0) 18%, rgba(0,0,0,0) 80%, rgba(0,0,0,.08) 100%)" }} />
           </div>
@@ -144,8 +150,10 @@ export default function BookMockup({ imageUrl, crop, trim, spineWidth, hasCover,
           ))}
         </div>
         <p className="text-[11px] leading-snug text-neutral-600" data-testid="book-mockup-note">
-          {full
+          {full && imageUrl
             ? "Your file, cut at the printer's trim lines — what's on this spine and back is exactly what will print there. Drag to turn the book."
+            : hasCover && !imageUrl
+              ? (imageFailed ? "Your cover preview didn't load, so this isn't your book yet — refresh the page to try again." : "Loading your cover onto the book…")
             : hasCover
               ? "Front cover only. Upload a full wrap (back + spine + front) to see the spine and back. Drag to turn the book."
               : "Drag to turn the book."}

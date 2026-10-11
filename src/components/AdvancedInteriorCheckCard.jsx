@@ -102,18 +102,19 @@ export default function AdvancedInteriorCheckCard({ project, user, projectId, on
           <FileSearch className="w-5 h-5 text-[#B8933E] shrink-0 mt-0.5" />
           <div>
             <div className="flex items-center gap-2 flex-wrap">
-              <h3 className="font-display font-black text-lg tracking-tight">Advanced Interior Check</h3>
+              <h3 className="font-display font-black text-lg tracking-tight">{bookModel || status?.included_with_book ? "SparkPrep Standard Check" : "Advanced Interior Check"}</h3>
               <span className="font-mono-spec text-[9px] tracking-widest uppercase bg-[#D4A857] text-black px-1.5 py-0.5">
                 {bookModel || status?.included_with_book ? "Included with your book" : "Add-on — not part of your plan"}
               </span>
             </div>
             <p className="text-sm text-neutral-600 mt-1 max-w-2xl">
-              Full structural check of every page (up to {MAX_PAGES}), not just the standard one-page check
-              included with your account. SparkPrep fixes what it safely can, then tells you exactly which pages
-              still need your attention.{" "}
               {bookModel
-                ? <strong>Included with every book — {maxRuns} runs.</strong>
-                : <><strong>One-time purchase for this book only</strong> — {maxRuns} runs included.</>}
+                ? <>Checks every page of your interior (up to {MAX_PAGES}) — standard with every SparkPrep book. SparkPrep fixes
+                    what it safely can, then shows exactly which pages still need you. Run it any time you want a page-by-page
+                    look ({maxRuns} runs included); your export also checks every page automatically before SparkPrep Certified.</>
+                : <>Full structural check of every page (up to {MAX_PAGES}), not just the one-page check included with your account.
+                    SparkPrep fixes what it safely can, then tells you exactly which pages still need your attention.{" "}
+                    <strong>One-time purchase for this book only</strong> — {maxRuns} runs included.</>}
             </p>
           </div>
         </div>
@@ -153,7 +154,7 @@ export default function AdvancedInteriorCheckCard({ project, user, projectId, on
                   className="px-6 py-3 bg-[#D4A857] text-black font-mono-spec text-xs tracking-widest uppercase hover:brightness-105 btn-industrial disabled:opacity-50"
                   data-testid="interior-check-run-btn"
                 >
-                  Run Advanced Check
+                  {bookModel ? "Run Standard Check" : "Run Advanced Check"}
                 </button>
               </div>
             ) : (

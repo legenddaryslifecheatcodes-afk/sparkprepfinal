@@ -23,6 +23,8 @@ export default function AuditLanding() {
   const [binding, setBinding] = useState("paperback");
   const [pageCount, setPageCount] = useState(200);
   const [paperType, setPaperType] = useState("white_50lb");
+  const [spineWidth, setSpineWidth] = useState("");
+  const isHardcover = binding === "hardcover_case" || binding === "hardcover_jacket";
   const [uploading, setUploading] = useState(false);
   const [auditId, setAuditId] = useState(null);
   const [uploadingTemplate, setUploadingTemplate] = useState(false);
@@ -39,6 +41,7 @@ export default function AuditLanding() {
     const { data } = await api.post("/audit/start", {
       platform, trim_size: trim, file_type: fileType,
       ...(fileType === "cover" ? { binding, page_count: pageCount, paper_type: paperType } : {}),
+      ...(fileType === "cover" && isHardcover && parseFloat(spineWidth) > 0 ? { spine_width: parseFloat(spineWidth) } : {}),
     });
     setAuditId(data.audit_id);
     return data.audit_id;
@@ -90,13 +93,17 @@ export default function AuditLanding() {
               Know exactly<br />why you'll get<br /><span className="text-neutral-500">rejected.</span>
             </h1>
             <p className="mt-6 text-lg text-neutral-400 max-w-xl leading-relaxed">
-              IngramSpark, KDP, B&N — they'll reject your file with a two-line notice like <span className="font-mono-spec text-sm text-white">"resolution insufficient"</span> and no details. Drop your cover or interior here and we'll pinpoint every likely failure, quote the exact publisher rule you're breaking, and give you step-by-step fix instructions. Ninety-nine cents. No account.
+              IngramSpark, KDP, B&N — they'll reject your file with a two-line notice like <span className="font-mono-spec text-sm text-white">"resolution insufficient"</span> and no details. Drop your cover or interior here and we'll pinpoint every likely failure, show you exactly where it is, and quote the publisher requirement it breaks. {auditPrice ? `${auditPrice}. ` : ""}No account.
             </p>
             <div className="mt-8 flex flex-wrap gap-3 text-xs font-mono-spec tracking-widest text-neutral-500 uppercase">
               <span className="border border-neutral-700 px-2 py-1">✓ Pinpoint every risk</span>
               <span className="border border-neutral-700 px-2 py-1">✓ Publisher rule cited</span>
-              <span className="border border-neutral-700 px-2 py-1">✓ Fix steps + tools</span>
-              <span className="border border-neutral-700 px-2 py-1">✓ Est. minutes to fix</span>
+              <span className="border border-neutral-700 px-2 py-1">✓ Exact location</span>
+              <span className="border border-neutral-700 px-2 py-1">✓ What's required</span>
+            </div>
+            <div className="mt-6 flex items-start gap-3 max-w-xl text-sm text-neutral-300 bg-white/5 border border-neutral-800 px-4 py-3" data-testid="audit-how-it-works">
+              <span className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500 shrink-0 mt-0.5">How it works</span>
+              <span>Upload your file first (no payment needed to do this) → SparkPrep scans it and tells you honestly whether it found issues → pay{auditPrice ? ` ${auditPrice}` : ""} to see exactly what failed, where, and the publisher requirement. For an interior, the audit checks page 1.</span>
             </div>
           </div>
 
@@ -198,9 +205,23 @@ export default function AuditLanding() {
                         data-testid="audit-page-count"
                       />
                       <p className="text-[11px] text-neutral-500 mt-1.5 leading-relaxed">
-                        Used only to estimate spine width for the size check. For a hardcover binding this is a formula-based estimate, not the distributor's own exact number — the report will note this.
+                        Used to work out your spine width for the size check.
                       </p>
                     </div>
+                    {isHardcover && (
+                      <div className="col-span-2">
+                        <Label className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">Spine width (inches)</Label>
+                        <input
+                          type="number" step="0.001" min={0} value={spineWidth} disabled={!!auditId} placeholder="e.g. 0.313"
+                          onChange={(e) => setSpineWidth(e.target.value)}
+                          className="mt-1 w-full bg-transparent border border-neutral-700 text-white px-3 py-2 text-sm"
+                          data-testid="audit-spine-width"
+                        />
+                        <p className="text-[11px] text-neutral-500 mt-1.5 leading-relaxed">
+                          For a hardcover, copy the spine width printed on your distributor's cover template — it's set for your exact page count and paper.
+                        </p>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
@@ -213,7 +234,7 @@ export default function AuditLanding() {
                 <div className="font-mono-spec text-[10px] tracking-widest text-neutral-500 mt-1 uppercase">PDF · JPG · PNG · TIFF · WebP (up to 50 MB)</div>
               </label>
               <p className="mt-6 font-mono-spec text-[10px] tracking-widest text-neutral-500 uppercase leading-relaxed">
-                Preview is free. Unlock the full pinpointed report for <span className="text-white">{auditPrice}</span>. No subscription, no account.
+                The scan is free. See exactly what it found for <span className="text-white">{auditPrice}</span>. No subscription, no account.
                 {isBookModel(pricing) && <> The full amount is credited toward your book if you fix it with SparkPrep.</>}
               </p>
             </div>
@@ -227,7 +248,7 @@ export default function AuditLanding() {
           {[
             { icon: FileSearch, title: "Every likely failure, pinpointed", body: "We check resolution, color space, transparency, bleed, PDF/X-1a and spine formula — and flag exactly which will cause a rejection." },
             { icon: ShieldAlert, title: "The exact publisher rule you're breaking", body: "Each finding cites the specific IngramSpark / KDP / B&N guideline section — so you know it's real, not guesswork." },
-            { icon: Zap, title: "Step-by-step fix instructions", body: "For every issue: what to click, what tools you'll need, and how many minutes it'll take. No detective work." },
+            { icon: Zap, title: "SparkPrep can fix it for you", body: "The audit shows what's wrong and where. When you're ready, SparkPrep fixes it and hands you print-ready files — your audit fee is credited toward your book. No need to go anywhere else." },
           ].map((f, i) => (
             <div key={i} className="marketing-surface p-6" data-testid={`audit-feature-${i}`}>
               <f.icon className="w-5 h-5 text-white" />

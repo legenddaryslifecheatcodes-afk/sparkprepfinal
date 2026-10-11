@@ -37,7 +37,9 @@ export default function BookReadyCelebration({ title = "your book", onExport, on
             {title} is ready.
           </h1>
           <p className="text-neutral-400 mt-3 text-sm max-w-sm mx-auto leading-relaxed">
-            Every check passed — cover, interior, whatever this book needed. Nothing left to fix. This is the real thing: print-ready, right now.
+            Every check passed — cover, interior, whatever this book needed. Nothing left to fix.
+            Export now: SparkPrep checks every page of your final files and, when everything is clear,
+            stamps them <span className="text-[#D4AF37]">SparkPrep Certified</span>.
           </p>
         </div>
 

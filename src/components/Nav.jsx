@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { toast } from "sonner";
 import { useAuth } from "@/context/AuthContext";
 import { Logo, SparkPrepLogo } from "@/components/Logo";
 import { usePricing, money } from "@/lib/pricing";
@@ -6,6 +7,18 @@ import { usePricing, money } from "@/lib/pricing";
 export default function Nav({ dark = true }) {
   const { user, logout } = useAuth();
   const pricing = usePricing();
+  const location = useLocation();
+  // Clicking "$X Audit" while already ON the audit page is a same-route Link,
+  // which React Router treats as a no-op -- it looks like a broken button to
+  // someone expecting it to start payment. The audit's first step is an
+  // upload (the report is about that file), so point there instead.
+  const onAuditClick = (e) => {
+    if (location.pathname === "/audit") {
+      e.preventDefault();
+      document.querySelector('[data-testid="audit-drop"]')?.scrollIntoView({ behavior: "smooth", block: "center" });
+      toast("Start by uploading your cover or interior below. SparkPrep tells you honestly whether it found issues; you only pay to see exactly what and where.");
+    }
+  };
   const base = dark
     ? "border-b border-neutral-900 bg-[#0D0D0D]/90 backdrop-blur-xl"
     : "border-b border-neutral-200 bg-[#F7F7F5]/90 backdrop-blur-xl";
@@ -55,7 +68,7 @@ export default function Nav({ dark = true }) {
               Admin
             </Link>
           )}
-          <Link to="/audit" className="font-mono-spec text-[10px] tracking-widest uppercase text-white bg-[#FF6A00] px-2.5 py-1.5 hover:brightness-110 btn-industrial" data-testid="nav-audit">
+          <Link to="/audit" onClick={onAuditClick} className="font-mono-spec text-[10px] tracking-widest uppercase text-white bg-[#FF6A00] px-2.5 py-1.5 hover:brightness-110 btn-industrial" data-testid="nav-audit">
             {pricing ? `${money(pricing.audit.price_cents)} Audit` : "Audit"}
           </Link>
           <Link to="/specs" className={linkCls} data-testid="nav-specs">Specs</Link>

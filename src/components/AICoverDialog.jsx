@@ -3,7 +3,6 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { api, fmtErr } from "@/lib/api";
 import { toast } from "sonner";
 import { Sparkles, ImageIcon } from "lucide-react";
@@ -11,7 +10,7 @@ import { Sparkles, ImageIcon } from "lucide-react";
 export default function AICoverDialog({ open, onOpenChange, projectId, onGenerated }) {
   const [prompt, setPrompt] = useState("");
   const [genre, setGenre] = useState("");
-  const [slot, setSlot] = useState("front_cover");
+  const slot = "full_wrap";
   const [busy, setBusy] = useState(false);
 
   const generate = async () => {
@@ -42,21 +41,10 @@ export default function AICoverDialog({ open, onOpenChange, projectId, onGenerat
             <Label className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">Describe the cover art</Label>
             <Textarea rows={3} value={prompt} onChange={(e) => setPrompt(e.target.value)} className="mt-1" placeholder="A lone lighthouse on a storm-lit cliff, moody teal and orange palette, oil painting style" data-testid="ai-cover-prompt" />
           </div>
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <Label className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">Genre (optional)</Label>
-              <Input value={genre} onChange={(e) => setGenre(e.target.value)} className="mt-1" placeholder="Literary Thriller" data-testid="ai-cover-genre" />
-            </div>
-            <div>
-              <Label className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">Apply to</Label>
-              <Select value={slot} onValueChange={setSlot}>
-                <SelectTrigger className="mt-1" data-testid="ai-cover-slot"><SelectValue /></SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="front_cover">Front cover only</SelectItem>
-                  <SelectItem value="full_wrap">Full cover wrap</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+          <div>
+            <Label className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">Genre (optional)</Label>
+            <Input value={genre} onChange={(e) => setGenre(e.target.value)} className="mt-1" placeholder="Literary Thriller" data-testid="ai-cover-genre" />
+            <p className="text-[11px] text-neutral-500 mt-2">Generated as a full cover wrap (back, spine and front), sized exactly to your book.</p>
           </div>
         </div>
         <button

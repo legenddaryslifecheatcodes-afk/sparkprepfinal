@@ -240,7 +240,134 @@ export default function AdminBeta() {
         </div>
 
         <BookFlags />
+        <Backups />
+        <UnsolvedCases />
       </div>
+    </div>
+  );
+}
+
+// Customer-data backups: SparkPrep saves one every night (last 7 kept on the server); "Download backup now"
+// gives the owner a copy for a USB drive at home, so no lockout or accident can cost SparkPrep its customers.
+function Backups() {
+  const [list, setList] = useState(null);
+  const [busy, setBusy] = useState(false);
+  useEffect(() => { api.get("/admin/backups").then(({ data }) => setList(data.backups)).catch(() => setList([])); }, []);
+
+  const save = async (path, fallbackName) => {
+    setBusy(path);
+    try {
+      const res = await api.get(path, { responseType: "blob" });
+      const name = (res.headers["content-disposition"] || "").match(/filename="?([^";]+)/)?.[1] || fallbackName;
+      const url = URL.createObjectURL(res.data);
+      const a = document.createElement("a");
+      a.href = url; a.download = name; a.click();
+      setTimeout(() => URL.revokeObjectURL(url), 10000);   // freeing it instantly can cancel the download in some browsers
+      toast.success("Backup downloaded — copy it to your USB drive.");
+    } catch (e) { toast.error("Backup download failed."); }
+    finally { setBusy(false); }
+  };
+
+  return (
+    <div className="mt-12" data-testid="backups">
+      <span className="font-mono-spec text-[10px] tracking-widest uppercase text-[#D4AF37]">[ Keep SparkPrep safe ]</span>
+      <h2 className="font-display font-black text-2xl tracking-tight mt-1">Backups</h2>
+      <p className="text-sm text-neutral-400 mt-1 max-w-2xl">
+        Every customer account, book project and payment record. SparkPrep saves a backup every night and keeps the last 7.
+        Download one regularly and copy it to your USB drive at home — then no lockout or accident can cost you your customers.
+      </p>
+      <button
+        onClick={() => save("/admin/backup", "sparkprep-backup.json.gz")}
+        disabled={!!busy}
+        className="mt-4 px-4 py-2.5 btn-gold font-mono-spec text-xs tracking-widest uppercase disabled:opacity-50"
+        data-testid="download-backup"
+      >
+        {busy === "/admin/backup" ? "Preparing…" : "Download backup now"}
+      </button>
+      {list && list.length > 0 && (
+        <div className="mt-4 space-y-1">
+          {list.map((b) => (
+            <div key={b.name} className="flex items-center justify-between text-xs text-neutral-400 max-w-xl">
+              <span>Nightly · {new Date(b.created_at).toLocaleString()} · {Math.max(1, Math.round(b.bytes / 1024))} KB</span>
+              <button onClick={() => save(`/admin/backups/${b.name}`, b.name)} disabled={!!busy} className="text-[#D4AF37] underline disabled:opacity-50">
+                Download
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Every issue SparkPrep couldn't fix -- details only, never the customer's file. The owner's goal: this
+// list stays empty, because SparkPrep has no issue it can't fix. Mark one solved once SparkPrep can fix it.
+function UnsolvedCases() {
+  const [cases, setCases] = useState(null);
+  const [busy, setBusy] = useState(null);
+  const load = () => api.get("/admin/unsolved-cases").then(({ data }) => setCases(data.cases)).catch(() => setCases([]));
+  useEffect(() => { load(); }, []);
+
+  const solved = async (caseId) => {
+    setBusy(caseId);
+    try {
+      await api.post(`/admin/unsolved-cases/${caseId}/solved`);
+      toast.success("Marked solved.");
+      load();
+    } catch (e) { toast.error(fmtErr(e.response?.data?.detail)); }
+    finally { setBusy(null); }
+  };
+
+  return (
+    <div className="mt-12" data-testid="unsolved-cases">
+      <span className="font-mono-spec text-[10px] tracking-widest uppercase text-[#D4AF37]">[ Goal: nothing SparkPrep can't fix ]</span>
+      <h2 className="font-display font-black text-2xl tracking-tight mt-1">Unsolved cases</h2>
+      <p className="text-sm text-neutral-400 mt-1 max-w-2xl">
+        Every issue SparkPrep couldn't fix on its own — from Repair Bay or at export — with the book's specs and what went
+        wrong. Details only; customers' files are never kept. When SparkPrep learns to fix one, mark it solved.
+      </p>
+      {cases === null ? (
+        <div className="mt-4 font-mono-spec text-xs text-neutral-500">Loading…</div>
+      ) : cases.length === 0 ? (
+        <div className="mt-4 text-sm text-emerald-400">Nothing open — SparkPrep fixed everything it's seen.</div>
+      ) : (
+        <div className="mt-4 space-y-2">
+          {cases.map((c) => (
+            <div key={c.case_id} className="marketing-surface p-4" data-testid="unsolved-case-row">
+              <div className="flex items-start justify-between gap-4 flex-wrap">
+                <div className="text-sm">
+                  <span className="font-mono-spec text-[10px] tracking-widest uppercase mr-2 text-amber-400">
+                    {c.source === "export" ? "At export" : "Repair Bay"}
+                  </span>
+                  <span className="text-white font-semibold">{c.platform} · {c.trim_size} · {c.binding} · {c.page_count}pp</span>
+                  <div className="font-mono-spec text-[10px] text-neutral-500 mt-1">
+                    last seen {new Date(c.last_seen).toLocaleString()} · seen {c.times_seen}×
+                  </div>
+                </div>
+                <button
+                  onClick={() => solved(c.case_id)}
+                  disabled={busy === c.case_id}
+                  className="px-3 py-1.5 border border-emerald-500 text-emerald-400 font-mono-spec text-[10px] tracking-widest uppercase hover:bg-emerald-500/10 disabled:opacity-50"
+                >
+                  Mark solved
+                </button>
+              </div>
+              <ul className="mt-2 text-xs text-neutral-300 space-y-1">
+                {(c.open || []).map((o, i) => (
+                  <li key={i}><span className="text-amber-300">{o.title}</span>{o.why ? ` — ${o.why}` : ""}</li>
+                ))}
+              </ul>
+              {c.file_facts && Object.keys(c.file_facts).length > 0 && (
+                <div className="mt-2 font-mono-spec text-[10px] text-neutral-500">
+                  {Object.entries(c.file_facts).map(([slot, f]) => (
+                    <div key={slot}>{slot}: {Object.entries(f).map(([k, v]) => `${k} ${v}`).join(" · ")}</div>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

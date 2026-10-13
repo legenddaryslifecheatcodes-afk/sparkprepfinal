@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Book Spine Width Calculator (KDP &amp; IngramSpark) — Free | SparkPrep</title>
+<meta name="description" content="Free book spine width calculator for Amazon KDP and IngramSpark paperbacks. Enter your page count and paper type to calculate your spine width in inches and millimeters, plus your full cover size.">
+<link rel="canonical" href="https://sparkprep.legenddary.com/book-spine-width-calculator/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Book Spine Width Calculator (KDP & IngramSpark)">
+<meta property="og:description" content="Calculate your paperback spine width and full cover size in seconds.">
+<meta property="og:url" content="https://sparkprep.legenddary.com/book-spine-width-calculator/">
+<meta property="og:image" content="https://sparkprep.legenddary.com/brand/sparkprep-logo.png">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="stylesheet" href="/tools/tools.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+ {"@type":"WebApplication","name":"Book Spine Width Calculator","url":"https://sparkprep.legenddary.com/book-spine-width-calculator/","applicationCategory":"DesignApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}},
+ {"@type":"FAQPage","mainEntity":[
+  {"@type":"Question","name":"How do you calculate book spine width?","acceptedAnswer":{"@type":"Answer","text":"Spine width = page count x the thickness of one page of your paper. For Amazon KDP that is 0.002252\" per page for white paper, 0.0025\" for cream and 0.002347\" for premium color."}},
+  {"@type":"Question","name":"Why is my spine width different on IngramSpark and KDP?","acceptedAnswer":{"@type":"Answer","text":"Each printer uses its own paper, so the same page count gives a different spine. Always build the cover for the printer you are uploading to, using that printer's own numbers."}}
+ ]}
+]}
+</script>
+</head>
+<body>
+<header class="site">
+  <a class="brand" href="/"><img src="/brand/sparkprep-logo.png" alt="SparkPrep logo" width="120" height="34"></a>
+  <nav><a href="/tools/">Free tools</a><a class="hide-sm" href="/kdp-cover-calculator/">KDP cover calculator</a><a href="/">SparkPrep</a></nav>
+</header>
+<main>
+  <div class="eyebrow">Free tool · Paperback spine</div>
+  <h1>Book Spine Width Calculator</h1>
+  <p class="lead">Work out your paperback's spine width for Amazon KDP or IngramSpark in seconds. You also get your full cover size and a printable template.</p>
+
+  <section class="card tool" aria-label="Spine width calculator">
+    <div class="row">
+      <div><label for="platform">Printer</label>
+        <select id="platform"><option value="kdp">Amazon KDP</option><option value="ingramspark">IngramSpark</option></select></div>
+      <div><label for="pages">Page count</label><input id="pages" type="number" min="18" value="250" inputmode="numeric"></div>
+      <div><label for="paper">Paper</label><select id="paper"></select></div>
+      <div><label for="trim">Trim size</label><select id="trim"></select></div>
+    </div>
+    <div class="row" id="custom-row" style="display:none">
+      <div><label for="cw">Custom width (inches)</label><input id="cw" type="number" step="0.01" value="6"></div>
+      <div><label for="ch">Custom height (inches)</label><input id="ch" type="number" step="0.01" value="9"></div>
+    </div>
+    <div class="result">
+      <div><b id="r-spine">—</b><span>Spine width (inches)</span></div>
+      <div><b id="r-mm">—</b><span>Spine width (millimeters)</span></div>
+      <div><b id="r-width">—</b><span>Full cover width</span></div>
+      <div><b id="r-height">—</b><span>Full cover height</span></div>
+    </div>
+    <div id="r-msg" class="ok"></div>
+    <canvas id="template" aria-label="Cover template preview"></canvas>
+    <button class="btn" id="download" type="button">Download cover template (PNG, 300 DPI)</button>
+  </section>
+
+  <h2>The spine width formula</h2>
+  <p><strong>Spine width = number of pages × thickness of one page.</strong> The thickness depends on the paper your printer uses, so the same book has a slightly different spine at each printer.</p>
+  <h3>Amazon KDP (from KDP's own help pages)</h3>
+  <div class="table-wrap"><table>
+    <tr><th>Paper</th><th>Per page</th></tr>
+    <tr><td>White (black &amp; white) and standard color</td><td>0.002252"</td></tr>
+    <tr><td>Cream (black &amp; white)</td><td>0.0025"</td></tr>
+    <tr><td>Premium color</td><td>0.002347"</td></tr>
+  </table></div>
+  <h3>IngramSpark (estimate from IngramSpark's paper specifications)</h3>
+  <div class="table-wrap"><table>
+    <tr><th>Paper</th><th>Pages per inch</th></tr>
+    <tr><td>White 50#</td><td>512</td></tr>
+    <tr><td>Creme 50#</td><td>444</td></tr>
+    <tr><td>Groundwood 38#</td><td>400</td></tr>
+    <tr><td>Color / Premium color 70#</td><td>377</td></tr>
+  </table></div>
+  <p class="note">IngramSpark sends you an exact cover template for your book through its free cover template generator. Use it for your final file; the IngramSpark result here is an estimate for planning.</p>
+
+  <h2>Three spine mistakes that get books rejected</h2>
+  <ol>
+    <li><strong>Using another printer's numbers.</strong> A KDP spine is not an IngramSpark spine. Build one cover per printer.</li>
+    <li><strong>Changing paper after the cover is done.</strong> Switching white to cream on KDP makes a 300-page spine about 0.07" wider, enough to wrap your spine art onto the front.</li>
+    <li><strong>Spine text on a thin book.</strong> KDP prints spine text only on books with more than 79 pages; IngramSpark not below 48 pages.</li>
+  </ol>
+
+  <section class="cta">
+    <h2>Let SparkPrep check the whole cover for you</h2>
+    <p>SparkPrep measures your real cover file: spine width, spine text, bleed, safe margins, barcode area and template leftovers. It tells you what's wrong in plain English and fixes it before you upload.</p>
+    <a class="btn" href="/">Check my cover with SparkPrep</a>
+    <a class="btn ghost" href="/kdp-cover-calculator/">KDP cover calculator</a>
+  </section>
+
+  <h2>More free tools</h2>
+  <ul class="links">
+    <li><a href="/kdp-cover-calculator/">KDP cover size calculator &amp; template generator</a></li>
+    <li><a href="/book-cover-dimensions/">Book cover dimensions for every common book size</a></li>
+    <li><a href="/ingramspark-cover-template/">IngramSpark cover template guide</a></li>
+    <li><a href="/ingramspark-rejection-fixes/">IngramSpark rejection messages explained</a></li>
+  </ul>
+  <p class="note">SparkPrep is an independent tool and is not affiliated with Amazon or IngramSpark.</p>
+</main>
+<footer class="site">© SparkPrep by Legenddary · <a href="/">Home</a><a href="/pricing">Pricing</a><a href="/tools/">Free tools</a></footer>
+<script src="/tools/cover-calc.js" defer></script>
+</body>
+</html>

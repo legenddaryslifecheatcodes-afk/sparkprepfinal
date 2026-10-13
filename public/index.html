@@ -37,6 +37,27 @@
         }
         </script>
 
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "Organization",
+              "name": "SparkPrep",
+              "url": "https://sparkprep.legenddary.com/",
+              "logo": "https://sparkprep.legenddary.com/brand/sparkprep-logo.png",
+              "founder": { "@type": "Person", "name": "Joshua Davis" },
+              "parentOrganization": { "@type": "Organization", "name": "Legenddary" }
+            },
+            {
+              "@type": "WebSite",
+              "name": "SparkPrep",
+              "url": "https://sparkprep.legenddary.com/"
+            }
+          ]
+        }
+        </script>
+
         <link rel="icon" type="image/png" href="/favicon.png" />
         <link rel="apple-touch-icon" href="/brand/favicon.png" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -55,12 +76,24 @@
         work correctly both with client-side routing and a non-root public URL.
         Learn how to configure a non-root public URL by running `npm run build`.
         -->
-        <title>Legenddary · SparkPrep — Publish. Automate. Elevate.</title>
+        <title>SparkPrep: Fix KDP &amp; IngramSpark Book File Rejections</title>
         <script>window.addEventListener("error",function(e){if(e.error instanceof DOMException&&e.error.name==="DataCloneError"&&e.message&&e.message.includes("PerformanceServerTiming")){e.stopImmediatePropagation();e.preventDefault()}},true);</script>
     </head>
     <body>
         <noscript>You need to enable JavaScript to run this app.</noscript>
-        <div id="root"></div>
+        <!-- Readable text for search engines and slow connections; React replaces it as soon as the app loads. -->
+        <div id="root"><main style="max-width:760px;margin:0 auto;padding:40px 20px;color:#f2efe6;background:#0a0a0a;font-family:Segoe UI,system-ui,Arial,sans-serif;line-height:1.6">
+          <h1>SparkPrep: fix KDP &amp; IngramSpark book file rejections before you upload</h1>
+          <p>SparkPrep checks your book cover and interior against the exact rules Amazon KDP, IngramSpark, Barnes &amp; Noble Press and Lulu use to reject print files (page size, bleed, spine width, safety margins, ink coverage, CMYK, image resolution, fonts and leftover template marks), explains every problem in plain English, and fixes it for you. Built by an author whose book was rejected 18 times.</p>
+          <h2>Free tools for self-published authors</h2>
+          <ul>
+            <li><a style="color:#f1d27a" href="/kdp-cover-calculator/">KDP cover size calculator &amp; cover template generator</a></li>
+            <li><a style="color:#f1d27a" href="/book-spine-width-calculator/">Book spine width calculator (KDP &amp; IngramSpark)</a></li>
+            <li><a style="color:#f1d27a" href="/book-cover-dimensions/">Book cover dimensions for every common book size</a></li>
+            <li><a style="color:#f1d27a" href="/ingramspark-cover-template/">IngramSpark cover template guide</a></li>
+            <li><a style="color:#f1d27a" href="/ingramspark-rejection-fixes/">IngramSpark rejection messages explained</a></li>
+          </ul>
+        </main></div>
         <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.

@@ -32,7 +32,7 @@ Facts here were true when written. Before acting on a status line (deployed / br
 | Piece | Where the code is | Where it runs | How to deploy |
 |---|---|---|---|
 | **Frontend** (this folder, React / CRA + craco + Tailwind) | `C:\Users\legen\Downloads\sparkprep-frontend` — git repo `sparkprepfinal`, working branch **`sparkprep-logo-and-ai-gating`** | Cloudflare Pages project **`sparkprep-live`** → https://sparkprep.legenddary.com (also https://sparkprep-live.pages.dev) | `npm run build`, then `npx wrangler pages deploy build --project-name=sparkprep-live --branch=main --commit-dirty=true` |
-| **Backend** (FastAPI, Python) | `C:\SparkPrepApp\backend` — GitHub `legenddaryslifecheatcodes-afk/sparkprep`, branch `main` | Render service `srv-dagtfh1t0dsc73fo44ig` (workspace `tea-da93as942hec73eivmt0`), https://sparkprep-v9fp.onrender.com, 1 CPU / 2 GB, disk at `/var/data` | Pushing to `main` **auto-deploys** to real customers. Run pytest first. |
+| **Backend** (FastAPI, Python) | `C:\SparkPrepApp\backend` — GitHub `legenddaryslifecheatcodes-afk/sparkprep`, branch `main` | Render service `srv-dagtfh1t0dsc73fo44ig` (workspace `tea-da93as942hec73eivmt0`), https://sparkprep-v9fp.onrender.com, 1 CPU / 2 GB, disk at `/var/data` (raised 1 GB → 10 GB on 2026-10-19 before the Open House; it was 82% full) | Pushing to `main` **auto-deploys** to real customers. Run pytest first. |
 | **AI Assistant** (chat widget) | `C:\Users\legen\Downloads\sparkprep-assistant\src\index.ts` (system prompt + CHANGELOG live here) | Cloudflare Worker `sparkprep-assistant` (Agents SDK, Durable Object `SparkPrepChat`, WebSocket) | `npx wrangler deploy` from that folder. Test via the real widget in a browser (not curl). Chat history auto-expires 24h after it starts. |
 | **The Legenddary** (separate free app) | Built on Emergent (app "ebook-roadmap") | Emergent | — |
 
@@ -89,7 +89,7 @@ Facts here were true when written. Before acting on a status line (deployed / br
 - Separate front/spine/back cover pieces are really assembled (paperback).
 - SparkPrep Certified report on every export (certified only when final files pass everything).
 - Login cool-down (never a lockout), 8-char minimum passwords, bcrypt.
-- **Open House (deployed 2026-10-19):** 24 hours free, no sign-up (guest accounts + "Keep my work"), Mon Oct 19 12 PM PT → Tue Oct 20 12 PM PT. Backend `open_house.py` decides when it's on (admin off switch: `POST /api/admin/open-house`); frontend `OpenHouseBanner.jsx` shows only while `GET /api/open-house` says active. Promo banners + live script: `Downloads\SparkPrep_OpenHouse_Promo\`.
+- **Open House (deployed 2026-10-19):** 24 hours free, no sign-up (guest accounts + "Keep my work"), Mon Oct 19 12 PM PT → Tue Oct 20 12 PM PT. Backend `open_house.py` decides when it's on (admin off switch: `POST /api/admin/open-house`); frontend `OpenHouseBanner.jsx` shows only while `GET /api/open-house` says active. Promo banners + live script: `Downloads\SparkPrep_OpenHouse_Promo\`. After the window ends, unkept guest accounts (no email added) and their books, plus window audit files, are deleted automatically (backend PR #8).
 - **SEO (2026-10-12):** 6 free tool pages live, new homepage title, per-page titles/canonicals, private pages `noindex`, footer tool links, Organization schema. Sitemap submitted to Google Search Console (status Success, 10 pages) and to IndexNow.
 
 ## 6. What's broken / open / risky

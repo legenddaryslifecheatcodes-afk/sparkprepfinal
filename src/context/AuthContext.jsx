@@ -6,6 +6,12 @@ const AuthContext = createContext(null);
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  // The 24-hour Open House (backend open_house.py): free for everyone, no sign-up. null until known.
+  const [openHouse, setOpenHouse] = useState(null);
+
+  useEffect(() => {
+    api.get("/open-house").then(({ data }) => setOpenHouse(data)).catch(() => setOpenHouse({ active: false }));
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -34,6 +40,22 @@ export function AuthProvider({ children }) {
     return data.user;
   };
 
+  // Open House only: a guest account made on the spot, so people can start without signing up.
+  const startGuest = async () => {
+    const { data } = await api.post("/auth/guest");
+    if (data.token) localStorage.setItem("sp_token", data.token);
+    setUser(data.user);
+    return data.user;
+  };
+
+  // Keeps a guest's work by giving the same account an email and password.
+  const claimGuest = async (email, password, name) => {
+    const { data } = await api.post("/auth/guest/claim", { email, password, name });
+    if (data.token) localStorage.setItem("sp_token", data.token);
+    setUser(data.user);
+    return data.user;
+  };
+
   const logout = async () => {
     try { await api.post("/auth/logout"); } catch {}
     localStorage.removeItem("sp_token");
@@ -48,7 +70,7 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, register, logout, refreshUser, setUser, fmtErr }}>
+    <AuthContext.Provider value={{ user, loading, login, register, logout, refreshUser, setUser, fmtErr, openHouse, startGuest, claimGuest }}>
       {children}
     </AuthContext.Provider>
   );

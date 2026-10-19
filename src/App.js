@@ -1,9 +1,11 @@
+import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "@/context/AuthContext";
 import { Toaster } from "sonner";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import AssistantWidget from "@/components/AssistantWidget";
 import RouteSeo from "@/components/RouteSeo";
+import OpenHouseBanner from "@/components/OpenHouseBanner";
 import Landing from "@/pages/Landing";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
@@ -22,8 +24,14 @@ import BetaFeedback from "@/pages/BetaFeedback";
 import AdminBeta from "@/pages/AdminBeta";
 
 function Protected({ children }) {
-  const { user, loading } = useAuth();
-  if (loading) return <div className="p-10 text-sm font-mono-spec text-neutral-500">Loading…</div>;
+  const { user, loading, openHouse, startGuest } = useAuth();
+  const [guestFailed, setGuestFailed] = useState(false);
+  // During the Open House nobody is sent to log in: a guest account is made for them instead.
+  const makeGuest = !loading && !user && openHouse?.active && !guestFailed;
+  useEffect(() => {
+    if (makeGuest) startGuest().catch(() => setGuestFailed(true));
+  }, [makeGuest]); // eslint-disable-line react-hooks/exhaustive-deps
+  if (loading || makeGuest || (!user && openHouse === null)) return <div className="p-10 text-sm font-mono-spec text-neutral-500">Loading…</div>;
   if (!user) return <Navigate to="/login" replace />;
   return children;
 }
@@ -63,6 +71,7 @@ export default function App() {
         <Toaster richColors position="top-center" />
         <AssistantWidget />
         <RouteSeo />
+        <OpenHouseBanner />
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login />} />

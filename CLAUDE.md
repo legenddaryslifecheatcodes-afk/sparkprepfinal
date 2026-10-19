@@ -89,6 +89,7 @@ Facts here were true when written. Before acting on a status line (deployed / br
 - Separate front/spine/back cover pieces are really assembled (paperback).
 - SparkPrep Certified report on every export (certified only when final files pass everything).
 - Login cool-down (never a lockout), 8-char minimum passwords, bcrypt.
+- **Open House (deployed 2026-10-19):** 24 hours free, no sign-up (guest accounts + "Keep my work"), Mon Oct 19 12 PM PT → Tue Oct 20 12 PM PT. Backend `open_house.py` decides when it's on (admin off switch: `POST /api/admin/open-house`); frontend `OpenHouseBanner.jsx` shows only while `GET /api/open-house` says active. Promo banners + live script: `Downloads\SparkPrep_OpenHouse_Promo\`.
 - **SEO (2026-10-12):** 6 free tool pages live, new homepage title, per-page titles/canonicals, private pages `noindex`, footer tool links, Organization schema. Sitemap submitted to Google Search Console (status Success, 10 pages) and to IndexNow.
 
 ## 6. What's broken / open / risky

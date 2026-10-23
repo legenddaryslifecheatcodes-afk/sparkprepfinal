@@ -73,6 +73,7 @@
   "scripts": {
     "start": "craco start",
     "build": "craco build",
+    "indexnow": "node scripts/indexnow.mjs",
     "test": "craco test"
   },
   "browserslist": {

@@ -25,7 +25,7 @@ import { usePricing, isBookModel, money, specialNote } from "@/lib/pricing";
 import { Logo } from "@/components/Logo";
 import {
   Upload, Download, Wand2, ArrowLeft, Eye, EyeOff, Check, AlertTriangle, XCircle,
-  Sparkles, FileStack, Palette, Ruler, Layers, Trash2, Info, ShieldCheck, ArrowRight,
+  Sparkles, FileStack, Palette, PenTool, Ruler, Layers, Trash2, Info, ShieldCheck, ArrowRight,
   FilePlus, BookOpen, Image as ImageIcon, Paintbrush, FileCheck2, Droplet, Crop, Package,
 } from "lucide-react";
 
@@ -908,6 +908,13 @@ export default function Editor() {
                 <InfoTip text={isFreeTier ? (bookModel ? "AI Blurb Writer is included with a book." : "AI Blurb Writer requires the Author plan or higher.") : "Generate 3 AI back-cover blurb variations with Claude Sonnet."}>
                   <button onClick={() => isFreeTier ? nav("/pricing") : setBlurbOpen(true)} className="px-3 py-2 border border-neutral-700 text-neutral-300 font-mono-spec text-[10px] tracking-widest uppercase hover:border-white hover:text-white flex items-center gap-1.5 btn-industrial" data-testid="blurb-btn">
                     <Sparkles className="w-3.5 h-3.5" /> AI Blurb{isFreeTier && " 🔒"}
+                  </button>
+                </InfoTip>
+              )}
+              {isCover && (
+                <InfoTip text="Design your whole cover (front, spine and back) in the Cover Studio, already sized to this book. It comes back here when you send it.">
+                  <button onClick={() => nav(`/cover-studio?book=${id}`)} className="px-3 py-2 border border-[#D4AF37] text-[#D4AF37] font-mono-spec text-[10px] tracking-widest uppercase hover:bg-[#D4AF37] hover:text-black flex items-center gap-1.5 btn-industrial" data-testid="cover-studio-btn">
+                    <PenTool className="w-3.5 h-3.5" /> Cover Studio
                   </button>
                 </InfoTip>
               )}

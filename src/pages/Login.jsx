@@ -17,7 +17,9 @@ export default function Login() {
     try {
       await login(email, pw);
       toast.success("Signed in");
-      nav("/dashboard");
+      // Back to where they came from (e.g. the Cover Studio), only ever a page on this site.
+      const next = new URLSearchParams(window.location.search).get("next");
+      nav(next && next.startsWith("/") && !next.startsWith("//") ? next : "/dashboard");
     } catch (err) {
       toast.error(fmtErr(err.response?.data?.detail) || err.message);
     } finally { setBusy(false); }

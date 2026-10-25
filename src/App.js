@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "@/context/AuthContext";
 import { Toaster } from "sonner";
@@ -22,6 +22,9 @@ import PaymentCancel from "@/pages/PaymentCancel";
 import BetaRedeem from "@/pages/BetaRedeem";
 import BetaFeedback from "@/pages/BetaFeedback";
 import AdminBeta from "@/pages/AdminBeta";
+
+// The Cover Studio carries its own drawing engine, so it loads only when someone opens it.
+const CoverStudio = lazy(() => import("@/pages/CoverStudio"));
 
 function Protected({ children }) {
   const { user, loading, openHouse, startGuest } = useAuth();
@@ -78,6 +81,7 @@ export default function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/specs" element={<SpecLibrary />} />
+          <Route path="/cover-studio" element={<Suspense fallback={<div className="p-10 text-sm font-mono-spec text-neutral-500">Opening Cover Studio…</div>}><CoverStudio /></Suspense>} />
           <Route path="/audit" element={<AuditLanding />} />
           <Route path="/audit/:id/preview" element={<AuditPreview />} />
           <Route path="/audit/:id/report" element={<AuditReport />} />

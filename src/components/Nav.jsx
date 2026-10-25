@@ -71,6 +71,7 @@ export default function Nav({ dark = true }) {
           <Link to="/audit" onClick={onAuditClick} className="font-mono-spec text-[10px] tracking-widest uppercase text-white bg-[#FF6A00] px-2.5 py-1.5 hover:brightness-110 btn-industrial" data-testid="nav-audit">
             {pricing ? `${money(pricing.audit.price_cents)} Audit` : "Audit"}
           </Link>
+          <Link to="/cover-studio" className={linkCls} data-testid="nav-cover-studio">Cover Studio</Link>
           <Link to="/specs" className={linkCls} data-testid="nav-specs">Specs</Link>
           <Link to="/pricing" className={linkCls} data-testid="nav-pricing">Pricing</Link>
           {user ? (

@@ -18,7 +18,9 @@ export default function Register() {
     try {
       await register(email, pw, name);
       toast.success("Welcome to SparkPrep");
-      nav("/dashboard");
+      // Back to where they came from (e.g. the Cover Studio), only ever a page on this site.
+      const next = new URLSearchParams(window.location.search).get("next");
+      nav(next && next.startsWith("/") && !next.startsWith("//") ? next : "/dashboard");
     } catch (err) {
       toast.error(fmtErr(err.response?.data?.detail) || err.message);
     } finally { setBusy(false); }

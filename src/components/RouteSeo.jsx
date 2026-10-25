@@ -18,6 +18,10 @@ const PAGES = {
     title: "Print Specs Library: KDP, IngramSpark, Barnes & Noble, Lulu | SparkPrep",
     description: "Trim sizes, bleed, spine width, safety margins and file rules for Amazon KDP, IngramSpark, Barnes & Noble Press and Lulu print books, side by side.",
   },
+  "/cover-studio": {
+    title: "Free Book Cover Maker: Front, Spine & Back, Print-Ready | SparkPrep Cover Studio",
+    description: "Design a full book cover (front, spine and back) sized exactly for KDP, IngramSpark, Barnes & Noble or Lulu. Hundreds of free templates and fonts, print guides, an AI cover designer and a 3D preview.",
+  },
   "/audit": {
     title: "Print Failure Audit: Find Why Your Book File Will Be Rejected | SparkPrep",
     description: "Upload your book cover or interior and see every problem KDP or IngramSpark would reject it for: bleed, trim, spine, safety margins, ink coverage, image resolution, fonts and more.",

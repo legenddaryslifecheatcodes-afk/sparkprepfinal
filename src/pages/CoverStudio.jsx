@@ -183,6 +183,42 @@ function ChecksPanel({ problems, engine, geo, onEdit }) {
   );
 }
 
+const PREVIEW_WIDTH = 1400;
+
+/** Stamps "SPARKPREP PREVIEW" across the image so a free preview can't be sent to a printer. */
+function watermark(url) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => {
+      const c = document.createElement("canvas");
+      c.width = img.width;
+      c.height = img.height;
+      const ctx = c.getContext("2d");
+      ctx.drawImage(img, 0, 0);
+      const size = Math.max(18, Math.round(img.width / 28));
+      ctx.font = `900 ${size}px sans-serif`;
+      ctx.fillStyle = "rgba(255,255,255,0.32)";
+      ctx.strokeStyle = "rgba(0,0,0,0.25)";
+      ctx.lineWidth = Math.max(1, size / 18);
+      ctx.textAlign = "center";
+      ctx.translate(c.width / 2, c.height / 2);
+      ctx.rotate(-Math.PI / 7);
+      const step = size * 3.2;
+      const span = Math.hypot(c.width, c.height);
+      for (let row = 0, y = -span / 2; y < span / 2; row++, y += step) {
+        for (let x = -span / 2; x < span / 2; x += size * 12) {
+          const dx = x + (row % 2 ? size * 6 : 0);
+          ctx.strokeText("SPARKPREP PREVIEW", dx, y);
+          ctx.fillText("SPARKPREP PREVIEW", dx, y);
+        }
+      }
+      resolve(c.toDataURL("image/jpeg", 0.85));
+    };
+    img.onerror = () => reject(new Error("Couldn't draw the preview."));
+    img.src = url;
+  });
+}
+
 export default function CoverStudio() {
   const { user } = useAuth();
   const [params] = useSearchParams();
@@ -338,18 +374,21 @@ export default function CoverStudio() {
     }
   }, [refresh]);
 
-  const download = async (format) => {
+  // The free download is a preview: screen size with a "Preview" watermark. The print-ready file (CMYK, ink limit,
+  // PDF/X-1a, Certified) only comes out of the paid book, so free design can't skip straight to the printer.
+  const download = async () => {
     if (!engine) return;
-    const id = toast.loading("Drawing your cover at print size (300 DPI)…");
+    const id = toast.loading("Drawing your preview…");
     try {
-      const { url, widthPx, heightPx } = await engine.render({ dpi: 300, format, quality: 0.95 });
+      const { url } = await engine.render({ dpi: 300, format: "jpeg", quality: 0.85, maxWidth: PREVIEW_WIDTH });
+      const marked = await watermark(url);
       const a = document.createElement("a");
-      a.href = url;
-      a.download = `${(words.title || "cover").replace(/[^\w-]+/g, "_").slice(0, 40) || "cover"}_full_cover_300dpi.${format === "jpeg" ? "jpg" : "png"}`;
+      a.href = marked;
+      a.download = `${(words.title || "cover").replace(/[^\w-]+/g, "_").slice(0, 40) || "cover"}_preview.jpg`;
       document.body.appendChild(a);
       a.click();
       a.remove();
-      toast.success(`Downloaded: ${widthPx} x ${heightPx} pixels, back + spine + front with bleed. Send it to your book to get a print-ready PDF.`, { id });
+      toast.success("Preview downloaded. For the print-ready file, send it to your book.", { id });
     } catch (e) {
       toast.error(e.message, { id });
     }
@@ -378,15 +417,7 @@ export default function CoverStudio() {
         <button onClick={() => engine?.redo().then(() => refresh(null))} disabled={!engine?.canRedo()} className="w-9 h-9 flex items-center justify-center border border-neutral-700 hover:border-white disabled:opacity-30" title="Redo" data-testid="studio-redo"><Redo2 className="w-4 h-4" /></button>
         <button onClick={() => { const n = !guides; setGuides(n); engine?.setGuides(n); }} className={`hidden sm:flex h-9 px-2.5 items-center gap-1.5 border font-mono-spec text-[10px] tracking-widest uppercase ${guides ? "border-[#D4AF37] text-[#D4AF37]" : "border-neutral-700 text-neutral-400"}`} title="Show or hide the print guides" data-testid="studio-guides"><Grid3x3 className="w-4 h-4" /> Guides</button>
         <button onClick={() => setShow3d(true)} disabled={!geo} className="h-9 px-2.5 flex items-center gap-1.5 border border-neutral-700 hover:border-white font-mono-spec text-[10px] tracking-widest uppercase" data-testid="studio-3d"><Box className="w-4 h-4" /><span className="hidden sm:inline">3D Preview</span></button>
-        <div className="relative group">
-          <button className="h-9 px-2.5 flex items-center gap-1.5 border border-neutral-700 hover:border-white font-mono-spec text-[10px] tracking-widest uppercase" data-testid="studio-download"><Download className="w-4 h-4" /><span className="hidden sm:inline">Download</span></button>
-          <div className="absolute right-0 top-full pt-1 hidden group-hover:block group-focus-within:block z-50">
-            <div className="bg-white text-neutral-900 border border-neutral-300 shadow-lg w-56 text-xs">
-              <button onClick={() => download("png")} className="block w-full text-left px-3 py-2 hover:bg-neutral-100" data-testid="studio-download-png">PNG, 300 DPI (best quality)</button>
-              <button onClick={() => download("jpeg")} className="block w-full text-left px-3 py-2 hover:bg-neutral-100" data-testid="studio-download-jpg">JPG, 300 DPI (smaller file)</button>
-            </div>
-          </div>
-        </div>
+        <button onClick={download} disabled={!geo} className="h-9 px-2.5 flex items-center gap-1.5 border border-neutral-700 hover:border-white font-mono-spec text-[10px] tracking-widest uppercase" title="Download a preview image to share. The print-ready file comes with your book." data-testid="studio-download"><Download className="w-4 h-4" /><span className="hidden sm:inline">Preview image</span></button>
         <button onClick={() => setShowSend(true)} disabled={!geo} className="h-9 px-3 flex items-center gap-1.5 btn-gold font-mono-spec text-[10px] tracking-widest uppercase btn-industrial" data-testid="studio-send"><Send className="w-4 h-4" /><span className="hidden md:inline">Send to my book</span></button>
       </header>
 

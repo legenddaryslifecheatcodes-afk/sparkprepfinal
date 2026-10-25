@@ -52,6 +52,7 @@ export default function SendToBookDialog({ open, onOpenChange, engine, specs, wo
       const blob = await dataUrlToBlob(url);
       const fd = new FormData();
       fd.append("file", blob, `${(words.title || "cover").replace(/[^\w-]+/g, "_").slice(0, 40) || "cover"}_cover.jpg`);
+      fd.append("source", "cover_studio");
       setBusy("Sending it to your book…");
       await api.post(`/projects/${id}/slot-upload/full_wrap`, fd, { headers: { "Content-Type": "multipart/form-data" }, timeout: 300000 });
       toast.success("Your cover is in your book. SparkPrep is checking it against the printer's rules now.");

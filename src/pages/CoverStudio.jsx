@@ -8,6 +8,7 @@ import { useAuth } from "@/context/AuthContext";
 import { LogoMark } from "@/components/Logo";
 import { CoverEngine } from "@/lib/coverStudio/engine";
 import { DEFAULT_SPECS, loadGeometry } from "@/lib/coverStudio/specs";
+import { PREVIEW_DPI, markPreview } from "@/lib/coverStudio/previewMarks";
 import { DEFAULT_TEXT } from "@/lib/coverStudio/templates";
 import TemplatesPanel from "@/components/coverStudio/TemplatesPanel";
 import FontPicker from "@/components/coverStudio/FontPicker";
@@ -183,42 +184,6 @@ function ChecksPanel({ problems, engine, geo, onEdit }) {
   );
 }
 
-const PREVIEW_WIDTH = 1400;
-
-/** Stamps "SPARKPREP PREVIEW" across the image so a free preview can't be sent to a printer. */
-function watermark(url) {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    img.onload = () => {
-      const c = document.createElement("canvas");
-      c.width = img.width;
-      c.height = img.height;
-      const ctx = c.getContext("2d");
-      ctx.drawImage(img, 0, 0);
-      const size = Math.max(18, Math.round(img.width / 28));
-      ctx.font = `900 ${size}px sans-serif`;
-      ctx.fillStyle = "rgba(255,255,255,0.32)";
-      ctx.strokeStyle = "rgba(0,0,0,0.25)";
-      ctx.lineWidth = Math.max(1, size / 18);
-      ctx.textAlign = "center";
-      ctx.translate(c.width / 2, c.height / 2);
-      ctx.rotate(-Math.PI / 7);
-      const step = size * 3.2;
-      const span = Math.hypot(c.width, c.height);
-      for (let row = 0, y = -span / 2; y < span / 2; row++, y += step) {
-        for (let x = -span / 2; x < span / 2; x += size * 12) {
-          const dx = x + (row % 2 ? size * 6 : 0);
-          ctx.strokeText("SPARKPREP PREVIEW", dx, y);
-          ctx.fillText("SPARKPREP PREVIEW", dx, y);
-        }
-      }
-      resolve(c.toDataURL("image/jpeg", 0.85));
-    };
-    img.onerror = () => reject(new Error("Couldn't draw the preview."));
-    img.src = url;
-  });
-}
-
 export default function CoverStudio() {
   const { user } = useAuth();
   const [params] = useSearchParams();
@@ -374,14 +339,14 @@ export default function CoverStudio() {
     }
   }, [refresh]);
 
-  // The free download is a preview: screen size with a "Preview" watermark. The print-ready file (CMYK, ink limit,
-  // PDF/X-1a, Certified) only comes out of the paid book, so free design can't skip straight to the printer.
+  // The free download is a preview: sharp enough to share, with small tags where every printer rejects a file
+  // (see previewMarks.js). The print-ready file (CMYK, ink limit, PDF/X-1a, Certified) comes with the book.
   const download = async () => {
-    if (!engine) return;
+    if (!engine || !geo) return;
     const id = toast.loading("Drawing your preview…");
     try {
-      const { url } = await engine.render({ dpi: 300, format: "jpeg", quality: 0.85, maxWidth: PREVIEW_WIDTH });
-      const marked = await watermark(url);
+      const { url } = await engine.render({ dpi: PREVIEW_DPI, format: "png" });
+      const marked = await markPreview(url, geo.full_cover);
       const a = document.createElement("a");
       a.href = marked;
       a.download = `${(words.title || "cover").replace(/[^\w-]+/g, "_").slice(0, 40) || "cover"}_preview.jpg`;

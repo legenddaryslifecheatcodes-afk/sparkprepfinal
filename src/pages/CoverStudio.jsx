@@ -424,7 +424,7 @@ export default function CoverStudio() {
             Your book is now <b>{refit.to_page_count} pages</b>, so its spine changed from {refit.from_spine_width}" to <b>{refit.to_spine_width}"</b>.
             SparkPrep moved your design onto the new size. Check the spine, then send it back to your book.
           </span>
-          <button onClick={() => setShowSend(true)} className="px-3 py-1.5 btn-gold font-mono-spec text-[10px] tracking-widest uppercase" data-testid="studio-refit-send">Send to my book</button>
+          <button onClick={() => setShowSend(true)} className="px-3 py-1.5 btn-gold font-mono-spec text-[10px] tracking-widest uppercase" data-testid="studio-refit-send" data-next-step="Send the re-fit cover">Send to my book</button>
           <button onClick={() => setRefit(null)} className="underline">Hide</button>
         </div>
       )}

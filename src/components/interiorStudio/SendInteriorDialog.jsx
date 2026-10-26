@@ -86,7 +86,7 @@ export default function SendInteriorDialog({ open, onOpenChange, buildBody, spec
                 This book is set up as {target.trim_size} for {target.platform}, so your pages will be typeset at that size and to that printer's margins. Nothing else to do.
               </div>
             )}
-            <button onClick={send} disabled={!!busy} className="mt-2 w-full py-3 btn-gold font-mono-spec text-xs tracking-widest uppercase btn-industrial flex items-center justify-center gap-2 disabled:opacity-50" data-testid="interior-send-go">
+            <button onClick={send} disabled={!!busy} className="mt-2 w-full py-3 btn-gold font-mono-spec text-xs tracking-widest uppercase btn-industrial flex items-center justify-center gap-2 disabled:opacity-50" data-testid="interior-send-go" data-next-step="Click to send">
               <Send className="w-4 h-4" /> {busy || "Send my pages"}
             </button>
             <p className="text-[11px] text-neutral-500">Writing and previewing are free. The print-ready file comes with your book.</p>

@@ -25,7 +25,8 @@ Facts here were true when written. Before acting on a status line (deployed / br
 6. **Stripe is LIVE.** Never run a real purchase without the owner's explicit go-ahead.
 7. **Never force-push.** Run backend tests (pytest) and see them pass before shipping backend changes.
 8. **Honesty in marketing:** ads are dramatizations (FTC rule — no fake testimonials); label AI-generated actors.
-9. **SparkPrep fixes what it can itself.** Only ask the customer for a new upload when a fix would damage the art (e.g. wrong-shaped art that would have to be stretched).
+9. **The next step is always right there (2026-10-26).** Every page marks its ONE next-step button with `data-next-step="Click to fix"` (see `components/NextStepPointer.jsx`): a floating gold card flies next to it, an arrow points at it, the button glows, and clicking the card presses it. Fix buttons sit next to the problem they fix, not only in the step guide. New pages and new steps must be tagged too.
+10. **SparkPrep fixes what it can itself.** Only ask the customer for a new upload when a fix would damage the art (e.g. wrong-shaped art that would have to be stretched).
 
 ## 3. How it's set up — where everything lives
 
@@ -53,6 +54,7 @@ Facts here were true when written. Before acting on a status line (deployed / br
 ### Frontend map (this repo)
 - `src/App.js` — routes: `/`, `/login`, `/register`, `/pricing`, `/specs`, `/audit`, `/audit/:id/preview|report`, `/dashboard`, `/editor/:id`, `/account`, `/payment/*`, `/beta/*`, `/admin/beta`.
 - `src/pages/Editor.jsx` + `components/StepGuide.jsx` — the guided editor (Book details → Upload → Fix → Final check → Export & certify; one glowing button for the next action; "Next:" pop-up after every step; "Re-scan my book" always visible).
+- `components/NextStepPointer.jsx` — the floating "Click to fix" guide, mounted once in `App.js`. Picks the marked button (on screen first, then `data-next-step-priority`; inside an open dialog only that dialog's; a form's empty required box before its submit button), parks beside it on the side that covers the least, draws an animated arrow, glows the button; draggable (position kept for the session), snap-back, shrink-to-orb. Editor tags: step-guide button (1), section "Auto-Fix All Issues" / final-check buttons (2), title/spine boxes and the empty upload box (3). "Upload a new cover/interior" now opens the file picker straight away.
 - `components/RepairBay.jsx` — live "broken → repaired → confirmed" Auto-Fix screen (backend 4-agent pipeline).
 - `components/BookMockup.jsx` — CSS-3D book preview (replaced the broken WebGL one).
 - `pages/CoverStudio.jsx` (`/cover-studio`, public, lazy-loaded) — the **Cover Studio**, step 1 of the "one-stop shop" plan: a Canva-style full-wrap cover designer (Fabric.js 6). `lib/coverStudio/`: `engine.js` (canvas, guides, re-layout on spec change, undo, 300 DPI render, print check), `templates.js` (14 layouts x 16 styles = 224 free templates, all built against the real panels in inches), `fonts.js` (333 Google Fonts, all open-licensed, loaded on demand), `specs.js` (geometry from `/specs/spine`; paperback-only offline estimate). Panels in `components/coverStudio/`. "Send to my book" uploads a 300 DPI JPG to `slot-upload/full_wrap` and opens the Editor; the Editor has a "Cover Studio" button (`/cover-studio?book=<id>`). AI designer uses backend `POST /api/ai/cover-plan` (Claude) + `POST /api/ai/cover-art` (OpenAI image), gated like AI Blurb (included with a book). Templates, fonts and tools are free forever (owner's rule).
@@ -99,6 +101,9 @@ Facts here were true when written. Before acting on a status line (deployed / br
 - **SEO (2026-10-12):** 6 free tool pages live, new homepage title, per-page titles/canonicals, private pages `noindex`, footer tool links, Organization schema. Sitemap submitted to Google Search Console (status Success, 10 pages) and to IndexNow. **Bing (2026-10-23):** site was never added to Bing Webmaster Tools, so Bing had nothing to show. Owner to add it via "Import from Google Search Console" at bing.com/webmasters, then submit the sitemap there. `npm run indexnow` after each deploy keeps Bing updated.
 
 ## 6. What's broken / open / risky
+
+- **Why the Editor got harder to use (found 2026-10-26):** the per-card fix buttons (Sep 19, `c4bbddd`) and the Sep 17–19 interior-check work were committed to `main`, but the live site has deployed from `sparkprep-logo-and-ai-gating` since it forked on Sep 16 — they never reached the site. Then the Oct 5 redesign (`c648874`) moved every action into the top step guide and the cards said "the step guide at the top shows what to press". A fix (`claude/fix-buttons-in-place`) was made Oct 26 but never merged. All restored on `claude/next-step-pointer`. Lesson: only `sparkprep-logo-and-ai-gating` is live — never land work on `main` alone. Still on `main` only: `17392aa` (Advanced Interior Check UI rebuild) and `9f639b9` (SPA fallback) — check before reusing.
+- **Editor is wider than a phone screen** (header buttons overflow, ~640px) — sideways scrolling on mobile.
 
 - **Colour interiors:** no ink (TAC) clamp for colour-paper PDF interiors; margin check doesn't measure headers/footers/page numbers/images on colour interiors (IngramSpark's colour rule). `white_60lb` not treated as B&W.
 - **Front-cover-only upload** gets stretched into a full wrap at export — not addressed.

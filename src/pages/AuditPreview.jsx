@@ -63,6 +63,7 @@ export default function AuditPreview() {
               disabled={!!checkingOut}
               className="mt-7 w-full bg-white text-black px-6 py-4 font-mono-spec text-xs tracking-widest uppercase hover:bg-neutral-200 disabled:opacity-50 btn-industrial"
               data-testid="unlock-btn"
+              data-next-step="See what to fix"
             >
               {checkingOut === "standard" ? "Redirecting…" : `See My Results${price ? ` — ${price}` : ""}${isInterior ? " · page 1" : ""}`}
             </button>

@@ -45,7 +45,7 @@ export default function BookReadyCelebration({ title = "your book", onExport, on
 
         <div className={`mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 ${phase === "live" ? "sp-pop" : "opacity-0"}`} style={{ animationDelay: "0.15s" }}>
           {onExport && (
-            <button onClick={onExport} className="w-full sm:w-auto px-6 py-3.5 btn-gold font-mono-spec text-xs tracking-widest uppercase btn-industrial flex items-center justify-center gap-2" data-testid="celebration-export">
+            <button onClick={onExport} className="w-full sm:w-auto px-6 py-3.5 btn-gold font-mono-spec text-xs tracking-widest uppercase btn-industrial flex items-center justify-center gap-2" data-testid="celebration-export" data-next-step="Click to export">
               <Download className="w-4 h-4" /> Export Now
             </button>
           )}

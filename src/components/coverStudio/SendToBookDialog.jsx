@@ -114,7 +114,7 @@ export default function SendToBookDialog({ open, onOpenChange, engine, specs, wo
                 {problems.length === 1 ? "One thing" : `${problems.length} things`} on your cover may get cut off or rejected. You can still send it; SparkPrep's checks will show them too.
               </div>
             )}
-            <button onClick={send} disabled={!!busy || mismatch} className="mt-2 w-full py-3 btn-gold font-mono-spec text-xs tracking-widest uppercase btn-industrial flex items-center justify-center gap-2 disabled:opacity-50" data-testid="studio-send-go">
+            <button onClick={send} disabled={!!busy || mismatch} className="mt-2 w-full py-3 btn-gold font-mono-spec text-xs tracking-widest uppercase btn-industrial flex items-center justify-center gap-2 disabled:opacity-50" data-testid="studio-send-go" data-next-step="Click to send">
               <Send className="w-4 h-4" /> {busy || "Send my cover"}
             </button>
           </div>

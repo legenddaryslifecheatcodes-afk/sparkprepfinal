@@ -6,6 +6,7 @@ import ErrorBoundary from "@/components/ErrorBoundary";
 import AssistantWidget from "@/components/AssistantWidget";
 import RouteSeo from "@/components/RouteSeo";
 import OpenHouseBanner from "@/components/OpenHouseBanner";
+import NextStepPointer from "@/components/NextStepPointer";
 import Landing from "@/pages/Landing";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
@@ -76,6 +77,7 @@ export default function App() {
         <AssistantWidget />
         <RouteSeo />
         <OpenHouseBanner />
+        <NextStepPointer />
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login />} />

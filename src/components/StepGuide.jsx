@@ -5,7 +5,8 @@ import { Check, ArrowRight, Loader2 } from "lucide-react";
 /**
  * The Editor's guide for first-time users (owner, 2026-09-30): five steps across the top, the CURRENT step
  * glows, done steps get a check, and under them ONE line says what to do now with ONE glowing button that does
- * it. Every fix action lives here -- nowhere else on the page -- so there's never a question which button to press.
+ * it. The same fix buttons also sit right next to each problem (owner, 2026-10-26), and the floating next-step
+ * pointer (NextStepPointer.jsx) points at whichever one is next.
  *
  * steps:   [{ key, label, done }]
  * current: key of the step to do now (the first one not done)
@@ -77,6 +78,8 @@ export default function StepGuide({ steps, current, now, rescan }) {
                 disabled={!!now.action.busy || now.action.disabled}
                 className="px-6 py-3 btn-gold font-mono-spec text-xs tracking-widest uppercase btn-industrial flex items-center justify-center gap-2 disabled:opacity-60 sp-step-glow"
                 data-testid="step-action"
+                data-next-step={NEXT_STEP_HEAD[current] || "Click here next"}
+                data-next-step-priority="1"
               >
                 {now.action.busy && <Loader2 className="w-4 h-4 animate-spin" />}
                 {now.action.busy ? (now.action.busyLabel || "Working…") : now.action.label}
@@ -93,6 +96,9 @@ export default function StepGuide({ steps, current, now, rescan }) {
     </div>
   );
 }
+
+// Headline for the floating next-step pointer (NextStepPointer.jsx) when it points at the guide's button.
+const NEXT_STEP_HEAD = { details: "Click to start", upload: "Click to upload", fix: "Click to fix", final: "Click to check", export: "Click to export" };
 
 // The section the current step is about gets the same glow (see Editor: glowIf).
 export const STEP_GLOW_CLASS = "sp-section-glow";

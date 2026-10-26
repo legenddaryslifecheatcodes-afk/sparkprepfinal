@@ -260,12 +260,12 @@ export default function Dashboard() {
                 <FileText className="w-8 h-8 mx-auto text-neutral-400" />
                 <p className="font-display font-bold text-2xl tracking-tight mt-4">No projects yet</p>
                 <p className="text-neutral-500 mt-2">Kick off your first print-ready book in under a minute.</p>
-                <button onClick={() => setOpen(true)} className="mt-6 bg-black text-white px-6 py-3 font-mono-spec text-xs tracking-widest uppercase hover:bg-neutral-800 btn-industrial" data-testid="empty-new-project">Create Project</button>
+                <button onClick={() => setOpen(true)} className="mt-6 bg-black text-white px-6 py-3 font-mono-spec text-xs tracking-widest uppercase hover:bg-neutral-800 btn-industrial" data-testid="empty-new-project" data-next-step="Start your first book" data-next-step-priority="2">Create Project</button>
               </div>
             </div>
           ) : (
             <div className="grid md:grid-cols-3 gap-4">
-              {projects.map(p => (
+              {projects.map((p, idx) => (
                 <div key={p.id} className={`bg-white border p-6 transition-colors group ${selected.has(p.id) ? "border-black" : "border-neutral-200 hover:border-black"}`} data-testid={`project-${p.id}`}>
                   <div className="flex items-start justify-between">
                     <div className="flex items-start gap-3">
@@ -298,13 +298,13 @@ export default function Dashboard() {
                       <AlertTriangle className="w-3.5 h-3.5 shrink-0 mt-px" />
                       <div className="flex-1">
                         The page count changed, so the cover needs its new spine.
-                        <button onClick={() => nav(`/cover-studio?book=${p.id}&refit=1`)} className="mt-2 w-full btn-gold py-1.5 font-mono-spec text-[10px] tracking-widest uppercase btn-industrial" data-testid={`refit-go-${p.id}`}>
+                        <button onClick={() => nav(`/cover-studio?book=${p.id}&refit=1`)} className="mt-2 w-full btn-gold py-1.5 font-mono-spec text-[10px] tracking-widest uppercase btn-industrial" data-testid={`refit-go-${p.id}`} data-next-step="Click to fix" data-next-step-label={`Re-fit the cover of ${p.name}`} data-next-step-priority="2">
                           Re-fit my cover
                         </button>
                       </div>
                     </div>
                   )}
-                  <button onClick={() => nav(`/editor/${p.id}`)} className="mt-6 w-full border border-black py-2 font-mono-spec text-xs tracking-widest uppercase hover:bg-black hover:text-white transition-colors btn-industrial" data-testid={`open-${p.id}`}>
+                  <button onClick={() => nav(`/editor/${p.id}`)} className="mt-6 w-full border border-black py-2 font-mono-spec text-xs tracking-widest uppercase hover:bg-black hover:text-white transition-colors btn-industrial" data-testid={`open-${p.id}`} {...(idx === 0 ? { "data-next-step": "Pick up where you left off", "data-next-step-label": `Open ${p.name}` } : {})}>
                     Open Editor →
                   </button>
                 </div>

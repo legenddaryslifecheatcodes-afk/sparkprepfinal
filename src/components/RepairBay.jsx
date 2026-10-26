@@ -322,7 +322,7 @@ export default function RepairBay({ projectId, slot, fileLabel = "your file", on
               {phase === "failed" && (
                 <button onClick={() => onClose(true)} className="px-3 py-2 border border-neutral-600 text-neutral-200 hover:border-white text-[10px] font-mono-spec tracking-widest uppercase inline-flex items-center gap-1.5" data-testid="repair-retry"><RotateCcw className="w-3 h-3" /> Try again</button>
               )}
-              <button onClick={() => onClose()} className="px-4 py-2 btn-gold font-mono-spec text-[10px] tracking-widest uppercase" data-testid="repair-done">Close</button>
+              <button onClick={() => onClose()} className="px-4 py-2 btn-gold font-mono-spec text-[10px] tracking-widest uppercase" data-testid="repair-done" data-next-step="All done — close">Close</button>
             </div>
           )}
         </div>
@@ -401,7 +401,7 @@ function Confirmed({ data, onClose, healthBefore }) {
       </ul>
       <div className="flex items-center justify-between pt-1">
         <div className={`font-display font-black ${ok ? "text-emerald-300" : "text-amber-300"}`}>{ok ? "All checks pass — OK to export." : "Some notes remain — review them before exporting."}</div>
-        <button onClick={() => onClose()} className="px-4 py-2 btn-gold font-mono-spec text-[10px] tracking-widest uppercase" data-testid="repair-continue">Continue</button>
+        <button onClick={() => onClose()} className="px-4 py-2 btn-gold font-mono-spec text-[10px] tracking-widest uppercase" data-testid="repair-continue" data-next-step="Click to continue">Continue</button>
       </div>
     </div>
   );

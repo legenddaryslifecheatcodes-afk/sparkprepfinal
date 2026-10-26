@@ -44,7 +44,7 @@ export default function Landing() {
             </p>
 
             <div className="mt-10 flex flex-wrap gap-3">
-              <Link to="/register" className="btn-gold px-7 py-4 font-mono-spec text-xs tracking-widest uppercase flex items-center gap-2 btn-industrial" data-testid="hero-cta-primary">
+              <Link to="/register" className="btn-gold px-7 py-4 font-mono-spec text-xs tracking-widest uppercase flex items-center gap-2 btn-industrial" data-testid="hero-cta-primary" data-next-step="Start here">
                 Prep My First Book <ArrowRight className="w-4 h-4" />
               </Link>
               <Link to="/audit" className="btn-spark px-7 py-4 font-mono-spec text-xs tracking-widest uppercase text-white flex items-center gap-2 btn-industrial" data-testid="hero-cta-audit">
@@ -175,7 +175,7 @@ export default function Landing() {
               hero above. Repeating both choices again here just re-opens a decision
               someone visiting this far down the page has usually already made. */}
           <div className="mt-10 flex justify-center">
-            <Link to="/register" className="btn-gold px-8 py-4 font-mono-spec text-xs tracking-widest uppercase btn-industrial" data-testid="footer-cta">
+            <Link to="/register" className="btn-gold px-8 py-4 font-mono-spec text-xs tracking-widest uppercase btn-industrial" data-testid="footer-cta" data-next-step="Start here">
               Get Started — It's Free
             </Link>
           </div>

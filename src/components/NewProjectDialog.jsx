@@ -120,7 +120,7 @@ export default function NewProjectDialog({ open, onOpenChange, onCreated }) {
             />
             <p className="text-[11px] text-neutral-500 mt-1">Books sharing a series name get checked for consistent trim/binding/paper from the dashboard.</p>
           </div>
-          <button onClick={submit} disabled={busy} className="w-full bg-black text-white py-3 font-mono-spec text-xs tracking-widest uppercase hover:bg-neutral-800 disabled:opacity-50 btn-industrial" data-testid="np-submit">
+          <button onClick={submit} disabled={busy} className="w-full bg-black text-white py-3 font-mono-spec text-xs tracking-widest uppercase hover:bg-neutral-800 disabled:opacity-50 btn-industrial" data-testid="np-submit" data-next-step="Click to create">
             {busy ? "Creating…" : "Create Project"}
           </button>
         </div>

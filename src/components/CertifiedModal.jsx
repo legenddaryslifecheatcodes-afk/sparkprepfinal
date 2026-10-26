@@ -69,7 +69,7 @@ export default function CertifiedModal({ result, title = "Your book", onClose, o
           </div>
         </div>
         <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
-          <button onClick={download} disabled={downloading} className="px-6 py-3.5 btn-gold font-mono-spec text-xs tracking-widest uppercase btn-industrial flex items-center gap-2 disabled:opacity-60" data-testid="certified-download">
+          <button onClick={download} disabled={downloading} className="px-6 py-3.5 btn-gold font-mono-spec text-xs tracking-widest uppercase btn-industrial flex items-center gap-2 disabled:opacity-60" data-testid="certified-download" data-next-step="Click to download">
             <Download className="w-4 h-4" /> {downloading ? "Downloading…" : result?.downloaded ? "Download again" : "Download my files"}
           </button>
           <button onClick={onClose} className="px-6 py-3.5 border border-neutral-700 text-neutral-300 hover:border-white hover:text-white font-mono-spec text-xs tracking-widest uppercase" data-testid="certified-close">

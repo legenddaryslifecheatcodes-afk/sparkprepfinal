@@ -782,7 +782,7 @@ export default function Editor() {
   const isFreeTier = (user?.tier || "free") === "free";
 
   // ---- Step guide (owner, 2026-09-30): first-time users see five steps, the current one glows, and ONE button
-  // does the next thing. Every fix action lives in the guide -- nowhere else on the page.
+  // does the next thing. The same fix buttons also sit next to each problem, and the floating pointer points at the next one.
   const titleSet = !!(project.name && project.name.trim() && project.name.trim().toLowerCase() !== "untitled book");
   const coverUploadedG = !isCover || !!(project.slots?.full_wrap || project.slots?.front_cover || project.uploaded_file);
   const filesUploaded = coverUploadedG && (!needsInterior || hasInteriorUpload) && (!needsCase || hasCaseUpload);
@@ -818,6 +818,16 @@ export default function Editor() {
     el?.scrollIntoView({ behavior: "smooth", block: "center" });
     if (focus) setTimeout(() => el?.focus?.(), 350);
   };
+  // "Upload a new file" opens the file picker straight away instead of scrolling and leaving the user to find the box.
+  const pickFile = (slotKey) => {
+    const input = document.querySelector(`[data-testid="slot-input-${slotKey}"]`);
+    goTo(input ? `slot-${slotKey}` : "section-upload");
+    input?.click();
+  };
+  const firstMissingSlot = !coverUploadedG ? (coverMode === "full" ? "full_wrap" : coverMode ? "front_cover" : null)
+    : needsInterior && !hasInteriorUpload ? "interior" : needsCase && !hasCaseUpload ? "case_wrap" : null;
+  // What the floating next-step pointer (NextStepPointer.jsx) points at; null = not the next step right now.
+  const nextStepIf = (on, head, priority = 2) => (on ? { "data-next-step": head, "data-next-step-priority": priority } : {});
   const FRIENDLY_ISSUE = { colorspace: "print colors", cover_safety_margin: "text too close to the edge", dpi: "sharpness",
     interior_page_size_mismatch: "page size", interior_safety_margin: "text too close to the page edge", total_ink_coverage: "ink coverage",
     transparency: "transparency", cover_spine_text_margin: "spine text doesn't fit the spine", cover_size: "cover size",
@@ -829,9 +839,9 @@ export default function Editor() {
   const needBookAction = project.owns_product === false ? { label: "Get a book to fix them", onClick: () => needsBook("Fixing") } : null;
   const fixCoverAction = { label: "Auto-Fix All Issues", onClick: autofix, busy: fixing, busyLabel: "Fixing…" };
   const upscaleCoverAction = { label: "AI Upscale my cover", onClick: () => aiEnhance(coverSlotName), busy: enhancingSlot === coverSlotName, busyLabel: "Upscaling…" };
-  const newCoverAction = { label: "Upload a new cover", onClick: () => goTo("section-upload") };
+  const newCoverAction = { label: "Upload a new cover", onClick: () => pickFile(coverSlotName) };
   const fixInteriorAction = { label: "Auto-Fix All Issues", onClick: autofixInterior, busy: interiorFixing, busyLabel: "Fixing…" };
-  const newInteriorAction = { label: "Upload a new interior", onClick: () => goTo("section-upload") };
+  const newInteriorAction = { label: "Upload a new interior", onClick: () => pickFile("interior") };
   const coverAction = needBookAction && coverIssues.length ? needBookAction
     : coverFixable.length ? fixCoverAction : coverDpi.length ? upscaleCoverAction : coverManual.length ? newCoverAction : null;
   const interiorAction = needBookAction && interiorIssues.length ? needBookAction
@@ -850,7 +860,7 @@ export default function Editor() {
           action: { label: "Go to Spine Width", onClick: () => goTo("spec-spine-override", true) } };
   } else if (currentStep === "upload") {
     guideNow = { title: "Upload your files", detail: `Still needed: ${missingFiles.join(", ")}. Your original files stay untouched on your computer.`,
-      action: { label: "Go to upload", onClick: () => goTo("section-upload") } };
+      action: firstMissingSlot ? { label: "Choose my file", onClick: () => pickFile(firstMissingSlot) } : { label: "Go to upload", onClick: () => goTo("section-upload") } };
   } else if (currentStep === "fix") {
     if (project.results_locked) {
       guideNow = { title: project.results_summary?.issues ? `SparkPrep found ${project.results_summary.issues} issue${project.results_summary.issues === 1 ? "" : "s"}` : "Your scan is ready",
@@ -880,7 +890,7 @@ export default function Editor() {
       const which = coverManual.length ? "cover" : interiorManual.length ? "interior" : "case cover";
       const first = (coverManual[0] || interiorManual[0] || caseManual[0]);
       guideNow = { title: `Your ${which} needs a new file`, detail: `${plainCheckLabel(first)}: ${first.message} SparkPrep can't change this one by itself — fix it in your design file and upload it again.`,
-        action: { label: `Upload a new ${which}`, onClick: () => goTo("section-upload") } };
+        action: { label: `Upload a new ${which}`, onClick: () => pickFile(coverManual.length ? coverSlotName : interiorManual.length ? "interior" : "case_wrap") } };
     }
   } else if (currentStep === "final") {
     guideNow = finalReview?.status === "red"
@@ -915,6 +925,8 @@ export default function Editor() {
                   }}
                   className="font-display font-bold text-sm tracking-tight bg-transparent border-b border-transparent hover:border-neutral-700 focus:border-white outline-none w-48 text-white"
                   data-testid="project-title-input"
+                  data-next-step-label="Your book's title"
+                  {...nextStepIf(currentStep === "details" && !titleSet, "Type your title here", 3)}
                   title="Book title — required before you can export"
                 />
                 <div className="font-mono-spec text-[10px] tracking-widest text-neutral-500 uppercase">{plat.name} · {trim.label} · {project.page_count}pp</div>
@@ -1081,6 +1093,8 @@ export default function Editor() {
                         if (next !== (project.spine_width_override || 0)) updateSpec({ spine_width_override: next });
                       }}
                       data-testid="spec-spine-override"
+                      data-next-step-label="Spine width from your template"
+                      {...nextStepIf(currentStep === "details" && titleSet && spineRequired, "Enter your spine width", 3)}
                     />
                     {spineRequired ? (
                       <p className="text-[11px] text-red-400 mt-1.5 leading-relaxed" data-testid="spine-required">
@@ -1161,6 +1175,7 @@ export default function Editor() {
                     <div className={isCover ? "mb-4" : ""}>
                       <p className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500 mb-2">Upload your book</p>
                       <BigInteriorDrop
+                        next={currentStep === "upload" && firstMissingSlot === "interior"}
                         data={project.slots?.interior}
                         uploading={uploadingSlot === "interior"}
                         onUpload={(f) => uploadToSlot("interior", f)}
@@ -1207,6 +1222,7 @@ export default function Editor() {
                             onClick={() => updateSpec({ cover_upload_mode: "full" })}
                             className="border border-neutral-700 hover:border-[#D4AF37] p-4 text-left transition-colors"
                             data-testid="cover-mode-full"
+                            {...nextStepIf(currentStep === "upload" && !coverUploadedG, "Pick how your cover comes", 3)}
                           >
                             <BookOpen className="w-5 h-5 text-[#D4AF37] mb-2" />
                             <div className="text-sm font-bold text-white">One combined file</div>
@@ -1229,6 +1245,7 @@ export default function Editor() {
                             {COVER_SLOTS.filter((s) => coverMode === "full" ? s.key === "full_wrap" : s.key !== "full_wrap").map((s) => (
                               <SlotDrop
                                 key={s.key}
+                                next={currentStep === "upload" && firstMissingSlot === s.key}
                                 slot={s}
                                 data={project.slots?.[s.key]}
                                 uploading={uploadingSlot === s.key}
@@ -1278,6 +1295,7 @@ export default function Editor() {
                         </p>
                       )}
                       <SlotDrop
+                        next={currentStep === "upload" && firstMissingSlot === "case_wrap"}
                         slot={CASE_SLOT}
                         data={project.slots?.case_wrap}
                         uploading={uploadingSlot === "case_wrap"}
@@ -1386,7 +1404,7 @@ export default function Editor() {
                     <span className="font-mono-spec text-[10px] tracking-widest uppercase text-[#D4AF37]">{needsInterior ? "Cover Check Results" : "Check Results"}</span>
                   </div>
                   {compliance.length === 0 && <p className="text-xs text-neutral-500">Upload a file to see the results here.</p>}
-                  {compliance.length > 0 && <ScanStatusBanner result={coverFixResult} summary={coverSummary} sectionLabel="Cover" action={coverAction} />}
+                  {compliance.length > 0 && <ScanStatusBanner result={coverFixResult} summary={coverSummary} sectionLabel="Cover" action={coverAction} next={currentStep === "fix"} />}
                   <div className="grid sm:grid-cols-2 gap-2 mt-2">
                     {compliance.map((c, i) => (
                       <ComplianceCard key={i} c={c} action={coverCardAction(c)} />
@@ -1410,7 +1428,7 @@ export default function Editor() {
                       : <>This checks the first page of your interior. Every page (up to 300) is checked with a book.</>}
                   </p>
                   {!hasInteriorUpload && <p className="text-xs text-neutral-500">Upload your book above to see the results here.</p>}
-                  {hasInteriorUpload && interiorCompliance.length > 0 && <ScanStatusBanner result={interiorFixResult} summary={interiorSummary} sectionLabel="Interior" action={interiorAction} />}
+                  {hasInteriorUpload && interiorCompliance.length > 0 && <ScanStatusBanner result={interiorFixResult} summary={interiorSummary} sectionLabel="Interior" action={interiorAction} next={currentStep === "fix"} />}
                   {hasInteriorUpload && (
                     <div className="grid sm:grid-cols-2 gap-2 mt-2">
                       {interiorCompliance.map((c, i) => (
@@ -1432,7 +1450,7 @@ export default function Editor() {
                   </p>
                 )}
                 {readyForFinalReview && !finalReview && (
-                  <InlineFixButton action={{ label: "Run final check", onClick: runFinalReview, busy: checkingFinal, busyLabel: "Checking…" }} testid="final-review-run" />
+                  <InlineFixButton action={{ label: "Run final check", onClick: runFinalReview, busy: checkingFinal, busyLabel: "Checking…" }} testid="final-review-run" next={currentStep === "final" ? "Click to check" : null} />
                 )}
                 {finalReview && (
                   <FinalReviewResult review={finalReview} />
@@ -1511,7 +1529,7 @@ export default function Editor() {
           />
         )}
         {exporting && (
-          <div className="fixed inset-0 z-[94] bg-black/85 backdrop-blur-sm flex items-center justify-center p-4" data-testid="exporting-overlay" role="status" aria-live="polite">
+          <div className="fixed inset-0 z-[94] bg-black/85 backdrop-blur-sm flex items-center justify-center p-4" data-testid="exporting-overlay" data-next-step-scope role="status" aria-live="polite">
             <div className="max-w-md text-center">
               <div className="mx-auto w-14 h-14 rounded-full border-4 border-[#D4AF37]/30 border-t-[#D4AF37] animate-spin" />
               <div className="font-display font-black text-2xl text-white mt-6">Building your print files…</div>
@@ -1553,10 +1571,11 @@ function fixButtonLabel(c, fallback) {
 }
 
 // The button that fixes a problem, right next to it.
-function InlineFixButton({ action, testid, small }) {
+function InlineFixButton({ action, testid, small, next }) {
   if (!action) return null;
   return (
     <button onClick={action.onClick} disabled={!!action.busy}
+      {...(next ? { "data-next-step": next, "data-next-step-label": action.label, "data-next-step-priority": 2 } : {})}
       className={`${small ? "mt-2 px-3 py-1.5 text-[10px]" : "mt-2 px-4 py-2 text-[10px]"} btn-gold font-mono-spec tracking-widest uppercase btn-industrial inline-flex items-center gap-1.5 disabled:opacity-60`}
       data-testid={testid}>
       {action.busy ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Wand2 className="w-3.5 h-3.5" />}
@@ -1613,7 +1632,7 @@ function ComplianceCard({ c, action }) {
 // that disappears with a banner that stays until the next action, showing
 // exactly what happened and what to do next (the gap that was blocking
 // completing the flow: a scan ran but nothing told the user pass/fail/next).
-function ScanStatusBanner({ result, summary, sectionLabel, action }) {
+function ScanStatusBanner({ result, summary, sectionLabel, action, next }) {
   const verdict = result || summary;
   if (!verdict || verdict.verdict === "empty") return null;
   const styles = {
@@ -1633,7 +1652,7 @@ function ScanStatusBanner({ result, summary, sectionLabel, action }) {
       <div className="flex-1 min-w-0">
         <div className="font-display font-bold text-sm">{headline}</div>
         {verdict.gsFailed && <div className="text-[11px] mt-0.5 opacity-90">{verdict.gsReason || "This one needs a manual fix."}</div>}
-        {verdict.verdict !== "pass" && <InlineFixButton action={action} testid={`fix-section-${sectionLabel.toLowerCase()}`} />}
+        {verdict.verdict !== "pass" && <InlineFixButton action={action} testid={`fix-section-${sectionLabel.toLowerCase()}`} next={next ? "Click to fix" : null} />}
       </div>
     </div>
   );
@@ -1765,7 +1784,7 @@ function PromoCodeRedeem({ projectId, onRedeemed }) {
   );
 }
 
-function SlotDrop({ slot, data, uploading, onUpload, onDelete }) {
+function SlotDrop({ slot, data, uploading, onUpload, onDelete, next }) {
   const Icon = slot.icon;
   const filled = !!data;
   const [dragOver, setDragOver] = useState(false);
@@ -1783,6 +1802,7 @@ function SlotDrop({ slot, data, uploading, onUpload, onDelete }) {
         onDrop={handleDrop}
         className={`block relative border border-dashed p-3 text-center cursor-pointer transition-colors ${filled ? "border-emerald-700 bg-emerald-950/30" : dragOver ? "border-[#D4AF37] bg-neutral-900" : uploading ? "border-[#FF6A00]" : "border-neutral-700 hover:border-[#D4AF37] hover:bg-neutral-900"}`}
         data-testid={`slot-${slot.key}`}
+        {...(next ? { "data-next-step": "Click to upload", "data-next-step-label": slot.label, "data-next-step-priority": 3 } : {})}
       >
         <input type="file" accept=".pdf,.jpg,.jpeg,.png,.tif,.tiff,.webp" onChange={(e) => onUpload(e.target.files?.[0])} disabled={uploading} className="hidden" data-testid={`slot-input-${slot.key}`} />
         <Icon className={`w-4 h-4 mx-auto ${filled ? "text-emerald-500" : "text-neutral-500"}`} />
@@ -1805,7 +1825,7 @@ function SlotDrop({ slot, data, uploading, onUpload, onDelete }) {
 // cover-piece tiles above, this is often the very first and only file a
 // non-technical author needs to upload, so it gets its own full-width target
 // and no jargon in the copy.
-function BigInteriorDrop({ data, uploading, onUpload, onDelete }) {
+function BigInteriorDrop({ data, uploading, onUpload, onDelete, next }) {
   const filled = !!data;
   const [dragOver, setDragOver] = useState(false);
   const handleDrop = (e) => {
@@ -1822,6 +1842,7 @@ function BigInteriorDrop({ data, uploading, onUpload, onDelete }) {
       onDrop={handleDrop}
       className={`block relative border-2 border-dashed p-5 text-center cursor-pointer transition-colors ${filled ? "border-emerald-700 bg-emerald-950/30" : dragOver ? "border-[#D4AF37] bg-neutral-900" : uploading ? "border-[#FF6A00]" : "border-neutral-700 hover:border-[#D4AF37] hover:bg-neutral-900"}`}
       data-testid="slot-interior"
+      {...(next ? { "data-next-step": "Click to upload", "data-next-step-label": "Choose your book file", "data-next-step-priority": 3 } : {})}
     >
       <input type="file" accept=".pdf,.docx,.txt,.jpg,.jpeg,.png,.tif,.tiff,.webp" onChange={(e) => onUpload(e.target.files?.[0])} disabled={uploading} className="hidden" data-testid="slot-input-interior" />
       <FilePlus className={`w-6 h-6 mx-auto ${filled ? "text-emerald-500" : "text-neutral-500"}`} />

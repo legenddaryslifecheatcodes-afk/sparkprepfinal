@@ -22,6 +22,10 @@ const PAGES = {
     title: "Free Book Cover Maker: Front, Spine & Back, Print-Ready | SparkPrep Cover Studio",
     description: "Design a full book cover (front, spine and back) sized exactly for KDP, IngramSpark, Barnes & Noble or Lulu. Hundreds of free templates and fonts, print guides, an AI cover designer and a 3D preview.",
   },
+  "/interior-studio": {
+    title: "Free Book Interior Formatter: Write or Import Word, Print-Ready Pages | SparkPrep Interior Studio",
+    description: "Write or import your Word manuscript and watch real printed pages build beside you: 11 book styles, drop caps, chapters on the right-hand page, and margins set to KDP, IngramSpark, Barnes & Noble or Lulu's own rules.",
+  },
   "/audit": {
     title: "Print Failure Audit: Find Why Your Book File Will Be Rejected | SparkPrep",
     description: "Upload your book cover or interior and see every problem KDP or IngramSpark would reject it for: bleed, trim, spine, safety margins, ink coverage, image resolution, fonts and more.",

@@ -827,18 +827,20 @@ export default function Editor() {
   // The fix button for each section, shown right where its problems are listed (owner's rule: the button that
   // fixes a problem sits next to the problem, not somewhere else on the screen).
   const needBookAction = project.owns_product === false ? { label: "Get a book to fix them", onClick: () => needsBook("Fixing") } : null;
-  const fixCoverAction = { label: "Fix my cover", onClick: autofix, busy: fixing, busyLabel: "Fixing…" };
+  const fixCoverAction = { label: "Auto-Fix All Issues", onClick: autofix, busy: fixing, busyLabel: "Fixing…" };
   const upscaleCoverAction = { label: "AI Upscale my cover", onClick: () => aiEnhance(coverSlotName), busy: enhancingSlot === coverSlotName, busyLabel: "Upscaling…" };
   const newCoverAction = { label: "Upload a new cover", onClick: () => goTo("section-upload") };
-  const fixInteriorAction = { label: "Fix my interior", onClick: autofixInterior, busy: interiorFixing, busyLabel: "Fixing…" };
+  const fixInteriorAction = { label: "Auto-Fix All Issues", onClick: autofixInterior, busy: interiorFixing, busyLabel: "Fixing…" };
   const newInteriorAction = { label: "Upload a new interior", onClick: () => goTo("section-upload") };
   const coverAction = needBookAction && coverIssues.length ? needBookAction
     : coverFixable.length ? fixCoverAction : coverDpi.length ? upscaleCoverAction : coverManual.length ? newCoverAction : null;
   const interiorAction = needBookAction && interiorIssues.length ? needBookAction
     : interiorFixable.length ? fixInteriorAction : interiorManual.length ? newInteriorAction : null;
   // One card, its own fix: sharpen a soft cover, fix what SparkPrep can fix, or ask for a new file only when it can't.
-  const coverCardAction = (c) => (!isOpenIssue(c) ? null : needBookAction || (isDpi(c) ? upscaleCoverAction : c.auto_fix ? fixCoverAction : newCoverAction));
-  const interiorCardAction = (c) => (!isOpenIssue(c) ? null : needBookAction || (c.auto_fix ? fixInteriorAction : newInteriorAction));
+  // Each card's button names its own fix, as in the original fix buttons (Sep 19): "Convert to CMYK", "Clamp Ink to 240%"...
+  const named = (action, c) => ({ ...action, label: fixButtonLabel(c, "Apply Fix") });
+  const coverCardAction = (c) => (!isOpenIssue(c) ? null : needBookAction || (isDpi(c) ? upscaleCoverAction : c.auto_fix ? named(fixCoverAction, c) : newCoverAction));
+  const interiorCardAction = (c) => (!isOpenIssue(c) ? null : needBookAction || (c.auto_fix ? named(fixInteriorAction, c) : newInteriorAction));
   let guideNow;
   if (currentStep === "details") {
     guideNow = !titleSet
@@ -1503,6 +1505,19 @@ export default function Editor() {
       </div>
     </TooltipProvider>
   );
+}
+
+// Action-verb label for a card's own fix button (restored from the original Sep 19 fix buttons). Several checks share
+// one fix, so the finding id picks the words.
+function fixButtonLabel(c, fallback) {
+  if (c.id === "total_ink_coverage") {
+    const limit = (c.label || "").match(/limit (\d+)%/)?.[1];
+    return limit ? `Clamp Ink to ${limit}%` : "Clamp Ink Coverage";
+  }
+  if (c.id === "colorspace") return "Convert to CMYK";
+  if (["interior_page_size_mismatch", "interior_safety_margin", "cover_safety_margin"].includes(c.id)) return "Nudge to Safe Margin";
+  if (c.fix_action === "flatten") return "Flatten Layers";
+  return fallback;
 }
 
 // The button that fixes a problem, right next to it.

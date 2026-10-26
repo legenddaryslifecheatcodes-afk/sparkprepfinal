@@ -24,7 +24,9 @@ jobs:
           node-version: 20
           cache: npm
 
-      - run: npm ci
+      # --legacy-peer-deps: the AI chat packages declare a react peer range the pinned react@19.0.0 misses;
+      # this matches how the site has always been installed and built.
+      - run: npm ci --legacy-peer-deps
 
       # CI=false: CRA would otherwise treat lint warnings as errors.
       - run: npm run build

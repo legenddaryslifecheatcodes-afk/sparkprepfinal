@@ -17,13 +17,16 @@ import { loadBookFont, fontStack } from "@/lib/interiorStudio/fonts";
 import Toolbar from "@/components/interiorStudio/Toolbar";
 import PagesPreview from "@/components/interiorStudio/PagesPreview";
 import SendInteriorDialog from "@/components/interiorStudio/SendInteriorDialog";
-import { BookOpen, FileUp, Palette, Ruler, Send, NotebookPen, Eye, PenLine } from "lucide-react";
+import WritingHelpPanel, { useWritingHelp } from "@/components/interiorStudio/WritingHelpPanel";
+import { WritingMarks } from "@/lib/interiorStudio/writingHelp";
+import { BookOpen, FileUp, Palette, Ruler, Send, NotebookPen, Eye, PenLine, SpellCheck } from "lucide-react";
 
 // The Interior Studio: write (or bring in a Word file) like in Word, pick a book style, and watch the real
 // printed pages build beside you. The pages are typeset by SparkPrep's server with the chosen printer's own
 // margin rules for the book's page count, so what you see is what gets printed.
 
 const SAVE_KEY = "sp_interior_studio_v1";
+const SPELL_KEY = "sp_interior_spellcheck";
 const PREVIEW_DELAY_MS = 1500;
 const DEFAULT_SPECS = { platform: "kdp", trim_size: "6x9", paper_type: "cream_50lb", binding: "paperback" };
 const STARTER = {
@@ -39,6 +42,7 @@ const TABS = [
   ["details", "Book details", NotebookPen],
   ["style", "Book style", Palette],
   ["size", "Book size", Ruler],
+  ["help", "Writing help", SpellCheck],
 ];
 
 const Lbl = ({ children }) => <div className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500 mb-1">{children}</div>;
@@ -156,6 +160,8 @@ export default function InteriorStudio() {
   const fileInput = useRef(null);
   const reqId = useRef(0);
   const savedWarned = useRef(false);
+  const pickRef = useRef(null);
+  const [spellcheck, setSpellcheck] = useState(() => { try { return localStorage.getItem(SPELL_KEY) !== "off"; } catch { return true; } });
 
   const editor = useEditor({
     extensions: [
@@ -164,13 +170,23 @@ export default function InteriorStudio() {
       Placeholder.configure({ placeholder: "Start writing your book…" }),
       CharacterCount,
       PageBreak,
+      WritingMarks.configure({ onPick: (id) => pickRef.current?.(id) }),
     ],
     content: saved.current?.doc || STARTER,
     onUpdate: () => setDocVersion((v) => v + 1),
-    editorProps: { attributes: { class: "interior-doc focus:outline-none", "data-testid": "interior-editor" } },
+    editorProps: { attributes: { class: "interior-doc focus:outline-none", "data-testid": "interior-editor", spellcheck: spellcheck ? "true" : "false" } },
   });
 
   const style = useMemo(() => styles?.find((s) => s.key === styleKey), [styles, styleKey]);
+  const wh = useWritingHelp(editor, { title: details.title, genre: style?.genre });
+  pickRef.current = (id) => { wh.setActive(id); setTab("help"); };
+
+  // The browser's own red underlines for misspelled words (free), on unless the author turns them off.
+  useEffect(() => {
+    if (!editor) return;
+    editor.setOptions({ editorProps: { attributes: { class: "interior-doc focus:outline-none", "data-testid": "interior-editor", spellcheck: spellcheck ? "true" : "false" } } });
+    try { localStorage.setItem(SPELL_KEY, spellcheck ? "on" : "off"); } catch { /* private window: just this visit */ }
+  }, [editor, spellcheck]);
   useEffect(() => { if (style) { loadBookFont(style.body_font); loadBookFont(style.heading_font); } }, [style]);
 
   useEffect(() => {
@@ -290,6 +306,10 @@ export default function InteriorStudio() {
         .interior-doc hr::after { content: "*   *   *"; white-space: pre; color: #888; letter-spacing: .2em; }
         .interior-doc hr.ProseMirror-selectednode::after, .interior-doc .is-page-break.ProseMirror-selectednode { outline: 2px solid #FF6A00; }
         .interior-doc .is-page-break { margin: 1.4em 0; border-top: 2px dashed #bbb; text-align: center; font: 600 9px/1 ui-monospace, monospace; letter-spacing: .15em; text-transform: uppercase; color: #999; padding-top: 4px; }
+        .interior-doc .wh-mark { cursor: pointer; text-decoration: underline wavy; text-decoration-thickness: 1.5px; text-underline-offset: 3px; text-decoration-skip-ink: none; }
+        .interior-doc .wh-fix { text-decoration-color: #D92D20; }
+        .interior-doc .wh-word { text-decoration-color: #2563EB; }
+        ${wh.active ? `.interior-doc [data-wh="${wh.active}"] { background: #FFE2C7; }` : ""}
         .interior-doc p.is-editor-empty:first-child::before { content: attr(data-placeholder); color: #aaa; float: left; height: 0; pointer-events: none; }
       `}</style>
 
@@ -329,6 +349,7 @@ export default function InteriorStudio() {
             {(tab || "details") === "details" && <DetailsPanel details={details} setDetails={setDetails} />}
             {tab === "style" && <StylePanel styles={styles} value={styleKey} onPick={setStyleKey} />}
             {tab === "size" && <SizePanel lists={lists} specs={specs} setSpecs={setSpecs} linkedBook={linkedBook} books={books} onLinkBook={onLinkBook} />}
+            {tab === "help" && <WritingHelpPanel wh={wh} spellcheck={spellcheck} setSpellcheck={setSpellcheck} />}
           </div>
         </aside>
 
@@ -347,6 +368,7 @@ export default function InteriorStudio() {
                 {tab === "details" && <DetailsPanel details={details} setDetails={setDetails} />}
                 {tab === "style" && <StylePanel styles={styles} value={styleKey} onPick={setStyleKey} />}
                 {tab === "size" && <SizePanel lists={lists} specs={specs} setSpecs={setSpecs} linkedBook={linkedBook} books={books} onLinkBook={onLinkBook} />}
+                {tab === "help" && <WritingHelpPanel wh={wh} spellcheck={spellcheck} setSpellcheck={setSpellcheck} />}
               </div>
             )}
             <div className="max-w-[680px] mx-auto px-6 sm:px-10 py-8" style={docStyle}>

@@ -24,7 +24,7 @@ import BookPassBar from "@/components/BookPassBar";
 import { usePricing, isBookModel, money, specialNote } from "@/lib/pricing";
 import { Logo } from "@/components/Logo";
 import {
-  Upload, Download, Wand2, ArrowLeft, Eye, EyeOff, Check, AlertTriangle, XCircle,
+  Upload, Download, Wand2, Loader2, ArrowLeft, Eye, EyeOff, Check, AlertTriangle, XCircle,
   Sparkles, FileStack, Palette, PenTool, Ruler, Layers, Trash2, Info, ShieldCheck, ArrowRight,
   FilePlus, BookOpen, Image as ImageIcon, Paintbrush, FileCheck2, Droplet, Crop, Package,
 } from "lucide-react";
@@ -824,6 +824,23 @@ export default function Editor() {
     cover_template_leftovers: "template parts left on the cover", cover_isbn_mismatch: "ISBN doesn't match the book",
     cover_jacket_fold: "text on a jacket fold" };
   const names = (list) => [...new Set(list.map((c) => FRIENDLY_ISSUE[c.id] || plainCheckLabel(c).split(" (")[0].toLowerCase()))].join(", ");
+  // The fix button for each section, shown right where its problems are listed (owner's rule: the button that
+  // fixes a problem sits next to the problem, not somewhere else on the screen).
+  const needBookAction = project.owns_product === false ? { label: "Get a book to fix them", onClick: () => needsBook("Fixing") } : null;
+  const fixCoverAction = { label: "Auto-Fix All Issues", onClick: autofix, busy: fixing, busyLabel: "Fixing…" };
+  const upscaleCoverAction = { label: "AI Upscale my cover", onClick: () => aiEnhance(coverSlotName), busy: enhancingSlot === coverSlotName, busyLabel: "Upscaling…" };
+  const newCoverAction = { label: "Upload a new cover", onClick: () => goTo("section-upload") };
+  const fixInteriorAction = { label: "Auto-Fix All Issues", onClick: autofixInterior, busy: interiorFixing, busyLabel: "Fixing…" };
+  const newInteriorAction = { label: "Upload a new interior", onClick: () => goTo("section-upload") };
+  const coverAction = needBookAction && coverIssues.length ? needBookAction
+    : coverFixable.length ? fixCoverAction : coverDpi.length ? upscaleCoverAction : coverManual.length ? newCoverAction : null;
+  const interiorAction = needBookAction && interiorIssues.length ? needBookAction
+    : interiorFixable.length ? fixInteriorAction : interiorManual.length ? newInteriorAction : null;
+  // One card, its own fix: sharpen a soft cover, fix what SparkPrep can fix, or ask for a new file only when it can't.
+  // Each card's button names its own fix, as in the original fix buttons (Sep 19): "Convert to CMYK", "Clamp Ink to 240%"...
+  const named = (action, c) => ({ ...action, label: fixButtonLabel(c, "Apply Fix") });
+  const coverCardAction = (c) => (!isOpenIssue(c) ? null : needBookAction || (isDpi(c) ? upscaleCoverAction : c.auto_fix ? named(fixCoverAction, c) : newCoverAction));
+  const interiorCardAction = (c) => (!isOpenIssue(c) ? null : needBookAction || (c.auto_fix ? named(fixInteriorAction, c) : newInteriorAction));
   let guideNow;
   if (currentStep === "details") {
     guideNow = !titleSet
@@ -1369,10 +1386,10 @@ export default function Editor() {
                     <span className="font-mono-spec text-[10px] tracking-widest uppercase text-[#D4AF37]">{needsInterior ? "Cover Check Results" : "Check Results"}</span>
                   </div>
                   {compliance.length === 0 && <p className="text-xs text-neutral-500">Upload a file to see the results here.</p>}
-                  {compliance.length > 0 && <ScanStatusBanner result={coverFixResult} summary={coverSummary} sectionLabel="Cover" />}
+                  {compliance.length > 0 && <ScanStatusBanner result={coverFixResult} summary={coverSummary} sectionLabel="Cover" action={coverAction} />}
                   <div className="grid sm:grid-cols-2 gap-2 mt-2">
                     {compliance.map((c, i) => (
-                      <ComplianceCard key={i} c={c} />
+                      <ComplianceCard key={i} c={c} action={coverCardAction(c)} />
                     ))}
                   </div>
                 </div>
@@ -1393,11 +1410,11 @@ export default function Editor() {
                       : <>This checks the first page of your interior. Every page (up to 300) is checked with a book.</>}
                   </p>
                   {!hasInteriorUpload && <p className="text-xs text-neutral-500">Upload your book above to see the results here.</p>}
-                  {hasInteriorUpload && interiorCompliance.length > 0 && <ScanStatusBanner result={interiorFixResult} summary={interiorSummary} sectionLabel="Interior" />}
+                  {hasInteriorUpload && interiorCompliance.length > 0 && <ScanStatusBanner result={interiorFixResult} summary={interiorSummary} sectionLabel="Interior" action={interiorAction} />}
                   {hasInteriorUpload && (
                     <div className="grid sm:grid-cols-2 gap-2 mt-2">
                       {interiorCompliance.map((c, i) => (
-                        <ComplianceCard key={i} c={c} />
+                        <ComplianceCard key={i} c={c} action={interiorCardAction(c)} />
                       ))}
                     </div>
                   )}
@@ -1415,7 +1432,7 @@ export default function Editor() {
                   </p>
                 )}
                 {readyForFinalReview && !finalReview && (
-                  <p className="text-xs text-neutral-400">Ready — run it with the glowing button in the step guide at the top.</p>
+                  <InlineFixButton action={{ label: "Run final check", onClick: runFinalReview, busy: checkingFinal, busyLabel: "Checking…" }} testid="final-review-run" />
                 )}
                 {finalReview && (
                   <FinalReviewResult review={finalReview} />
@@ -1522,7 +1539,33 @@ export default function Editor() {
   );
 }
 
-function ComplianceCard({ c }) {
+// Action-verb label for a card's own fix button (restored from the original Sep 19 fix buttons). Several checks share
+// one fix, so the finding id picks the words.
+function fixButtonLabel(c, fallback) {
+  if (c.id === "total_ink_coverage") {
+    const limit = (c.label || "").match(/limit (\d+)%/)?.[1];
+    return limit ? `Clamp Ink to ${limit}%` : "Clamp Ink Coverage";
+  }
+  if (c.id === "colorspace") return "Convert to CMYK";
+  if (["interior_page_size_mismatch", "interior_safety_margin", "cover_safety_margin"].includes(c.id)) return "Nudge to Safe Margin";
+  if (c.fix_action === "flatten") return "Flatten Layers";
+  return fallback;
+}
+
+// The button that fixes a problem, right next to it.
+function InlineFixButton({ action, testid, small }) {
+  if (!action) return null;
+  return (
+    <button onClick={action.onClick} disabled={!!action.busy}
+      className={`${small ? "mt-2 px-3 py-1.5 text-[10px]" : "mt-2 px-4 py-2 text-[10px]"} btn-gold font-mono-spec tracking-widest uppercase btn-industrial inline-flex items-center gap-1.5 disabled:opacity-60`}
+      data-testid={testid}>
+      {action.busy ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Wand2 className="w-3.5 h-3.5" />}
+      {action.busy ? (action.busyLabel || "Working…") : action.label}
+    </button>
+  );
+}
+
+function ComplianceCard({ c, action }) {
   if (c.fixed_on_export) {
     return (
       <div className="border border-emerald-900 bg-[#0D0D0D] p-3" data-testid={`compliance-${c.id}`} data-fixed-on-export="true">
@@ -1558,9 +1601,10 @@ function ComplianceCard({ c }) {
       )}
       {isDpiIssue && (
         <div className="text-[10px] text-[#D4AF37] mt-1.5 flex items-center gap-1">
-          <Wand2 className="w-3 h-3 shrink-0" /> Fixed with AI Upscale — use the step guide at the top
+          <Wand2 className="w-3 h-3 shrink-0" /> Fixed with AI Upscale
         </div>
       )}
+      <InlineFixButton action={action} testid={`fix-inline-${c.id}`} small />
     </div>
   );
 }
@@ -1569,7 +1613,7 @@ function ComplianceCard({ c }) {
 // that disappears with a banner that stays until the next action, showing
 // exactly what happened and what to do next (the gap that was blocking
 // completing the flow: a scan ran but nothing told the user pass/fail/next).
-function ScanStatusBanner({ result, summary, sectionLabel }) {
+function ScanStatusBanner({ result, summary, sectionLabel, action }) {
   const verdict = result || summary;
   if (!verdict || verdict.verdict === "empty") return null;
   const styles = {
@@ -1589,7 +1633,7 @@ function ScanStatusBanner({ result, summary, sectionLabel }) {
       <div className="flex-1 min-w-0">
         <div className="font-display font-bold text-sm">{headline}</div>
         {verdict.gsFailed && <div className="text-[11px] mt-0.5 opacity-90">{verdict.gsReason || "This one needs a manual fix."}</div>}
-        {verdict.verdict !== "pass" && <div className="text-[11px] mt-0.5 opacity-90">The step guide at the top shows what to press.</div>}
+        {verdict.verdict !== "pass" && <InlineFixButton action={action} testid={`fix-section-${sectionLabel.toLowerCase()}`} />}
       </div>
     </div>
   );

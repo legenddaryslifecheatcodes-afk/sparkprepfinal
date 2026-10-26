@@ -18,7 +18,7 @@ async function dataUrlToBlob(url) {
 
 // Puts the finished cover into a SparkPrep book, where the Editor checks it against the printer's rules,
 // fixes what it can and exports the print-ready file.
-export default function SendToBookDialog({ open, onOpenChange, engine, specs, words, linkedBook, onUseSpecs, problems }) {
+export default function SendToBookDialog({ open, onOpenChange, engine, specs, words, linkedBook, onUseSpecs, problems, design }) {
   const { user } = useAuth();
   const nav = useNavigate();
   const [books, setBooks] = useState(null);
@@ -55,6 +55,13 @@ export default function SendToBookDialog({ open, onOpenChange, engine, specs, wo
       fd.append("source", "cover_studio");
       setBusy("Sending it to your book…");
       await api.post(`/projects/${id}/slot-upload/full_wrap`, fd, { headers: { "Content-Type": "multipart/form-data" }, timeout: 300000 });
+      // Keep the editable design with the book too, so it can be reopened anywhere and re-fitted to a new spine.
+      // The cover itself is already in the book, so a failure here only costs that convenience.
+      const d = design?.();
+      if (d) {
+        setBusy("Saving your design with the book…");
+        await api.put(`/projects/${id}/cover-studio`, d, { timeout: 120000 }).catch(() => {});
+      }
       toast.success("Your cover is in your book. SparkPrep is checking it against the printer's rules now.");
       onOpenChange(false);
       nav(`/editor/${id}`);

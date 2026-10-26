@@ -1,0 +1,43 @@
+# Puts the website live on Cloudflare Pages (sparkprep-live -> sparkprep.legenddary.com) whenever
+# sparkprep-logo-and-ai-gating changes, so a deploy no longer needs the owner's laptop.
+# Needs two repository secrets: CLOUDFLARE_API_TOKEN (Cloudflare Pages: Edit) and CLOUDFLARE_ACCOUNT_ID.
+name: Deploy website
+
+on:
+  push:
+    branches: [sparkprep-logo-and-ai-gating]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-website
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      # CI=false: CRA would otherwise treat lint warnings as errors.
+      - run: npm run build
+        env:
+          CI: "false"
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy build --project-name=sparkprep-live --branch=main --commit-dirty=true
+
+      - name: Tell Bing about the pages (IndexNow)
+        run: npm run indexnow
+        continue-on-error: true

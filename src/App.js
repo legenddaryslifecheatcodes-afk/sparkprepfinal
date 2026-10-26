@@ -25,6 +25,7 @@ import AdminBeta from "@/pages/AdminBeta";
 
 // The Cover Studio carries its own drawing engine, so it loads only when someone opens it.
 const CoverStudio = lazy(() => import("@/pages/CoverStudio"));
+const InteriorStudio = lazy(() => import("@/pages/InteriorStudio"));
 
 function Protected({ children }) {
   const { user, loading, openHouse, startGuest } = useAuth();
@@ -82,6 +83,7 @@ export default function App() {
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/specs" element={<SpecLibrary />} />
           <Route path="/cover-studio" element={<Suspense fallback={<div className="p-10 text-sm font-mono-spec text-neutral-500">Opening Cover Studio…</div>}><CoverStudio /></Suspense>} />
+          <Route path="/interior-studio" element={<Suspense fallback={<div className="p-10 text-sm font-mono-spec text-neutral-500">Opening Interior Studio…</div>}><InteriorStudio /></Suspense>} />
           <Route path="/audit" element={<AuditLanding />} />
           <Route path="/audit/:id/preview" element={<AuditPreview />} />
           <Route path="/audit/:id/report" element={<AuditReport />} />

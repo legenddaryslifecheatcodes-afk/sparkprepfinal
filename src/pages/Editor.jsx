@@ -918,6 +918,13 @@ export default function Editor() {
                   </button>
                 </InfoTip>
               )}
+              {project.project_type !== "cover" && (
+                <InfoTip text="Write or import your book's inside pages in the Interior Studio and watch the printed pages build. It comes back here when you send it.">
+                  <button onClick={() => nav(`/interior-studio?book=${id}`)} className="px-3 py-2 border border-[#D4AF37] text-[#D4AF37] font-mono-spec text-[10px] tracking-widest uppercase hover:bg-[#D4AF37] hover:text-black flex items-center gap-1.5 btn-industrial" data-testid="interior-studio-btn">
+                    <PenTool className="w-3.5 h-3.5" /> Interior Studio
+                  </button>
+                </InfoTip>
+              )}
               {isCover && (
                 <InfoTip text="Start from a typographic cover template — replaces the full cover wrap, fully editable after.">
                   <button onClick={() => setCoverTemplateOpen(true)} className="px-3 py-2 border border-neutral-700 text-neutral-300 font-mono-spec text-[10px] tracking-widest uppercase hover:border-white hover:text-white flex items-center gap-1.5 btn-industrial" data-testid="cover-template-btn">

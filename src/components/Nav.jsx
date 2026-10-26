@@ -72,6 +72,7 @@ export default function Nav({ dark = true }) {
             {pricing ? `${money(pricing.audit.price_cents)} Audit` : "Audit"}
           </Link>
           <Link to="/cover-studio" className={linkCls} data-testid="nav-cover-studio">Cover Studio</Link>
+          <Link to="/interior-studio" className={linkCls} data-testid="nav-interior-studio">Interior Studio</Link>
           <Link to="/specs" className={linkCls} data-testid="nav-specs">Specs</Link>
           <Link to="/pricing" className={linkCls} data-testid="nav-pricing">Pricing</Link>
           {user ? (

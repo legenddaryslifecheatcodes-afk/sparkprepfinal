@@ -295,7 +295,13 @@ export default function Dashboard() {
                   </div>
                   {p.cover_refit && (
                     <div className="mt-4 text-xs text-amber-800 bg-amber-50 border border-amber-200 p-2 flex items-start gap-1.5" data-testid={`refit-${p.id}`}>
-                      <AlertTriangle className="w-3.5 h-3.5 shrink-0 mt-px" /> The page count changed, so the cover needs its new spine. Open the book to re-fit it.
+                      <AlertTriangle className="w-3.5 h-3.5 shrink-0 mt-px" />
+                      <div className="flex-1">
+                        The page count changed, so the cover needs its new spine.
+                        <button onClick={() => nav(`/cover-studio?book=${p.id}&refit=1`)} className="mt-2 w-full btn-gold py-1.5 font-mono-spec text-[10px] tracking-widest uppercase btn-industrial" data-testid={`refit-go-${p.id}`}>
+                          Re-fit my cover
+                        </button>
+                      </div>
                     </div>
                   )}
                   <button onClick={() => nav(`/editor/${p.id}`)} className="mt-6 w-full border border-black py-2 font-mono-spec text-xs tracking-widest uppercase hover:bg-black hover:text-white transition-colors btn-industrial" data-testid={`open-${p.id}`}>

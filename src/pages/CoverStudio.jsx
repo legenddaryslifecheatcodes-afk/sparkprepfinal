@@ -206,8 +206,12 @@ export default function CoverStudio() {
   const [showSend, setShowSend] = useState(false);
   const [linkedBook, setLinkedBook] = useState(saved.current?.linkedBook || null);
   const [geoError, setGeoError] = useState(null);
+  const [refit, setRefit] = useState(null);
   const wordsRef = useRef(words);
   const ready = useRef(false);
+  const readyResolve = useRef(null);
+  const firstReady = useRef(null);
+  if (!firstReady.current) firstReady.current = new Promise((r) => { readyResolve.current = r; });
 
   const refresh = useCallback((obj) => {
     if (obj !== undefined) setSelected(obj);
@@ -231,16 +235,43 @@ export default function CoverStudio() {
     return () => { eng.dispose(); engineRef.current = null; };
   }, []);
 
-  // A book from the Editor (?book=<id>): use its exact specs and its title.
+  // A book from the Editor (?book=<id>): use its exact specs and its title. If the cover was designed here before
+  // and saved with the book, open that design (from any device) and lay it onto the book's current size, so a
+  // new page count moves the spine without starting over.
   useEffect(() => {
     const id = params.get("book");
-    if (!id || !user) return;
-    api.get(`/projects/${id}`).then(({ data }) => {
+    if (!id || !user || !engine) return undefined;
+    let live = true;
+    (async () => {
+      const [{ data }, design] = await Promise.all([
+        api.get(`/projects/${id}`),
+        api.get(`/projects/${id}/cover-studio`).then((r) => r.data.design).catch(() => null),
+      ]);
+      if (!live) return;
       setLinkedBook({ id: data.id, name: data.name });
-      setSpecs(specsOfProject(data));
-      if (data.name && (wordsRef.current.title === DEFAULT_TEXT.title || !wordsRef.current.title)) setWords({ ...wordsRef.current, title: data.name });
-    }).catch(() => {});
-  }, [params, user]); // eslint-disable-line react-hooks/exhaustive-deps
+      const bookSpecs = specsOfProject(data);
+      const localIsThisBook = saved.current?.linkedBook?.id === id && saved.current?.snap;
+      if (design?.snap && design.specs && !localIsThisBook) {
+        await firstReady.current;
+        const was = await loadGeometry(design.specs);
+        const now = await loadGeometry(bookSpecs);
+        if (!live) return;
+        engine.setGeometry(was, { remap: false });
+        await engine.restore(design.snap);
+        engine.setGeometry(now, { remap: true });
+        if (design.words) { wordsRef.current = { ...DEFAULT_TEXT, ...design.words }; setWordsState(wordsRef.current); }
+        if (design.genre) setGenre(design.genre);
+        setGeo(now);
+        refresh(null);
+        toast.success(`Opened the cover saved with "${data.name}".`);
+      } else if (data.name && (wordsRef.current.title === DEFAULT_TEXT.title || !wordsRef.current.title)) {
+        setWords({ ...wordsRef.current, title: data.name });
+      }
+      setSpecs(bookSpecs);
+      if (params.get("refit") && data.cover_refit) setRefit(data.cover_refit);
+    })().catch(() => {});
+    return () => { live = false; };
+  }, [params, user, engine]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Book specs -> exact cover geometry -> re-lay the design onto it.
   useEffect(() => {
@@ -258,6 +289,7 @@ export default function CoverStudio() {
           await engine.applyTemplate(DEFAULT_TEMPLATE, wordsRef.current);
         }
         ready.current = true;
+        readyResolve.current?.();
       } else {
         engine.setGeometry(g, { remap: true });
       }
@@ -386,6 +418,17 @@ export default function CoverStudio() {
         <button onClick={() => setShowSend(true)} disabled={!geo} className="h-9 px-3 flex items-center gap-1.5 btn-gold font-mono-spec text-[10px] tracking-widest uppercase btn-industrial" data-testid="studio-send"><Send className="w-4 h-4" /><span className="hidden md:inline">Send to my book</span></button>
       </header>
 
+      {refit && (
+        <div className="shrink-0 px-4 py-2.5 bg-[#FFF8EF] border-b border-[#F3D9B8] text-xs flex flex-wrap items-center gap-2" data-testid="studio-refit-note">
+          <span className="mr-auto">
+            Your book is now <b>{refit.to_page_count} pages</b>, so its spine changed from {refit.from_spine_width}" to <b>{refit.to_spine_width}"</b>.
+            SparkPrep moved your design onto the new size. Check the spine, then send it back to your book.
+          </span>
+          <button onClick={() => setShowSend(true)} className="px-3 py-1.5 btn-gold font-mono-spec text-[10px] tracking-widest uppercase" data-testid="studio-refit-send">Send to my book</button>
+          <button onClick={() => setRefit(null)} className="underline">Hide</button>
+        </div>
+      )}
+
       <div className="flex-1 min-h-0 flex flex-col lg:flex-row">
         {/* Tools */}
         <aside className="order-2 lg:order-1 lg:w-[340px] shrink-0 flex flex-col lg:flex-row border-t lg:border-t-0 lg:border-r border-neutral-200 bg-white min-h-0 max-h-[45vh] lg:max-h-none">
@@ -446,7 +489,8 @@ export default function CoverStudio() {
       )}
 
       <Preview3DDialog open={show3d} onOpenChange={setShow3d} engine={engine} geo={geo} />
-      <SendToBookDialog open={showSend} onOpenChange={setShowSend} engine={engine} specs={specs} words={words} linkedBook={linkedBook} onUseSpecs={applyBookSpecs} problems={problems} />
+      <SendToBookDialog open={showSend} onOpenChange={setShowSend} engine={engine} specs={specs} words={words} linkedBook={linkedBook} onUseSpecs={applyBookSpecs} problems={problems}
+        design={() => { const snap = engine?.history[engine.history.length - 1]; return snap ? { snap: JSON.parse(snap), words, genre, specs } : null; }} />
     </div>
   );
 }

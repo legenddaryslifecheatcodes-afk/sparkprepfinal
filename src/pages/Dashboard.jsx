@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import Nav from "@/components/Nav";
 import NewProjectDialog from "@/components/NewProjectDialog";
 import BrandWatermark from "@/components/BrandWatermark";
-import { Plus, FileText, Trash2, Layers, ShieldAlert, PackageCheck, Download, ChevronDown } from "lucide-react";
+import { Plus, FileText, Trash2, Layers, ShieldAlert, PackageCheck, Download, ChevronDown, PenTool, NotebookPen, AlertTriangle } from "lucide-react";
 import { usePricing, money, isBookModel } from "@/lib/pricing";
 
 export default function Dashboard() {
@@ -144,6 +144,23 @@ export default function Dashboard() {
         </div>
         )}
 
+        {/* Make a book from scratch: the two free studios, each sends its work into a book here */}
+        <div className="mt-10 grid md:grid-cols-2 gap-4" data-testid="studio-shortcuts">
+          {[
+            ["/cover-studio", PenTool, "Design a cover", "Cover Studio: free templates and fonts, front, spine and back sized to your book."],
+            ["/interior-studio", NotebookPen, "Write the inside pages", "Interior Studio: type or bring in Word, pick a book style, watch the printed pages build."],
+          ].map(([to, I, title, text]) => (
+            <Link key={to} to={to} className="bg-white border border-neutral-200 hover:border-black p-5 flex items-start gap-4 transition-colors">
+              <I className="w-6 h-6 text-[#D4AF37] shrink-0 mt-0.5" />
+              <span>
+                <span className="block font-display font-bold text-lg tracking-tight">{title}</span>
+                <span className="block text-sm text-neutral-600 mt-0.5">{text}</span>
+                <span className="block font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500 mt-2">Free · Sends straight into a book here →</span>
+              </span>
+            </Link>
+          ))}
+        </div>
+
         {/* Series consistency */}
         {series.length > 0 && (
           <div className="mt-10 bg-white border border-neutral-200" data-testid="series-panel">
@@ -276,6 +293,17 @@ export default function Dashboard() {
                     <div>Paper · {p.paper_type.split("_")[0]}</div>
                     <div>Bind · {p.binding.split("_")[0]}</div>
                   </div>
+                  {p.cover_refit && (
+                    <div className="mt-4 text-xs text-amber-800 bg-amber-50 border border-amber-200 p-2 flex items-start gap-1.5" data-testid={`refit-${p.id}`}>
+                      <AlertTriangle className="w-3.5 h-3.5 shrink-0 mt-px" />
+                      <div className="flex-1">
+                        The page count changed, so the cover needs its new spine.
+                        <button onClick={() => nav(`/cover-studio?book=${p.id}&refit=1`)} className="mt-2 w-full btn-gold py-1.5 font-mono-spec text-[10px] tracking-widest uppercase btn-industrial" data-testid={`refit-go-${p.id}`}>
+                          Re-fit my cover
+                        </button>
+                      </div>
+                    </div>
+                  )}
                   <button onClick={() => nav(`/editor/${p.id}`)} className="mt-6 w-full border border-black py-2 font-mono-spec text-xs tracking-widest uppercase hover:bg-black hover:text-white transition-colors btn-industrial" data-testid={`open-${p.id}`}>
                     Open Editor →
                   </button>

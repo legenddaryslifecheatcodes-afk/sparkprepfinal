@@ -965,6 +965,20 @@ export default function Editor() {
               </button>
             </div>
           )}
+          {project.cover_refit && (
+            <div className="mb-3 border border-amber-500/50 bg-amber-500/10 px-4 py-3 flex flex-wrap items-center gap-3" data-testid="cover-refit-banner">
+              <div className="text-sm text-amber-100 mr-auto max-w-3xl">
+                <span className="font-bold text-amber-300">Your cover needs the new spine.</span>{" "}
+                This book is now {project.cover_refit.to_page_count} pages, so the spine is {project.cover_refit.to_spine_width}" wide
+                (your cover was made for {project.cover_refit.from_spine_width}"). You made the cover in the Cover Studio, so SparkPrep
+                can move your design onto the new spine for you, without stretching anything.
+                {!project.cover_refit.has_design && " Open it on the computer you designed it on."}
+              </div>
+              <button onClick={() => nav(`/cover-studio?book=${id}&refit=1`)} className="px-4 py-2 btn-gold font-mono-spec text-[10px] tracking-widest uppercase btn-industrial" data-testid="cover-refit-btn">
+                Re-fit my cover
+              </button>
+            </div>
+          )}
           <div className="sticky top-[64px] z-30 bg-[#0A0A0A] pb-1" data-testid="step-guide-pin">
             <StepGuide steps={guideSteps} current={currentStep} now={guideNow}
               rescan={filesUploaded && !project.results_locked && project.owns_product !== false
@@ -1141,11 +1155,29 @@ export default function Editor() {
                         <button onClick={() => setComposerOpen(true)} className="text-[#D4AF37] hover:underline" data-testid="composer-btn">Paste your text into a ready-made layout</button>{" "}
                         instead — opens a dialog where you pick a novel/workbook/poetry layout, paste your manuscript text directly into a box, and it generates the print-ready PDF for you.
                       </p>
+                      {!project.slots?.interior && (
+                        <button onClick={() => nav(`/interior-studio?book=${id}`)} className="mt-3 w-full text-left border border-[#D4AF37]/60 hover:border-[#D4AF37] p-3 flex items-start gap-3" data-testid="interior-studio-card">
+                          <PenTool className="w-5 h-5 text-[#D4AF37] shrink-0 mt-0.5" />
+                          <span>
+                            <span className="block text-sm font-bold text-white">Write it or bring in Word in the Interior Studio</span>
+                            <span className="block text-xs text-neutral-400 mt-0.5">Free. Type like in Word, pick a book style, watch the printed pages build, then send them straight back here.</span>
+                          </span>
+                        </button>
+                      )}
                     </div>
                   )}
                   {isCover && (
                     <>
                       <p className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500 mb-3">Upload cover files</p>
+                      {!COVER_SLOTS.some((s) => project.slots?.[s.key]) && (
+                        <button onClick={() => nav(`/cover-studio?book=${id}`)} className="mb-3 w-full text-left border border-[#D4AF37]/60 hover:border-[#D4AF37] p-3 flex items-start gap-3" data-testid="cover-studio-card">
+                          <PenTool className="w-5 h-5 text-[#D4AF37] shrink-0 mt-0.5" />
+                          <span>
+                            <span className="block text-sm font-bold text-white">No cover yet? Design one in the Cover Studio</span>
+                            <span className="block text-xs text-neutral-400 mt-0.5">Free templates and fonts, already sized to this book's spine. Send it back here when it's done.</span>
+                          </span>
+                        </button>
+                      )}
                       {!piecesAllowed && hasCoverPieces && (
                         <p className="text-xs text-amber-400 mb-3 leading-relaxed" data-testid="hardcover-needs-one-file">
                           Hardcover covers need one combined file — the hinge and wrap areas{project.binding === "hardcover_jacket" ? " and the jacket's flaps" : ""} aren't part of separate front and back pieces.

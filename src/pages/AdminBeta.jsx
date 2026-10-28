@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { api, fmtErr } from "@/lib/api";
 import { toast } from "sonner";
 import Nav from "@/components/Nav";
-import { Copy, Plus, ShieldOff, Star, Users, KeyRound, ChevronRight, ChevronDown } from "lucide-react";
+import { Copy, Plus, ShieldOff, Star, Users, KeyRound, ChevronRight, ChevronDown, Mail, Download } from "lucide-react";
 
 const STATUS_COLOR = {
   unredeemed: "text-emerald-400 border-emerald-500/30 bg-emerald-500/5",
@@ -75,6 +75,8 @@ export default function AdminBeta() {
       <div className="max-w-7xl mx-auto px-6 py-12">
         <span className="font-mono-spec text-[10px] tracking-widest uppercase text-[#D4AF37]">[ Admin · Beta program ]</span>
         <h1 className="font-display font-black text-4xl md:text-5xl tracking-tighter mt-2" data-testid="admin-title">Beta command center.</h1>
+
+        <EmailList />
 
         {/* Stat strip */}
         <div className="mt-8 grid md:grid-cols-6 gap-3">
@@ -431,6 +433,58 @@ function BookFlags() {
             </div>
           ))}
         </div>
+      )}
+    </div>
+  );
+}
+
+// Every email SparkPrep has: free tool users (the email box on the free calculators) plus real accounts.
+function EmailList() {
+  const [info, setInfo] = useState(null);
+  const [busy, setBusy] = useState(false);
+
+  useEffect(() => {
+    api.get("/admin/leads").then(({ data }) => setInfo(data)).catch(() => setInfo({ count: 0, from_free_tools: 0, emails: [] }));
+  }, []);
+
+  const download = async () => {
+    setBusy(true);
+    try {
+      const { data, headers } = await api.get("/admin/leads.csv", { responseType: "blob" });
+      const name = (headers["content-disposition"] || "").match(/filename="([^"]+)"/)?.[1] || "sparkprep-emails.csv";
+      const url = URL.createObjectURL(data);
+      const a = document.createElement("a");
+      a.href = url; a.download = name; a.click();
+      URL.revokeObjectURL(url);
+    } catch (e) { toast.error(fmtErr(e.response?.data?.detail)); }
+    finally { setBusy(false); }
+  };
+
+  return (
+    <div className="mt-8 marketing-surface p-6 border-[#D4AF37]/30" data-testid="email-list-panel">
+      <div className="flex items-center justify-between flex-wrap gap-4">
+        <div>
+          <span className="font-mono-spec text-[10px] tracking-widest uppercase text-[#D4AF37]">[ Email list ]</span>
+          <h2 className="font-display font-black text-2xl tracking-tight mt-1 flex items-center gap-2">
+            <Mail className="w-5 h-5 text-[#D4AF37]" /> {info ? info.count : "…"} emails
+          </h2>
+          <p className="text-sm text-neutral-400 mt-1">
+            {info ? `${info.from_free_tools} from the free tools, the rest from accounts.` : "Loading…"}
+          </p>
+        </div>
+        <button onClick={download} disabled={busy} className="btn-gold px-5 py-2.5 font-mono-spec text-xs tracking-widest uppercase flex items-center gap-2 btn-industrial disabled:opacity-50" data-testid="email-list-download">
+          <Download className="w-3.5 h-3.5" /> {busy ? "Preparing…" : "Download all emails"}
+        </button>
+      </div>
+      {info?.emails?.length > 0 && (
+        <ul className="mt-4 text-sm text-neutral-300 space-y-1">
+          {info.emails.slice(0, 5).map((r) => (
+            <li key={r.email} className="flex justify-between gap-3 border-b border-neutral-800 py-1">
+              <span className="truncate">{r.email}</span>
+              <span className="font-mono-spec text-[10px] text-neutral-500 shrink-0">{r.where_from}</span>
+            </li>
+          ))}
+        </ul>
       )}
     </div>
   );

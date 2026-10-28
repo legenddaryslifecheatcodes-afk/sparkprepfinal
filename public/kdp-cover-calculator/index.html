@@ -17,6 +17,7 @@
 {"@context":"https://schema.org","@graph":[
  {"@type":"WebApplication","name":"KDP Cover Size Calculator & Template Generator","url":"https://sparkprep.legenddary.com/kdp-cover-calculator/","applicationCategory":"DesignApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"SparkPrep","url":"https://sparkprep.legenddary.com/"}},
  {"@type":"FAQPage","mainEntity":[
+  {"@type": "Question", "name": "Why use a KDP cover size calculator?", "acceptedAnswer": {"@type": "Answer", "text": "KDP rejects any cover PDF that is even slightly the wrong size. Your cover's width depends on your trim size, page count and paper type, so guessing is risky. This calculator uses KDP's own formula to give you the exact width, height and spine in seconds, plus a free 300 DPI template to design on."}},
   {"@type":"Question","name":"How do I calculate my KDP paperback cover size?","acceptedAnswer":{"@type":"Answer","text":"Full cover width = 0.125\" bleed + back cover width + spine width + front cover width + 0.125\" bleed. Full cover height = trim height + 0.25\". For a 6\" x 9\" book that is 12.25\" plus the spine wide and 9.25\" tall."}},
   {"@type":"Question","name":"How wide is a KDP spine?","acceptedAnswer":{"@type":"Answer","text":"KDP spine width = page count x 0.002252\" for white paper and standard color, x 0.0025\" for cream paper, and x 0.002347\" for premium color. A 300-page book on white paper has a 0.676\" spine."}},
   {"@type":"Question","name":"When can I put text on the spine?","acceptedAnswer":{"@type":"Answer","text":"KDP only prints spine text on books with more than 79 pages. Keep spine text at least 0.0625\" away from each fold line."}}
@@ -54,6 +55,11 @@
     <canvas id="template" aria-label="Cover template preview"></canvas>
     <button class="btn" id="download" type="button">Download this cover template (PNG, 300 DPI)</button>
     <p class="note">Use the page count from your final, formatted interior PDF — Word or Google Docs page counts are often different.</p>
+  </section>
+
+  <section class="card" id="why">
+    <h2 style="margin-top:0">Why use a KDP cover size calculator?</h2>
+    <p>KDP rejects any cover PDF that is even slightly the wrong size. Your cover's width depends on your trim size, page count and paper type, so guessing is risky. This calculator uses KDP's own formula to give you the exact width, height and spine in seconds, plus a free 300 DPI template to design on.</p>
   </section>
 
   <h2>How KDP works out your cover size</h2>

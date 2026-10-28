@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { api, fmtErr } from "@/lib/api";
 import { toast } from "sonner";
 import Nav from "@/components/Nav";
-import { Copy, Plus, ShieldOff, Star, Users, KeyRound, ChevronRight, ChevronDown, Mail, Download } from "lucide-react";
+import { Copy, Plus, ShieldOff, Star, Users, KeyRound, ChevronRight, ChevronDown, Mail, Download, Lock } from "lucide-react";
 
 const STATUS_COLOR = {
   unredeemed: "text-emerald-400 border-emerald-500/30 bg-emerald-500/5",
@@ -77,6 +77,7 @@ export default function AdminBeta() {
         <h1 className="font-display font-black text-4xl md:text-5xl tracking-tighter mt-2" data-testid="admin-title">Beta command center.</h1>
 
         <EmailList />
+        <LockedTitleFix />
 
         {/* Stat strip */}
         <div className="mt-8 grid md:grid-cols-6 gap-3">
@@ -486,6 +487,39 @@ function EmailList() {
           ))}
         </ul>
       )}
+    </div>
+  );
+}
+
+// The owner's override for a locked title or author name (a real typo a customer emailed about).
+function LockedTitleFix() {
+  const [form, setForm] = useState({ project_id: "", name: "", author_name: "" });
+  const [busy, setBusy] = useState(false);
+
+  const save = async () => {
+    setBusy(true);
+    try {
+      const { data } = await api.post("/admin/projects/title", form);
+      toast.success(`Updated: "${data.name}"${data.author_name ? ` by ${data.author_name}` : ""}`);
+      setForm({ project_id: "", name: "", author_name: "" });
+    } catch (e) { toast.error(fmtErr(e.response?.data?.detail)); }
+    finally { setBusy(false); }
+  };
+
+  const field = "mt-1 w-full bg-black border border-neutral-800 focus:border-[#D4AF37] px-3 py-2 text-sm text-white outline-none";
+  return (
+    <div className="mt-4 marketing-surface p-6" data-testid="locked-title-panel">
+      <span className="font-mono-spec text-[10px] tracking-widest uppercase text-[#D4AF37]">[ Locked titles ]</span>
+      <h2 className="font-display font-black text-2xl tracking-tight mt-1 flex items-center gap-2"><Lock className="w-5 h-5 text-[#D4AF37]" /> Correct a locked title</h2>
+      <p className="text-sm text-neutral-400 mt-1">For a real typo only. Paste the customer's book link, then the correct title and author name.</p>
+      <div className="mt-4 grid md:grid-cols-[1.4fr_1fr_1fr_auto] gap-3 items-end">
+        <input value={form.project_id} onChange={(e) => setForm({ ...form, project_id: e.target.value })} placeholder="Book link (…/editor/…)" className={field} data-testid="locked-title-book" />
+        <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="Correct title" className={field} data-testid="locked-title-name" />
+        <input value={form.author_name} onChange={(e) => setForm({ ...form, author_name: e.target.value })} placeholder="Correct author name" className={field} data-testid="locked-title-author" />
+        <button onClick={save} disabled={busy || !form.project_id.trim() || !form.name.trim()} className="btn-gold px-5 py-2.5 font-mono-spec text-xs tracking-widest uppercase btn-industrial disabled:opacity-50" data-testid="locked-title-save">
+          {busy ? "Saving…" : "Save"}
+        </button>
+      </div>
     </div>
   );
 }

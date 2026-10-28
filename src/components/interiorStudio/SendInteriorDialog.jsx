@@ -5,6 +5,7 @@ import { api, fmtErr } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
 import { toast } from "sonner";
 import { BookPlus, Send } from "lucide-react";
+import TitleLockNotice from "@/components/TitleLockNotice";
 
 // Typesets the book at print quality and puts it in a SparkPrep book as its interior, where the usual checks
 // run and the Editor takes it from there (cover, fixes, export).
@@ -14,10 +15,12 @@ export default function SendInteriorDialog({ open, onOpenChange, buildBody, spec
   const [books, setBooks] = useState(null);
   const [pick, setPick] = useState(linkedBook?.id || "new");
   const [busy, setBusy] = useState(null);
+  const [namesOk, setNamesOk] = useState(false);
 
   useEffect(() => {
     if (!open || !user) return;
     setPick(linkedBook?.id || "new");
+    setNamesOk(false);
     api.get("/projects").then(({ data }) => setBooks(data.projects || [])).catch(() => setBooks([]));
   }, [open, user, linkedBook]);
 
@@ -30,7 +33,7 @@ export default function SendInteriorDialog({ open, onOpenChange, buildBody, spec
       if (!id) {
         setBusy("Creating your book…");
         const { data } = await api.post("/projects", {
-          name: details.title?.trim() || "Untitled Book",
+          name: details.title?.trim() || "Untitled Book", author_name: details.author?.trim() || null,
           platform: specs.platform, trim_size: specs.trim_size, paper_type: specs.paper_type || "white_50lb",
           binding: specs.binding || "paperback", page_count: Math.max(24, pageCount || 200), project_type: "combined",
         });
@@ -86,7 +89,8 @@ export default function SendInteriorDialog({ open, onOpenChange, buildBody, spec
                 This book is set up as {target.trim_size} for {target.platform}, so your pages will be typeset at that size and to that printer's margins. Nothing else to do.
               </div>
             )}
-            <button onClick={send} disabled={!!busy} className="mt-2 w-full py-3 btn-gold font-mono-spec text-xs tracking-widest uppercase btn-industrial flex items-center justify-center gap-2 disabled:opacity-50" data-testid="interior-send-go" data-next-step="Click to send">
+            <TitleLockNotice title={details.title} author={details.author} lock={target?.title_lock} checked={namesOk} onChange={setNamesOk} testid="interior-send-names" />
+            <button onClick={send} disabled={!!busy || (!target?.title_lock && !namesOk)} className="mt-2 w-full py-3 btn-gold font-mono-spec text-xs tracking-widest uppercase btn-industrial flex items-center justify-center gap-2 disabled:opacity-50" data-testid="interior-send-go" data-next-step="Click to send">
               <Send className="w-4 h-4" /> {busy || "Send my pages"}
             </button>
             <p className="text-[11px] text-neutral-500">Writing and previewing are free. The print-ready file comes with your book.</p>

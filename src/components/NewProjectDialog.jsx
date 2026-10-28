@@ -6,6 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { api, fmtErr } from "@/lib/api";
 import { usePricing, isBookModel } from "@/lib/pricing";
 import { toast } from "sonner";
+import TitleLockNotice from "@/components/TitleLockNotice";
 
 export default function NewProjectDialog({ open, onOpenChange, onCreated }) {
   const [specs, setSpecs] = useState(null);
@@ -13,7 +14,7 @@ export default function NewProjectDialog({ open, onOpenChange, onCreated }) {
   const [form, setForm] = useState({
     name: "Untitled Book", platform: "kdp", trim_size: "6x9",
     paper_type: "white_50lb", binding: "paperback", page_count: 200, project_type: "combined",
-    series_name: "",
+    series_name: "", author_name: "",
   });
   const [busy, setBusy] = useState(false);
 
@@ -42,6 +43,10 @@ export default function NewProjectDialog({ open, onOpenChange, onCreated }) {
           <div>
             <Label className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">Title</Label>
             <Input value={form.name} onChange={e=>setForm({...form, name: e.target.value})} className="mt-1" data-testid="np-name" />
+          </div>
+          <div>
+            <Label className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">Author name</Label>
+            <Input value={form.author_name} onChange={e=>setForm({...form, author_name: e.target.value})} className="mt-1" placeholder="As it appears on the cover" data-testid="np-author" />
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
@@ -120,6 +125,7 @@ export default function NewProjectDialog({ open, onOpenChange, onCreated }) {
             />
             <p className="text-[11px] text-neutral-500 mt-1">Books sharing a series name get checked for consistent trim/binding/paper from the dashboard.</p>
           </div>
+          <TitleLockNotice title={form.name} author={form.author_name} confirm={false} testid="np-names" />
           <button onClick={submit} disabled={busy} className="w-full bg-black text-white py-3 font-mono-spec text-xs tracking-widest uppercase hover:bg-neutral-800 disabled:opacity-50 btn-industrial" data-testid="np-submit" data-next-step="Click to create">
             {busy ? "Creating…" : "Create Project"}
           </button>

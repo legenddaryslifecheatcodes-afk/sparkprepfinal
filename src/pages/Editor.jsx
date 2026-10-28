@@ -26,7 +26,7 @@ import { Logo } from "@/components/Logo";
 import {
   Upload, Download, Wand2, Loader2, ArrowLeft, Eye, EyeOff, Check, AlertTriangle, XCircle,
   Sparkles, FileStack, Palette, PenTool, Ruler, Layers, Trash2, Info, ShieldCheck, ArrowRight,
-  FilePlus, BookOpen, Image as ImageIcon, Paintbrush, FileCheck2, Droplet, Crop, Package,
+  FilePlus, BookOpen, Image as ImageIcon, Paintbrush, FileCheck2, Droplet, Crop, Package, Lock,
 } from "lucide-react";
 
 const OVERLAYS = [
@@ -916,6 +916,12 @@ export default function Editor() {
               <Logo dark compact />
               <div className="w-px h-8 bg-neutral-800 mx-1" />
               <div>
+                {project.title_lock ? (
+                  <div className="font-display font-bold text-sm tracking-tight text-white w-48 truncate flex items-center gap-1.5" data-testid="project-title-locked"
+                    title="Locked because this book has been started. Email support with your book link to correct a typo.">
+                    <Lock className="w-3 h-3 text-[#D4AF37] shrink-0" /> {project.name}
+                  </div>
+                ) : (
                 <input
                   defaultValue={project.name}
                   onBlur={(e) => {
@@ -929,6 +935,7 @@ export default function Editor() {
                   {...nextStepIf(currentStep === "details" && !titleSet, "Type your title here", 3)}
                   title="Book title — required before you can export"
                 />
+                )}
                 <div className="font-mono-spec text-[10px] tracking-widest text-neutral-500 uppercase">{plat.name} · {trim.label} · {project.page_count}pp</div>
               </div>
             </div>
@@ -975,7 +982,7 @@ export default function Editor() {
         <div className="max-w-[1600px] mx-auto px-6 py-6">
           <div className="mb-4 empty:hidden" ref={bookBarRef}>
             <BookPassBar
-              projectId={id} bookRequiredAt={bookNudge}
+              projectId={id} bookRequiredAt={bookNudge} title={project.name} author={project.author_name}
               onStarted={() => { setBookStartedAt(Date.now()); load(); }}
               creditAuditId={!project.results_locked && project.owns_product === false ? project.results_audit_id : undefined}
             />
@@ -1023,6 +1030,29 @@ export default function Editor() {
                 <p className="text-sm text-neutral-400 mt-1">Set the distributor blueprint, then drop your files.</p>
               </div>
               <div className="p-4 space-y-4 overflow-y-auto">
+                <DarkSpecField label="Author name" tooltip="As it appears on your cover. Locked, along with the title, once the book is started.">
+                  {project.title_lock ? (
+                    <div className="h-9 px-3 flex items-center gap-1.5 border border-neutral-800 text-sm text-white" data-testid="spec-author-locked">
+                      <Lock className="w-3 h-3 text-[#D4AF37] shrink-0" /> <span className="truncate">{project.author_name || "—"}</span>
+                    </div>
+                  ) : (
+                    <Input
+                      className="text-white"
+                      defaultValue={project.author_name || ""}
+                      onBlur={(e) => {
+                        const next = e.target.value.trim();
+                        if (next !== (project.author_name || "")) updateSpec({ author_name: next });
+                      }}
+                      placeholder="As it appears on the cover"
+                      data-testid="spec-author"
+                    />
+                  )}
+                </DarkSpecField>
+                {project.title_lock && (
+                  <p className="text-[11px] text-neutral-500 -mt-2" data-testid="title-lock-note">
+                    <Lock className="w-3 h-3 inline -mt-0.5 mr-1 text-[#D4AF37]" />Title and author name are locked because this book has been started. Typo? Email support with your book link.
+                  </p>
+                )}
                 <DarkSpecField label="Distributor" tooltip="Distributor whose print requirements the file must pass.">
                   <Select value={project.platform} onValueChange={(v) => updateSpec({ platform: v })}>
                     <SelectTrigger className="text-white" data-testid="spec-platform"><SelectValue /></SelectTrigger>

@@ -1,7 +1,7 @@
 {
   "slug": "fix-template-elements-on-cover",
   "category": "cover",
-  "date": "2026-10-31",
+  "date": "2026-10-28",
   "title": "\"Cover Contains Template Elements\": How to Fix It (IngramSpark) | SparkPrep",
   "h1": "How to fix \"cover contains template elements\"",
   "description": "IngramSpark rejected your cover for template elements or wrong document size? Here's how to remove the template guides and export the cover at the right size.",
@@ -48,5 +48,12 @@
       "q": "What size should my final cover be?",
       "a": "The template's full size, bleed included. Don't crop away the bleed when you remove the guides."
     }
+  ],
+  "manual": [
+    "Open the cover file you built on top of the printer's template.",
+    "Hide or delete the template layer: the colored guide boxes, labels, dotted lines and barcode placeholder.",
+    "Make sure the document is exactly the template's full size, not the template page with extra margins around it.",
+    "Flatten the artwork and re-export as PDF/X-1a:2001.",
+    "Re-upload it to your printer and wait for the file review again. If it fails, you start over."
   ]
 }

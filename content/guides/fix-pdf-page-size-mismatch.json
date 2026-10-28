@@ -49,5 +49,12 @@
       "q": "Why is my Word PDF the wrong size?",
       "a": "Word starts every document at letter size (8.5 by 11 inches). Change the paper size to your trim size before saving as PDF."
     }
+  ],
+  "manual": [
+    "Open your manuscript in Word, Google Docs or InDesign.",
+    "Go to Layout → Size → More Paper Sizes (Word) and type your exact trim size, for example 6\" x 9\". If your book has bleed, add 0.125\" to the width and 0.25\" to the height.",
+    "Scroll through the whole book: pictures, tables and page breaks will have moved. Put them back.",
+    "Re-export as a PDF. Don't use \"Fit to page\" or \"Shrink to fit\" when you save it.",
+    "Re-upload it to your printer and wait for the file review again. If it fails, you start over."
   ]
 }

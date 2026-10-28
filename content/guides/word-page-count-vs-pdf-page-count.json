@@ -1,7 +1,7 @@
 {
   "slug": "word-page-count-vs-pdf-page-count",
   "category": "interior",
-  "date": "2026-11-03",
+  "date": "2026-10-28",
   "title": "Why Your Word Page Count Doesn't Match Your PDF (and Your Spine) | SparkPrep",
   "h1": "Why your Word page count doesn't match your book (and why it matters)",
   "description": "Word says 212 pages but your printer says 220? Here's why page counts change, which number your spine and cover must use, and how to get the right one.",
@@ -41,5 +41,12 @@
       "q": "Why did my page count go up?",
       "a": "Book pages are smaller than letter size, so the same text fills more of them. Fonts, margins and added front matter change the count too."
     }
+  ],
+  "manual": [
+    "Export your finished interior as a PDF at your exact trim size.",
+    "Read the page count in the PDF, not in Word. That number, including blank pages, is what the printer counts.",
+    "Enter that same page count in your book setup and get the new spine width from your printer's cover calculator.",
+    "Open your cover file, change the spine to the new width, move the spine art to fit, and re-export as PDF/X-1a:2001.",
+    "Re-upload the interior and cover together and wait for the file review again."
   ]
 }

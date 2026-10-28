@@ -44,5 +44,12 @@
       "q": "What are KDP's outside margins?",
       "a": "At least 0.25 inches without bleed and 0.375 inches with bleed, on the top, bottom and outside edges."
     }
+  ],
+  "manual": [
+    "Open your manuscript in Word (or InDesign).",
+    "Go to Layout → Margins → Custom Margins and set the inside (gutter) margin for your page count: 0.375\" for 24–150 pages, 0.5\" for 151–300, 0.625\" for 301–500, 0.75\" for 501–700, 0.875\" for 701–828.",
+    "Set the outside, top and bottom margins to at least 0.25\" (0.375\" if your book has bleed), choose \"Mirror margins\", and check page numbers and headers sit inside them.",
+    "Re-export as a PDF at your exact trim size with all fonts embedded.",
+    "Re-upload it and wait for the review again (KDP says a review can take up to 72 hours)."
   ]
 }

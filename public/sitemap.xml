@@ -80,7 +80,55 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://sparkprep.legenddary.com/guides/fix-template-elements-on-cover/</loc>
+    <lastmod>2026-10-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://sparkprep.legenddary.com/guides/fix-pdf-not-pdf-x1a/</loc>
+    <lastmod>2026-10-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://sparkprep.legenddary.com/guides/fix-font-licensing-error/</loc>
+    <lastmod>2026-10-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://sparkprep.legenddary.com/guides/fix-font-not-embedded/</loc>
+    <lastmod>2026-10-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://sparkprep.legenddary.com/guides/fix-text-on-dust-jacket-fold/</loc>
+    <lastmod>2026-10-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://sparkprep.legenddary.com/guides/fix-rgb-in-black-and-white-interior/</loc>
+    <lastmod>2026-10-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://sparkprep.legenddary.com/guides/fix-spine-text-not-allowed/</loc>
+    <lastmod>2026-10-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://sparkprep.legenddary.com/guides/fix-cover-wrong-size/</loc>
+    <lastmod>2026-10-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://sparkprep.legenddary.com/guides/fix-cover-text-too-close-to-edge/</loc>
     <lastmod>2026-10-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -110,6 +158,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://sparkprep.legenddary.com/guides/fix-isbn-mismatch-on-cover/</loc>
+    <lastmod>2026-10-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://sparkprep.legenddary.com/guides/fix-kdp-margin-error/</loc>
     <lastmod>2026-10-28</lastmod>
     <changefreq>weekly</changefreq>
@@ -123,6 +177,12 @@
   </url>
   <url>
     <loc>https://sparkprep.legenddary.com/guides/fix-low-resolution-images/</loc>
+    <lastmod>2026-10-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://sparkprep.legenddary.com/guides/fix-transparency-and-layers-in-pdf/</loc>
     <lastmod>2026-10-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -159,6 +219,12 @@
   </url>
   <url>
     <loc>https://sparkprep.legenddary.com/guides/book-cover-barcode-placement/</loc>
+    <lastmod>2026-10-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://sparkprep.legenddary.com/guides/word-page-count-vs-pdf-page-count/</loc>
     <lastmod>2026-10-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>

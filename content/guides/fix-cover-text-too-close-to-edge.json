@@ -1,0 +1,37 @@
+{
+  "slug": "fix-cover-text-too-close-to-edge",
+  "category": "cover",
+  "job": "cover",
+  "title": "Cover Text Too Close to the Edge: How to Fix It (KDP & IngramSpark) | SparkPrep",
+  "h1": "How to fix cover text that's too close to the edge",
+  "description": "Your title or author name sits too close to the trim line and could get cut off. See how much space to leave and how to fix your cover quickly.",
+  "platforms": "Amazon KDP · IngramSpark · Barnes & Noble Press · Lulu",
+  "lead": "If your title runs right up to the edge, the printer's blade can clip it. Here's how much room to leave.",
+  "error": "Text is too close to the trim edge and may be cut off",
+  "errorNote": "Paraphrased. KDP's cover previewer flags this; IngramSpark mentions it in rejection notes.",
+  "why": "<p>Covers are printed bigger and then trimmed. The cut can move a tiny bit, so anything right at the edge is at risk. <strong>Amazon KDP</strong> asks you to keep text at least <strong>0.125\"</strong> inside the trim line. SparkPrep recommends <strong>0.25\"</strong> or more so nothing important ever gets close.</p><p>Spine text needs room too: it shouldn't touch the folds between the spine and the covers.</p>",
+  "manual": [
+    "Open your original cover file and turn on the trim and bleed guides.",
+    "Find any text, logo or face closer than 0.25\" to the trim line (0.125\" is the bare minimum at KDP).",
+    "Move or shrink it so it sits comfortably inside. On the spine, leave space on both sides of the text.",
+    "Re-export as PDF/X-1a:2001 with the bleed included.",
+    "Re-upload it to your printer and wait for the file review again. If it fails, you start over."
+  ],
+  "cta": {
+    "text": "SparkPrep reads the words on your cover, measures how close each one sits to the trim and spine folds, and shows you exactly which ones to move.",
+    "button": "Check my cover text",
+    "href": "/"
+  },
+  "faq": [
+    {
+      "q": "How far from the edge should text be on a book cover?",
+      "a": "Amazon KDP's minimum is 0.125\" inside the trim line. Leaving 0.25\" or more is safer."
+    },
+    {
+      "q": "Can background art go to the edge?",
+      "a": "Yes. Background art should go past the edge into the bleed. Only text and important details need to stay inside."
+    }
+  ],
+  "date": "2026-10-28",
+  "diy": []
+}

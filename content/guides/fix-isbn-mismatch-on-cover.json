@@ -1,0 +1,39 @@
+{
+  "slug": "fix-isbn-mismatch-on-cover",
+  "category": "cover",
+  "job": "cover",
+  "title": "ISBN on Cover Doesn't Match: How to Fix It (IngramSpark & KDP) | SparkPrep",
+  "h1": "How to fix \"the ISBN on your cover doesn't match\"",
+  "description": "Your book was rejected because the ISBN on the cover barcode doesn't match the ISBN you entered. Why it happens and how to fix it in minutes.",
+  "platforms": "IngramSpark · Amazon KDP",
+  "lead": "This one is easy to miss: the cover looks perfect, but the number on the barcode belongs to a different edition.",
+  "error": "The ISBN on the cover does not match the ISBN of this title",
+  "errorNote": "Paraphrased. Each printer words this a little differently.",
+  "why": "<p>Every edition of a book has its own ISBN: the paperback, the hardcover and the ebook each get a different number. The barcode on your back cover has to carry the exact ISBN you entered for <em>this</em> edition.</p><p>It usually goes wrong when a cover is reused from another edition, or a barcode was made before the ISBN changed. The printer reads the barcode, sees a different number, and rejects the file.</p>",
+  "manual": [
+    "Look up the ISBN you entered for this exact edition in your KDP or IngramSpark book setup.",
+    "Open your cover file and read the number printed above and below the barcode.",
+    "If it's different, make a new barcode for the right ISBN (IngramSpark has a free barcode generator) or let KDP add its own barcode.",
+    "Put the new barcode in the barcode area and re-export as PDF/X-1a:2001.",
+    "Re-upload it to your printer and wait for the file review again. If it fails, you start over."
+  ],
+  "spNote": "SparkPrep reads the ISBN on your cover and tells you if it doesn't match. Only you can confirm the right ISBN, so you swap in the correct barcode, re-scan, and you're ready.",
+  "cta": {
+    "text": "Catch an ISBN mismatch before the printer does. SparkPrep reads the barcode on your cover and checks it against your book.",
+    "button": "Check my ISBN",
+    "href": "/"
+  },
+  "faq": [
+    {
+      "q": "Can I use the same ISBN for my paperback and hardcover?",
+      "a": "No. Each format needs its own ISBN, and the barcode on each cover must match that format's ISBN."
+    },
+    {
+      "q": "Does KDP add a barcode for me?",
+      "a": "Yes. If you leave the barcode area empty, KDP adds its own barcode for the ISBN you entered."
+    }
+  ],
+  "date": "2026-10-28",
+  "diy": [],
+  "quickfix": "SparkPrep reads the ISBN on your cover, checks it against your book, and shows you exactly what to change."
+}

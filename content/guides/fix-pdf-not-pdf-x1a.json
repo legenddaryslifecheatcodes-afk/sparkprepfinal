@@ -1,0 +1,37 @@
+{
+  "slug": "fix-pdf-not-pdf-x1a",
+  "category": "platform",
+  "job": "both",
+  "title": "\"File Is Not PDF/X-1a Compliant\": How to Fix It (IngramSpark) | SparkPrep",
+  "h1": "How to fix \"your file is not PDF/X-1a compliant\"",
+  "description": "IngramSpark asks for PDF/X-1a print files. Here's why a normal PDF fails, and how to export a compliant one from Word, InDesign, Canva or Acrobat.",
+  "platforms": "IngramSpark · Barnes & Noble Press · Lulu",
+  "lead": "Not every PDF is a print PDF. PDF/X-1a is a stricter kind built for printers, and IngramSpark asks for it.",
+  "error": "The file is not PDF/X-1a compliant",
+  "errorNote": "Paraphrased. Each printer words this a little differently.",
+  "why": "<p>PDF/X-1a is a print standard. It requires CMYK or grayscale color (no RGB), every font embedded, no live transparency, and a note inside the file saying which printing conditions it was made for (the \"output intent\").</p><p>A regular \"Save as PDF\" from Word or a \"PDF Standard\" download from Canva doesn't meet those rules, so IngramSpark's checks flag it. Barnes &amp; Noble Press and Lulu also ask for PDF/X-1a files. KDP doesn't require PDF/X-1a, but a PDF/X-1a file works there too.</p>",
+  "manual": [
+    "Open your original file.",
+    "Convert all color to CMYK (or grayscale for black and white pages) and embed every font.",
+    "In InDesign, go to File → Export → Adobe PDF (Print) and pick the \"PDF/X-1a:2001\" preset. Word can't make PDF/X-1a by itself, so use Acrobat Pro: Print Production → Preflight → \"Convert to PDF/X-1a\".",
+    "Run Acrobat's Preflight to confirm the file is PDF/X-1a compliant.",
+    "Re-upload it to your printer and wait for the file review again. If it fails, you start over."
+  ],
+  "cta": {
+    "text": "No InDesign or Acrobat Pro? SparkPrep converts your file to CMYK, embeds the fonts, flattens it, and exports a real PDF/X-1a, in minutes.",
+    "button": "Make my PDF/X-1a",
+    "href": "/"
+  },
+  "faq": [
+    {
+      "q": "Does IngramSpark require PDF/X-1a?",
+      "a": "IngramSpark asks for PDF/X-1a:2001 files. It's the safest format to send them."
+    },
+    {
+      "q": "Can Word export PDF/X-1a?",
+      "a": "No. Word's PDF export isn't PDF/X-1a. You need a tool like Acrobat Pro, InDesign or SparkPrep to make one."
+    }
+  ],
+  "date": "2026-10-28",
+  "diy": []
+}

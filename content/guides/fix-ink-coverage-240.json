@@ -48,5 +48,12 @@
       "q": "How do I check total ink coverage?",
       "a": "In Adobe Acrobat Pro, open Print Production, Output Preview and tick Total Area Coverage set to 240%. Anything over the limit is highlighted."
     }
+  ],
+  "manual": [
+    "Open your original file.",
+    "Change all black text and black lines to 100% black only (C0 M0 Y0 K100), not \"rich black\".",
+    "For color pictures, convert them in Photoshop (Edit → Convert to Profile → Custom CMYK) with the total ink limit set to 240%.",
+    "Re-export as PDF/X-1a:2001, then check in Acrobat Pro (Print Production → Output Preview → Total Area Coverage at 240%) that nothing is highlighted.",
+    "Re-upload it to IngramSpark and wait for the file review and new e-proof."
   ]
 }

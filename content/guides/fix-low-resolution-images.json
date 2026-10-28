@@ -55,5 +55,12 @@
       "q": "How many pixels for a 6x9 book cover?",
       "a": "At 300 DPI, the front alone with bleed needs about 1838 by 2775 pixels. The full wrap is wider because it includes the back and spine."
     }
+  ],
+  "manual": [
+    "Open your original file and find every picture.",
+    "For each one, divide its width in pixels by its printed width in inches. Under 300 means it will print soft or blurry.",
+    "Replace it with a bigger original, or make it smaller on the page. Stretching it bigger in Word or Canva doesn't add detail.",
+    "Turn off image compression before you export (Word: File → Options → Advanced → \"Do not compress images in file\"), then re-export the PDF.",
+    "Re-upload it to your printer and wait for the file review again. If it fails, you start over."
   ]
 }

@@ -1,0 +1,37 @@
+{
+  "slug": "fix-cover-wrong-size",
+  "category": "cover",
+  "job": "cover",
+  "title": "Book Cover Is the Wrong Size: How to Fix Cover Dimensions (KDP & IngramSpark) | SparkPrep",
+  "h1": "How to fix \"cover dimensions are incorrect\"",
+  "description": "Your cover file is the wrong size for your book. Learn how to work out the exact cover size from trim size, page count and paper, and fix it fast.",
+  "platforms": "Amazon KDP · IngramSpark · Barnes & Noble Press · Lulu",
+  "lead": "A paperback cover isn't the size of your book. It's the back, spine and front laid out flat, plus bleed, and it has to be exact.",
+  "error": "The cover file dimensions do not match the required size for this book",
+  "errorNote": "Paraphrased. Each printer words this a little differently.",
+  "why": "<p>The full cover size depends on three things: your trim size (like 6\" x 9\"), your spine width (from page count and paper) and bleed (0.125\" around the outside). For a 6\" x 9\" paperback the height is 9.25\", and the width is 0.125\" + 6\" + spine + 6\" + 0.125\".</p><p>If any one of those is off, even by a fraction of an inch, the printer's system rejects the cover. The most common causes: making the cover at trim size with no bleed, using the wrong paper type, or the page count changing after the cover was made.</p>",
+  "manual": [
+    "Note your trim size, your final page count and your paper (white or cream).",
+    "Get the exact full cover size from your printer's own cover calculator or template.",
+    "Open your cover file and change the document size to exactly that width and height.",
+    "Move the back, spine and front art so each panel sits in the right place, then re-export as PDF/X-1a:2001.",
+    "Re-upload it to your printer and wait for the file review again. If it fails, you start over."
+  ],
+  "cta": {
+    "text": "Skip the cover math. SparkPrep works out the exact size for your printer, book size, page count and paper, and refits your cover to it.",
+    "button": "Fix my cover size",
+    "href": "/"
+  },
+  "faq": [
+    {
+      "q": "What size is a 6x9 paperback cover?",
+      "a": "The height is 9.25\" (9\" plus 0.125\" bleed top and bottom). The width is 12.25\" plus your spine width, because it's 0.125\" + 6\" + spine + 6\" + 0.125\"."
+    },
+    {
+      "q": "Why did my cover size change?",
+      "a": "Spine width depends on page count and paper. If either changes, the full cover width changes too."
+    }
+  ],
+  "date": "2026-10-28",
+  "diy": []
+}

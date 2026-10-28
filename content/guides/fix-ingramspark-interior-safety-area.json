@@ -42,5 +42,12 @@
       "q": "Why does IngramSpark say my content is not centered?",
       "a": "Usually the PDF page size doesn't match the book's trim size, such as a letter-size PDF for a 6 by 9 inch book."
     }
+  ],
+  "manual": [
+    "Open your manuscript in Word (or InDesign).",
+    "Go to Layout → Size and set the page to your exact trim size (for example 6\" x 9\"), not letter size.",
+    "Set every margin to at least 0.5\", and check headers, footers and page numbers sit inside that 0.5\" too.",
+    "Re-export as PDF/X-1a:2001 with fonts embedded, and check the PDF page size matches your trim size.",
+    "Re-upload it to IngramSpark and wait for the file review and new e-proof."
   ]
 }

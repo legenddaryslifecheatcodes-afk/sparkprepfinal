@@ -25,7 +25,7 @@
         "Create a custom design at the full cover size from the step above.",
         "Turn on File → View settings → Show print bleed so you can see the cut line.",
         "Stretch every background photo and color block past the outer edge.",
-        "Download as PDF Print with \"Crop marks and bleed\" ticked."
+        "Download as PDF Print with the bleed included. Don't add crop marks: printers don't want them in the file."
       ]
     },
     {
@@ -58,5 +58,12 @@
       "q": "Should text go into the bleed?",
       "a": "No. Only background art goes into the bleed. Keep titles and names well inside the trim line so they never get cut."
     }
+  ],
+  "manual": [
+    "Open your original cover file (Canva, InDesign, Photoshop, Word or whatever you designed it in).",
+    "Change the document size to the full size <em>with</em> bleed: add 0.125\" to every outside edge, so 0.25\" more in total to both the width and the height.",
+    "Drag every background photo and color block out past the edge, to the bleed line. Keep all text well inside the trim line.",
+    "Re-export as a print PDF (PDF/X-1a:2001 if your program has it) with the bleed included and no crop marks or printer marks.",
+    "Re-upload it to your printer and wait for the file review again. If it fails, you start over."
   ]
 }

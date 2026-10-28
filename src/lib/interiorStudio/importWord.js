@@ -1,16 +1,17 @@
-// Turns a Word file (.docx) into editor content: headings, bold/italic/underline, lists, quotes and page breaks
-// come across; Word's own page sizes, margins and fonts are dropped on purpose, because the book style and the
+// Turns a Word file (.docx) into editor content: headings, bold/italic/underline, lists, quotes, page breaks and
+// pictures come across (each picture is uploaded to SparkPrep once, via `uploadImage`); Word's own page sizes, margins and fonts are dropped on purpose, because the book style and the
 // printer's rules decide those. Runs in the browser, so the manuscript never leaves the author's computer until
 // they choose to send it to a book.
 
 const CHAPTER_LIKE = /^(chapter\b|prologue$|epilogue$|introduction$|preface$|foreword$|afterword$|part\s+\w+|acknowledg|about the author$)/i;
 const SCENE_BREAK = /^\s*([*#~•]\s*){1,5}\s*$/;
 
-export async function importWordFile(file) {
+export async function importWordFile(file, { uploadImage, onProgress } = {}) {
   const mod = await import("mammoth/mammoth.browser");
   const mammoth = mod.default || mod;
   const arrayBuffer = await file.arrayBuffer();
   let images = 0;
+  let imagesFailed = 0;
   const result = await mammoth.convertToHtml({ arrayBuffer }, {
     styleMap: [
       "p[style-name='Title'] => p.sp-title:fresh",
@@ -23,10 +24,32 @@ export async function importWordFile(file) {
       "br[type='page'] => hr.sp-page-break",
       "u => u",
     ],
-    convertImage: mammoth.images.imgElement(() => { images += 1; return Promise.resolve({ src: "" }); }),
+    convertImage: mammoth.images.imgElement(async (image) => {
+      images += 1;
+      if (!uploadImage) { imagesFailed += 1; return { src: "" }; }
+      try {
+        onProgress?.(images);
+        const buf = await image.read();
+        const { id } = await uploadImage(new Blob([buf], { type: image.contentType || "image/png" }), `picture-${images}`);
+        return { src: "", "data-image-id": id };
+      } catch {
+        imagesFailed += 1;
+        return { src: "" };
+      }
+    }),
   });
   const doc = new DOMParser().parseFromString(result.value, "text/html");
-  doc.querySelectorAll("img").forEach((n) => n.remove());
+  // Pictures sit inside Word's paragraphs; in the book each one is its own block, placed after its paragraph.
+  // (A paragraph left holding nothing but its picture is removed below with the other empty paragraphs.)
+  const lastAfter = new Map();
+  doc.querySelectorAll("img").forEach((n) => {
+    if (!n.getAttribute("data-image-id")) { n.remove(); return; }
+    const block = n.closest("p, h1, h2, li, blockquote");
+    if (!block) return;
+    n.remove();
+    (lastAfter.get(block) || block).after(n);
+    lastAfter.set(block, n);
+  });
   // Word's Title / Subtitle lines are the book's title page, not a chapter.
   const take = (sel) => {
     const n = doc.querySelector(sel);
@@ -61,5 +84,5 @@ export async function importWordFile(file) {
   // Empty paragraphs Word uses for spacing aren't needed: the book style sets the spacing.
   doc.querySelectorAll("p").forEach((p) => { if (!(p.textContent || "").trim()) p.remove(); });
   const words = (doc.body.textContent || "").split(/\s+/).filter(Boolean).length;
-  return { html: doc.body.innerHTML, title, subtitle, chapters, words, images, messages: result.messages || [] };
+  return { html: doc.body.innerHTML, title, subtitle, chapters, words, images, imagesFailed, messages: result.messages || [] };
 }

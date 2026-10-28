@@ -12,6 +12,7 @@ import { useAuth } from "@/context/AuthContext";
 import { LogoMark } from "@/components/Logo";
 import { loadSpecLists } from "@/lib/coverStudio/specs";
 import { PageBreak } from "@/lib/interiorStudio/pageBreak";
+import { BookImage, uploadBookImage } from "@/lib/interiorStudio/bookImage";
 import { importWordFile } from "@/lib/interiorStudio/importWord";
 import { loadBookFont, fontStack } from "@/lib/interiorStudio/fonts";
 import Toolbar from "@/components/interiorStudio/Toolbar";
@@ -158,6 +159,7 @@ export default function InteriorStudio() {
   const [previewError, setPreviewError] = useState(null);
   const [showSend, setShowSend] = useState(false);
   const fileInput = useRef(null);
+  const pictureInput = useRef(null);
   const reqId = useRef(0);
   const savedWarned = useRef(false);
   const pickRef = useRef(null);
@@ -170,6 +172,7 @@ export default function InteriorStudio() {
       Placeholder.configure({ placeholder: "Start writing your book…" }),
       CharacterCount,
       PageBreak,
+      BookImage,
       WritingMarks.configure({ onPick: (id) => pickRef.current?.(id) }),
     ],
     content: saved.current?.doc || STARTER,
@@ -262,7 +265,10 @@ export default function InteriorStudio() {
     if (!/\.docx$/i.test(f.name)) { toast.error("Pick a Word file that ends in .docx. (An older .doc file: open it in Word and use File > Save As > .docx.)"); return; }
     const id = toast.loading("Bringing in your Word file…");
     try {
-      const r = await importWordFile(f);
+      const r = await importWordFile(f, {
+        uploadImage: uploadBookImage,
+        onProgress: (n) => toast.loading(`Bringing in your Word file… (picture ${n})`, { id }),
+      });
       const hasWriting = (editor.storage.characterCount?.words?.() || 0) > 80;
       if (hasWriting && !window.confirm("Replace what's in the editor with this Word file?")) { toast.dismiss(id); return; }
       editor.commands.setContent(r.html);
@@ -272,11 +278,32 @@ export default function InteriorStudio() {
         ...(r.subtitle ? { subtitle: r.subtitle } : {}),
       });
       setDocVersion((v) => v + 1);
-      const extra = r.images ? ` ${r.images} picture${r.images === 1 ? " was" : "s were"} left out: pictures inside the book aren't supported yet.` : "";
+      const kept = r.images - r.imagesFailed;
+      const extra = (kept ? ` ${kept} picture${kept === 1 ? "" : "s"} too.` : "")
+        + (r.imagesFailed ? ` ${r.imagesFailed} picture${r.imagesFailed === 1 ? " couldn't" : "s couldn't"} be brought in; add ${r.imagesFailed === 1 ? "it" : "them"} with the Picture button.` : "");
       toast.success(`Brought in ${r.words.toLocaleString()} words and ${r.chapters} chapter${r.chapters === 1 ? "" : "s"}.${extra}`, { id, duration: 8000 });
     } catch (err) {
       toast.error(`That Word file couldn't be read: ${err.message}`, { id });
     }
+  };
+
+  const onPicture = async (e) => {
+    const files = [...(e.target.files || [])];
+    e.target.value = "";
+    if (!files.length || !editor) return;
+    const id = toast.loading(files.length === 1 ? "Adding your picture…" : `Adding ${files.length} pictures…`);
+    let added = 0;
+    for (const f of files) {
+      try {
+        const pic = await uploadBookImage(f);
+        editor.chain().focus().insertBookImage({ id: pic.id }).run();
+        added += 1;
+      } catch (err) {
+        toast.error(`${f.name}: ${fmtErr(err.response?.data?.detail) || err.message}`);
+      }
+    }
+    if (added) toast.success(added === 1 ? "Picture added. Pick its size under it; the printed pages show where it lands." : `${added} pictures added.`, { id });
+    else toast.dismiss(id);
   };
 
   const onLinkBook = (b) => {
@@ -310,6 +337,7 @@ export default function InteriorStudio() {
         .interior-doc .wh-fix { text-decoration-color: #D92D20; }
         .interior-doc .wh-word { text-decoration-color: #2563EB; }
         ${wh.active ? `.interior-doc [data-wh="${wh.active}"] { background: #FFE2C7; }` : ""}
+        .interior-doc .book-image.is-selected img { outline: 2px solid #FF6A00; outline-offset: 2px; }
         .interior-doc p.is-editor-empty:first-child::before { content: attr(data-placeholder); color: #aaa; float: left; height: 0; pointer-events: none; }
       `}</style>
 
@@ -321,6 +349,7 @@ export default function InteriorStudio() {
             {specs.trim_size} · {platformName}{preview ? ` · ${preview.page_count} pages` : ""} · {words.toLocaleString()} words
           </div>
         </div>
+        <input ref={pictureInput} type="file" accept="image/jpeg,image/png,image/webp,image/gif,image/tiff" multiple className="hidden" onChange={onPicture} data-testid="interior-picture-input" />
         <input ref={fileInput} type="file" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" className="hidden" onChange={onImport} data-testid="interior-import-input" />
         <button onClick={() => fileInput.current?.click()} className="h-9 px-2.5 flex items-center gap-1.5 border border-neutral-700 hover:border-white font-mono-spec text-[10px] tracking-widest uppercase" title="Bring in a Word file (.docx)" data-testid="interior-import"><FileUp className="w-4 h-4" /><span className="hidden sm:inline">Import Word</span></button>
         <Link to="/cover-studio" className="hidden md:flex h-9 px-2.5 items-center gap-1.5 border border-neutral-700 hover:border-white font-mono-spec text-[10px] tracking-widest uppercase" title="Design the cover"><BookOpen className="w-4 h-4" /> Cover Studio</Link>
@@ -355,7 +384,7 @@ export default function InteriorStudio() {
 
         {/* Writing */}
         <main className={`flex-1 min-w-0 flex flex-col bg-white ${mobileView === "write" ? "" : "hidden lg:flex"}`}>
-          <Toolbar editor={editor} />
+          <Toolbar editor={editor} onAddPicture={() => pictureInput.current?.click()} />
           <div className="flex-1 min-h-0 overflow-y-auto" onClick={(e) => { if (e.target === e.currentTarget) editor?.commands.focus("end"); }}>
             {/* Below xl the settings live above the page in a compact strip */}
             <div className="xl:hidden px-4 pt-3 flex gap-2 overflow-x-auto">

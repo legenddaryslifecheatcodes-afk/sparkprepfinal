@@ -1,0 +1,45 @@
+{
+  "slug": "word-page-count-vs-pdf-page-count",
+  "category": "interior",
+  "date": "2026-11-03",
+  "title": "Why Your Word Page Count Doesn't Match Your PDF (and Your Spine) | SparkPrep",
+  "h1": "Why your Word page count doesn't match your book (and why it matters)",
+  "description": "Word says 212 pages but your printer says 220? Here's why page counts change, which number your spine and cover must use, and how to get the right one.",
+  "platforms": "Amazon KDP · IngramSpark · Barnes & Noble Press · Lulu",
+  "lead": "Your cover's spine is built from your page count. Use the wrong count and the cover won't fit.",
+  "error": "Cover spine does not match interior page count",
+  "errorNote": "Paraphrased. This shows up when the cover was sized from a page count that changed later.",
+  "why": "<p>Word counts pages at whatever size you're typing on, often letter size. When the book is set to 6\" x 9\", the same words fill more pages. Changing fonts, margins or adding front matter changes the count again. And printers count every page, including blank ones, title pages and the copyright page.</p><p>Some printers also need the total to be an even number, or pad the book with blank pages at the end. The only count that matters is the page count of your <strong>final interior PDF</strong>.</p>",
+  "diy": [
+    {
+      "app": "Get the real count",
+      "steps": [
+        "Finish your interior first: trim size, margins, fonts, front and back matter.",
+        "Export the final PDF and read the page count in your PDF viewer.",
+        "Use that number for the cover and spine."
+      ]
+    },
+    {
+      "app": "If the count changed after the cover was made",
+      "steps": [
+        "Get a new cover template or size for the new count.",
+        "Resize the spine and move the front panel to match."
+      ]
+    }
+  ],
+  "cta": {
+    "text": "Don't want to resize your cover every time a page moves? SparkPrep reads the page count straight from your final interior and keeps your spine matched, in minutes.",
+    "button": "Match my spine to my pages",
+    "href": "/"
+  },
+  "faq": [
+    {
+      "q": "Which page count do I use for my book cover?",
+      "a": "The page count of your final, formatted interior PDF, including blank pages, front matter and back matter. Not the count from Word."
+    },
+    {
+      "q": "Why did my page count go up?",
+      "a": "Book pages are smaller than letter size, so the same text fills more of them. Fonts, margins and added front matter change the count too."
+    }
+  ]
+}

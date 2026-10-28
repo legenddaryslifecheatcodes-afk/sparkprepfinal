@@ -1,0 +1,26 @@
+{
+  "slug": "sparkprep-vs-hiring-a-freelancer",
+  "category": "compare",
+  "date": "2026-10-28",
+  "title": "Hire a Freelancer (Fiverr, Upwork) or Use SparkPrep? Cost, Speed, Risk | SparkPrep",
+  "h1": "Should you hire a freelancer to format your book? Cost, speed and risk compared",
+  "description": "Thinking of hiring a formatter or cover designer on Fiverr or Upwork? Compare the real cost, the waiting, and the risk of a rejected file with doing it in SparkPrep in minutes.",
+  "platforms": "For first-time self-publishers",
+  "lead": "Most first-time authors assume they have to hire someone. Here's an honest look at what that involves, and when you don't need to.",
+  "body": "\n  <h2>What hiring a freelancer looks like</h2>\n  <ol>\n    <li><strong>Find someone.</strong> Prices on Fiverr and Upwork range from very cheap to professional rates. Reedsy's vetted professionals charge a median of about $930 for a cover and about $800 on average for interior formatting (<a href=\"https://reedsy.com/blog/guide/how-to-self-publish-a-book/cost-to-self-publish/\" rel=\"nofollow noopener\">Reedsy's figures</a>).</li>\n    <li><strong>Wait.</strong> You're on their schedule, often several days per round.</li>\n    <li><strong>Revise.</strong> Each change is another message and another wait. Many packages limit the number of revisions.</li>\n    <li><strong>Upload and hope.</strong> If KDP or IngramSpark rejects the file for bleed, margins or ink, you go back to the freelancer, or fix it yourself.</li>\n    <li><strong>Change anything later</strong> (a typo, a new page count, a new price on the back) and you pay or wait again.</li>\n  </ol>\n\n  <h2>The risk nobody mentions</h2>\n  <p>A good-looking file isn't the same as a file the printer accepts. Cheap gigs don't always check bleed, spine width, the 240% ink limit or font embedding. You only find out when the rejection email arrives.</p>\n\n  <h2>The SparkPrep way</h2>\n  <ul>\n    <li><strong>Design free:</strong> Cover Studio has 224 free templates and 333 free fonts, sized to your printer. Interior Studio turns your Word file into real book pages.</li>\n    <li><strong>Check and fix in minutes:</strong> SparkPrep checks every page and the whole cover against your printer's own rules and fixes what it finds.</li>\n    <li><strong>Change it yourself, any time:</strong> fix a typo or update your page count and your spine is refit for you. No new invoice, no waiting.</li>\n  </ul>\n",
+  "cta": {
+    "text": "Skip the hiring, the waiting and the rejection emails. Make your cover and pages yourself for free, then let SparkPrep get them print-ready in minutes.",
+    "button": "Make my book print-ready",
+    "href": "/"
+  },
+  "faq": [
+    {
+      "q": "How much does it cost to have a book formatted?",
+      "a": "Reedsy's data puts professional interior formatting at about $800 on average and a professional cover at about $930. Budget gigs cost less but quality and printer checks vary."
+    },
+    {
+      "q": "Can I format my book myself without hiring anyone?",
+      "a": "Yes. Tools like SparkPrep let you design the cover and pages yourself, then check and fix them against KDP, IngramSpark, Barnes and Noble Press or Lulu rules in minutes."
+    }
+  ]
+}

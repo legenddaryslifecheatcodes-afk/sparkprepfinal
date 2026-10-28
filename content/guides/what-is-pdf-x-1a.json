@@ -1,0 +1,59 @@
+{
+  "slug": "what-is-pdf-x-1a",
+  "category": "platform",
+  "date": "2026-11-02",
+  "title": "What Is PDF/X-1a? How to Export a Print-Ready Book PDF | SparkPrep",
+  "h1": "What is PDF/X-1a, and how do you export it for your book?",
+  "description": "PDF/X-1a is the print standard many printers ask for. Learn what it means in plain English and how to export a PDF/X-1a file from InDesign, Affinity or Acrobat.",
+  "platforms": "IngramSpark · Barnes & Noble Press · Lulu · Amazon KDP",
+  "lead": "PDF/X-1a sounds like a code. It's just a strict kind of PDF that printers know will print the same every time.",
+  "error": "File is not PDF/X-1a compliant",
+  "errorNote": "Paraphrased. Some printers require it; others strongly recommend it.",
+  "why": "<p>A normal PDF can hold things that confuse a printing press: screen colors (RGB), fonts that aren't included, see-through effects that print unpredictably. <strong>PDF/X-1a</strong> is a set of rules that forbids those:</p><ul><li>every font embedded,</li><li>colors in CMYK or spot colors only,</li><li>see-through effects flattened,</li><li>the trim and bleed size written into the file.</li></ul><p>IngramSpark asks for PDF/X-1a, and following it solves most other file errors at the same time.</p>",
+  "diy": [
+    {
+      "app": "Adobe InDesign",
+      "steps": [
+        "File → Export → Adobe PDF (Print).",
+        "Adobe PDF Preset: <strong>[PDF/X-1a:2001]</strong>.",
+        "Marks and Bleeds: tick Use Document Bleed Settings. Export."
+      ]
+    },
+    {
+      "app": "Affinity Publisher",
+      "steps": [
+        "File → Export → PDF.",
+        "Preset: <strong>PDF/X-1a</strong>, and include bleed. Export."
+      ]
+    },
+    {
+      "app": "Adobe Acrobat Pro",
+      "steps": [
+        "Tools → Print Production → Preflight.",
+        "Under PDF/X compliance, choose <strong>Convert to PDF/X-1a</strong> and run it.",
+        "Fix anything it can't convert, such as fonts that can't be embedded."
+      ]
+    },
+    {
+      "app": "Word or Google Docs",
+      "steps": [
+        "Neither can export PDF/X-1a directly. Export a normal PDF, then convert it in Acrobat Pro."
+      ]
+    }
+  ],
+  "cta": {
+    "text": "No InDesign or Acrobat Pro? SparkPrep exports your book as a print-ready PDF/X-1a with fonts embedded and colors converted, in minutes.",
+    "button": "Make my PDF/X-1a",
+    "href": "/"
+  },
+  "faq": [
+    {
+      "q": "Does IngramSpark require PDF/X-1a?",
+      "a": "IngramSpark asks for PDF/X-1a files. It's the safest format for every printer because it requires embedded fonts, CMYK color and flattened transparency."
+    },
+    {
+      "q": "Can Word export PDF/X-1a?",
+      "a": "No. Save a normal PDF from Word, then convert it to PDF/X-1a with a tool such as Adobe Acrobat Pro or SparkPrep."
+    }
+  ]
+}

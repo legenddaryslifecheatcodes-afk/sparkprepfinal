@@ -1,0 +1,48 @@
+{
+  "slug": "fix-kdp-margin-error",
+  "category": "interior",
+  "date": "2026-10-28",
+  "title": "KDP Margin Error: Minimum Margins and Gutter by Page Count | SparkPrep",
+  "h1": "How to fix a KDP margin error (with the gutter table)",
+  "description": "KDP says your text is outside the margins? Here are KDP's minimum margins and inside gutter for every page count, and how to set them in Word or InDesign.",
+  "platforms": "Amazon KDP",
+  "lead": "KDP's inside margin grows as your book gets thicker. Most margin errors come from using one margin for every book.",
+  "error": "Text is outside the margins / content too close to the edge",
+  "errorNote": "Paraphrased. KDP shows this in its print previewer before you can publish.",
+  "why": "<p>The inside edge of each page (the <strong>gutter</strong>) disappears into the spine. Thicker books curve more, so KDP needs a bigger inside margin as the page count grows. The outside, top and bottom margins must be at least 0.25\" (0.375\" if your book has bleed).</p><div class=\"table-wrap\"><table><tr><th>Page count</th><th>KDP minimum inside margin</th></tr><tr><td>24 to 150</td><td>0.375\"</td></tr><tr><td>151 to 300</td><td>0.5\"</td></tr><tr><td>301 to 500</td><td>0.625\"</td></tr><tr><td>501 to 700</td><td>0.75\"</td></tr><tr><td>701 to 828</td><td>0.875\"</td></tr></table></div><p>Page numbers, headers and images count too. If anything sits closer to the edge than these numbers, KDP flags it.</p>",
+  "diy": [
+    {
+      "app": "Microsoft Word",
+      "steps": [
+        "Layout → Margins → Custom Margins.",
+        "Set Multiple pages to <strong>Mirror margins</strong>.",
+        "Set Inside to your number from the table, and Outside, Top and Bottom to at least 0.25\" (we suggest 0.5\" so text doesn't feel cramped).",
+        "Check headers and footers: Layout → Margins → Layout tab, and keep them inside the margins.",
+        "Save as PDF and upload again."
+      ]
+    },
+    {
+      "app": "Adobe InDesign",
+      "steps": [
+        "Layout → Margins and Columns (on the parent/master pages).",
+        "Set Inside and Outside using the table above.",
+        "Export with File → Export → Adobe PDF (Print)."
+      ]
+    }
+  ],
+  "cta": {
+    "text": "Don't want to redo your layout margin by margin? SparkPrep checks every page against KDP's table for your page count and moves your content back inside the safe area in minutes.",
+    "button": "Fix my KDP margins",
+    "href": "/"
+  },
+  "faq": [
+    {
+      "q": "What is the minimum gutter for KDP?",
+      "a": "0.375 inches for 24 to 150 pages, 0.5 for 151 to 300, 0.625 for 301 to 500, 0.75 for 501 to 700 and 0.875 for 701 to 828 pages."
+    },
+    {
+      "q": "What are KDP's outside margins?",
+      "a": "At least 0.25 inches without bleed and 0.375 inches with bleed, on the top, bottom and outside edges."
+    }
+  ]
+}

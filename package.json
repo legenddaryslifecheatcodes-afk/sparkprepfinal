@@ -79,8 +79,9 @@
   },
   "scripts": {
     "start": "craco start",
-    "build": "craco build",
+    "build": "node scripts/build-guides.mjs && craco build && node scripts/prerender-seo.mjs",
     "indexnow": "node scripts/indexnow.mjs",
+    "guides": "node scripts/build-guides.mjs",
     "test": "craco test"
   },
   "browserslist": {

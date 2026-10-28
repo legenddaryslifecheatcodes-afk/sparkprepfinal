@@ -1,0 +1,62 @@
+{
+  "slug": "fix-cover-bleed-error",
+  "category": "cover",
+  "date": "2026-10-28",
+  "title": "How to Fix \"Insufficient or No Bleed\" on a Book Cover (KDP & IngramSpark) | SparkPrep",
+  "h1": "How to fix the \"insufficient or no bleed\" cover error",
+  "description": "Your book cover was rejected for missing bleed. Here's what bleed is, why printers need it, and how to add it in Canva, Word, InDesign or Acrobat, step by step.",
+  "platforms": "Amazon KDP · IngramSpark · Barnes & Noble Press · Lulu",
+  "lead": "Bleed is the most common cover rejection there is, and one of the easiest to fix once you know what the printer wants.",
+  "error": "INSUFFICIENT OR NO BLEED ON COVER LAYOUT",
+  "errorNote": "Quoted from a real IngramSpark rejection. KDP shows a similar warning in its cover previewer when your art doesn't reach the edge.",
+  "why": "<p>Printers print your cover on a bigger sheet and then cut it down. The blade can land a tiny bit off. <strong>Bleed</strong> is extra background art, 0.125\" (3.2 mm) past every edge, that gets cut away. If your art stops exactly at the edge, a slightly-off cut leaves a thin white line.</p><p>So printers check that your background runs all the way past the trim line. If it doesn't, or if the file is the trim size instead of the bigger bleed size, the cover is rejected.</p>",
+  "diy": [
+    {
+      "app": "Work out the right size first",
+      "steps": [
+        "Full cover width = 0.125\" + back cover + spine + front cover + 0.125\".",
+        "Full cover height = 0.125\" + book height + 0.125\". A 6\" x 9\" book is 9.25\" tall.",
+        "Use the <a href=\"/kdp-cover-calculator/\">KDP cover calculator</a> or your printer's own template to get the exact numbers."
+      ]
+    },
+    {
+      "app": "Canva",
+      "steps": [
+        "Create a custom design at the full cover size from the step above.",
+        "Turn on File → View settings → Show print bleed so you can see the cut line.",
+        "Stretch every background photo and color block past the outer edge.",
+        "Download as PDF Print with \"Crop marks and bleed\" ticked."
+      ]
+    },
+    {
+      "app": "Adobe InDesign",
+      "steps": [
+        "File → Document Setup → Bleed and Slug: set 0.125 in on all sides.",
+        "Drag background art to the red bleed line on every edge.",
+        "File → Export → Adobe PDF (Print), and under Marks and Bleeds tick \"Use Document Bleed Settings\"."
+      ]
+    },
+    {
+      "app": "Check it in Acrobat",
+      "steps": [
+        "Open the PDF and look at the page size (File → Properties). It should be the full size with bleed, not the trim size.",
+        "Zoom into each corner: the background should keep going right to the edge of the page."
+      ]
+    }
+  ],
+  "cta": {
+    "text": "Don't want to rebuild your cover by hand? Upload it and SparkPrep checks the bleed on every edge and extends it for you in minutes, without stretching your art out of shape.",
+    "button": "Fix my cover bleed",
+    "href": "/"
+  },
+  "faq": [
+    {
+      "q": "How much bleed does a book cover need?",
+      "a": "0.125 inches (3.2 mm) on every outside edge for paperbacks at KDP, IngramSpark, Barnes & Noble Press and Lulu. Hardcover case covers need more, so always use your printer's own template for hardcovers."
+    },
+    {
+      "q": "Should text go into the bleed?",
+      "a": "No. Only background art goes into the bleed. Keep titles and names well inside the trim line so they never get cut."
+    }
+  ]
+}

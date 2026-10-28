@@ -1,0 +1,46 @@
+{
+  "slug": "fix-ingramspark-interior-safety-area",
+  "category": "interior",
+  "date": "2026-10-28",
+  "title": "IngramSpark \"Interior Content Extends Outside the Safety Area\": Fix | SparkPrep",
+  "h1": "How to fix \"interior content extends outside the safety area\"",
+  "description": "IngramSpark rejected your interior for the safety area or for content not centered? Here's what it means, the 0.5 inch rule, and how to fix it in Word, InDesign or Acrobat.",
+  "platforms": "IngramSpark",
+  "lead": "This is one of IngramSpark's most common interior rejections, and it usually has one simple cause.",
+  "error": "BOOKBLOCK: INTERIOR CONTENT EXTENDS OUTSIDE THE SAFETY AREA. All text, borders, and important elements need to be at least 0.5 inch (13 mm) from trim edges. INTERIOR CONTENT IS NOT CENTERED. Submit a new interior PDF with the content properly centered at the correct size.",
+  "errorNote": "Quoted from a real IngramSpark rejection.",
+  "why": "<p>IngramSpark wants everything on your pages, including page numbers and headers, at least <strong>0.5\" (13 mm)</strong> from every trim edge.</p><p>The usual cause: the PDF was made at <strong>letter size (8.5\" x 11\")</strong> while the book is 6\" x 9\". IngramSpark shrinks or crops it to fit, so the text ends up off-center and too close to the edge. The second cause is margins under 0.5\", often from page numbers sitting low in the footer.</p>",
+  "diy": [
+    {
+      "app": "Microsoft Word",
+      "steps": [
+        "Layout → Size → More Paper Sizes: set the width and height to your exact trim size (for example 6\" x 9\").",
+        "Layout → Margins → Custom Margins: at least 0.5\" on every side (more on the inside for thick books).",
+        "Move page numbers up so they sit at least 0.5\" from the bottom edge.",
+        "File → Save As → PDF."
+      ]
+    },
+    {
+      "app": "Check it in Acrobat",
+      "steps": [
+        "File → Properties: the page size must match your trim size exactly.",
+        "Zoom into a page: no text, number or line should be closer than 0.5\" to any edge."
+      ]
+    }
+  ],
+  "cta": {
+    "text": "Tired of resizing and re-uploading? SparkPrep fits every page to your exact trim size, re-centers it and keeps everything 0.5\" from the edge, all in minutes.",
+    "button": "Fix my interior",
+    "href": "/"
+  },
+  "faq": [
+    {
+      "q": "What is IngramSpark's safety margin?",
+      "a": "All text, borders and important elements must be at least 0.5 inch (13 mm) from the trim edges, including page numbers and headers."
+    },
+    {
+      "q": "Why does IngramSpark say my content is not centered?",
+      "a": "Usually the PDF page size doesn't match the book's trim size, such as a letter-size PDF for a 6 by 9 inch book."
+    }
+  ]
+}

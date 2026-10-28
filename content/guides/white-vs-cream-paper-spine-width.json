@@ -1,0 +1,44 @@
+{
+  "slug": "white-vs-cream-paper-spine-width",
+  "category": "platform",
+  "date": "2026-11-01",
+  "title": "White vs Cream Paper: How It Changes Your Spine Width (KDP & IngramSpark) | SparkPrep",
+  "h1": "White vs cream paper: how your paper choice changes your spine",
+  "description": "Cream paper is thicker than white, so the same book needs a wider spine. See KDP and IngramSpark spine numbers by paper, and how to avoid a cover that no longer fits.",
+  "platforms": "Amazon KDP · IngramSpark",
+  "lead": "Switching from white to cream paper feels like a small choice. It changes your cover size.",
+  "error": "Spine width does not match the page count and paper selected",
+  "errorNote": "Paraphrased. This is what you get when a cover built for white paper is uploaded for a cream-paper book.",
+  "why": "<p>Every page adds thickness, and cream paper is thicker than white. So the same 300-page book has a different spine on each paper:</p><div class=\"table-wrap\"><table><tr><th>KDP paper</th><th>Spine per page</th><th>300 pages</th></tr><tr><td>White</td><td>0.002252\"</td><td>0.676\"</td></tr><tr><td>Cream</td><td>0.0025\"</td><td>0.750\"</td></tr><tr><td>Premium color</td><td>0.002347\"</td><td>0.704\"</td></tr></table></div><p>IngramSpark measures paper in pages per inch: about 512 for white 50#, 444 for creme 50#, 400 for groundwood and 377 for 70# color. Each printer's own numbers only work for that printer.</p>",
+  "diy": [
+    {
+      "app": "Before you design",
+      "steps": [
+        "Pick your paper first, then get the cover size.",
+        "Use the <a href=\"/book-spine-width-calculator/\">spine width calculator</a> or the printer's own template for that paper."
+      ]
+    },
+    {
+      "app": "If you already switched paper",
+      "steps": [
+        "Get a new template for the new paper and page count.",
+        "Widen the cover by the difference, move the front panel over, and re-center the spine text."
+      ]
+    }
+  ],
+  "cta": {
+    "text": "Changed your paper or page count? SparkPrep recalculates the spine for your printer and paper and refits your cover in minutes.",
+    "button": "Refit my cover",
+    "href": "/"
+  },
+  "faq": [
+    {
+      "q": "Is cream paper thicker than white?",
+      "a": "Yes. On KDP a cream page adds 0.0025 inch to the spine and a white page adds 0.002252 inch, so cream books have wider spines."
+    },
+    {
+      "q": "Can I use KDP's spine width for IngramSpark?",
+      "a": "No. Each printer's paper is different, so always use that printer's own numbers or template."
+    }
+  ]
+}

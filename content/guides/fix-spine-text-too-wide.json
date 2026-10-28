@@ -1,0 +1,52 @@
+{
+  "slug": "fix-spine-text-too-wide",
+  "category": "cover",
+  "date": "2026-10-28",
+  "title": "Spine Text Too Wide or Wrong Spine Width: How to Fix It | SparkPrep",
+  "h1": "How to fix \"incorrect spine width\" and spine text that's too wide",
+  "description": "Rejected for spine width or spine text? Learn why your spine changes with page count and paper, and how to resize your cover and spine text so it prints right.",
+  "platforms": "Amazon KDP · IngramSpark",
+  "lead": "Your spine is the one part of the cover that changes every time your page count changes. That's why it gets so many books rejected.",
+  "error": "JACKET LAYOUT NOT BUILT TO SPEC. INCORRECT SPINE WIDTH — SPINE SHOULD BE 0.313\" FOR 78 PAGES. REDUCE SPINE TEXT TO FIT.",
+  "errorNote": "Quoted from a real IngramSpark rejection.",
+  "why": "<p>Spine width = page count x the thickness of one page. Add or remove pages, or switch from white to cream paper (cream is thicker), and the spine changes. A cover built for the old page count no longer fits.</p><p>Spine text has its own rule: it must sit inside the spine with room on both sides, because the fold can move a little. On KDP, keep spine text at least 0.0625\" from each fold, and KDP only prints spine text on books with more than 79 pages. IngramSpark doesn't allow spine text on paperbacks under 48 pages.</p>",
+  "diy": [
+    {
+      "app": "Get the right spine width",
+      "steps": [
+        "Use the page count from your <strong>final</strong> interior PDF, not from Word.",
+        "Enter it in the <a href=\"/book-spine-width-calculator/\">spine width calculator</a>, or download a fresh template from your printer for that page count."
+      ]
+    },
+    {
+      "app": "Resize your cover",
+      "steps": [
+        "Change the document width to the new full cover width.",
+        "Move the front cover panel so it starts right after the new spine.",
+        "Center your spine text in the new spine and shrink the font until it has clear space on both sides."
+      ]
+    },
+    {
+      "app": "Check before uploading",
+      "steps": [
+        "Open the PDF in Acrobat and measure the spine with the measuring tool (Tools → Measure).",
+        "Make sure no spine letters touch the fold lines."
+      ]
+    }
+  ],
+  "cta": {
+    "text": "Page count changed again? SparkPrep reads your interior, works out the exact spine for your printer and paper, and refits your cover in minutes. No measuring, no redesign.",
+    "button": "Refit my spine",
+    "href": "/"
+  },
+  "faq": [
+    {
+      "q": "Why did my spine width change?",
+      "a": "Your page count or paper type changed. Every page adds thickness, and cream paper is thicker than white, so the spine has to be recalculated for your final interior."
+    },
+    {
+      "q": "How many pages do I need for spine text?",
+      "a": "KDP prints spine text only on books with more than 79 pages. IngramSpark needs at least 48 pages on paperbacks."
+    }
+  ]
+}

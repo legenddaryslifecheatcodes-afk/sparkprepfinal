@@ -1,0 +1,52 @@
+{
+  "slug": "kdp-vs-ingramspark-vs-lulu-file-rules",
+  "category": "platform",
+  "date": "2026-10-28",
+  "title": "KDP vs IngramSpark vs Lulu vs B&N Press: Print File Rules Compared | SparkPrep",
+  "h1": "KDP vs IngramSpark vs Lulu vs Barnes & Noble Press: print file rules side by side",
+  "description": "The same book file can pass KDP and fail IngramSpark. Compare bleed, safety margins, barcode area, spine text and page limits for KDP, IngramSpark, Lulu and B&N Press.",
+  "platforms": "Amazon KDP · IngramSpark · Barnes & Noble Press · Lulu",
+  "lead": "Each printer has its own rules. A file built for one can be rejected by another, which is why authors who print in two places get surprised.",
+  "error": "\"It passed KDP, so why did IngramSpark reject it?\"",
+  "errorNote": "Not an error message, but the question behind many of them.",
+  "why": "<p>Each printer sets its own numbers. Here are the main ones, from each printer's own guides:</p><div class=\"table-wrap\"><table><tr><th></th><th>KDP</th><th>IngramSpark</th><th>B&amp;N Press</th><th>Lulu</th></tr><tr><td>Paperback cover bleed</td><td>0.125\"</td><td>0.125\"</td><td>0.125\"</td><td>0.125\"</td></tr><tr><td>Interior safe margin</td><td>0.25\" outside (0.375\" with bleed); inside grows with pages</td><td>0.5\" all sides</td><td>0.5\" (0.75\" inside)</td><td>0.5\"; inside grows with pages</td></tr><tr><td>Barcode area</td><td>2\" x 1.2\"</td><td>1.75\" x 1\"</td><td>2\" x 1.2\"</td><td>2\" x 1.2\"</td></tr><tr><td>Page count</td><td>24 to 828</td><td>18 to 1200</td><td>48 to 800</td><td>32 to 800</td></tr></table></div><p>IngramSpark also limits total ink to 240%, which catches many dark covers and photos.</p><p>The biggest trap: KDP lets interior text sit as close as 0.25\" to the outside edge, but IngramSpark wants 0.5\". A KDP-ready interior often fails IngramSpark's safety-area check.</p>",
+  "diyIntro": "<p>If you publish in more than one place, build to the strictest rule:</p>",
+  "diy": [
+    {
+      "app": "Interior",
+      "steps": [
+        "Use at least 0.5\" margins on every side, plus the bigger inside margin your page count needs.",
+        "Make the PDF the exact trim size.",
+        "Embed all fonts and keep images at 300 DPI."
+      ]
+    },
+    {
+      "app": "Cover",
+      "steps": [
+        "Download a separate template from each printer. Spine widths differ because their paper differs.",
+        "Keep 0.125\" bleed and leave the barcode area clear for the bigger 2\" x 1.2\" size."
+      ]
+    },
+    {
+      "app": "Color",
+      "steps": [
+        "Keep total ink under 240% so the same files also pass IngramSpark."
+      ]
+    }
+  ],
+  "cta": {
+    "text": "Printing in more than one place? Pick your printer and SparkPrep checks your files against that printer's own rules, then makes a version each one accepts, in minutes.",
+    "button": "Check my files for each printer",
+    "href": "/"
+  },
+  "faq": [
+    {
+      "q": "Can I use the same files for KDP and IngramSpark?",
+      "a": "Often not without changes. IngramSpark needs 0.5 inch interior margins and total ink under 240 percent, and its spine width differs from KDP's, so the cover usually needs its own template."
+    },
+    {
+      "q": "Which printer has the strictest file rules?",
+      "a": "For most books IngramSpark is the strictest, mainly because of its 0.5 inch safety margin and 240 percent ink limit."
+    }
+  ]
+}

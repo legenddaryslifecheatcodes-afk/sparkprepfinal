@@ -17,6 +17,7 @@
 {"@context":"https://schema.org","@graph":[
  {"@type":"WebApplication","name":"Book Spine Width Calculator","url":"https://sparkprep.legenddary.com/book-spine-width-calculator/","applicationCategory":"DesignApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}},
  {"@type":"FAQPage","mainEntity":[
+  {"@type": "Question", "name": "Why does spine width matter?", "acceptedAnswer": {"@type": "Answer", "text": "Your spine width comes from your page count and paper. If it's off, the title slides onto the front or back cover and the printer may reject the file. Cream paper is thicker than white, so the same book needs a wider spine. This calculator gives you the right width for KDP or IngramSpark before you design."}},
   {"@type":"Question","name":"How do you calculate book spine width?","acceptedAnswer":{"@type":"Answer","text":"Spine width = page count x the thickness of one page of your paper. For Amazon KDP that is 0.002252\" per page for white paper, 0.0025\" for cream and 0.002347\" for premium color."}},
   {"@type":"Question","name":"Why is my spine width different on IngramSpark and KDP?","acceptedAnswer":{"@type":"Answer","text":"Each printer uses its own paper, so the same page count gives a different spine. Always build the cover for the printer you are uploading to, using that printer's own numbers."}}
  ]}
@@ -54,6 +55,13 @@
     <div id="r-msg" class="ok"></div>
     <canvas id="template" aria-label="Cover template preview"></canvas>
     <button class="btn" id="download" type="button">Download cover template (PNG, 300 DPI)</button>
+  </section>
+
+  <section class="card" id="why">
+    <h2 style="margin-top:0">Why does spine width matter?</h2>
+    <p>Your spine width comes from your page count and paper. If it's off, the title slides onto the front or back cover and the printer may reject the file. Cream paper is thicker than white, so the same book needs a wider spine. This calculator gives you the right width for KDP or IngramSpark before you design.</p>
+      <p style="margin-top:14px"><strong>Don't want to measure, redo your design, and hope the spine lines up? SparkPrep checks your spine against your real page count and paper, and fixes it in minutes.</strong></p>
+    <a class="btn" href="/">Check my spine</a>
   </section>
 
   <h2>The spine width formula</h2>

@@ -29,18 +29,18 @@ export default function Landing() {
             </div>
 
             <span className="mt-8 inline-flex items-center gap-2 font-mono-spec text-xs tracking-widest uppercase text-[#D4AF37] border border-[#D4AF37]/50 bg-[#D4AF37]/10 px-3 py-1.5" data-testid="hero-tag">
-              CMYK · 300 DPI · PDF/X-1a · Print-Ready in Minutes
+              KDP · IngramSpark · Barnes & Noble · Lulu · Print-Ready in Minutes
             </span>
 
             <h1 className="font-display font-black text-5xl md:text-7xl lg:text-8xl tracking-tighter mt-8 leading-[0.9]" data-testid="hero-title">
-              Ship a book<br />
-              without<br />
-              <span className="text-[#D4AF37]" style={{ background: "linear-gradient(180deg, #E5C158, #D4AF37 55%, #B8933E)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>prepress</span><br />
-              headaches.
+              Your book,<br />
+              ready to<br />
+              <span className="text-[#D4AF37]" style={{ background: "linear-gradient(180deg, #E5C158, #D4AF37 55%, #B8933E)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>print</span><br />
+              the first time.
             </h1>
 
             <p className="mt-8 text-lg text-neutral-400 max-w-xl leading-relaxed">
-              Drop any cover or interior file into <span className="text-white font-semibold">Legenddary's Smart SparkPrep Engine</span> — it auto-fixes DPI, CMYK, bleed and spine width, then exports a fully compliant PDF/X-1a for IngramSpark, KDP, Barnes & Noble and Lulu.
+              Amazon KDP, IngramSpark, Barnes & Noble and Lulu reject books for problems most new authors have never heard of: blurry pictures, the wrong kind of color, art that stops short of the edge, or a spine that's the wrong width. Upload your cover and pages to <span className="text-white font-semibold">Legenddary's Smart SparkPrep Engine</span>. It finds every problem, explains it in plain English and fixes it for you, in minutes.
             </p>
 
             <div className="mt-10 flex flex-wrap gap-3">
@@ -105,20 +105,48 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* New authors + commercial (2026-10-28, Trey: plain English for first-time authors, and the SparkPrep ad) */}
+      <section className="border-t border-neutral-900" aria-labelledby="new-authors">
+        <div className="max-w-7xl mx-auto px-6 py-20 grid md:grid-cols-12 gap-10 items-center">
+          <div className="md:col-span-7">
+            <span className="font-mono-spec text-xs tracking-widest uppercase text-[#D4AF37]">[ New to Self-Publishing? ]</span>
+            <h2 id="new-authors" className="font-display font-black text-4xl md:text-5xl tracking-tighter mt-3">What nobody tells you<br />before you <span className="text-[#D4AF37]">upload</span>.</h2>
+            <ul className="mt-8 space-y-4 text-neutral-300 text-lg leading-relaxed max-w-xl">
+              <li className="flex gap-3"><CheckCircle2 className="w-5 h-5 text-[#D4AF37] shrink-0 mt-1" /> Before printing, KDP and IngramSpark check your files by machine. If one thing is off, your book is sent back.</li>
+              <li className="flex gap-3"><CheckCircle2 className="w-5 h-5 text-[#D4AF37] shrink-0 mt-1" /> They check things like bleed, colors, picture sharpness, margins and spine width. Most first-time authors have never heard of them.</li>
+              <li className="flex gap-3"><CheckCircle2 className="w-5 h-5 text-[#D4AF37] shrink-0 mt-1" /> Checking your files before you upload is called <span className="text-white font-semibold">preflight</span>. SparkPrep does it for you, and fixes what it finds.</li>
+            </ul>
+            <a href="/guides/what-is-preflight-first-time-authors/" className="inline-flex items-center gap-2 mt-8 text-[#D4AF37] hover:text-white font-mono-spec text-xs tracking-widest uppercase">New here? Start with this guide <ArrowRight className="w-4 h-4" /></a>
+          </div>
+          <div className="md:col-span-5 flex justify-center">
+            <video
+              className="w-full max-w-[300px] aspect-[9/16] bg-black border border-[#D4AF37]/30"
+              src="/media/sparkprep-commercial.mp4"
+              poster="/media/sparkprep-commercial-poster.jpg"
+              controls
+              playsInline
+              preload="none"
+              aria-label="SparkPrep commercial: a rejected book file, fixed by SparkPrep (dramatization, AI-generated actors)"
+              data-testid="home-commercial"
+            />
+          </div>
+        </div>
+      </section>
+
       {/* Feature Bento */}
       <section className="border-t border-neutral-900">
         <div className="max-w-7xl mx-auto px-6 py-24">
-          <span className="font-mono-spec text-xs tracking-widest uppercase text-[#D4AF37]">[ The Prepress Toolkit ]</span>
+          <span className="font-mono-spec text-xs tracking-widest uppercase text-[#D4AF37]">[ What SparkPrep Checks For You ]</span>
           <h2 className="font-display font-black text-4xl md:text-5xl tracking-tighter mt-3 max-w-3xl">Every reason your book gets<br />rejected, <span className="text-[#D4AF37]">eliminated</span>.</h2>
 
           <div className="grid md:grid-cols-12 gap-4 mt-14">
             {[
-              { icon: Ruler, title: "Live DPI Reader", desc: "See effective DPI as you size and place images. Red/yellow/green feedback in real time.", span: "md:col-span-5", accent: true },
-              { icon: Palette, title: "One-Click CMYK", desc: "Instantly convert RGB uploads into print-safe CMYK — no swatch juggling.", span: "md:col-span-4" },
-              { icon: Layers, title: "Auto-Flatten", desc: "Transparency? Layers? All flattened at export.", span: "md:col-span-3" },
-              { icon: Zap, title: "Spine Calculator", desc: "Type your page count. Get exact spine width per paper stock.", span: "md:col-span-4" },
-              { icon: FileCheck2, title: "PDF/X-1a Export", desc: "Every export ships with embedded fonts, 300 DPI, correct trim + bleed.", span: "md:col-span-5", accent: true },
-              { icon: CheckCircle2, title: "4 Platform Compliance", desc: "IngramSpark, KDP, B&N & Lulu templates baked in.", span: "md:col-span-3" },
+              { icon: Ruler, title: "Sharp Pictures", desc: "Printing needs 300 DPI (dots per inch). SparkPrep shows which pictures will print blurry, in green, yellow or red.", span: "md:col-span-5", accent: true },
+              { icon: Palette, title: "Print-Safe Colors", desc: "Screens make color with light (RGB). Printers use ink (CMYK). SparkPrep switches your colors over in one click.", span: "md:col-span-4" },
+              { icon: Layers, title: "No Print Surprises", desc: "See-through effects and layers can print wrong. SparkPrep flattens them for you.", span: "md:col-span-3" },
+              { icon: Zap, title: "The Right Spine Size", desc: "Type your page count. Get the exact spine width for your paper.", span: "md:col-span-4" },
+              { icon: FileCheck2, title: "A File Printers Accept", desc: "Your finished PDF has every font built in, sharp pictures, and the exact size and bleed (the extra edge printers trim off). It's called PDF/X-1a, the print standard.", span: "md:col-span-5", accent: true },
+              { icon: CheckCircle2, title: "Built for 4 Printers", desc: "Amazon KDP, IngramSpark, Barnes & Noble Press and Lulu, each checked against its own rules.", span: "md:col-span-3" },
             ].map((f, i) => (
               <div key={i} className={`marketing-surface p-8 ${f.accent ? "border-[#D4AF37]/30 bg-gradient-to-br from-[#D4AF37]/[0.06] to-transparent" : ""} ${f.span} min-h-[220px] flex flex-col justify-between`} data-testid={`feature-${i}`}>
                 <div className={`w-10 h-10 flex items-center justify-center ${f.accent ? "bg-[#D4AF37] text-black" : "border border-neutral-700 text-white"}`}>
@@ -140,7 +168,7 @@ export default function Landing() {
           <span className="font-mono-spec text-xs tracking-widest uppercase text-[#D4AF37]">[ Workflow ]</span>
           <h2 className="font-display font-black text-4xl md:text-5xl tracking-tighter mt-3 max-w-3xl">Five steps.<br />Then <span className="text-[#D4AF37]">export</span>.</h2>
           <div className="grid md:grid-cols-5 gap-4 mt-12">
-            {["Choose platform", "Set trim + paper", "Enter page count", "Drop your file", "Export PDF/X-1a"].map((step, i) => (
+            {["Pick your printer", "Pick your book size + paper", "Enter your page count", "Upload your file", "Download print-ready files"].map((step, i) => (
               <div key={i} className={`border ${i === 4 ? "border-[#D4AF37] bg-[#D4AF37]/5" : "border-neutral-800"} p-6`} data-testid={`step-${i}`}>
                 <div className={`font-mono-spec text-[10px] tracking-widest ${i === 4 ? "text-[#D4AF37]" : "text-neutral-600"}`}>STEP {String(i + 1).padStart(2, "0")}</div>
                 <div className={`font-display font-bold text-xl mt-4 tracking-tight ${i === 4 ? "text-[#D4AF37]" : "text-white"}`}>{step}</div>
@@ -185,6 +213,7 @@ export default function Landing() {
       <footer className="border-t border-neutral-900 py-8 text-xs text-neutral-600 font-mono-spec tracking-widest uppercase text-center">
         <nav aria-label="Free tools" className="mb-4 flex flex-wrap justify-center gap-x-6 gap-y-2 normal-case tracking-normal text-neutral-400">
           <a href="/tools/" className="hover:text-white">Free tools</a>
+          <a href="/guides/" className="hover:text-white">Guides</a>
           <a href="/kdp-cover-calculator/" className="hover:text-white">KDP cover calculator</a>
           <a href="/book-spine-width-calculator/" className="hover:text-white">Spine width calculator</a>
           <a href="/book-cover-dimensions/" className="hover:text-white">Book cover dimensions</a>

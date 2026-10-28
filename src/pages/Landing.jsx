@@ -116,7 +116,7 @@ export default function Landing() {
               <li className="flex gap-3"><CheckCircle2 className="w-5 h-5 text-[#D4AF37] shrink-0 mt-1" /> They check things like bleed, colors, picture sharpness, margins and spine width. Most first-time authors have never heard of them.</li>
               <li className="flex gap-3"><CheckCircle2 className="w-5 h-5 text-[#D4AF37] shrink-0 mt-1" /> Checking your files before you upload is called <span className="text-white font-semibold">preflight</span>. SparkPrep does it for you, and fixes what it finds.</li>
             </ul>
-            <a href="/guides/" className="inline-flex items-center gap-2 mt-8 text-[#D4AF37] hover:text-white font-mono-spec text-xs tracking-widest uppercase">Read the plain-English guides <ArrowRight className="w-4 h-4" /></a>
+            <a href="/guides/what-is-preflight-first-time-authors/" className="inline-flex items-center gap-2 mt-8 text-[#D4AF37] hover:text-white font-mono-spec text-xs tracking-widest uppercase">New here? Start with this guide <ArrowRight className="w-4 h-4" /></a>
           </div>
           <div className="md:col-span-5 flex justify-center">
             <video

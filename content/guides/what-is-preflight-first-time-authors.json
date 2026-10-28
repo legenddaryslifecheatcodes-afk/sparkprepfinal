@@ -1,0 +1,30 @@
+{
+  "slug": "what-is-preflight-first-time-authors",
+  "category": "compare",
+  "date": "2026-10-28",
+  "title": "What Is Preflight? A First-Time Author's Guide to Print-Ready Book Files | SparkPrep",
+  "h1": "New to self-publishing? Why your book needs a preflight check before you upload",
+  "description": "First book? KDP and IngramSpark reject files for bleed, colors, blurry pictures and spine width. Learn what preflight is, what hiring a freelancer costs, and the faster option.",
+  "platforms": "For first-time self-publishers",
+  "lead": "You finished your book. Now Amazon KDP or IngramSpark wants a cover file and a pages file that follow their print rules exactly. Here's what that means, what your options cost, and how to get it right the first time.",
+  "body": "\n  <h2>What is preflight?</h2>\n  <p>Before a printer prints your book, a machine checks your files. If one thing is off, the book is sent back to you. <strong>Preflight</strong> means checking your files yourself <em>before</em> you upload, so that doesn't happen.</p>\n  <p>The printer checks things most new authors have never heard of:</p>\n  <ul>\n    <li><strong>Bleed:</strong> your cover art must run a little past the edge, because the printer trims the edge off.</li>\n    <li><strong>Colors:</strong> screens make color with light (RGB). Printers use ink (CMYK). Too much ink in one spot (over 240% at IngramSpark) gets rejected.</li>\n    <li><strong>Sharp pictures:</strong> pictures need about 300 DPI or they print blurry.</li>\n    <li><strong>Margins:</strong> text too close to the edge or the spine fold gets cut off or lost.</li>\n    <li><strong>Spine width:</strong> it depends on your page count and paper, and every printer has its own number.</li>\n    <li><strong>Fonts:</strong> every font must be built into the PDF.</li>\n  </ul>\n\n  <h2>Option 1: Hire freelancers</h2>\n  <p>Most first-time authors hire a cover designer and a formatter. Reedsy's vetted professionals charge a median of about <strong>$930 for a cover</strong> and about <strong>$800 on average for interior formatting</strong> (<a href=\"https://reedsy.com/blog/guide/how-to-self-publish-a-book/cost-to-self-publish/\" rel=\"nofollow noopener\">Reedsy's figures</a>). That's about <strong>$1,730</strong> for both.</p>\n  <ul>\n    <li><strong>Time:</strong> you work on their schedule. Finding someone, waiting for drafts and asking for changes usually takes days per round, and often weeks in total.</li>\n    <li><strong>Risk:</strong> a file that looks great can still be rejected. Not every freelancer checks bleed, the ink limit or the spine for your exact printer. If it's rejected, you go back, wait again and sometimes pay again.</li>\n    <li><strong>Changes later:</strong> a typo, a new page count or a new price on the back means another request.</li>\n  </ul>\n  <p>A good designer is worth it if you want original, hand-made artwork. Just know what you're paying for.</p>\n\n  <h2>Option 2: Do it yourself with free tools</h2>\n  <p>Word and Canva cost nothing, but they don't check printer rules for you. A beginner can't safely fix the 240% ink limit or bleed by hand, and you usually find out only when the rejection email arrives.</p>\n\n  <h2>Option 3: SparkPrep</h2>\n  <p>SparkPrep was built by an author whose own book failed to print 18 times. It does the preflight for you:</p>\n  <ul>\n    <li><strong>Design free:</strong> Cover Studio and Interior Studio are free, sized to your printer's rules.</li>\n    <li><strong>Checks everything:</strong> your whole cover and every page, against the exact rules of Amazon KDP, IngramSpark, Barnes &amp; Noble Press or Lulu.</li>\n    <li><strong>Explains in plain English</strong> what's wrong and where.</li>\n    <li><strong>Fixes it for you</strong> in minutes, then gives you print-ready files.</li>\n  </ul>\n",
+  "cta": {
+    "text": "Your first book should feel like a win, not a pile of rejection emails. Let SparkPrep check and fix your files in minutes, before you upload.",
+    "button": "Check my book now",
+    "href": "/"
+  },
+  "faq": [
+    {
+      "q": "What is preflight in self-publishing?",
+      "a": "Preflight means checking your book's cover and interior files against the printer's rules (bleed, colors, picture sharpness, margins, spine width and fonts) before you upload, so KDP or IngramSpark doesn't reject them."
+    },
+    {
+      "q": "How much does it cost to hire someone to make my book print-ready?",
+      "a": "Reedsy's figures put a professional cover at a median of about $930 and interior formatting at about $800 on average, roughly $1,730 for both."
+    },
+    {
+      "q": "Do I need preflight if I use KDP?",
+      "a": "Yes. Amazon KDP checks every file for size, bleed, margins and picture quality, and sends back files that don't pass. Checking first saves you the back-and-forth."
+    }
+  ]
+}

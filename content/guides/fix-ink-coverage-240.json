@@ -1,0 +1,52 @@
+{
+  "slug": "fix-ink-coverage-240",
+  "category": "color",
+  "date": "2026-10-28",
+  "title": "IngramSpark \"Ink Coverage Exceeds 240%\": What It Means & How to Fix | SparkPrep",
+  "h1": "How to fix \"ink coverage exceeds 240%\" (IngramSpark)",
+  "description": "IngramSpark rejected your file for ink coverage over 240%? Here's what total ink means, why rich black causes it, and how to fix it in Acrobat, InDesign or Word.",
+  "platforms": "IngramSpark",
+  "lead": "This one sounds technical, but the cause is usually simple: black that's made from all four inks instead of black ink alone.",
+  "error": "Ink coverage exceeds 240%",
+  "errorNote": "Quoted from IngramSpark rejection emails.",
+  "why": "<p>Printers use four inks: cyan, magenta, yellow and black (CMYK). <strong>Total ink</strong> is all four added together in one spot. A pure black uses 100% (black only). A \"rich black\" can use 300% or more.</p><p>IngramSpark's limit is 240%. Over that, ink soaks the paper, smears and dries slowly, so the file is rejected. It often comes from black text in a file saved as RGB, or dark photos converted to CMYK without an ink limit.</p>",
+  "diy": [
+    {
+      "app": "Find the problem (Acrobat Pro)",
+      "steps": [
+        "Tools → Print Production → Output Preview.",
+        "Tick <strong>Total Area Coverage</strong> and set it to 240%. Areas over the limit get highlighted."
+      ]
+    },
+    {
+      "app": "Black and white interior",
+      "steps": [
+        "Export it as <strong>grayscale</strong> (black ink only). Grayscale can never go over 100%, so the error disappears.",
+        "In Acrobat: Print Production → Convert Colors, convert everything to a grayscale profile."
+      ]
+    },
+    {
+      "app": "Color cover or interior",
+      "steps": [
+        "Make black text 100% black (C0 M0 Y0 K100), not rich black.",
+        "Convert images to CMYK with a profile that limits total ink, such as US Web Coated (SWOP) v2 (300% max), then lower further if needed.",
+        "In InDesign, export with the PDF/X-1a preset and check Output Preview again."
+      ]
+    }
+  ],
+  "cta": {
+    "text": "Don't want to learn color profiles to get one book printed? SparkPrep measures the ink on every page and brings it under 240% while keeping your black text sharp, in minutes.",
+    "button": "Fix my ink coverage",
+    "href": "/"
+  },
+  "faq": [
+    {
+      "q": "What is the IngramSpark ink limit?",
+      "a": "240% total ink coverage, meaning cyan, magenta, yellow and black added together in any one area."
+    },
+    {
+      "q": "How do I check total ink coverage?",
+      "a": "In Adobe Acrobat Pro, open Print Production, Output Preview and tick Total Area Coverage set to 240%. Anything over the limit is highlighted."
+    }
+  ]
+}

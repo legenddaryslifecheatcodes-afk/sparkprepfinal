@@ -1,0 +1,59 @@
+{
+  "slug": "fix-low-resolution-images",
+  "category": "color",
+  "date": "2026-10-28",
+  "title": "Low Resolution Images in Your Book: How to Fix the 300 DPI Error | SparkPrep",
+  "h1": "How to fix low-resolution (under 300 DPI) images in your book",
+  "description": "Printer warned your images are below 300 DPI? Learn what DPI means for print, how to check it, and how to keep Word, Canva and InDesign from shrinking your images.",
+  "platforms": "Amazon KDP · IngramSpark · Barnes & Noble Press · Lulu",
+  "lead": "A picture that looks sharp on your screen can still print blurry. Printers want 300 DPI, and many programs quietly lower it.",
+  "error": "Image resolution is below 300 DPI",
+  "errorNote": "Paraphrased. KDP shows this as a low-resolution image warning in its previewer.",
+  "why": "<p>DPI (dots per inch) is how much detail an image has for its printed size. Screens need about 72 to 150. Print needs <strong>300 DPI</strong> at the size the picture appears in the book.</p><p>So a 1200 x 1800 pixel photo is sharp printed at 4\" x 6\", but blurry stretched across a full 6\" x 9\" page. Word and some PDF tools also shrink images when saving, which drops a good picture below 300.</p>",
+  "diy": [
+    {
+      "app": "Check the math",
+      "steps": [
+        "Pixels needed = inches x 300. A full 6.125\" x 9.25\" cover with bleed needs about 1838 x 2775 pixels.",
+        "If your image is smaller than that, get a bigger version from the original source."
+      ]
+    },
+    {
+      "app": "Microsoft Word",
+      "steps": [
+        "File → Options → Advanced → Image Size and Quality.",
+        "Tick <strong>Do not compress images in file</strong> and set Default resolution to <strong>High fidelity</strong>.",
+        "Re-insert the original images, then save as PDF."
+      ]
+    },
+    {
+      "app": "Canva",
+      "steps": [
+        "Download as <strong>PDF Print</strong>, not PDF Standard.",
+        "Don't stretch a small photo to fill a large area."
+      ]
+    },
+    {
+      "app": "Adobe InDesign",
+      "steps": [
+        "Window → Links shows each image's Effective PPI. Aim for 300 or more.",
+        "When exporting, under Compression, don't downsample below 300."
+      ]
+    }
+  ],
+  "cta": {
+    "text": "Don't want to track down originals for every picture? SparkPrep finds each low-resolution image and sharpens it for print with its own upscaling, in minutes, keeping your colors print-ready.",
+    "button": "Fix my images",
+    "href": "/"
+  },
+  "faq": [
+    {
+      "q": "What DPI do I need for a printed book?",
+      "a": "300 DPI at the size the image is printed. Lower resolution prints soft or pixelated."
+    },
+    {
+      "q": "How many pixels for a 6x9 book cover?",
+      "a": "At 300 DPI, the front alone with bleed needs about 1838 by 2775 pixels. The full wrap is wider because it includes the back and spine."
+    }
+  ]
+}

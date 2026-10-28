@@ -1,0 +1,56 @@
+{
+  "slug": "export-print-ready-pdf-from-word",
+  "category": "interior",
+  "date": "2026-11-04",
+  "title": "How to Export a Print-Ready Book PDF From Microsoft Word (KDP & IngramSpark) | SparkPrep",
+  "h1": "How to export a print-ready book PDF from Microsoft Word",
+  "description": "A step-by-step checklist to turn your Word manuscript into a PDF that KDP and IngramSpark accept: page size, margins, fonts, images and the export settings that matter.",
+  "platforms": "Amazon KDP · IngramSpark · Barnes & Noble Press · Lulu",
+  "lead": "Most rejected interiors were made in Word. Word can make a good print file, if you change a few settings first.",
+  "error": "Interior file rejected (page size, margins, fonts or images)",
+  "errorNote": "Not one error, but the four most common ones a Word file runs into.",
+  "why": "<p>Word is built for letter-size office documents, not books. Out of the box it uses the wrong page size, its margins don't account for the spine, it can leave fonts out of the PDF and it shrinks pictures when saving. Each of those is its own rejection reason.</p>",
+  "diy": [
+    {
+      "app": "1. Page size",
+      "steps": [
+        "Layout → Size → More Paper Sizes → enter your trim size (for example 6\" x 9\"). Apply to: Whole document."
+      ]
+    },
+    {
+      "app": "2. Margins",
+      "steps": [
+        "Layout → Margins → Custom Margins → Multiple pages: Mirror margins.",
+        "Inside margin by page count (see our <a href=\"/guides/fix-kdp-margin-error/\">KDP margin guide</a>); at least 0.5\" on every side for IngramSpark."
+      ]
+    },
+    {
+      "app": "3. Pictures",
+      "steps": [
+        "File → Options → Advanced → Image Size and Quality → tick Do not compress images in file, Default resolution: High fidelity."
+      ]
+    },
+    {
+      "app": "4. Export",
+      "steps": [
+        "File → Save As → PDF → Options → tick PDF/A compliant so all fonts are embedded.",
+        "Open the PDF and check page size, page count and that nothing sits too close to the edges."
+      ]
+    }
+  ],
+  "cta": {
+    "text": "Rather skip the settings? Upload your Word-made PDF and SparkPrep fixes the page size, margins, fonts and images for your printer in minutes. Or write it in Interior Studio and it's print-ready from the start.",
+    "button": "Fix my Word PDF",
+    "href": "/"
+  },
+  "faq": [
+    {
+      "q": "Can I use Word to format a book for KDP?",
+      "a": "Yes. Set the paper size to your trim size, use mirror margins with the right inside margin, turn off image compression and save as a PDF/A compliant PDF."
+    },
+    {
+      "q": "Why is my Word PDF rejected?",
+      "a": "Usually the page size is still letter size, the margins are too small for the page count, fonts aren't embedded or images were compressed below 300 DPI."
+    }
+  ]
+}

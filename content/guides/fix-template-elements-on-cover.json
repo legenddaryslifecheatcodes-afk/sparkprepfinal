@@ -1,0 +1,52 @@
+{
+  "slug": "fix-template-elements-on-cover",
+  "category": "cover",
+  "date": "2026-10-31",
+  "title": "\"Cover Contains Template Elements\": How to Fix It (IngramSpark) | SparkPrep",
+  "h1": "How to fix \"cover contains template elements\"",
+  "description": "IngramSpark rejected your cover for template elements or wrong document size? Here's how to remove the template guides and export the cover at the right size.",
+  "platforms": "IngramSpark · Amazon KDP",
+  "lead": "You used the printer's template, which was the right move. The guides from it just came along into your final file.",
+  "error": "Cover contains template elements / document size incorrect",
+  "errorNote": "Paraphrased from IngramSpark rejection emails.",
+  "why": "<p>Cover templates have colored boxes, labels and lines that show the bleed, spine and barcode area. They're there to guide you, and they must be gone in the final file. If any are left, they would print on your book, so the cover is rejected.</p><p>The second half of the error, document size, happens when the template is cropped or resized while removing the guides. The final cover must stay the template's full size, bleed included.</p>",
+  "diy": [
+    {
+      "app": "Adobe InDesign or Photoshop",
+      "steps": [
+        "Put the template on its own layer, under your art.",
+        "Before exporting, hide or delete that layer.",
+        "Don't crop: keep the document at the template's full size."
+      ]
+    },
+    {
+      "app": "Canva or other tools",
+      "steps": [
+        "If you placed the template as a picture, delete it before downloading.",
+        "Download as PDF Print at the full cover size."
+      ]
+    },
+    {
+      "app": "Check it",
+      "steps": [
+        "Open the PDF and zoom in on the spine and barcode area: no colored guides, labels or dotted lines should show.",
+        "File → Properties: the size should match the template's full size."
+      ]
+    }
+  ],
+  "cta": {
+    "text": "Not sure you caught every leftover guide? Upload your cover. SparkPrep spots template marks and size problems in minutes, before IngramSpark rejects them.",
+    "button": "Check my cover for template marks",
+    "href": "/"
+  },
+  "faq": [
+    {
+      "q": "What are template elements?",
+      "a": "The colored guide boxes, labels and lines in a printer's cover template that show bleed, spine and barcode areas. They must be removed before you export."
+    },
+    {
+      "q": "What size should my final cover be?",
+      "a": "The template's full size, bleed included. Don't crop away the bleed when you remove the guides."
+    }
+  ]
+}

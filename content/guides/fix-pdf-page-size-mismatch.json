@@ -1,0 +1,53 @@
+{
+  "slug": "fix-pdf-page-size-mismatch",
+  "category": "interior",
+  "date": "2026-10-28",
+  "title": "PDF Page Size Doesn't Match Trim Size: How to Fix It | SparkPrep",
+  "h1": "How to fix a PDF page size that doesn't match your trim size",
+  "description": "Your book was rejected because the PDF page size doesn't match the trim size you picked. Here's how to set the right size in Word, Google Docs and InDesign, with or without bleed.",
+  "platforms": "Amazon KDP · IngramSpark · Barnes & Noble Press · Lulu",
+  "lead": "Every printer checks that your PDF pages are exactly the size of the book you ordered. Off by a fraction of an inch is still a rejection.",
+  "error": "Interior page size does not match the trim size selected",
+  "errorNote": "Paraphrased. KDP, IngramSpark, Barnes & Noble Press and Lulu each word this differently.",
+  "why": "<p>When you set up your book you choose a trim size, like 5.5\" x 8.5\" or 6\" x 9\". Your interior PDF has to be that exact size. Word and Google Docs start at letter size (8.5\" x 11\"), so a book typed there and saved as PDF is the wrong size unless you change it.</p><p>If your interior has pictures that run to the edge (bleed), KDP wants the page 0.125\" wider and 0.25\" taller than the trim size. Without bleed, the page is exactly the trim size.</p>",
+  "diy": [
+    {
+      "app": "Microsoft Word",
+      "steps": [
+        "Layout → Size → More Paper Sizes.",
+        "Enter your trim width and height (add 0.125\" to the width and 0.25\" to the height only if your book has bleed).",
+        "Set Apply to: Whole document.",
+        "Re-check page breaks, then File → Save As → PDF."
+      ]
+    },
+    {
+      "app": "Google Docs",
+      "steps": [
+        "File → Page setup → Paper size → Custom, and enter your trim size.",
+        "File → Download → PDF document."
+      ]
+    },
+    {
+      "app": "Adobe InDesign",
+      "steps": [
+        "File → Document Setup: set the page size to your trim size.",
+        "Export with File → Export → Adobe PDF (Print)."
+      ]
+    }
+  ],
+  "cta": {
+    "text": "Don't want to reformat your whole book to a new page size? SparkPrep resizes every page to your exact trim size and re-centers the content in minutes.",
+    "button": "Fix my page size",
+    "href": "/"
+  },
+  "faq": [
+    {
+      "q": "What size should my interior PDF be?",
+      "a": "Exactly your trim size, such as 6 by 9 inches. If your interior has bleed, KDP wants it 0.125 inch wider and 0.25 inch taller."
+    },
+    {
+      "q": "Why is my Word PDF the wrong size?",
+      "a": "Word starts every document at letter size (8.5 by 11 inches). Change the paper size to your trim size before saving as PDF."
+    }
+  ]
+}

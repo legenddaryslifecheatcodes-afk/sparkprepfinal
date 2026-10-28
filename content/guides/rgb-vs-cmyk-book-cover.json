@@ -1,0 +1,52 @@
+{
+  "slug": "rgb-vs-cmyk-book-cover",
+  "category": "color",
+  "date": "2026-10-30",
+  "title": "RGB vs CMYK for Book Covers: Which Do KDP and IngramSpark Want? | SparkPrep",
+  "h1": "RGB vs CMYK for book covers: what printers want and how to convert",
+  "description": "Should your book cover be RGB or CMYK? Learn the difference, why colors shift in print, and how to convert your cover to CMYK in Canva, Photoshop or Acrobat before you upload.",
+  "platforms": "Amazon KDP · IngramSpark · Barnes & Noble Press · Lulu",
+  "lead": "Bright colors that pop on your screen can print dull or muddy. RGB vs CMYK is why.",
+  "error": "Cover contains RGB color / colors may shift when printed",
+  "errorNote": "Paraphrased. Some printers reject RGB, others convert it for you and warn that colors may change.",
+  "why": "<p>Screens make color with light (RGB: red, green, blue). Printers make color with ink (CMYK: cyan, magenta, yellow, black). Ink can't reach some of the brightest screen colors, especially neon greens, electric blues and hot pinks.</p><p>If you upload RGB, the printer converts it for you, and you don't control how. Colors can shift and dark areas can go over the ink limit. Converting to CMYK yourself lets you see the real printed colors and fix them before you pay for a proof.</p>",
+  "diy": [
+    {
+      "app": "Canva",
+      "steps": [
+        "Download → PDF Print.",
+        "Under Color profile, choose <strong>CMYK</strong> (needs Canva Pro).",
+        "Look at the preview for colors that dulled, and adjust them."
+      ]
+    },
+    {
+      "app": "Adobe Photoshop",
+      "steps": [
+        "Edit → Convert to Profile → choose a CMYK profile such as US Web Coated (SWOP) v2.",
+        "Check bright colors with View → Gamut Warning and tone them down."
+      ]
+    },
+    {
+      "app": "Adobe Acrobat Pro",
+      "steps": [
+        "Tools → Print Production → Convert Colors.",
+        "Convert to a CMYK profile, then check the result in Output Preview."
+      ]
+    }
+  ],
+  "cta": {
+    "text": "Don't want to guess how your colors will print? SparkPrep converts your cover to print-ready CMYK, keeps the ink under your printer's limit, and shows you what will change, in minutes.",
+    "button": "Convert my cover to CMYK",
+    "href": "/"
+  },
+  "faq": [
+    {
+      "q": "Does KDP need CMYK?",
+      "a": "KDP accepts RGB covers and converts them itself, but colors can shift. Converting to CMYK first lets you see and control the printed colors."
+    },
+    {
+      "q": "Why does my cover look duller in CMYK?",
+      "a": "Ink can't reproduce some bright screen colors. CMYK shows you the real printed color, so you can adjust it before printing."
+    }
+  ]
+}

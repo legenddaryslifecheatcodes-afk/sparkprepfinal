@@ -1,0 +1,53 @@
+{
+  "slug": "fix-rgb-in-black-and-white-interior",
+  "category": "color",
+  "date": "2026-10-29",
+  "title": "\"RGB / Color Content Found in a Black & White Interior\": How to Fix | SparkPrep",
+  "h1": "How to fix \"RGB or color content found in a black and white interior\"",
+  "description": "Your black and white book was rejected for containing color? Here's why black text can secretly be color, and how to convert your whole interior to grayscale in Word, InDesign or Acrobat.",
+  "platforms": "IngramSpark · Amazon KDP",
+  "lead": "Your pages look black and white on screen, yet the printer says there's color in them. Here's why, and the quick way out.",
+  "error": "RGB / color content found in a black & white interior",
+  "errorNote": "Paraphrased from IngramSpark rejection emails.",
+  "why": "<p>A black and white book is printed with black ink only. But most programs save \"black\" text as RGB, which is a screen color made of red, green and blue light. When the printer converts it, that black turns into a mix of several inks. A colored logo, a blue link or a color photo does the same.</p><p>Printers reject it because colored ink can't go on a black-only press, and because mixed black can push total ink over the limit.</p>",
+  "diy": [
+    {
+      "app": "Adobe Acrobat Pro (fastest)",
+      "steps": [
+        "Tools → Print Production → Convert Colors.",
+        "Set Conversion Profile to a grayscale profile (for example Dot Gain 15% or Gray Gamma 2.2).",
+        "Tick Convert Colors to Output Intent if shown, then OK, and save as a new PDF."
+      ]
+    },
+    {
+      "app": "Adobe InDesign",
+      "steps": [
+        "Make text swatches 100% Black (C0 M0 Y0 K100).",
+        "File → Export → Adobe PDF (Print) → Output: Color Conversion: Convert to Destination, Destination: a Gray profile."
+      ]
+    },
+    {
+      "app": "Microsoft Word",
+      "steps": [
+        "Set all text to Automatic or pure black.",
+        "Change pictures to grayscale: select the picture → Picture Format → Color → Grayscale.",
+        "Then convert the saved PDF to grayscale in Acrobat, since Word can't export a grayscale PDF on its own."
+      ]
+    }
+  ],
+  "cta": {
+    "text": "Don't want to hunt down every hidden color? SparkPrep converts your whole interior to pure black ink in minutes, so text stays crisp and the file passes.",
+    "button": "Make my interior black and white",
+    "href": "/"
+  },
+  "faq": [
+    {
+      "q": "Why does my black text count as color?",
+      "a": "Most programs save black as RGB, a screen color. When it's printed it becomes a mix of several inks, so the printer sees color in a black and white book."
+    },
+    {
+      "q": "How do I convert a PDF to grayscale?",
+      "a": "In Adobe Acrobat Pro, open Print Production, Convert Colors, and choose a grayscale profile such as Dot Gain 15 percent."
+    }
+  ]
+}

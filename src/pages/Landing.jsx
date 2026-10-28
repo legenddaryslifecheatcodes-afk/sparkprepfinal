@@ -185,6 +185,7 @@ export default function Landing() {
       <footer className="border-t border-neutral-900 py-8 text-xs text-neutral-600 font-mono-spec tracking-widest uppercase text-center">
         <nav aria-label="Free tools" className="mb-4 flex flex-wrap justify-center gap-x-6 gap-y-2 normal-case tracking-normal text-neutral-400">
           <a href="/tools/" className="hover:text-white">Free tools</a>
+          <a href="/guides/" className="hover:text-white">Guides</a>
           <a href="/kdp-cover-calculator/" className="hover:text-white">KDP cover calculator</a>
           <a href="/book-spine-width-calculator/" className="hover:text-white">Spine width calculator</a>
           <a href="/book-cover-dimensions/" className="hover:text-white">Book cover dimensions</a>

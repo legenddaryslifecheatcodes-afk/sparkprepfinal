@@ -44,6 +44,15 @@
   <h3>Color</h3>
   <ol><li>Keep total ink under 240% so the same files also pass IngramSpark.</li></ol>
 
+  <h2>What it costs to get this fixed</h2>
+  <div class="table-wrap"><table>
+    <tr><th></th><th>Hire a professional cover designer and interior formatter</th><th>SparkPrep</th></tr>
+    <tr><td>Price</td><td>About <strong>$930</strong> for the cover plus about <strong>$800</strong> for the inside pages: around <strong>$1,730</strong></td><td><strong class="sp-book-price">One price per book</strong> for the cover, the inside pages, or both</td></tr>
+    <tr><td>Time</td><td>Book a freelancer, wait for their schedule, then go back and forth on changes</td><td>Upload and get your fixed, print-ready files <strong>in minutes</strong></td></tr>
+    <tr><td>Printer check</td><td>Depends on the freelancer</td><td>Checked against your printer's own rules, every time</td></tr>
+  </table></div>
+  <p class="note">Freelancer prices are Reedsy's own published figures (<a href="https://reedsy.com/blog/guide/how-to-self-publish-a-book/cost-to-self-publish/" rel="nofollow noopener">source</a>). A great designer is worth it for original artwork. If you just need your files right for the printer, you don't need to pay designer prices.<span class="sp-times" data-pro="1730"></span></p>
+
   <section class="cta">
     <h2>4. The automated fix</h2>
     <p><strong>Printing in more than one place? Pick your printer and SparkPrep checks your files against that printer's own rules, then makes a version each one accepts, in minutes.</strong></p>
@@ -59,11 +68,18 @@
   <h2>More guides</h2>
   <ul class="links">
     <li><a href="/guides/fix-font-not-embedded/">How to fix the &quot;font not embedded&quot; error in your book PDF</a></li>
+    <li><a href="/guides/sparkprep-vs-hiring-a-freelancer/">Should you hire a freelancer to format your book? Cost, speed and risk compared</a></li>
     <li><a href="/guides/fix-cover-bleed-error/">How to fix the &quot;insufficient or no bleed&quot; cover error</a></li>
     <li><a href="/guides/fix-ink-coverage-240/">How to fix &quot;ink coverage exceeds 240%&quot; (IngramSpark)</a></li>
-    <li><a href="/guides/fix-ingramspark-interior-safety-area/">How to fix &quot;interior content extends outside the safety area&quot;</a></li>
     <li><a href="/guides/">All guides</a></li>
   </ul>
+<script>
+(function(){fetch("https://sparkprep-v9fp.onrender.com/api/pricing").then(function(r){return r.json()}).then(function(p){
+var c=p&&p.book&&p.book.price_cents;if(!c)return;var d="$"+(c/100).toFixed(2);
+document.querySelectorAll(".sp-book-price").forEach(function(e){e.textContent=d+" per book";});
+document.querySelectorAll(".sp-times").forEach(function(e){var x=Math.floor(Number(e.dataset.pro)/(c/100));if(x>=2)e.textContent=" That's about "+x+" times what SparkPrep costs.";});
+}).catch(function(){});})();
+</script>
 
   <p class="note">SparkPrep is an independent tool and is not affiliated with Amazon KDP, IngramSpark, Barnes &amp; Noble Press or Lulu.</p>
 </main>

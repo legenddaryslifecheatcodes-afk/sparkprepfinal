@@ -1,0 +1,26 @@
+{
+  "slug": "sparkprep-vs-vellum-atticus",
+  "category": "compare",
+  "date": "2026-10-28",
+  "title": "SparkPrep vs Vellum vs Atticus: Price, Covers and Print Checks | SparkPrep",
+  "h1": "SparkPrep vs Vellum vs Atticus: which one gets your book printed?",
+  "description": "Vellum costs $249.99 for print and runs only on Mac. Atticus costs $147. Compare what each does for your cover, your interior and printer rejections, side by side.",
+  "platforms": "Book formatting software compared",
+  "lead": "Vellum and Atticus are popular formatting apps, and both make good-looking interiors. Here's what each one covers, and what's left for you to do.",
+  "body": "\n  <h2>Side by side</h2>\n  <div class=\"table-wrap\"><table>\n    <tr><th></th><th>Vellum</th><th>Atticus</th><th>SparkPrep</th></tr>\n    <tr><td>Price</td><td>$199.99 ebook only, <strong>$249.99</strong> with paperback</td><td><strong>$147</strong></td><td>Designing is <strong>free</strong>; <span class=\"sp-book-price\">one price per book</span> for the print-ready files</td></tr>\n    <tr><td>Runs on</td><td>Mac only</td><td>Windows, Mac, Linux, Chromebook, browser</td><td>Any browser, any computer</td></tr>\n    <tr><td>Interior formatting</td><td>Yes</td><td>Yes</td><td>Yes (Interior Studio, Word import)</td></tr>\n    <tr><td>Full cover design (front, spine, back)</td><td>No</td><td>No</td><td>Yes (Cover Studio, sized to your printer)</td></tr>\n    <tr><td>Checks your files against KDP / IngramSpark rules and fixes them</td><td>Not what it's built for</td><td>Not what it's built for</td><td>Yes: bleed, margins, spine, ink, fonts, DPI</td></tr>\n    <tr><td>Fix a book made somewhere else</td><td>No, you rebuild it inside the app</td><td>No, you rebuild it inside the app</td><td>Yes, upload your existing PDF</td></tr>\n  </table></div>\n  <p class=\"note\">Vellum and Atticus prices and platforms from <a href=\"https://kindlepreneur.com/atticus-vs-vellum/\" rel=\"nofollow noopener\">Kindlepreneur's comparison</a>, updated September 2026. Check each vendor for current prices.</p>\n\n  <h2>What that means for you</h2>\n  <p>With Vellum or Atticus you still need a cover from somewhere, and you still find out about printer problems when the rejection arrives. Vellum also needs a Mac.</p>\n  <p>SparkPrep covers the whole path: design the cover and pages for free, then check and fix both against your printer's own rules in minutes. Already formatted in Vellum or Atticus? Upload that PDF to SparkPrep for the printer check.</p>\n",
+  "cta": {
+    "text": "Don't buy software, learn it, and still risk a rejection. Design free in SparkPrep and get a cover and interior your printer accepts, in minutes.",
+    "button": "Try SparkPrep free",
+    "href": "/"
+  },
+  "faq": [
+    {
+      "q": "How much does Vellum cost?",
+      "a": "Vellum costs $199.99 for ebooks only and $249.99 with paperback formatting, and it runs only on Mac."
+    },
+    {
+      "q": "Does Atticus or Vellum make book covers?",
+      "a": "No. Both format the inside of your book. You need a separate tool or designer for the full wrap cover. SparkPrep's Cover Studio designs the front, spine and back sized to your printer."
+    }
+  ]
+}

@@ -14,14 +14,52 @@ export const CATEGORIES = [
   { key: "interior", name: "Interior Formatting", blurb: "Page size, margins and gutters, safety areas and fonts." },
   { key: "color", name: "Color & Resolution", blurb: "300 DPI images, CMYK vs RGB and ink limits." },
   { key: "platform", name: "Platform Specifics", blurb: "KDP, IngramSpark, Barnes & Noble Press and Lulu rules, translated." },
+  { key: "compare", name: "Compare Your Options", blurb: "SparkPrep vs freelancers, Reedsy and formatting software: real prices and real time." },
 ];
+
+// Freelancer prices, from Reedsy's own published data (checked 2026-10-28). Update the date when re-checked.
+const REEDSY = {
+  cover: 930, // median professional cover design: reedsy.com/blog/guide/how-to-self-publish-a-book/cost-to-self-publish/
+  interior: 800, // average professional interior design / typesetting, same page
+  source: "https://reedsy.com/blog/guide/how-to-self-publish-a-book/cost-to-self-publish/",
+};
+// What a guide's problem would cost to hand to a freelancer: the cover, the inside pages, or both.
+const JOB = { cover: "cover", interior: "interior", color: "both", platform: "both", compare: "both" };
+
+function costBox(g) {
+  const job = g.job || JOB[g.category];
+  const pro = job === "cover" ? REEDSY.cover : job === "interior" ? REEDSY.interior : REEDSY.cover + REEDSY.interior;
+  const what = job === "cover" ? "a professional cover designer" : job === "interior" ? "a professional interior formatter"
+    : "a professional cover designer and interior formatter";
+  const proLine = job === "both"
+    ? `About <strong>$${REEDSY.cover}</strong> for the cover plus about <strong>$${REEDSY.interior}</strong> for the inside pages: around <strong>$${pro.toLocaleString("en-US")}</strong>`
+    : `About <strong>$${pro}</strong>`;
+  // The SparkPrep price is read live from /api/pricing (the price the checkout charges), never written into the page.
+  return `
+  <h2>${g.category === "compare" ? "The bottom line: price and time" : "What it costs to get this fixed"}</h2>
+  <div class="table-wrap"><table>
+    <tr><th></th><th>Hire ${what}</th><th>SparkPrep</th></tr>
+    <tr><td>Price</td><td>${proLine}</td><td><strong class="sp-book-price">One price per book</strong> for the cover, the inside pages, or both</td></tr>
+    <tr><td>Time</td><td>Book a freelancer, wait for their schedule, then go back and forth on changes</td><td>Upload and get your fixed, print-ready files <strong>in minutes</strong></td></tr>
+    <tr><td>Printer check</td><td>Depends on the freelancer</td><td>Checked against your printer's own rules, every time</td></tr>
+  </table></div>
+  <p class="note">Freelancer prices are Reedsy's own published figures (<a href="${REEDSY.source}" rel="nofollow noopener">source</a>). A great designer is worth it for original artwork. If you just need your files right for the printer, you don't need to pay designer prices.<span class="sp-times" data-pro="${pro}"></span></p>`;
+}
+
+const PRICE_SCRIPT = `<script>
+(function(){fetch("https://sparkprep-v9fp.onrender.com/api/pricing").then(function(r){return r.json()}).then(function(p){
+var c=p&&p.book&&p.book.price_cents;if(!c)return;var d="$"+(c/100).toFixed(2);
+document.querySelectorAll(".sp-book-price").forEach(function(e){e.textContent=d+" per book";});
+document.querySelectorAll(".sp-times").forEach(function(e){var x=Math.floor(Number(e.dataset.pro)/(c/100));if(x>=2)e.textContent=" That's about "+x+" times what SparkPrep costs.";});
+}).catch(function(){});})();
+</script>`;
 
 const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const strip = (html) => html.replace(/<[^>]+>/g, "").replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&lt;/g, "<").replace(/&gt;/g, ">");
 const ld = (obj) => `<script type="application/ld+json">${JSON.stringify(obj).replace(/</g, "\\u003c")}</script>`;
 const prettyDate = (d) => new Date(`${d}T12:00:00Z`).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" });
 
-const REQUIRED = ["slug", "category", "title", "h1", "description", "date", "error", "why", "diy", "cta"];
+const REQUIRED = ["slug", "category", "title", "h1", "description", "date", "cta"];
 
 function load() {
   const dir = new URL("content/guides/", ROOT);
@@ -31,6 +69,7 @@ function load() {
     if (`${g.slug}.json` !== f) throw new Error(`${f}: slug must match the file name`);
     if (!CATEGORIES.some((c) => c.key === g.category)) throw new Error(`${f}: unknown category "${g.category}"`);
     if (!/^\d{4}-\d{2}-\d{2}$/.test(g.date)) throw new Error(`${f}: date must be YYYY-MM-DD`);
+    if (!g.body) for (const k of ["error", "why", "diy"]) if (!g[k]) throw new Error(`${f}: missing "${k}" (or give a "body")`);
     return g;
   });
   return guides.filter((g) => g.date <= TODAY).sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : a.title.localeCompare(b.title)));
@@ -106,7 +145,7 @@ function article(g, all) {
   };
   const related = all.filter((o) => o.slug !== g.slug && o.category === g.category).slice(0, 4);
   const more = related.length ? related : all.filter((o) => o.slug !== g.slug).slice(0, 4);
-  const diy = g.diy.map((d) => `
+  const diy = (g.diy || []).map((d) => `
   <h3>${esc(d.app)}</h3>
   <ol>${d.steps.map((s) => `<li>${s}</li>`).join("")}</ol>`).join("");
   return `${head({ title: g.title, description: g.description, url, type: "article", extra: ld(schema) })}
@@ -115,7 +154,7 @@ function article(g, all) {
   <p class="note">Updated ${prettyDate(g.updated || g.date)} · ${esc(g.platforms || "")}</p>
   <p class="lead">${g.lead || ""}</p>
 
-  <h2>1. The error</h2>
+${g.body ? g.body : `  <h2>1. The error</h2>
   <blockquote>${esc(g.error)}</blockquote>
   ${g.errorNote ? `<p class="note">${g.errorNote}</p>` : ""}
 
@@ -123,10 +162,11 @@ function article(g, all) {
   ${g.why}
 
   <h2>3. The do-it-yourself fix</h2>
-  ${g.diyIntro || ""}${diy}
+  ${g.diyIntro || ""}${diy}`}
+${costBox(g)}
 
   <section class="cta">
-    <h2>4. The automated fix</h2>
+    <h2>${g.body ? "Get it done in minutes" : "4. The automated fix"}</h2>
     <p><strong>${g.cta.text}</strong></p>
     <a class="btn" href="${g.cta.href || "/"}">${esc(g.cta.button)}</a>
   </section>
@@ -139,6 +179,7 @@ ${faq.map((f) => `  <h3>${esc(f.q)}</h3>\n  <p>${f.a}</p>`).join("\n")}
 ${more.map((o) => `    <li><a href="/guides/${o.slug}/">${esc(o.h1)}</a></li>`).join("\n")}
     <li><a href="/guides/">All guides</a></li>
   </ul>
+${PRICE_SCRIPT}
 ${FOOT}`;
 }
 

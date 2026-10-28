@@ -28,21 +28,39 @@
   <p class="note">Updated October 28, 2026 · Amazon KDP · IngramSpark · Barnes &amp; Noble Press · Lulu</p>
   <p class="lead">An unembedded font is a font your PDF names but doesn't carry inside it. The printer's computer doesn't have it, so the file is rejected.</p>
 
-  <h2>1. The error</h2>
   <blockquote>Font not embedded</blockquote>
   <p class="note">Often listed with the font's name, such as "Font Garamond not embedded".</p>
+  <div class="card"><p style="margin:0"><strong>Quick fix:</strong> SparkPrep scans your cover and interior against the exact platform rules, pinpoints the issue, and fixes it for you with one click.</p>
+    <p style="margin:10px 0 0">👉 <a href="/">Fix your file instantly at sparkprep.legenddary.com</a></p></div>
 
-  <h2>2. Why the printer rejected it</h2>
+  <h2>Why did your file get rejected?</h2>
   <p>A PDF can either carry its fonts inside it (embedded) or just name them and hope the next computer has them. Printers require every font to be embedded, even common ones like Arial or Times, so your book prints exactly as designed.</p><p>If a font isn't embedded, the printer's system would swap in a different font. Words move, lines break in new places, and pages can shift, so they reject the file instead.</p>
 
-  <h2>3. The do-it-yourself fix</h2>
-  
-  <h3>Microsoft Word</h3>
+  <h2>How to fix it manually (the hard way)</h2>
+  <p>If you want to try adjusting the files yourself, here are the steps you need to follow:</p>
+  <ol><li>Open your original manuscript or cover file.</li><li>In Word, go to File → Options → Save and tick "Embed fonts in the file" (and untick "Do not embed common system fonts").</li><li>Swap any font whose license doesn't allow embedding for one that does.</li><li>Re-export as PDF/X-1a:2001, then check in Acrobat (File → Properties → Fonts) that every font says "Embedded" or "Embedded Subset".</li><li>Re-upload it to your printer and wait for the file review again. If it fails, you start over.</li></ol>
+  <h3 style="margin-top:28px">Step by step in your app</h3>
+  <h4>Microsoft Word</h4>
   <ol><li>File → Save As → choose PDF.</li><li>Click Options and tick <strong>PDF/A compliant</strong> ("ISO 19005-1 compliant"). This forces Word to embed every font.</li><li>Save, then check the fonts in Acrobat (below).</li></ol>
-  <h3>Adobe InDesign</h3>
+  <h4>Adobe InDesign</h4>
   <ol><li>File → Export → Adobe PDF (Print).</li><li>Choose the preset <strong>PDF/X-1a:2001</strong>. It embeds all fonts.</li><li>Export.</li></ol>
-  <h3>Adobe Acrobat Pro</h3>
+  <h4>Adobe Acrobat Pro</h4>
   <ol><li>To check: File → Properties → Fonts tab. Every font should say "(Embedded)" or "(Embedded Subset)".</li><li>To fix: Tools → Print Production → Preflight, search for <strong>Embed missing fonts</strong> and run the fixup.</li><li>If a font can't be embedded, its license doesn't allow it. Switch to a font that does.</li></ol>
+
+  <section class="cta">
+    <h2>How to fix it instantly (the SparkPrep way)</h2>
+    <p>If you don't have expensive design software, or you just want to get your book published without the headache, let SparkPrep handle it.</p>
+    <p>SparkPrep was built by a self-published author whose own book was rejected 18 times. It checks your files against the exact print rules Amazon KDP, IngramSpark, Barnes &amp; Noble Press and Lulu publish.</p>
+    <p>When you upload your file to SparkPrep:</p>
+    <ul>
+      <li>We automatically scan for page size, bleed, spine width, safety margins, ink coverage and embedded fonts.</li>
+      <li>We explain any hidden errors in plain English.</li>
+      <li>We fix what can be fixed automatically, tell you exactly what's left, and export a print-ready PDF/X-1a, checked again before you download it.</li>
+    </ul>
+    
+    <p><strong>Stop fighting the bots. Drop your file into SparkPrep today and get back to marketing your book!</strong></p>
+    <a class="btn" href="/">Fix my fonts</a>
+  </section>
 
   <h2>What it costs to get this fixed</h2>
   <div class="table-wrap"><table>
@@ -52,13 +70,6 @@
     <tr><td>Printer check</td><td>Depends on the freelancer</td><td>Checked against your printer's own rules, every time</td></tr>
   </table></div>
   <p class="note">Freelancer prices are Reedsy's own published figures (<a href="https://reedsy.com/blog/guide/how-to-self-publish-a-book/cost-to-self-publish/" rel="nofollow noopener">source</a>). A great designer is worth it for original artwork. If you just need your files right for the printer, you don't need to pay designer prices.<span class="sp-times" data-pro="800"></span></p>
-
-  <section class="cta">
-    <h2>4. The automated fix</h2>
-    <p><strong>Don't want to hunt font by font? SparkPrep finds every unembedded font in your PDF and exports a print-ready PDF/X-1a with all fonts embedded, in minutes.</strong></p>
-    <a class="btn" href="/">Fix my fonts</a>
-  </section>
-
   <h2>Quick answers</h2>
   <h3>How do I check if fonts are embedded in a PDF?</h3>
   <p>Open it in Adobe Acrobat and go to File, Properties, Fonts. Each font should show Embedded or Embedded Subset.</p>
@@ -67,6 +78,7 @@
 
   <h2>More guides</h2>
   <ul class="links">
+    <li><a href="/guides/fix-font-licensing-error/">How to fix &quot;font cannot be embedded because of licensing restrictions&quot;</a></li>
     <li><a href="/guides/fix-ingramspark-interior-safety-area/">How to fix &quot;interior content extends outside the safety area&quot;</a></li>
     <li><a href="/guides/fix-kdp-margin-error/">How to fix a KDP margin error (with the gutter table)</a></li>
     <li><a href="/guides/fix-pdf-page-size-mismatch/">How to fix a PDF page size that doesn't match your trim size</a></li>

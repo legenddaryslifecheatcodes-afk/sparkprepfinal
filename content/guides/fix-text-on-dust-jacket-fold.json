@@ -1,0 +1,38 @@
+{
+  "slug": "fix-text-on-dust-jacket-fold",
+  "category": "cover",
+  "job": "cover",
+  "title": "\"Jacket Layout Not Built to the Correct Specifications\": How to Fix It (IngramSpark) | SparkPrep",
+  "h1": "How to fix \"jacket layout not built to the correct specifications\"",
+  "description": "Your hardcover dust jacket was rejected. Learn the jacket layout IngramSpark expects, why text on a flap fold fails, and how to fix it.",
+  "platforms": "IngramSpark · Lulu · Barnes & Noble Press",
+  "lead": "A dust jacket isn't a paperback cover with a hard back. It has flaps and folds, and every piece has its own exact spot.",
+  "error": "JACKET LAYOUT NOT BUILT TO THE CORRECT SPECIFICATIONS",
+  "errorNote": "Wording from IngramSpark rejection emails.",
+  "why": "<p>A dust jacket, laid flat, is: bleed, back flap, fold, back cover, spine, front cover, fold, front flap, bleed. At IngramSpark the flaps are 3.25\" wide and the folds 0.25\", and each printer's template sets the exact sizes for your book.</p><p>Jackets are rejected when the file is built like a paperback cover (no flaps), when the sizes don't match the template, or when text runs over a fold, where it would wrap around the edge or sit in the crease.</p>",
+  "manual": [
+    "Download your printer's own dust jacket template for your exact trim size and page count.",
+    "Open your jacket file and set it to the template's full size.",
+    "Line up each panel with the template: flaps, folds, back, spine and front. Move any text off the folds and away from the edges.",
+    "Hide the template layer and re-export as PDF/X-1a:2001.",
+    "Re-upload it to your printer and wait for the file review again. If it fails, you start over."
+  ],
+  "cta": {
+    "text": "SparkPrep builds dust jacket sizes from your printer's own template numbers and flags any text sitting on a fold, before you upload.",
+    "button": "Check my dust jacket",
+    "href": "/"
+  },
+  "faq": [
+    {
+      "q": "How wide are dust jacket flaps at IngramSpark?",
+      "a": "IngramSpark's jacket layout uses 3.25\" flaps with 0.25\" folds. Always build from the template for your exact trim size and page count."
+    },
+    {
+      "q": "Does a hardcover with a dust jacket need more than one cover file?",
+      "a": "At IngramSpark, a jacketed hardcover needs a case cover file, a jacket file and the interior."
+    }
+  ],
+  "date": "2026-10-28",
+  "diy": [],
+  "quickfix": "SparkPrep checks your jacket against the printer's exact layout and flags any text sitting on a fold, before you upload."
+}

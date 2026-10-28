@@ -48,5 +48,12 @@
       "q": "How many pages do I need for spine text?",
       "a": "KDP prints spine text only on books with more than 79 pages. IngramSpark needs at least 48 pages on paperbacks."
     }
+  ],
+  "manual": [
+    "Open your original cover file.",
+    "Get the exact spine width from your printer's own cover calculator, using your <strong>final</strong> page count and paper (cream paper is thicker than white).",
+    "Change the document width to 0.125\" + back cover + spine + front cover + 0.125\", and move the spine art and text so they sit centered on the new spine.",
+    "Make the spine text smaller so it has empty space on both sides of each fold, then re-export as PDF/X-1a:2001.",
+    "Re-upload it to your printer and wait for the file review again. If it fails, you start over."
   ]
 }

@@ -50,5 +50,12 @@
       "q": "Do standard fonts like Arial need to be embedded?",
       "a": "Yes. Printers need every font embedded, including Arial, Times and Helvetica, which many programs skip by default."
     }
+  ],
+  "manual": [
+    "Open your original manuscript or cover file.",
+    "In Word, go to File → Options → Save and tick \"Embed fonts in the file\" (and untick \"Do not embed common system fonts\").",
+    "Swap any font whose license doesn't allow embedding for one that does.",
+    "Re-export as PDF/X-1a:2001, then check in Acrobat (File → Properties → Fonts) that every font says \"Embedded\" or \"Embedded Subset\".",
+    "Re-upload it to your printer and wait for the file review again. If it fails, you start over."
   ]
 }

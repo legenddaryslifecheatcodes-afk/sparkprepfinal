@@ -46,5 +46,13 @@
       "q": "Can I use the same ISBN for paperback and hardcover?",
       "a": "No. Each print format needs its own ISBN, and the barcode on each cover must match that format's ISBN."
     }
-  ]
+  ],
+  "manual": [
+    "Open your original cover file and go to the back cover.",
+    "Find the barcode box: <strong>KDP</strong> uses 2\" wide x 1.2\" tall in the lower right; <strong>IngramSpark</strong> asks for 1.75\" wide x 1\" tall.",
+    "Move any text, logos or pictures out of that box so only plain background is left there.",
+    "Check the ISBN printed on the cover is the same ISBN you entered for this exact edition, then re-export as PDF/X-1a:2001.",
+    "Re-upload it to your printer and wait for the file review again. If it fails, you start over."
+  ],
+  "spNote": "If the ISBN on your cover doesn't match your book, SparkPrep shows you exactly where, but only you can confirm the right ISBN. Swap it in, re-scan, and you're done."
 }

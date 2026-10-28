@@ -1,0 +1,37 @@
+{
+  "slug": "fix-transparency-and-layers-in-pdf",
+  "category": "color",
+  "job": "both",
+  "title": "PDF Has Transparency or Layers: How to Flatten It for Print (IngramSpark & KDP) | SparkPrep",
+  "h1": "How to fix \"PDF contains transparency or layers\"",
+  "description": "Your print PDF has live transparency or layers, so it was rejected or may print wrong. What that means and how to flatten it for IngramSpark and KDP.",
+  "platforms": "IngramSpark · Amazon KDP · Barnes & Noble Press · Lulu",
+  "lead": "Shadows, see-through effects and layers look fine on screen. In print, they can turn into white boxes or missing art.",
+  "error": "The PDF contains live transparency or layers that must be flattened",
+  "errorNote": "Paraphrased. Each printer words this a little differently.",
+  "why": "<p>Drop shadows, glows, faded images and see-through shapes are all <strong>transparency</strong>. Design programs also keep your art in <strong>layers</strong>. Printing systems can handle these unevenly, so a shadow can print as a box or a layer can go missing.</p><p>The PDF/X-1a print standard, which IngramSpark asks for, doesn't allow live transparency, so everything must be <strong>flattened</strong> into one finished image. KDP recommends flattening too.</p>",
+  "manual": [
+    "Open your original file (InDesign, Illustrator, Photoshop or Canva).",
+    "Flatten it: in Photoshop use Layer → Flatten Image; in InDesign or Illustrator use Object → Flatten Transparency (High Resolution).",
+    "Check shadows, glows and faded areas still look right after flattening.",
+    "Re-export as PDF/X-1a:2001, which also removes layers.",
+    "Re-upload it to your printer and wait for the file review again. If it fails, you start over."
+  ],
+  "cta": {
+    "text": "SparkPrep spots live transparency and layers on every page, flattens them for you, and exports a PDF/X-1a your printer accepts.",
+    "button": "Flatten my file",
+    "href": "/"
+  },
+  "faq": [
+    {
+      "q": "What does flattening a PDF mean?",
+      "a": "It merges all layers and see-through effects into one finished image per page, so it prints exactly as it looks."
+    },
+    {
+      "q": "Does Canva flatten transparency?",
+      "a": "When you download as PDF Print, tick the \"Flatten PDF\" box. Then check the PDF before uploading, especially pages with shadows or faded images."
+    }
+  ],
+  "date": "2026-10-28",
+  "diy": []
+}

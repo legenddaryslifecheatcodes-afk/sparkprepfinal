@@ -1,0 +1,37 @@
+{
+  "slug": "fix-font-licensing-error",
+  "category": "interior",
+  "job": "interior",
+  "title": "\"Font Can't Be Embedded Due to Licensing\": How to Fix It (KDP & IngramSpark) | SparkPrep",
+  "h1": "How to fix \"font cannot be embedded because of licensing restrictions\"",
+  "description": "Some fonts don't allow embedding, so your PDF can't carry them and the printer rejects it. How to spot them and swap them out quickly.",
+  "platforms": "Amazon KDP · IngramSpark · Barnes & Noble Press · Lulu",
+  "lead": "Printers need every font built into your PDF. Some fonts' licenses say no, and that blocks the whole file.",
+  "error": "Font cannot be embedded because of licensing restrictions",
+  "errorNote": "Paraphrased. Word, Acrobat and printers each word this a little differently.",
+  "why": "<p>Every font comes with a license. Some licenses don't allow the font to be put inside a PDF (\"embedded\"). When you export, the font is left out, and the printer's system either rejects the file or swaps in a different font, which can change your line breaks and page count.</p><p>It's common with fonts downloaded from free font sites and some older system fonts.</p>",
+  "manual": [
+    "Open your file and list the fonts you used (Word: Home → Replace → Format → Font, or check the PDF in Acrobat: File → Properties → Fonts).",
+    "Find the fonts that aren't embedded or that warn about licensing.",
+    "Replace them with fonts whose license allows embedding, such as open-license (OFL) fonts.",
+    "Re-export as PDF/X-1a:2001 and confirm every font now says \"Embedded\".",
+    "Re-upload it to your printer and wait for the file review again. If it fails, you start over."
+  ],
+  "cta": {
+    "text": "SparkPrep checks every font in your file, flags the ones that can't be embedded, and the Interior Studio's fonts are all open-license and safe to print.",
+    "button": "Check my fonts",
+    "href": "/"
+  },
+  "faq": [
+    {
+      "q": "Which fonts are safe to embed for printing?",
+      "a": "Open-license (OFL) fonts, like most on Google Fonts, allow embedding. Check the license of any font from a free font site."
+    },
+    {
+      "q": "Will the printer replace a missing font?",
+      "a": "Some systems swap in a different font, which can change your layout. Most printers reject the file instead."
+    }
+  ],
+  "date": "2026-10-28",
+  "diy": []
+}

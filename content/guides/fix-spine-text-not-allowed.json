@@ -1,0 +1,37 @@
+{
+  "slug": "fix-spine-text-not-allowed",
+  "category": "cover",
+  "job": "cover",
+  "title": "\"Spine Text Not Allowed\" on a Thin Book: How to Fix It (KDP & IngramSpark) | SparkPrep",
+  "h1": "How to fix \"spine text not allowed\" on a thin book",
+  "description": "Your cover was rejected because your book is too thin for spine text. See the page counts KDP and IngramSpark require and how to fix your cover fast.",
+  "platforms": "Amazon KDP · IngramSpark",
+  "lead": "Thin books have thin spines, and printers won't print words on a spine that's too narrow to hold them.",
+  "error": "Spine text is not allowed for books under the minimum page count",
+  "errorNote": "Paraphrased. Each printer words this a little differently.",
+  "why": "<p>A spine is only as wide as your pages are thick. On a thin book, the spine might be a few millimeters wide. The printer's fold can shift a tiny bit, so words on a very thin spine can wrap onto the front or back cover.</p><p>That's why printers set a minimum: <strong>Amazon KDP</strong> only allows spine text on books with more than 79 pages, and <strong>IngramSpark</strong> doesn't allow spine text on paperbacks under 48 pages. If your book is under the line and the spine has words on it, the cover is rejected.</p>",
+  "manual": [
+    "Open your original cover file.",
+    "Check your final page count against the rule: more than 79 pages for KDP, at least 48 for IngramSpark paperbacks.",
+    "If you're under it, delete the title, author name and any logo from the spine. Keep just the background color or art there.",
+    "Re-export as PDF/X-1a:2001 with the bleed included.",
+    "Re-upload it to your printer and wait for the file review again. If it fails, you start over."
+  ],
+  "cta": {
+    "text": "Not sure if your book is thick enough for spine text? SparkPrep checks your page count against your printer's rule and tells you before you upload.",
+    "button": "Check my spine",
+    "href": "/"
+  },
+  "faq": [
+    {
+      "q": "How many pages do you need for spine text on KDP?",
+      "a": "Amazon KDP allows spine text only on books with more than 79 pages."
+    },
+    {
+      "q": "How many pages do you need for spine text on IngramSpark?",
+      "a": "IngramSpark doesn't allow spine text on paperback covers under 48 pages."
+    }
+  ],
+  "date": "2026-10-28",
+  "diy": []
+}

@@ -1,7 +1,7 @@
 {
   "slug": "fix-rgb-in-black-and-white-interior",
   "category": "color",
-  "date": "2026-10-29",
+  "date": "2026-10-28",
   "title": "\"RGB / Color Content Found in a Black & White Interior\": How to Fix | SparkPrep",
   "h1": "How to fix \"RGB or color content found in a black and white interior\"",
   "description": "Your black and white book was rejected for containing color? Here's why black text can secretly be color, and how to convert your whole interior to grayscale in Word, InDesign or Acrobat.",
@@ -49,5 +49,12 @@
       "q": "How do I convert a PDF to grayscale?",
       "a": "In Adobe Acrobat Pro, open Print Production, Convert Colors, and choose a grayscale profile such as Dot Gain 15 percent."
     }
+  ],
+  "manual": [
+    "Open your original manuscript.",
+    "Set all text to plain black and convert every picture to grayscale.",
+    "Remove any colored links, logos or highlights (blue hyperlinks are a common one).",
+    "Re-export as PDF/X-1a:2001, or in Acrobat Pro use Print Production → Convert Colors → Grayscale.",
+    "Re-upload it to your printer and wait for the file review again. If it fails, you start over."
   ]
 }

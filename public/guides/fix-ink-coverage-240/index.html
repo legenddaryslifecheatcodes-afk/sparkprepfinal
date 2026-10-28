@@ -28,21 +28,39 @@
   <p class="note">Updated October 28, 2026 · IngramSpark</p>
   <p class="lead">This one sounds technical, but the cause is usually simple: black that's made from all four inks instead of black ink alone.</p>
 
-  <h2>1. The error</h2>
   <blockquote>Ink coverage exceeds 240%</blockquote>
   <p class="note">Quoted from IngramSpark rejection emails.</p>
+  <div class="card"><p style="margin:0"><strong>Quick fix:</strong> SparkPrep scans your cover and interior against the exact platform rules, pinpoints the issue, and fixes it for you with one click.</p>
+    <p style="margin:10px 0 0">👉 <a href="/">Fix your file instantly at sparkprep.legenddary.com</a></p></div>
 
-  <h2>2. Why the printer rejected it</h2>
+  <h2>Why did your file get rejected?</h2>
   <p>Printers use four inks: cyan, magenta, yellow and black (CMYK). <strong>Total ink</strong> is all four added together in one spot. A pure black uses 100% (black only). A "rich black" can use 300% or more.</p><p>IngramSpark's limit is 240%. Over that, ink soaks the paper, smears and dries slowly, so the file is rejected. It often comes from black text in a file saved as RGB, or dark photos converted to CMYK without an ink limit.</p>
 
-  <h2>3. The do-it-yourself fix</h2>
-  
-  <h3>Find the problem (Acrobat Pro)</h3>
+  <h2>How to fix it manually (the hard way)</h2>
+  <p>If you want to try adjusting the files yourself, here are the steps you need to follow:</p>
+  <ol><li>Open your original file.</li><li>Change all black text and black lines to 100% black only (C0 M0 Y0 K100), not "rich black".</li><li>For color pictures, convert them in Photoshop (Edit → Convert to Profile → Custom CMYK) with the total ink limit set to 240%.</li><li>Re-export as PDF/X-1a:2001, then check in Acrobat Pro (Print Production → Output Preview → Total Area Coverage at 240%) that nothing is highlighted.</li><li>Re-upload it to IngramSpark and wait for the file review and new e-proof.</li></ol>
+  <h3 style="margin-top:28px">Step by step in your app</h3>
+  <h4>Find the problem (Acrobat Pro)</h4>
   <ol><li>Tools → Print Production → Output Preview.</li><li>Tick <strong>Total Area Coverage</strong> and set it to 240%. Areas over the limit get highlighted.</li></ol>
-  <h3>Black and white interior</h3>
+  <h4>Black and white interior</h4>
   <ol><li>Export it as <strong>grayscale</strong> (black ink only). Grayscale can never go over 100%, so the error disappears.</li><li>In Acrobat: Print Production → Convert Colors, convert everything to a grayscale profile.</li></ol>
-  <h3>Color cover or interior</h3>
+  <h4>Color cover or interior</h4>
   <ol><li>Make black text 100% black (C0 M0 Y0 K100), not rich black.</li><li>Convert images to CMYK with a profile that limits total ink, such as US Web Coated (SWOP) v2 (300% max), then lower further if needed.</li><li>In InDesign, export with the PDF/X-1a preset and check Output Preview again.</li></ol>
+
+  <section class="cta">
+    <h2>How to fix it instantly (the SparkPrep way)</h2>
+    <p>If you don't have expensive design software, or you just want to get your book published without the headache, let SparkPrep handle it.</p>
+    <p>SparkPrep was built by a self-published author whose own book was rejected 18 times. It checks your files against the exact print rules Amazon KDP, IngramSpark, Barnes &amp; Noble Press and Lulu publish.</p>
+    <p>When you upload your file to SparkPrep:</p>
+    <ul>
+      <li>We automatically scan for page size, bleed, spine width, safety margins, ink coverage and embedded fonts.</li>
+      <li>We explain any hidden errors in plain English.</li>
+      <li>We fix what can be fixed automatically, tell you exactly what's left, and export a print-ready PDF/X-1a, checked again before you download it.</li>
+    </ul>
+    
+    <p><strong>Stop fighting the bots. Drop your file into SparkPrep today and get back to marketing your book!</strong></p>
+    <a class="btn" href="/">Fix my ink coverage</a>
+  </section>
 
   <h2>What it costs to get this fixed</h2>
   <div class="table-wrap"><table>
@@ -52,13 +70,6 @@
     <tr><td>Printer check</td><td>Depends on the freelancer</td><td>Checked against your printer's own rules, every time</td></tr>
   </table></div>
   <p class="note">Freelancer prices are Reedsy's own published figures (<a href="https://reedsy.com/blog/guide/how-to-self-publish-a-book/cost-to-self-publish/" rel="nofollow noopener">source</a>). A great designer is worth it for original artwork. If you just need your files right for the printer, you don't need to pay designer prices.<span class="sp-times" data-pro="1730"></span></p>
-
-  <section class="cta">
-    <h2>4. The automated fix</h2>
-    <p><strong>Don't want to learn color profiles to get one book printed? SparkPrep measures the ink on every page and brings it under 240% while keeping your black text sharp, in minutes.</strong></p>
-    <a class="btn" href="/">Fix my ink coverage</a>
-  </section>
-
   <h2>Quick answers</h2>
   <h3>What is the IngramSpark ink limit?</h3>
   <p>240% total ink coverage, meaning cyan, magenta, yellow and black added together in any one area.</p>
@@ -67,7 +78,9 @@
 
   <h2>More guides</h2>
   <ul class="links">
+    <li><a href="/guides/fix-rgb-in-black-and-white-interior/">How to fix &quot;RGB or color content found in a black and white interior&quot;</a></li>
     <li><a href="/guides/fix-low-resolution-images/">How to fix low-resolution (under 300 DPI) images in your book</a></li>
+    <li><a href="/guides/fix-transparency-and-layers-in-pdf/">How to fix &quot;PDF contains transparency or layers&quot;</a></li>
     <li><a href="/guides/">All guides</a></li>
   </ul>
 <script>

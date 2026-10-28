@@ -69,7 +69,7 @@ function load() {
     if (`${g.slug}.json` !== f) throw new Error(`${f}: slug must match the file name`);
     if (!CATEGORIES.some((c) => c.key === g.category)) throw new Error(`${f}: unknown category "${g.category}"`);
     if (!/^\d{4}-\d{2}-\d{2}$/.test(g.date)) throw new Error(`${f}: date must be YYYY-MM-DD`);
-    if (!g.body) for (const k of ["error", "why", "diy"]) if (!g[k]) throw new Error(`${f}: missing "${k}" (or give a "body")`);
+    if (!g.body) for (const k of g.manual ? ["error", "why"] : ["error", "why", "diy"]) if (!g[k]) throw new Error(`${f}: missing "${k}" (or give a "body")`);
     return g;
   });
   return guides.filter((g) => g.date <= TODAY).sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : a.title.localeCompare(b.title)));
@@ -110,6 +110,40 @@ const FOOT = `
 </body>
 </html>
 `;
+
+// Trey's rejection-guide format (2026-10-28): the error + a quick-fix line up top, "Why did your file get
+// rejected?", "How to fix it manually (the hard way)" in numbered steps, then "the SparkPrep way" with the
+// same CTA on every guide. Claims kept to what SparkPrep really does (no "guaranteed to pass").
+function treyFormat(g, diy) {
+  return `  <blockquote>${esc(g.error)}</blockquote>
+  ${g.errorNote ? `<p class="note">${g.errorNote}</p>` : ""}
+  <div class="card"><p style="margin:0"><strong>Quick fix:</strong> ${g.quickfix || "SparkPrep scans your cover and interior against the exact platform rules, pinpoints the issue, and fixes it for you with one click."}</p>
+    <p style="margin:10px 0 0">👉 <a href="${g.cta.href || "/"}">Fix your file instantly at sparkprep.legenddary.com</a></p></div>
+
+  <h2>Why did your file get rejected?</h2>
+  ${g.why}
+
+  <h2>How to fix it manually (the hard way)</h2>
+  <p>If you want to try adjusting the files yourself, here are the steps you need to follow:</p>
+  <ol>${g.manual.map((s) => `<li>${s}</li>`).join("")}</ol>
+${diy ? `  <h3 style="margin-top:28px">Step by step in your app</h3>${diy.replace(/<h3>/g, "<h4>").replace(/<\/h3>/g, "</h4>")}` : ""}
+
+  <section class="cta">
+    <h2>How to fix it instantly (the SparkPrep way)</h2>
+    <p>If you don't have expensive design software, or you just want to get your book published without the headache, let SparkPrep handle it.</p>
+    <p>SparkPrep was built by a self-published author whose own book was rejected 18 times. It checks your files against the exact print rules Amazon KDP, IngramSpark, Barnes &amp; Noble Press and Lulu publish.</p>
+    <p>When you upload your file to SparkPrep:</p>
+    <ul>
+      <li>We automatically scan for page size, bleed, spine width, safety margins, ink coverage and embedded fonts.</li>
+      <li>We explain any hidden errors in plain English.</li>
+      <li>We fix what can be fixed automatically, tell you exactly what's left, and export a print-ready PDF/X-1a, checked again before you download it.</li>
+    </ul>
+    ${g.spNote ? `<p>${g.spNote}</p>` : ""}
+    <p><strong>Stop fighting the bots. Drop your file into SparkPrep today and get back to marketing your book!</strong></p>
+    <a class="btn" href="${g.cta.href || "/"}">${esc(g.cta.button)}</a>
+  </section>
+${costBox(g)}`;
+}
 
 function article(g, all) {
   const url = `${SITE}/guides/${g.slug}/`;
@@ -154,7 +188,7 @@ function article(g, all) {
   <p class="note">Updated ${prettyDate(g.updated || g.date)} · ${esc(g.platforms || "")}</p>
   <p class="lead">${g.lead || ""}</p>
 
-${g.body ? g.body : `  <h2>1. The error</h2>
+${g.manual ? treyFormat(g, diy) : `${g.body ? g.body : `  <h2>1. The error</h2>
   <blockquote>${esc(g.error)}</blockquote>
   ${g.errorNote ? `<p class="note">${g.errorNote}</p>` : ""}
 
@@ -170,7 +204,7 @@ ${costBox(g)}
     <p><strong>${g.cta.text}</strong></p>
     <a class="btn" href="${g.cta.href || "/"}">${esc(g.cta.button)}</a>
   </section>
-${faq.length ? `
+`}${faq.length ? `
   <h2>Quick answers</h2>
 ${faq.map((f) => `  <h3>${esc(f.q)}</h3>\n  <p>${f.a}</p>`).join("\n")}
 ` : ""}

@@ -6,6 +6,8 @@ import { useAuth } from "@/context/AuthContext";
 import { specsOfProject } from "@/components/coverStudio/SpecsPanel";
 import { toast } from "sonner";
 import { BookPlus, Send } from "lucide-react";
+import TitleLockNotice from "@/components/TitleLockNotice";
+import { DEFAULT_TEXT } from "@/lib/coverStudio/templates";
 
 const sameSpecs = (a, b) => ["platform", "binding", "trim_size", "paper_type"].every((k) => a[k] === b[k])
   && Number(a.page_count) === Number(b.page_count)
@@ -24,10 +26,13 @@ export default function SendToBookDialog({ open, onOpenChange, engine, specs, wo
   const [books, setBooks] = useState(null);
   const [pick, setPick] = useState(linkedBook?.id || "new");
   const [busy, setBusy] = useState(null);
+  const [namesOk, setNamesOk] = useState(false);
+  const own = (k) => (words[k] && words[k] !== DEFAULT_TEXT[k] ? words[k].trim() : "");
 
   useEffect(() => {
     if (!open || !user) return;
     setPick(linkedBook?.id || "new");
+    setNamesOk(false);
     api.get("/projects").then(({ data }) => setBooks(data.projects || [])).catch(() => setBooks([]));
   }, [open, user, linkedBook]);
 
@@ -41,7 +46,7 @@ export default function SendToBookDialog({ open, onOpenChange, engine, specs, wo
       if (!id) {
         setBusy("Creating your book…");
         const { data } = await api.post("/projects", {
-          name: words.title?.trim() || "Untitled Book",
+          name: own("title") || "Untitled Book", author_name: own("author") || null,
           platform: specs.platform, trim_size: specs.trim_size, paper_type: specs.paper_type,
           binding: specs.binding, page_count: Number(specs.page_count), project_type: "combined",
         });
@@ -114,7 +119,8 @@ export default function SendToBookDialog({ open, onOpenChange, engine, specs, wo
                 {problems.length === 1 ? "One thing" : `${problems.length} things`} on your cover may get cut off or rejected. You can still send it; SparkPrep's checks will show them too.
               </div>
             )}
-            <button onClick={send} disabled={!!busy || mismatch} className="mt-2 w-full py-3 btn-gold font-mono-spec text-xs tracking-widest uppercase btn-industrial flex items-center justify-center gap-2 disabled:opacity-50" data-testid="studio-send-go" data-next-step="Click to send">
+            <TitleLockNotice title={own("title")} author={own("author")} lock={target?.title_lock} checked={namesOk} onChange={setNamesOk} testid="studio-send-names" />
+            <button onClick={send} disabled={!!busy || mismatch || (!target?.title_lock && !namesOk)} className="mt-2 w-full py-3 btn-gold font-mono-spec text-xs tracking-widest uppercase btn-industrial flex items-center justify-center gap-2 disabled:opacity-50" data-testid="studio-send-go" data-next-step="Click to send">
               <Send className="w-4 h-4" /> {busy || "Send my cover"}
             </button>
           </div>

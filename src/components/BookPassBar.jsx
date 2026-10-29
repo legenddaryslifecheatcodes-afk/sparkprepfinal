@@ -5,6 +5,8 @@ import { useAuth } from "@/context/AuthContext";
 import { usePricing, money } from "@/lib/pricing";
 import { toast } from "sonner";
 import { BookOpen, Timer, Loader2 } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import TitleLockNotice from "@/components/TitleLockNotice";
 
 function remaining(sec) {
   const s = Math.max(0, Math.floor(sec));
@@ -19,10 +21,13 @@ function remaining(sec) {
 // Book-pass model only: each book gets a 7-day window of unlimited exports, started here.
 // Hidden when the server isn't on the book model (the endpoint 404s).
 // creditAuditId: this project's paid "See My Results" audit, credited toward the book at checkout.
-export default function BookPassBar({ projectId, bookRequiredAt, onStarted, creditAuditId }) {
+// title/author: the book's title and author name, shown in the lock warning before Start.
+export default function BookPassBar({ projectId, bookRequiredAt, onStarted, creditAuditId, title, author }) {
   const [book, setBook] = useState(null);
   const [starting, setStarting] = useState(false);
   const [left, setLeft] = useState(null);
+  const [confirming, setConfirming] = useState(false);
+  const [namesOk, setNamesOk] = useState(false);
   const { refreshUser } = useAuth();
   const pricing = usePricing();
 
@@ -48,6 +53,7 @@ export default function BookPassBar({ projectId, bookRequiredAt, onStarted, cred
     setStarting(true);
     try {
       await api.post(`/projects/${projectId}/activate-book`);
+      setConfirming(false);
       toast.success(`Book started — unlimited exports for ${book.window_days} days.`);
       await fetchBook();
       if (refreshUser) refreshUser();
@@ -83,9 +89,24 @@ export default function BookPassBar({ projectId, bookRequiredAt, onStarted, cred
             <div className="text-[11px] text-neutral-400 mt-0.5">The {book.window_days}-day clock starts when you press Start.</div>
           </div>
         </div>
-        <button onClick={start} disabled={starting} className="px-4 py-2 btn-gold font-mono-spec text-[10px] tracking-widest uppercase btn-industrial disabled:opacity-50 flex items-center gap-1.5" data-testid="start-book-btn">
+        <button onClick={() => { setNamesOk(false); setConfirming(true); }} disabled={starting} className="px-4 py-2 btn-gold font-mono-spec text-[10px] tracking-widest uppercase btn-industrial disabled:opacity-50 flex items-center gap-1.5" data-testid="start-book-btn">
           {starting && <Loader2 className="w-3 h-3 animate-spin" />} Start This Book
         </button>
+        <Dialog open={confirming} onOpenChange={setConfirming}>
+          <DialogContent className="max-w-md" data-testid="start-book-confirm">
+            <DialogHeader>
+              <DialogTitle className="font-display font-black text-2xl tracking-tighter">Before you start this book</DialogTitle>
+              <DialogDescription className="text-sm text-neutral-600">
+                Starting uses one book and opens {book.window_days} days of unlimited exports.
+              </DialogDescription>
+            </DialogHeader>
+            <TitleLockNotice title={title} author={author} checked={namesOk} onChange={setNamesOk} testid="start-book-names" />
+            <p className="text-[11px] text-neutral-500">Wrong title or author name? Close this and fix them in your book's details first.</p>
+            <button onClick={start} disabled={starting || !namesOk} className="w-full py-3 btn-gold font-mono-spec text-xs tracking-widest uppercase btn-industrial disabled:opacity-50 flex items-center justify-center gap-1.5" data-testid="start-book-go" data-next-step="Click to start">
+              {starting && <Loader2 className="w-3 h-3 animate-spin" />} Start This Book
+            </button>
+          </DialogContent>
+        </Dialog>
       </div>
     );
   }

@@ -1,6 +1,6 @@
 import {
   Bold, Italic, Underline, AlignLeft, AlignCenter, AlignRight, AlignJustify, List, ListOrdered, Undo2, Redo2,
-  Asterisk, FileStack, Quote,
+  Asterisk, FileStack, Quote, ImagePlus,
 } from "lucide-react";
 
 // The Word-style ribbon: one row of plain buttons. The "Style" box decides what a line is (normal text,
@@ -39,7 +39,7 @@ const Btn = ({ on, active, title, children, testid, disabled }) => (
 
 const Sep = () => <span className="w-px h-6 bg-neutral-200 mx-1" />;
 
-export default function Toolbar({ editor }) {
+export default function Toolbar({ editor, onAddPicture }) {
   if (!editor) return null;
   const align = (a) => editor.chain().focus().setTextAlign(a).run();
   return (
@@ -73,6 +73,12 @@ export default function Toolbar({ editor }) {
         className="h-8 px-2 flex items-center gap-1 text-xs border border-transparent hover:border-neutral-300 bg-white" title="Start a new page here (Ctrl+Enter)" data-testid="interior-pagebreak">
         <FileStack className="w-4 h-4" /><span className="hidden sm:inline">New page</span>
       </button>
+      {onAddPicture && (
+        <button type="button" onMouseDown={(e) => e.preventDefault()} onClick={onAddPicture}
+          className="h-8 px-2 flex items-center gap-1 text-xs border border-transparent hover:border-neutral-300 bg-white" title="Add a picture or illustration here" data-testid="interior-add-picture">
+          <ImagePlus className="w-4 h-4" /><span className="hidden sm:inline">Picture</span>
+        </button>
+      )}
     </div>
   );
 }

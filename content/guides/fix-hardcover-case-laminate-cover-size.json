@@ -1,0 +1,37 @@
+{
+  "slug": "fix-hardcover-case-laminate-cover-size",
+  "date": "2026-11-08",
+  "category": "cover",
+  "job": "cover",
+  "title": "Hardcover (Case Laminate) Cover Size Wrong? KDP & IngramSpark Wrap Explained | SparkPrep",
+  "h1": "How to fix a hardcover case laminate cover that's the wrong size",
+  "description": "A hardcover cover is not a bigger paperback cover. Learn the wrap, hinge and board sizes KDP and IngramSpark use, and fix your case laminate file.",
+  "platforms": "Amazon KDP · IngramSpark",
+  "lead": "Hardcover covers wrap around boards, so they need extra space that paperbacks don't. Each printer measures it differently.",
+  "error": "Cover dimensions do not match the hardcover template for this book",
+  "errorNote": "Paraphrased. Each printer words this a little differently.",
+  "why": "<p>A case laminate cover is printed, then wrapped around cardboard boards and glued inside. So it needs <strong>wrap</strong> (extra art that folds over the board edges) and, at IngramSpark, a <strong>hinge</strong> beside the spine.</p><ul><li><strong>IngramSpark:</strong> 0.625\" wrap on every outside edge and a 0.5\" hinge each side of the spine.</li><li><strong>Amazon KDP:</strong> 0.591\" wrap, with the hinge inside the cover panels instead of added on.</li></ul><p>Hardcover spines also come from each printer's own table, not the paperback formula. Using a paperback size, or the other printer's numbers, gets the cover rejected.</p>",
+  "manual": [
+    "Use your printer's own hardcover cover calculator or template with your exact trim size, page count and paper.",
+    "Open your cover file and set it to that full size.",
+    "Extend background art out to the wrap edge, and keep all text and faces out of the wrap and hinge areas.",
+    "Re-export as a print PDF (PDF/X-1a:2001 if you can).",
+    "Re-upload it to your printer and wait for the file review again. If it fails, you start over."
+  ],
+  "cta": {
+    "text": "SparkPrep sizes case laminate covers from each printer's own numbers (KDP's and IngramSpark's are different) and refits your art to them.",
+    "button": "Fix my hardcover size",
+    "href": "/"
+  },
+  "faq": [
+    {
+      "q": "How much wrap does an IngramSpark case laminate cover need?",
+      "a": "0.625\" on every outside edge, plus a 0.5\" hinge on each side of the spine."
+    },
+    {
+      "q": "Is a KDP hardcover cover the same size as IngramSpark's?",
+      "a": "No. KDP uses a 0.591\" wrap and different board and spine numbers, so build from each printer's own calculator."
+    }
+  ],
+  "diy": []
+}

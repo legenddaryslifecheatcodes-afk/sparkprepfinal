@@ -75,9 +75,15 @@
   <!-- GUIDES START (written by scripts/build-guides.mjs) -->
   <url>
     <loc>https://sparkprep.legenddary.com/guides/</loc>
-    <lastmod>2026-10-28</lastmod>
+    <lastmod>2026-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sparkprep.legenddary.com/guides/rgb-vs-cmyk-book-cover/</loc>
+    <lastmod>2026-10-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sparkprep.legenddary.com/guides/fix-template-elements-on-cover/</loc>

@@ -219,6 +219,13 @@ export default function Landing() {
           <a href="/book-cover-dimensions/" className="hover:text-white">Book cover dimensions</a>
           <a href="/ingramspark-cover-template/" className="hover:text-white">IngramSpark cover template</a>
           <a href="/ingramspark-rejection-fixes/" className="hover:text-white">IngramSpark rejection fixes</a>
+          <a href="/book-margin-calculator/" className="hover:text-white">Margin &amp; bleed calculator</a>
+          <a href="/image-dpi-checker/" className="hover:text-white">Image DPI checker</a>
+          <a href="/book-page-count-calculator/" className="hover:text-white">Page count calculator</a>
+          <a href="/templates/" className="hover:text-white">Free cover templates</a>
+          <a href="/free-book-formatting-guide/" className="hover:text-white">Free formatting guide</a>
+          <a href="/free-manuscript-checklist/" className="hover:text-white">Free manuscript checklist</a>
+          <a href="/free-indie-author-templates/" className="hover:text-white">Free author templates</a>
         </nav>
         © Legenddary — Publish · Automate · Elevate · We Build. You Legenddary.
       </footer>

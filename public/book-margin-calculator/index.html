@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Free Book Margin &amp; Bleed Calculator (KDP &amp; IngramSpark) | SparkPrep</title>
+<meta name="description" content="Free book margin calculator: enter your trim size and page count to get KDP&#x27;s minimum gutter and outside margins, IngramSpark&#x27;s safe area, and the exact PDF page size with bleed.">
+<link rel="canonical" href="https://sparkprep.legenddary.com/book-margin-calculator/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SparkPrep">
+<meta property="og:title" content="Book Margin &amp; Bleed Calculator">
+<meta property="og:description" content="Free book margin calculator: enter your trim size and page count to get KDP&#x27;s minimum gutter and outside margins, IngramSpark&#x27;s safe area, and the exact PDF page size with bleed.">
+<meta property="og:url" content="https://sparkprep.legenddary.com/book-margin-calculator/">
+<meta property="og:image" content="https://sparkprep.legenddary.com/brand/sparkprep-logo.png">
+<meta name="twitter:card" content="summary">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="stylesheet" href="/tools/tools.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "WebApplication", "name": "Book Margin & Bleed Calculator", "url": "https://sparkprep.legenddary.com/book-margin-calculator/", "applicationCategory": "DesignApplication", "operatingSystem": "Web", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "publisher": {"@type": "Organization", "name": "SparkPrep", "url": "https://sparkprep.legenddary.com/"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "SparkPrep", "item": "https://sparkprep.legenddary.com/"}, {"@type": "ListItem", "position": 2, "name": "Free tools", "item": "https://sparkprep.legenddary.com/tools/"}, {"@type": "ListItem", "position": 3, "name": "Book Margin & Bleed Calculator", "item": "https://sparkprep.legenddary.com/book-margin-calculator/"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What is the minimum gutter margin for KDP?", "acceptedAnswer": {"@type": "Answer", "text": "KDP's minimum inside margin depends on page count: 0.375 inch for 24 to 150 pages, 0.5 inch for 151 to 300, 0.625 inch for 301 to 500, 0.75 inch for 501 to 700, and 0.875 inch for 701 to 828 pages."}}, {"@type": "Question", "name": "What margins does IngramSpark require?", "acceptedAnswer": {"@type": "Answer", "text": "IngramSpark asks for all text and important elements to be at least 0.5 inch (13 mm) from every trim edge."}}, {"@type": "Question", "name": "How much bleed does a print book need?", "acceptedAnswer": {"@type": "Answer", "text": "0.125 inch on the top, bottom and outside edge. So a book with bleed has a PDF page 0.125 inch wider and 0.25 inch taller than its trim size."}}]}]}</script>
+</head>
+<body>
+<header class="site">
+  <a class="brand" href="/"><img src="/brand/sparkprep-logo.png" alt="SparkPrep logo" width="120" height="34"></a>
+  <nav><a href="/tools/">Free tools</a><a class="hide-sm" href="/guides/">Guides</a><a href="/">SparkPrep</a></nav>
+</header>
+<main>
+  <div class="eyebrow">Free tool · KDP &amp; IngramSpark interiors</div>
+  <h1>Book Margin &amp; Bleed Calculator</h1>
+  <p class="lead">Get the right inside (gutter) and outside margins for your book, plus the exact page size to use with or without bleed. Uses KDP's own margin table. Free.</p>
+
+  <section class="card tool" aria-label="Margin and bleed calculator">
+    <div class="row">
+      <div><label for="m-printer">Printer</label><select id="m-printer"><option value="kdp">Amazon KDP</option><option value="ingramspark">IngramSpark</option></select></div>
+      <div><label for="m-trim">Trim size (book size)</label><select id="m-trim"></select></div>
+      <div><label for="m-pages">Page count</label><input id="m-pages" type="number" min="24" max="1200" value="250" inputmode="numeric"></div>
+      <div><label for="m-bleed">Do pictures or color run off the page edge?</label><select id="m-bleed"><option value="no">No (no bleed)</option><option value="yes">Yes (bleed)</option></select></div>
+    </div>
+    <div class="result">
+      <div><b id="m-inside">—</b><span id="m-inside-label">Inside margin (gutter), at least</span></div>
+      <div><b id="m-outside">—</b><span id="m-outside-label">Top, bottom and outside margins, at least</span></div>
+      <div><b id="m-page">—</b><span>Page size to set in your PDF</span></div>
+      <div><b id="m-px">—</b><span>That page in pixels at 300 DPI</span></div>
+    </div>
+    <div id="m-msg" class="ok"></div>
+    <div class="next-step" data-next-step-box>
+      <p><strong>Your margins are set. What about your fonts, pictures and ink?</strong></p>
+      <p>Margins are one of many things printers check. SparkPrep reads your real interior PDF page by page and flags anything outside the safe area, fonts that aren't embedded, low-resolution pictures and color in a black-and-white book, all in plain English.</p>
+      <a class="btn" href="/audit">Check my book files</a>
+    </div>
+  </section>
+
+  <section class="card" id="why">
+    <h2 style="margin-top:0">Why margins and bleed get books rejected</h2>
+    <p>The <strong>inside margin</strong> (the gutter) is the edge that goes into the fold. Thicker books need a bigger one, or words disappear into the spine. The <strong>outside margins</strong> keep text away from the edge the printer trims. <strong>Bleed</strong> is extra picture or color past the edge, so nothing white shows after trimming. If any of these are off, KDP and IngramSpark send the file back.</p>
+  </section>
+
+  <h2>KDP margins by page count</h2>
+  <p>These are KDP's own minimums from its help page on trim size, bleed and margins.</p>
+  <div class="table-wrap"><table>
+    <tr><th>Page count</th><th>Inside margin (gutter)</th><th>Outside margins, no bleed</th><th>Outside margins, with bleed</th></tr>
+    <tr><td>24 to 150</td><td>0.375"</td><td>at least 0.25"</td><td>at least 0.375"</td></tr>
+    <tr><td>151 to 300</td><td>0.5"</td><td>at least 0.25"</td><td>at least 0.375"</td></tr>
+    <tr><td>301 to 500</td><td>0.625"</td><td>at least 0.25"</td><td>at least 0.375"</td></tr>
+    <tr><td>501 to 700</td><td>0.75"</td><td>at least 0.25"</td><td>at least 0.375"</td></tr>
+    <tr><td>701 to 828</td><td>0.875"</td><td>at least 0.25"</td><td>at least 0.375"</td></tr>
+  </table></div>
+
+  <h2>IngramSpark margins</h2>
+  <p>IngramSpark's rejection notices say it plainly: <em>"All text, borders, and important elements need to be at least 0.5 inch (13 mm) from trim edges."</em> That goes for every side. A thick book needs extra room on the inside edge, because the fold eats into it.</p>
+
+  <h2>How bleed changes your page size</h2>
+  <p>If anything runs off the edge of the page, your PDF page must be bigger than your book: <strong>0.125" wider</strong> and <strong>0.25" taller</strong>. For a 6" x 9" book that's 6.125" x 9.25". If nothing runs off the edge, set your page to the exact trim size and don't add bleed.</p>
+
+  <h2>How to set margins in Word</h2>
+  <ol>
+    <li>Layout → Size → More Paper Sizes: type your trim size (or the bleed size from above).</li>
+    <li>Layout → Margins → Custom Margins: set Multiple pages to <strong>Mirror margins</strong>.</li>
+    <li>Type the inside and outside numbers from this calculator. Top and bottom use the outside number or more.</li>
+    <li>Save as PDF and check the page size in Acrobat (File → Properties) before you upload.</li>
+  </ol>
+
+  <section class="cta">
+    <h2>Margins right? Let SparkPrep check everything else.</h2>
+    <p>SparkPrep checks your actual interior and cover against your printer's rules: margins, bleed, page size, fonts, image quality and ink. It explains each problem in plain English and can fix it for you. It was built by an author whose own book was rejected 18 times.</p>
+    <a class="btn" href="/audit">Check my book files</a>
+    <a class="btn ghost" href="/interior-studio">Format my book free</a>
+  </section>
+
+  <h2>Quick answers</h2>
+  <h3>What is the minimum gutter margin for KDP?</h3>
+  <p>KDP&#x27;s minimum inside margin depends on page count: 0.375 inch for 24 to 150 pages, 0.5 inch for 151 to 300, 0.625 inch for 301 to 500, 0.75 inch for 501 to 700, and 0.875 inch for 701 to 828 pages.</p>
+  <h3>What margins does IngramSpark require?</h3>
+  <p>IngramSpark asks for all text and important elements to be at least 0.5 inch (13 mm) from every trim edge.</p>
+  <h3>How much bleed does a print book need?</h3>
+  <p>0.125 inch on the top, bottom and outside edge. So a book with bleed has a PDF page 0.125 inch wider and 0.25 inch taller than its trim size.</p>
+
+  <h2>More free tools</h2>
+  <ul class="links">
+    <li><a href="/kdp-cover-calculator/">KDP cover size calculator and template</a></li>
+    <li><a href="/book-spine-width-calculator/">Book spine width calculator</a></li>
+    <li><a href="/image-dpi-checker/">Image DPI checker for print</a></li>
+    <li><a href="/book-page-count-calculator/">Word count to page count calculator</a></li>
+    <li><a href="/book-cover-dimensions/">Book cover dimensions by trim size</a></li>
+    <li><a href="/tools/">All free tools</a></li>
+  </ul>
+  <p class="note">SparkPrep is an independent tool and is not affiliated with Amazon KDP, IngramSpark, Barnes &amp; Noble Press or Lulu. Always check your printer's own help pages before you upload.</p>
+</main>
+<footer class="site">© SparkPrep by Legenddary · <a href="/">Home</a><a href="/tools/">Free tools</a><a href="/guides/">Guides</a><a href="/pricing">Pricing</a></footer>
+<script src="/tools/cover-calc.js" defer></script>
+<script src="/tools/more-tools.js" defer></script>
+<script src="/tools/next-step.js" defer></script>
+</body>
+</html>

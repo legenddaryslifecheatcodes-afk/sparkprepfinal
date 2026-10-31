@@ -9,6 +9,12 @@
   "lead": "An unembedded font is a font your PDF names but doesn't carry inside it. The printer's computer doesn't have it, so the file is rejected.",
   "error": "Font not embedded",
   "errorNote": "Often listed with the font's name, such as \"Font Garamond not embedded\".",
+  "aka": [
+    "Fonts are not embedded",
+    "Font is not embedded",
+    "Embed all fonts in your PDF",
+    "Font not embedded in PDF for KDP"
+  ],
   "why": "<p>A PDF can either carry its fonts inside it (embedded) or just name them and hope the next computer has them. Printers require every font to be embedded, even common ones like Arial or Times, so your book prints exactly as designed.</p><p>If a font isn't embedded, the printer's system would swap in a different font. Words move, lines break in new places, and pages can shift, so they reject the file instead.</p>",
   "diy": [
     {
@@ -57,5 +63,6 @@
     "Swap any font whose license doesn't allow embedding for one that does.",
     "Re-export as PDF/X-1a:2001, then check in Acrobat (File → Properties → Fonts) that every font says \"Embedded\" or \"Embedded Subset\".",
     "Re-upload it to your printer and wait for the file review again. If it fails, you start over."
-  ]
+  ],
+  "updated": "2026-10-31"
 }

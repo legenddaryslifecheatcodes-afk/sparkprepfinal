@@ -114,19 +114,45 @@ const FOOT = `
 // Trey's rejection-guide format (2026-10-28): the error + a quick-fix line up top, "Why did your file get
 // rejected?", "How to fix it manually (the hard way)" in numbered steps, then "the SparkPrep way" with the
 // same CTA on every guide. Claims kept to what SparkPrep really does (no "guaranteed to pass").
+// The error's own words, short enough to use in headings, so a guide's H2s match what authors type into Google
+// (2026-10-31). Long errors give "errorShort"; guides about a question rather than an error message get none.
+function errorHeading(g) {
+  if (g.errorShort) return g.errorShort;
+  if (!g.error || g.error.length > 72 || /^"/.test(g.error) || /^Not (an|one) error/.test(g.errorNote || "")) return null;
+  return g.error;
+}
+const q = (s) => `“${esc(s)}”`;
+
+// Other wordings of the same error that authors search for ("aka" in the guide JSON), shown as a short list.
+function akaList(g) {
+  if (!g.aka || !g.aka.length) return "";
+  return `
+  <h3>Other ways people search for this error</h3>
+  <ul>${g.aka.map((a) => `<li>${q(a)}</li>`).join("")}</ul>`;
+}
+
+// The soft bridge in the middle of a guide: fix it by hand, or let SparkPrep do it.
+function bridge(g) {
+  return `
+  <div class="card"><p style="margin:0">You can fix this by hand with the steps above. Or drop your file into SparkPrep and let it find the problem and fix it for you, in minutes. <a href="${g.cta.href || "/"}">Try it on your file</a>.</p></div>`;
+}
+
 function treyFormat(g, diy) {
-  return `  <blockquote>${esc(g.error)}</blockquote>
-  ${g.errorNote ? `<p class="note">${g.errorNote}</p>` : ""}
+  const eh = errorHeading(g);
+  return `${eh ? `  <h2>The error: ${q(eh)}</h2>
+` : ""}  <blockquote>${esc(g.error)}</blockquote>
+  ${g.errorNote ? `<p class="note">${g.errorNote}</p>` : ""}${akaList(g)}
   <div class="card"><p style="margin:0"><strong>Quick fix:</strong> ${g.quickfix || "SparkPrep scans your cover and interior against the exact platform rules, pinpoints the issue, and fixes it for you with one click."}</p>
     <p style="margin:10px 0 0">👉 <a href="${g.cta.href || "/"}">Fix your file instantly at sparkprep.legenddary.com</a></p></div>
 
-  <h2>Why did your file get rejected?</h2>
+  <h2>${eh ? `Why you get ${q(eh)}` : "Why did your file get rejected?"}</h2>
   ${g.why}
 
-  <h2>How to fix it manually (the hard way)</h2>
+  <h2>${eh ? `How to fix ${q(eh)} manually (the hard way)` : "How to fix it manually (the hard way)"}</h2>
   <p>If you want to try adjusting the files yourself, here are the steps you need to follow:</p>
   <ol>${g.manual.map((s) => `<li>${s}</li>`).join("")}</ol>
 ${diy ? `  <h3 style="margin-top:28px">Step by step in your app</h3>${diy.replace(/<h3>/g, "<h4>").replace(/<\/h3>/g, "</h4>")}` : ""}
+${bridge(g)}
 
   <section class="cta">
     <h2>How to fix it instantly (the SparkPrep way)</h2>
@@ -188,15 +214,16 @@ function article(g, all) {
   <p class="note">Updated ${prettyDate(g.updated || g.date)} · ${esc(g.platforms || "")}</p>
   <p class="lead">${g.lead || ""}</p>
 
-${g.manual ? treyFormat(g, diy) : `${g.body ? g.body : `  <h2>1. The error</h2>
+${g.manual ? treyFormat(g, diy) : `${g.body ? g.body : `  <h2>1. The error${errorHeading(g) ? `: ${q(errorHeading(g))}` : ""}</h2>
   <blockquote>${esc(g.error)}</blockquote>
-  ${g.errorNote ? `<p class="note">${g.errorNote}</p>` : ""}
+  ${g.errorNote ? `<p class="note">${g.errorNote}</p>` : ""}${akaList(g)}
 
   <h2>2. Why the printer rejected it</h2>
   ${g.why}
 
   <h2>3. The do-it-yourself fix</h2>
-  ${g.diyIntro || ""}${diy}`}
+  ${g.diyIntro || ""}${diy}
+${bridge(g)}`}
 ${costBox(g)}
 
   <section class="cta">
@@ -243,6 +270,16 @@ ${list.map((g) => `  <div class="card"><h3 style="margin-top:0"><a href="/guides
   <p class="lead">Got a rejection from KDP, IngramSpark, Barnes &amp; Noble Press or Lulu? Find your error below. Every guide shows the error, why it happened, how to fix it yourself, and the fast fix with SparkPrep.</p>
   <p>${CATEGORIES.filter((c) => all.some((g) => g.category === c.key)).map((c) => `<a href="#${c.key}">${esc(c.name)}</a>`).join(" · ")}</p>
 ${sections}
+
+  <h2>Free tools that catch these problems early</h2>
+  <ul class="links">
+    <li><a href="/kdp-cover-calculator/">KDP cover size calculator and template</a></li>
+    <li><a href="/book-spine-width-calculator/">Book spine width calculator</a></li>
+    <li><a href="/book-margin-calculator/">Book margin and bleed calculator</a></li>
+    <li><a href="/image-dpi-checker/">Image DPI checker</a></li>
+    <li><a href="/free-manuscript-checklist/">Free manuscript checklist</a></li>
+    <li><a href="/free-book-formatting-guide/">Free book formatting guide</a></li>
+  </ul>
 
   <section class="cta">
     <h2>Rather not fix it by hand?</h2>

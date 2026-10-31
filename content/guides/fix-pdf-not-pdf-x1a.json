@@ -9,6 +9,11 @@
   "lead": "Not every PDF is a print PDF. PDF/X-1a is a stricter kind built for printers, and IngramSpark asks for it.",
   "error": "The file is not PDF/X-1a compliant",
   "errorNote": "Paraphrased. Each printer words this a little differently.",
+  "aka": [
+    "PDF/X-1a required",
+    "Not a PDF/X-1a file",
+    "How to save as PDF/X-1a"
+  ],
   "why": "<p>PDF/X-1a is a print standard. It requires CMYK or grayscale color (no RGB), every font embedded, no live transparency, and a note inside the file saying which printing conditions it was made for (the \"output intent\").</p><p>A regular \"Save as PDF\" from Word or a \"PDF Standard\" download from Canva doesn't meet those rules, so IngramSpark's checks flag it. Barnes &amp; Noble Press and Lulu also ask for PDF/X-1a files. KDP doesn't require PDF/X-1a, but a PDF/X-1a file works there too.</p>",
   "manual": [
     "Open your original file.",
@@ -33,5 +38,6 @@
     }
   ],
   "date": "2026-10-28",
-  "diy": []
+  "diy": [],
+  "updated": "2026-10-31"
 }

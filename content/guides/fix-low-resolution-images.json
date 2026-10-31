@@ -9,6 +9,11 @@
   "lead": "A picture that looks sharp on your screen can still print blurry. Printers want 300 DPI, and many programs quietly lower it.",
   "error": "Image resolution is below 300 DPI",
   "errorNote": "Paraphrased. KDP shows this as a low-resolution image warning in its previewer.",
+  "aka": [
+    "Low resolution image",
+    "Image DPI too low",
+    "Images below 300 DPI"
+  ],
   "why": "<p>DPI (dots per inch) is how much detail an image has for its printed size. Screens need about 72 to 150. Print needs <strong>300 DPI</strong> at the size the picture appears in the book.</p><p>So a 1200 x 1800 pixel photo is sharp printed at 4\" x 6\", but blurry stretched across a full 6\" x 9\" page. Word and some PDF tools also shrink images when saving, which drops a good picture below 300.</p>",
   "diy": [
     {
@@ -62,5 +67,6 @@
     "Replace it with a bigger original, or make it smaller on the page. Stretching it bigger in Word or Canva doesn't add detail.",
     "Turn off image compression before you export (Word: File → Options → Advanced → \"Do not compress images in file\"), then re-export the PDF.",
     "Re-upload it to your printer and wait for the file review again. If it fails, you start over."
-  ]
+  ],
+  "updated": "2026-10-31"
 }

@@ -9,6 +9,11 @@
   "lead": "KDP's inside margin grows as your book gets thicker. Most margin errors come from using one margin for every book.",
   "error": "Text is outside the margins / content too close to the edge",
   "errorNote": "Paraphrased. KDP shows this in its print previewer before you can publish.",
+  "aka": [
+    "Content outside margins KDP",
+    "KDP gutter margin too small",
+    "Text too close to the edge of the page"
+  ],
   "why": "<p>The inside edge of each page (the <strong>gutter</strong>) disappears into the spine. Thicker books curve more, so KDP needs a bigger inside margin as the page count grows. The outside, top and bottom margins must be at least 0.25\" (0.375\" if your book has bleed).</p><div class=\"table-wrap\"><table><tr><th>Page count</th><th>KDP minimum inside margin</th></tr><tr><td>24 to 150</td><td>0.375\"</td></tr><tr><td>151 to 300</td><td>0.5\"</td></tr><tr><td>301 to 500</td><td>0.625\"</td></tr><tr><td>501 to 700</td><td>0.75\"</td></tr><tr><td>701 to 828</td><td>0.875\"</td></tr></table></div><p>Page numbers, headers and images count too. If anything sits closer to the edge than these numbers, KDP flags it.</p>",
   "diy": [
     {
@@ -51,5 +56,6 @@
     "Set the outside, top and bottom margins to at least 0.25\" (0.375\" if your book has bleed), choose \"Mirror margins\", and check page numbers and headers sit inside them.",
     "Re-export as a PDF at your exact trim size with all fonts embedded.",
     "Re-upload it and wait for the review again (KDP says a review can take up to 72 hours)."
-  ]
+  ],
+  "updated": "2026-10-31"
 }

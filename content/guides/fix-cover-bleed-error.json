@@ -9,6 +9,11 @@
   "lead": "Bleed is the most common cover rejection there is, and one of the easiest to fix once you know what the printer wants.",
   "error": "INSUFFICIENT OR NO BLEED ON COVER LAYOUT",
   "errorNote": "Quoted from a real IngramSpark rejection. KDP shows a similar warning in its cover previewer when your art doesn't reach the edge.",
+  "aka": [
+    "Insufficient bleed",
+    "Cover has no bleed",
+    "Background does not extend to the bleed edge"
+  ],
   "why": "<p>Printers print your cover on a bigger sheet and then cut it down. The blade can land a tiny bit off. <strong>Bleed</strong> is extra background art, 0.125\" (3.2 mm) past every edge, that gets cut away. If your art stops exactly at the edge, a slightly-off cut leaves a thin white line.</p><p>So printers check that your background runs all the way past the trim line. If it doesn't, or if the file is the trim size instead of the bigger bleed size, the cover is rejected.</p>",
   "diy": [
     {
@@ -65,5 +70,6 @@
     "Drag every background photo and color block out past the edge, to the bleed line. Keep all text well inside the trim line.",
     "Re-export as a print PDF (PDF/X-1a:2001 if your program has it) with the bleed included and no crop marks or printer marks.",
     "Re-upload it to your printer and wait for the file review again. If it fails, you start over."
-  ]
+  ],
+  "updated": "2026-10-31"
 }

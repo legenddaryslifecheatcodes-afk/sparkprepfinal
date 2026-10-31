@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Free Image DPI Checker for Print Books (300 DPI) | SparkPrep</title>
+<meta name="description" content="Check if your cover or interior picture is 300 DPI at the size it will print. Free, instant, and your picture never leaves your device. Shows the pixels you need for KDP and IngramSpark covers.">
+<link rel="canonical" href="https://sparkprep.legenddary.com/image-dpi-checker/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SparkPrep">
+<meta property="og:title" content="Image DPI Checker for Print Books">
+<meta property="og:description" content="Check if your cover or interior picture is 300 DPI at the size it will print. Free, instant, and your picture never leaves your device. Shows the pixels you need for KDP and IngramSpark covers.">
+<meta property="og:url" content="https://sparkprep.legenddary.com/image-dpi-checker/">
+<meta property="og:image" content="https://sparkprep.legenddary.com/brand/sparkprep-logo.png">
+<meta name="twitter:card" content="summary">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="stylesheet" href="/tools/tools.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "WebApplication", "name": "Image DPI Checker for Print Books", "url": "https://sparkprep.legenddary.com/image-dpi-checker/", "applicationCategory": "DesignApplication", "operatingSystem": "Web", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "publisher": {"@type": "Organization", "name": "SparkPrep", "url": "https://sparkprep.legenddary.com/"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "SparkPrep", "item": "https://sparkprep.legenddary.com/"}, {"@type": "ListItem", "position": 2, "name": "Free tools", "item": "https://sparkprep.legenddary.com/tools/"}, {"@type": "ListItem", "position": 3, "name": "Image DPI Checker for Print Books", "item": "https://sparkprep.legenddary.com/image-dpi-checker/"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What DPI does KDP require?", "acceptedAnswer": {"@type": "Answer", "text": "KDP recommends 300 DPI for images in print books and warns about images below that in its previewer."}}, {"@type": "Question", "name": "How do I check the DPI of an image?", "acceptedAnswer": {"@type": "Answer", "text": "Divide the picture's width in pixels by the width in inches it will print. 1,800 pixels printed 6 inches wide is 300 DPI. This free checker does it for you."}}, {"@type": "Question", "name": "Does this tool upload my picture?", "acceptedAnswer": {"@type": "Answer", "text": "No. The picture is read in your own browser and never leaves your device."}}]}]}</script>
+</head>
+<body>
+<header class="site">
+  <a class="brand" href="/"><img src="/brand/sparkprep-logo.png" alt="SparkPrep logo" width="120" height="34"></a>
+  <nav><a href="/tools/">Free tools</a><a class="hide-sm" href="/guides/">Guides</a><a href="/">SparkPrep</a></nav>
+</header>
+<main>
+  <div class="eyebrow">Free tool · Covers &amp; interior pictures</div>
+  <h1>Image DPI Checker for Print Books</h1>
+  <p class="lead">Find out if your picture is sharp enough to print. Pick your picture and where it will print, and see its real DPI at that size. Your picture stays on your device.</p>
+
+  <section class="card tool" aria-label="Image DPI checker">
+    <div class="row">
+      <div><label for="d-file">Your picture (JPG or PNG)</label><input id="d-file" type="file" accept="image/*"></div>
+      <div><label for="d-preset">Where will it print?</label><select id="d-preset">
+        <option value="6.125x9.25">Front cover, 6" x 9" book (with bleed)</option>
+        <option value="5.625x8.75">Front cover, 5.5" x 8.5" book (with bleed)</option>
+        <option value="5.125x8.25">Front cover, 5" x 8" book (with bleed)</option>
+        <option value="8.625x11.25">Front cover, 8.5" x 11" book (with bleed)</option>
+        <option value="4x3">Picture inside the book, 4" x 3"</option>
+        <option value="custom">Custom size…</option></select></div>
+      <div><label for="d-w">Print width (inches)</label><input id="d-w" type="number" step="0.01" min="0.1" value="6.125"></div>
+      <div><label for="d-h">Print height (inches)</label><input id="d-h" type="number" step="0.01" min="0.1" value="9.25"></div>
+    </div>
+    <div class="result">
+      <div><b id="d-dpi">—</b><span>Resolution at this print size</span></div>
+      <div><b id="d-px">—</b><span>Your picture's size in pixels</span></div>
+      <div><b id="d-max">—</b><span>Biggest it can print at 300 DPI</span></div>
+    </div>
+    <div id="d-msg" class="note">Pick a picture to check. It stays on your device; nothing is uploaded.</div>
+    <div class="next-step" data-next-step-box>
+      <p><strong>One picture checked. What about every picture in your book?</strong></p>
+      <p>SparkPrep checks every image on your cover and every interior page at the size it will actually print, and flags the blurry ones before the printer does. It also checks bleed, fonts, color and ink.</p>
+      <a class="btn" href="/audit">Check my book files</a>
+    </div>
+  </section>
+
+  <section class="card" id="why">
+    <h2 style="margin-top:0">Why 300 DPI matters for print</h2>
+    <p>DPI (dots per inch) is how many pixels of your picture land in each printed inch. Screens look fine at 72 to 150, but paper shows every missing pixel. Printers ask for <strong>300 DPI at the size it prints</strong>. A picture that looks sharp on your phone can still print blurry on a cover.</p>
+  </section>
+
+  <h2>The "DPI" number in your file doesn't matter. Pixels do.</h2>
+  <p>A photo can say "300 DPI" in its settings and still be too small. What counts is the number of pixels compared to the printed size. To print 6" wide at 300 DPI you need 6 x 300 = <strong>1,800 pixels</strong> across. This checker does that math for you.</p>
+
+  <h2>Pixels you need for common covers (300 DPI)</h2>
+  <div class="table-wrap"><table>
+    <tr><th>Book size</th><th>Front cover with bleed</th><th>Pixels needed</th></tr>
+    <tr><td>5" x 8"</td><td>5.125" x 8.25"</td><td>1,538 x 2,475</td></tr>
+    <tr><td>5.5" x 8.5"</td><td>5.625" x 8.75"</td><td>1,688 x 2,625</td></tr>
+    <tr><td>6" x 9"</td><td>6.125" x 9.25"</td><td>1,838 x 2,775</td></tr>
+    <tr><td>8.5" x 11"</td><td>8.625" x 11.25"</td><td>2,588 x 3,375</td></tr>
+  </table></div>
+  <p class="note">A full wrap cover (back, spine and front) needs more: use the <a href="/kdp-cover-calculator/">KDP cover calculator</a> to get its pixel size.</p>
+
+  <h2>What to do if your picture is too small</h2>
+  <ul>
+    <li>Find the original, full-size file (not one saved from email, a website or social media, which shrink pictures).</li>
+    <li>Buy or download the largest size from the stock photo site.</li>
+    <li>Print it smaller. The checker shows the biggest size that still reaches 300 DPI.</li>
+    <li>Simply changing the DPI number in Photoshop without adding pixels does not fix it.</li>
+  </ul>
+
+  <section class="cta">
+    <h2>Want every picture checked at once?</h2>
+    <p>SparkPrep checks your whole cover and every interior page against your printer's rules, including image resolution, bleed, fonts, color and ink. It explains every problem in plain English and fixes what it can for you.</p>
+    <a class="btn" href="/audit">Check my book files</a>
+    <a class="btn ghost" href="/interior-studio">Format my book free</a>
+  </section>
+
+  <h2>Quick answers</h2>
+  <h3>What DPI does KDP require?</h3>
+  <p>KDP recommends 300 DPI for images in print books and warns about images below that in its previewer.</p>
+  <h3>How do I check the DPI of an image?</h3>
+  <p>Divide the picture&#x27;s width in pixels by the width in inches it will print. 1,800 pixels printed 6 inches wide is 300 DPI. This free checker does it for you.</p>
+  <h3>Does this tool upload my picture?</h3>
+  <p>No. The picture is read in your own browser and never leaves your device.</p>
+
+  <h2>More free tools</h2>
+  <ul class="links">
+    <li><a href="/kdp-cover-calculator/">KDP cover size calculator and template</a></li>
+    <li><a href="/book-spine-width-calculator/">Book spine width calculator</a></li>
+    <li><a href="/book-margin-calculator/">Book margin and bleed calculator</a></li>
+    <li><a href="/book-page-count-calculator/">Word count to page count calculator</a></li>
+    <li><a href="/book-cover-dimensions/">Book cover dimensions by trim size</a></li>
+    <li><a href="/tools/">All free tools</a></li>
+  </ul>
+  <p class="note">SparkPrep is an independent tool and is not affiliated with Amazon KDP, IngramSpark, Barnes &amp; Noble Press or Lulu. Always check your printer's own help pages before you upload.</p>
+</main>
+<footer class="site">© SparkPrep by Legenddary · <a href="/">Home</a><a href="/tools/">Free tools</a><a href="/guides/">Guides</a><a href="/pricing">Pricing</a></footer>
+<script src="/tools/cover-calc.js" defer></script>
+<script src="/tools/more-tools.js" defer></script>
+<script src="/tools/next-step.js" defer></script>
+</body>
+</html>

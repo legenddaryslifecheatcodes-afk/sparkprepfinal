@@ -9,6 +9,11 @@
   "lead": "Your pages look black and white on screen, yet the printer says there's color in them. Here's why, and the quick way out.",
   "error": "RGB / color content found in a black & white interior",
   "errorNote": "Paraphrased from IngramSpark rejection emails.",
+  "aka": [
+    "RGB images found in black and white interior",
+    "Color found in a grayscale interior",
+    "Convert interior to grayscale"
+  ],
   "why": "<p>A black and white book is printed with black ink only. But most programs save \"black\" text as RGB, which is a screen color made of red, green and blue light. When the printer converts it, that black turns into a mix of several inks. A colored logo, a blue link or a color photo does the same.</p><p>Printers reject it because colored ink can't go on a black-only press, and because mixed black can push total ink over the limit.</p>",
   "diy": [
     {
@@ -56,5 +61,6 @@
     "Remove any colored links, logos or highlights (blue hyperlinks are a common one).",
     "Re-export as PDF/X-1a:2001, or in Acrobat Pro use Print Production → Convert Colors → Grayscale.",
     "Re-upload it to your printer and wait for the file review again. If it fails, you start over."
-  ]
+  ],
+  "updated": "2026-10-31"
 }

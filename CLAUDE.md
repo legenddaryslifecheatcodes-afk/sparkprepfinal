@@ -119,7 +119,7 @@ Facts here were true when written. Before acting on a status line (deployed / br
 - **Deploys cause a brief 502** (Render disk service stops the old instance first) — don't deploy during live customer/publisher sessions.
 - **Anonymous audit uploads are never deleted** — retention not decided.
 - **No real card purchase proven end to end** on the live hosted checkout yet.
-- **Traffic is tiny** (week of Oct 6–12: ~0 Google clicks, a handful of real visitors). **Cloudflare Web Analytics is OFF** — owner needs to enable it (Workers & Pages → sparkprep-live → Metrics → Enable Web Analytics) before visitor counts exist.
+- **Traffic is tiny** (week of Oct 6–12: ~0 Google clicks). **Visitor counting (2026-11-01):** the one-click "Enable Web Analytics" on the Pages project showed ZERO, because the domain's DNS is at Namecheap so Cloudflare never injects its beacon. Fix: the manual JS snippet. `scripts/inject-analytics.mjs` adds it to every built page (main build + each topic site) using the site token(s) in `analytics.json` (per hostname or `default`; empty = nothing added). To turn on: paste the token from Cloudflare → Analytics & Logs → Web Analytics → the site → Manage site, and merge.
 - **Semrush** is connected but out of API units.
 - **Frontend `main` branch:** work lives on `sparkprep-logo-and-ai-gating`; a PR to `main` still needs the owner to click Create in GitHub.
 - **The Legenddary app:** left sidebar partly covered in preview; fix unfinished (Emergent credits ran out 2026-10-15).

@@ -83,6 +83,8 @@
     "indexnow": "node scripts/indexnow.mjs",
     "guides": "node scripts/build-guides.mjs",
     "seo-pages": "node scripts/build-seo-pages.mjs",
+    "landing-sites": "node scripts/build-landing-sites.mjs",
+    "indexnow-landing": "node scripts/indexnow-landing-sites.mjs",
     "test": "craco test"
   },
   "browserslist": {

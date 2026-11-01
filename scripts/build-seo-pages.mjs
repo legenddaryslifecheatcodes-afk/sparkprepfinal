@@ -40,7 +40,7 @@ const COPY = {
     faq: [["What colors work best on a thriller cover?", "Dark backgrounds with one bright accent, like black with red, or navy with gold. High contrast makes the title readable as a small thumbnail."], ["What font should I use for a thriller book cover?", "A bold, condensed sans-serif in capitals, like Bebas Neue or Oswald. Both are free and come with SparkPrep's Cover Studio."]],
   },
   romance: {
-    slug: "romance-book-covers", noun: "romance",
+    slug: "romance-book-covers", noun: "romance", phrase: "romance novel",
     intro: "Romance readers know what they want, and the cover tells them in a glance. Soft or rich colors, a flowing script title, and a clear feeling (sweet, steamy or funny) help your book find the right reader.",
     tips: ["Script or elegant serif fonts signal romance right away.", "Blush, plum and warm tones read sweet; deep reds and black read steamy.", "Match the mood of your subgenre: rom-com covers are bright and playful.", "Leave room for a tagline or series name."],
     faq: [["What makes a good romance book cover?", "A clear mood, a readable title and the colors your subgenre uses. Readers should know if it's sweet, steamy or funny before they read a word."], ["What font is best for a romance cover?", "A flowing script like Great Vibes for the title, paired with a simple serif like Lora for the author name."]],
@@ -193,8 +193,9 @@ function genrePage(g, label) {
   const shown = [];
   // Up to 12 previews, mixing this genre's styles across different layouts.
   LAYOUTS.forEach(([lk, ln]) => styles.forEach((st) => shown.push(mock(st, lk, ln, c.noun))));
-  const title = `${n} Free ${nice.replace(" & ", " and ")} Book Cover Templates | SparkPrep`;
-  const description = `${n} free ${c.noun} book cover templates, sized for KDP, IngramSpark, Barnes & Noble Press and Lulu. Pick one, add your title, and get a full wrap cover with the right spine width.`;
+  // Targets searches like "free thriller book cover templates" and "romance novel cover layout examples".
+  const title = `Free ${nice.replace(" & ", " and ")} Book Cover Templates: ${n} Print-Ready Layouts | SparkPrep`;
+  const description = `Free ${c.noun} book cover templates and cover layout examples: ${n} print-ready designs sized for KDP, IngramSpark, Barnes & Noble Press and Lulu, with the right spine width.`;
   const faq = [...c.faq, ["Will these templates fit my book's spine?", "Yes. Each template is built on your book's real cover size, so the spine matches your page count and paper for KDP, IngramSpark, Barnes & Noble Press or Lulu."]];
   const others = realGenres.filter(([k]) => k !== g).map(([k, l]) => `<a href="${genreUrl(k)}">${esc(l)}</a>`).join("");
   const schema = [
@@ -205,10 +206,10 @@ function genrePage(g, label) {
   ];
   const body = `  <div class="eyebrow"><a href="/templates/" style="color:inherit">Cover templates</a> · ${esc(nice)}</div>
   <h1>Free ${esc(nice)} Book Cover Templates</h1>
-  <p class="lead">${n} free ${esc(c.noun)} cover templates, ready for print. Pick one, type your title, and SparkPrep sizes the whole cover (front, spine and back) to your book.</p>
+  <p class="lead">${n} free ${esc(c.noun)} book cover templates, ready for print. Browse the ${esc(c.phrase || c.noun)} cover layout examples below, pick one, type your title, and SparkPrep sizes the whole cover (front, spine and back) to your book.</p>
   <a class="btn" href="/cover-studio?genre=${g}">Open the ${esc(nice)} templates</a>
 
-  <h2>A few of the ${esc(c.noun)} styles</h2>
+  <h2>${esc((c.phrase || c.noun).charAt(0).toUpperCase() + (c.phrase || c.noun).slice(1))} cover layout examples</h2>
   <p class="note">Shown with a sample title. In Cover Studio every template shows your own title and author name.</p>
   <div class="mocks">
     ${shown.slice(0, 12).join("\n    ")}

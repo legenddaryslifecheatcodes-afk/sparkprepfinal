@@ -15,7 +15,7 @@
 <meta name="twitter:card" content="summary">
 <link rel="icon" type="image/png" href="/favicon.png">
 <link rel="stylesheet" href="/tools/tools.css">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"How to fix the \"font not embedded\" error in your book PDF","description":"Printer says a font isn't embedded in your PDF? Here's what it means and how to embed all fonts from Word, InDesign or Acrobat so your book prints exactly as you designed it.","datePublished":"2026-10-28","dateModified":"2026-10-28","mainEntityOfPage":"https://sparkprep.legenddary.com/guides/fix-font-not-embedded/","author":{"@type":"Organization","name":"SparkPrep","url":"https://sparkprep.legenddary.com/"},"publisher":{"@type":"Organization","name":"SparkPrep","logo":{"@type":"ImageObject","url":"https://sparkprep.legenddary.com/brand/sparkprep-logo.png"}},"image":"https://sparkprep.legenddary.com/brand/sparkprep-logo.png","articleSection":"Interior Formatting"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SparkPrep","item":"https://sparkprep.legenddary.com/"},{"@type":"ListItem","position":2,"name":"Guides","item":"https://sparkprep.legenddary.com/guides/"},{"@type":"ListItem","position":3,"name":"How to fix the \"font not embedded\" error in your book PDF","item":"https://sparkprep.legenddary.com/guides/fix-font-not-embedded/"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I check if fonts are embedded in a PDF?","acceptedAnswer":{"@type":"Answer","text":"Open it in Adobe Acrobat and go to File, Properties, Fonts. Each font should show Embedded or Embedded Subset."}},{"@type":"Question","name":"Do standard fonts like Arial need to be embedded?","acceptedAnswer":{"@type":"Answer","text":"Yes. Printers need every font embedded, including Arial, Times and Helvetica, which many programs skip by default."}}]}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"How to fix the \"font not embedded\" error in your book PDF","description":"Printer says a font isn't embedded in your PDF? Here's what it means and how to embed all fonts from Word, InDesign or Acrobat so your book prints exactly as you designed it.","datePublished":"2026-10-28","dateModified":"2026-10-31","mainEntityOfPage":"https://sparkprep.legenddary.com/guides/fix-font-not-embedded/","author":{"@type":"Organization","name":"SparkPrep","url":"https://sparkprep.legenddary.com/"},"publisher":{"@type":"Organization","name":"SparkPrep","logo":{"@type":"ImageObject","url":"https://sparkprep.legenddary.com/brand/sparkprep-logo.png"}},"image":"https://sparkprep.legenddary.com/brand/sparkprep-logo.png","articleSection":"Interior Formatting"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SparkPrep","item":"https://sparkprep.legenddary.com/"},{"@type":"ListItem","position":2,"name":"Guides","item":"https://sparkprep.legenddary.com/guides/"},{"@type":"ListItem","position":3,"name":"How to fix the \"font not embedded\" error in your book PDF","item":"https://sparkprep.legenddary.com/guides/fix-font-not-embedded/"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I check if fonts are embedded in a PDF?","acceptedAnswer":{"@type":"Answer","text":"Open it in Adobe Acrobat and go to File, Properties, Fonts. Each font should show Embedded or Embedded Subset."}},{"@type":"Question","name":"Do standard fonts like Arial need to be embedded?","acceptedAnswer":{"@type":"Answer","text":"Yes. Printers need every font embedded, including Arial, Times and Helvetica, which many programs skip by default."}}]}]}</script>
 </head>
 <body>
 <header class="site">
@@ -25,18 +25,21 @@
 <main>
   <div class="eyebrow"><a href="/guides/" style="color:inherit">Guides</a> · Interior Formatting</div>
   <h1>How to fix the &quot;font not embedded&quot; error in your book PDF</h1>
-  <p class="note">Updated October 28, 2026 · Amazon KDP · IngramSpark · Barnes &amp; Noble Press · Lulu</p>
+  <p class="note">Updated October 31, 2026 · Amazon KDP · IngramSpark · Barnes &amp; Noble Press · Lulu</p>
   <p class="lead">An unembedded font is a font your PDF names but doesn't carry inside it. The printer's computer doesn't have it, so the file is rejected.</p>
 
+  <h2>The error: “Font not embedded”</h2>
   <blockquote>Font not embedded</blockquote>
   <p class="note">Often listed with the font's name, such as "Font Garamond not embedded".</p>
+  <h3>Other ways people search for this error</h3>
+  <ul><li>“Fonts are not embedded”</li><li>“Font is not embedded”</li><li>“Embed all fonts in your PDF”</li><li>“Font not embedded in PDF for KDP”</li></ul>
   <div class="card"><p style="margin:0"><strong>Quick fix:</strong> SparkPrep scans your cover and interior against the exact platform rules, pinpoints the issue, and fixes it for you with one click.</p>
     <p style="margin:10px 0 0">👉 <a href="/">Fix your file instantly at sparkprep.legenddary.com</a></p></div>
 
-  <h2>Why did your file get rejected?</h2>
+  <h2>Why you get “Font not embedded”</h2>
   <p>A PDF can either carry its fonts inside it (embedded) or just name them and hope the next computer has them. Printers require every font to be embedded, even common ones like Arial or Times, so your book prints exactly as designed.</p><p>If a font isn't embedded, the printer's system would swap in a different font. Words move, lines break in new places, and pages can shift, so they reject the file instead.</p>
 
-  <h2>How to fix it manually (the hard way)</h2>
+  <h2>How to fix “Font not embedded” manually (the hard way)</h2>
   <p>If you want to try adjusting the files yourself, here are the steps you need to follow:</p>
   <ol><li>Open your original manuscript or cover file.</li><li>In Word, go to File → Options → Save and tick "Embed fonts in the file" (and untick "Do not embed common system fonts").</li><li>Swap any font whose license doesn't allow embedding for one that does.</li><li>Re-export as PDF/X-1a:2001, then check in Acrobat (File → Properties → Fonts) that every font says "Embedded" or "Embedded Subset".</li><li>Re-upload it to your printer and wait for the file review again. If it fails, you start over.</li></ol>
   <h3 style="margin-top:28px">Step by step in your app</h3>
@@ -46,6 +49,8 @@
   <ol><li>File → Export → Adobe PDF (Print).</li><li>Choose the preset <strong>PDF/X-1a:2001</strong>. It embeds all fonts.</li><li>Export.</li></ol>
   <h4>Adobe Acrobat Pro</h4>
   <ol><li>To check: File → Properties → Fonts tab. Every font should say "(Embedded)" or "(Embedded Subset)".</li><li>To fix: Tools → Print Production → Preflight, search for <strong>Embed missing fonts</strong> and run the fixup.</li><li>If a font can't be embedded, its license doesn't allow it. Switch to a font that does.</li></ol>
+
+  <div class="card"><p style="margin:0">You can fix this by hand with the steps above. Or drop your file into SparkPrep and let it find the problem and fix it for you, in minutes. <a href="/">Try it on your file</a>.</p></div>
 
   <section class="cta">
     <h2>How to fix it instantly (the SparkPrep way)</h2>

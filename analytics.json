@@ -1,0 +1,10 @@
+{
+  "_note": "Cloudflare Web Analytics site tokens (public; they are printed into every page anyway). Paste a token from Cloudflare > Analytics & Logs > Web Analytics > (site) > Manage site > the JS snippet's \"token\" value. 'default' is used for any host without its own token. Leave empty to add no tracking.",
+  "default": "",
+  "sparkprep.legenddary.com": "",
+  "sparkpreplanding.legenddary.com": "",
+  "sparkpreplandingfix.legenddary.com": "",
+  "sparkpreplandingcovers.legenddary.com": "",
+  "sparkpreplandingerrors.legenddary.com": "",
+  "sparkpreplandingnewauthor.legenddary.com": ""
+}

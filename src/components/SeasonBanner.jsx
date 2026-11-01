@@ -26,7 +26,7 @@ export default function SeasonBanner({ variant = "bar" }) {
     if (location.pathname === "/audit") {
       e.preventDefault();
       document.querySelector('[data-testid="audit-drop"]')?.scrollIntoView({ behavior: "smooth", block: "center" });
-      toast("Start by uploading your cover or interior below. SparkPrep tells you honestly whether it found issues; you only pay to see exactly what and where.");
+      toast("Start by uploading your cover or inside pages below. SparkPrep tells you honestly whether it found problems. You only pay to see exactly what and where.");
     }
   };
 

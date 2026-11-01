@@ -79,9 +79,12 @@
   },
   "scripts": {
     "start": "craco start",
-    "build": "node scripts/build-guides.mjs && craco build && node scripts/prerender-seo.mjs",
+    "build": "node scripts/build-guides.mjs && (node scripts/build-seo-pages.mjs || echo seo-pages skipped, keeping the committed pages) && craco build && node scripts/prerender-seo.mjs && node scripts/inject-analytics.mjs build sparkprep.legenddary.com",
     "indexnow": "node scripts/indexnow.mjs",
     "guides": "node scripts/build-guides.mjs",
+    "seo-pages": "node scripts/build-seo-pages.mjs",
+    "landing-sites": "node scripts/build-landing-sites.mjs",
+    "indexnow-landing": "node scripts/indexnow-landing-sites.mjs",
     "test": "craco test"
   },
   "browserslist": {

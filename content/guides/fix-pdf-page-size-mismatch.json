@@ -9,6 +9,11 @@
   "lead": "Every printer checks that your PDF pages are exactly the size of the book you ordered. Off by a fraction of an inch is still a rejection.",
   "error": "Interior page size does not match the trim size selected",
   "errorNote": "Paraphrased. KDP, IngramSpark, Barnes & Noble Press and Lulu each word this differently.",
+  "aka": [
+    "Page size does not match trim size",
+    "Manuscript size does not match trim size",
+    "PDF page size wrong for KDP"
+  ],
   "why": "<p>When you set up your book you choose a trim size, like 5.5\" x 8.5\" or 6\" x 9\". Your interior PDF has to be that exact size. Word and Google Docs start at letter size (8.5\" x 11\"), so a book typed there and saved as PDF is the wrong size unless you change it.</p><p>If your interior has pictures that run to the edge (bleed), KDP wants the page 0.125\" wider and 0.25\" taller than the trim size. Without bleed, the page is exactly the trim size.</p>",
   "diy": [
     {
@@ -56,5 +61,6 @@
     "Scroll through the whole book: pictures, tables and page breaks will have moved. Put them back.",
     "Re-export as a PDF. Don't use \"Fit to page\" or \"Shrink to fit\" when you save it.",
     "Re-upload it to your printer and wait for the file review again. If it fails, you start over."
-  ]
+  ],
+  "updated": "2026-10-31"
 }

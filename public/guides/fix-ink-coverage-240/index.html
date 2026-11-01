@@ -15,7 +15,7 @@
 <meta name="twitter:card" content="summary">
 <link rel="icon" type="image/png" href="/favicon.png">
 <link rel="stylesheet" href="/tools/tools.css">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"How to fix \"ink coverage exceeds 240%\" (IngramSpark)","description":"IngramSpark rejected your file for ink coverage over 240%? Here's what total ink means, why rich black causes it, and how to fix it in Acrobat, InDesign or Word.","datePublished":"2026-10-28","dateModified":"2026-10-28","mainEntityOfPage":"https://sparkprep.legenddary.com/guides/fix-ink-coverage-240/","author":{"@type":"Organization","name":"SparkPrep","url":"https://sparkprep.legenddary.com/"},"publisher":{"@type":"Organization","name":"SparkPrep","logo":{"@type":"ImageObject","url":"https://sparkprep.legenddary.com/brand/sparkprep-logo.png"}},"image":"https://sparkprep.legenddary.com/brand/sparkprep-logo.png","articleSection":"Color & Resolution"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SparkPrep","item":"https://sparkprep.legenddary.com/"},{"@type":"ListItem","position":2,"name":"Guides","item":"https://sparkprep.legenddary.com/guides/"},{"@type":"ListItem","position":3,"name":"How to fix \"ink coverage exceeds 240%\" (IngramSpark)","item":"https://sparkprep.legenddary.com/guides/fix-ink-coverage-240/"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the IngramSpark ink limit?","acceptedAnswer":{"@type":"Answer","text":"240% total ink coverage, meaning cyan, magenta, yellow and black added together in any one area."}},{"@type":"Question","name":"How do I check total ink coverage?","acceptedAnswer":{"@type":"Answer","text":"In Adobe Acrobat Pro, open Print Production, Output Preview and tick Total Area Coverage set to 240%. Anything over the limit is highlighted."}}]}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"How to fix \"ink coverage exceeds 240%\" (IngramSpark)","description":"IngramSpark rejected your file for ink coverage over 240%? Here's what total ink means, why rich black causes it, and how to fix it in Acrobat, InDesign or Word.","datePublished":"2026-10-28","dateModified":"2026-10-31","mainEntityOfPage":"https://sparkprep.legenddary.com/guides/fix-ink-coverage-240/","author":{"@type":"Organization","name":"SparkPrep","url":"https://sparkprep.legenddary.com/"},"publisher":{"@type":"Organization","name":"SparkPrep","logo":{"@type":"ImageObject","url":"https://sparkprep.legenddary.com/brand/sparkprep-logo.png"}},"image":"https://sparkprep.legenddary.com/brand/sparkprep-logo.png","articleSection":"Color & Resolution"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SparkPrep","item":"https://sparkprep.legenddary.com/"},{"@type":"ListItem","position":2,"name":"Guides","item":"https://sparkprep.legenddary.com/guides/"},{"@type":"ListItem","position":3,"name":"How to fix \"ink coverage exceeds 240%\" (IngramSpark)","item":"https://sparkprep.legenddary.com/guides/fix-ink-coverage-240/"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the IngramSpark ink limit?","acceptedAnswer":{"@type":"Answer","text":"240% total ink coverage, meaning cyan, magenta, yellow and black added together in any one area."}},{"@type":"Question","name":"How do I check total ink coverage?","acceptedAnswer":{"@type":"Answer","text":"In Adobe Acrobat Pro, open Print Production, Output Preview and tick Total Area Coverage set to 240%. Anything over the limit is highlighted."}}]}]}</script>
 </head>
 <body>
 <header class="site">
@@ -25,18 +25,21 @@
 <main>
   <div class="eyebrow"><a href="/guides/" style="color:inherit">Guides</a> · Color &amp; Resolution</div>
   <h1>How to fix &quot;ink coverage exceeds 240%&quot; (IngramSpark)</h1>
-  <p class="note">Updated October 28, 2026 · IngramSpark</p>
+  <p class="note">Updated October 31, 2026 · IngramSpark</p>
   <p class="lead">This one sounds technical, but the cause is usually simple: black that's made from all four inks instead of black ink alone.</p>
 
+  <h2>The error: “Ink coverage exceeds 240%”</h2>
   <blockquote>Ink coverage exceeds 240%</blockquote>
   <p class="note">Quoted from IngramSpark rejection emails.</p>
+  <h3>Other ways people search for this error</h3>
+  <ul><li>“Total ink coverage too high”</li><li>“Total area coverage exceeds 240%”</li><li>“TAC limit exceeded”</li><li>“Rich black in a black and white interior”</li></ul>
   <div class="card"><p style="margin:0"><strong>Quick fix:</strong> SparkPrep scans your cover and interior against the exact platform rules, pinpoints the issue, and fixes it for you with one click.</p>
     <p style="margin:10px 0 0">👉 <a href="/">Fix your file instantly at sparkprep.legenddary.com</a></p></div>
 
-  <h2>Why did your file get rejected?</h2>
+  <h2>Why you get “Ink coverage exceeds 240%”</h2>
   <p>Printers use four inks: cyan, magenta, yellow and black (CMYK). <strong>Total ink</strong> is all four added together in one spot. A pure black uses 100% (black only). A "rich black" can use 300% or more.</p><p>IngramSpark's limit is 240%. Over that, ink soaks the paper, smears and dries slowly, so the file is rejected. It often comes from black text in a file saved as RGB, or dark photos converted to CMYK without an ink limit.</p>
 
-  <h2>How to fix it manually (the hard way)</h2>
+  <h2>How to fix “Ink coverage exceeds 240%” manually (the hard way)</h2>
   <p>If you want to try adjusting the files yourself, here are the steps you need to follow:</p>
   <ol><li>Open your original file.</li><li>Change all black text and black lines to 100% black only (C0 M0 Y0 K100), not "rich black".</li><li>For color pictures, convert them in Photoshop (Edit → Convert to Profile → Custom CMYK) with the total ink limit set to 240%.</li><li>Re-export as PDF/X-1a:2001, then check in Acrobat Pro (Print Production → Output Preview → Total Area Coverage at 240%) that nothing is highlighted.</li><li>Re-upload it to IngramSpark and wait for the file review and new e-proof.</li></ol>
   <h3 style="margin-top:28px">Step by step in your app</h3>
@@ -46,6 +49,8 @@
   <ol><li>Export it as <strong>grayscale</strong> (black ink only). Grayscale can never go over 100%, so the error disappears.</li><li>In Acrobat: Print Production → Convert Colors, convert everything to a grayscale profile.</li></ol>
   <h4>Color cover or interior</h4>
   <ol><li>Make black text 100% black (C0 M0 Y0 K100), not rich black.</li><li>Convert images to CMYK with a profile that limits total ink, such as US Web Coated (SWOP) v2 (300% max), then lower further if needed.</li><li>In InDesign, export with the PDF/X-1a preset and check Output Preview again.</li></ol>
+
+  <div class="card"><p style="margin:0">You can fix this by hand with the steps above. Or drop your file into SparkPrep and let it find the problem and fix it for you, in minutes. <a href="/">Try it on your file</a>.</p></div>
 
   <section class="cta">
     <h2>How to fix it instantly (the SparkPrep way)</h2>

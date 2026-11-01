@@ -9,6 +9,12 @@
   "lead": "Shadows, see-through effects and layers look fine on screen. In print, they can turn into white boxes or missing art.",
   "error": "The PDF contains live transparency or layers that must be flattened",
   "errorNote": "Paraphrased. Each printer words this a little differently.",
+  "aka": [
+    "Transparency flattening failed",
+    "Transparency used",
+    "PDF contains transparency",
+    "Flatten your PDF before uploading"
+  ],
   "why": "<p>Drop shadows, glows, faded images and see-through shapes are all <strong>transparency</strong>. Design programs also keep your art in <strong>layers</strong>. Printing systems can handle these unevenly, so a shadow can print as a box or a layer can go missing.</p><p>The PDF/X-1a print standard, which IngramSpark asks for, doesn't allow live transparency, so everything must be <strong>flattened</strong> into one finished image. KDP recommends flattening too.</p>",
   "manual": [
     "Open your original file (InDesign, Illustrator, Photoshop or Canva).",
@@ -33,5 +39,6 @@
     }
   ],
   "date": "2026-10-28",
-  "diy": []
+  "diy": [],
+  "updated": "2026-10-31"
 }

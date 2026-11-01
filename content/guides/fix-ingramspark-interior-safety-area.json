@@ -9,6 +9,12 @@
   "lead": "This is one of IngramSpark's most common interior rejections, and it usually has one simple cause.",
   "error": "BOOKBLOCK: INTERIOR CONTENT EXTENDS OUTSIDE THE SAFETY AREA. All text, borders, and important elements need to be at least 0.5 inch (13 mm) from trim edges. INTERIOR CONTENT IS NOT CENTERED. Submit a new interior PDF with the content properly centered at the correct size.",
   "errorNote": "Quoted from a real IngramSpark rejection.",
+  "errorShort": "Interior content extends outside the safety area",
+  "aka": [
+    "Interior content is not centered",
+    "Content outside the safe area",
+    "Text too close to the trim edge (interior)"
+  ],
   "why": "<p>IngramSpark wants everything on your pages, including page numbers and headers, at least <strong>0.5\" (13 mm)</strong> from every trim edge.</p><p>The usual cause: the PDF was made at <strong>letter size (8.5\" x 11\")</strong> while the book is 6\" x 9\". IngramSpark shrinks or crops it to fit, so the text ends up off-center and too close to the edge. The second cause is margins under 0.5\", often from page numbers sitting low in the footer.</p>",
   "diy": [
     {
@@ -49,5 +55,6 @@
     "Set every margin to at least 0.5\", and check headers, footers and page numbers sit inside that 0.5\" too.",
     "Re-export as PDF/X-1a:2001 with fonts embedded, and check the PDF page size matches your trim size.",
     "Re-upload it to IngramSpark and wait for the file review and new e-proof."
-  ]
+  ],
+  "updated": "2026-10-31"
 }

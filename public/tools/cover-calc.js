@@ -147,52 +147,22 @@
   });
 })();
 
-/* Email box that opens the calculator. No account and no password: the email is saved to SparkPrep's list
-   and remembered on this device, so the box only shows once. The calculator and the page text stay in the page. */
+/* The email box that used to open the calculators was removed on 2026-10-31 (Trey: free tools stay open;
+   only Cover Studio and the Editor are gated). This only finishes sending any email a visitor already typed
+   before the change, if the server was asleep at the time, so no saved email is lost. */
 (function () {
   var API = "https://sparkprep-v9fp.onrender.com/api/leads";
-  var KEY = "sp_tool_email", PENDING = "sp_tool_email_pending";
+  var PENDING = "sp_tool_email_pending";
   function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
-  function set(k, v) { try { if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) {} }
-  function source() { return (location.pathname.replace(/^\/+|\/+$/g, "") || "tools").split("/")[0]; }
-
-  function send(email) {
-    set(PENDING, email);   // kept until the server says it has it, so a slow or sleeping server never loses an email
+  function clear(k) { try { localStorage.removeItem(k); } catch (e) {} }
+  window.addEventListener("DOMContentLoaded", function () {
+    var email = get(PENDING);
+    if (!email) return;
+    var source = (location.pathname.replace(/^\/+|\/+$/g, "") || "tools").split("/")[0];
     try {
       fetch(API, { method: "POST", headers: { "Content-Type": "application/json" }, keepalive: true,
-        body: JSON.stringify({ email: email, source: source() }) })
-        .then(function (r) { if (r.ok || r.status === 422) set(PENDING, null); }).catch(function () {});
+        body: JSON.stringify({ email: email, source: source }) })
+        .then(function (r) { if (r.ok || r.status === 422) clear(PENDING); }).catch(function () {});
     } catch (e) {}
-  }
-
-  window.addEventListener("DOMContentLoaded", function () {
-    var tool = document.querySelector("section.tool");
-    if (!tool) return;
-    if (get(PENDING)) send(get(PENDING));
-    if (get(KEY)) return;
-
-    tool.classList.add("gated");
-    var gate = document.createElement("div");
-    gate.className = "gate";
-    gate.innerHTML =
-      '<form novalidate>' +
-      '<h2>Enter your email to open this free tool</h2>' +
-      '<p>No account. No password. Just your email.</p>' +
-      '<input type="email" name="email" autocomplete="email" placeholder="you@example.com" aria-label="Your email" required>' +
-      '<button class="btn" type="submit">Open the free tool</button>' +
-      '<div class="err" role="alert"></div>' +
-      '<p class="note">We\'ll send you helpful self-publishing tips now and then. Unsubscribe anytime.</p>' +
-      '</form>';
-    tool.appendChild(gate);
-    var form = gate.querySelector("form"), input = gate.querySelector("input"), err = gate.querySelector(".err");
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      var email = (input.value || "").trim();
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { err.textContent = "Please enter a real email address."; input.focus(); return; }
-      set(KEY, email);
-      send(email);
-      gate.remove();
-      tool.classList.remove("gated");
-    });
   });
 })();

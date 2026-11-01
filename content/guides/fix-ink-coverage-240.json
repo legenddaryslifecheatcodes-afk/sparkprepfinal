@@ -9,6 +9,12 @@
   "lead": "This one sounds technical, but the cause is usually simple: black that's made from all four inks instead of black ink alone.",
   "error": "Ink coverage exceeds 240%",
   "errorNote": "Quoted from IngramSpark rejection emails.",
+  "aka": [
+    "Total ink coverage too high",
+    "Total area coverage exceeds 240%",
+    "TAC limit exceeded",
+    "Rich black in a black and white interior"
+  ],
   "why": "<p>Printers use four inks: cyan, magenta, yellow and black (CMYK). <strong>Total ink</strong> is all four added together in one spot. A pure black uses 100% (black only). A \"rich black\" can use 300% or more.</p><p>IngramSpark's limit is 240%. Over that, ink soaks the paper, smears and dries slowly, so the file is rejected. It often comes from black text in a file saved as RGB, or dark photos converted to CMYK without an ink limit.</p>",
   "diy": [
     {
@@ -55,5 +61,6 @@
     "For color pictures, convert them in Photoshop (Edit → Convert to Profile → Custom CMYK) with the total ink limit set to 240%.",
     "Re-export as PDF/X-1a:2001, then check in Acrobat Pro (Print Production → Output Preview → Total Area Coverage at 240%) that nothing is highlighted.",
     "Re-upload it to IngramSpark and wait for the file review and new e-proof."
-  ]
+  ],
+  "updated": "2026-10-31"
 }

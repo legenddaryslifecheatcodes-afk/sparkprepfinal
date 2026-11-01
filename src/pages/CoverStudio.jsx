@@ -9,7 +9,7 @@ import { LogoMark } from "@/components/Logo";
 import { CoverEngine } from "@/lib/coverStudio/engine";
 import { DEFAULT_SPECS, loadGeometry } from "@/lib/coverStudio/specs";
 import { PREVIEW_DPI, markPreview } from "@/lib/coverStudio/previewMarks";
-import { DEFAULT_TEXT } from "@/lib/coverStudio/templates";
+import { DEFAULT_TEXT, GENRES } from "@/lib/coverStudio/templates";
 import TemplatesPanel from "@/components/coverStudio/TemplatesPanel";
 import FontPicker from "@/components/coverStudio/FontPicker";
 import PropertiesPanel from "@/components/coverStudio/PropertiesPanel";
@@ -195,7 +195,9 @@ export default function CoverStudio() {
   const [specs, setSpecs] = useState(saved.current?.specs || DEFAULT_SPECS);
   const [geo, setGeo] = useState(null);
   const [words, setWordsState] = useState({ ...DEFAULT_TEXT, ...(saved.current?.words || {}) });
-  const [genre, setGenre] = useState(saved.current?.genre || "all");
+  // A genre landing page (/templates/<genre>-book-covers/) links here with ?genre=<key> to open that genre's templates.
+  const urlGenre = params.get("genre");
+  const [genre, setGenre] = useState((urlGenre && GENRES.some(([k]) => k === urlGenre) && urlGenre) || saved.current?.genre || "all");
   const [tab, setTab] = useState("templates");
   const [selected, setSelected] = useState(null);
   const [tick, setTick] = useState(0);

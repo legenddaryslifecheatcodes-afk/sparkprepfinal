@@ -18,6 +18,8 @@ on:
       - "content/landing-sites/**"
       - "scripts/build-landing-sites.mjs"
       - ".github/workflows/deploy-landing-sites.yml"
+      - "analytics.json"
+      - "scripts/inject-analytics.mjs"
   workflow_dispatch:
 
 concurrency:
@@ -49,6 +51,9 @@ jobs:
 
       # Plain Node, no npm install needed: the generator has no dependencies.
       - run: node scripts/build-landing-sites.mjs
+
+      - name: Add Cloudflare Web Analytics (token from analytics.json)
+        run: node scripts/inject-analytics.mjs sites/${{ matrix.key }} ${{ matrix.host }}
 
       - name: Create the Pages project (first run only)
         run: npx --yes wrangler@3 pages project create ${{ matrix.project }} --production-branch=main || echo "Project already exists"

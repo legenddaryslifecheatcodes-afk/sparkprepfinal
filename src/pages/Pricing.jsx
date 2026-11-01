@@ -154,13 +154,13 @@ export default function Pricing() {
             <h1 className="font-display font-black text-5xl md:text-6xl tracking-tighter mt-3">Pricing.</h1>
           ) : bookModel ? (
             <>
-              <h1 className="font-display font-black text-5xl md:text-6xl tracking-tighter mt-3">One price per book.<br />Cover, interior, or both.</h1>
-              <p className="text-neutral-400 mt-4 max-w-xl">No plans to decode. Every book includes the SparkPrep Standard Check of every page, Auto-Fix with independent verification, and {pricing.book.window_days} days of unlimited exports.</p>
+              <h1 className="font-display font-black text-5xl md:text-6xl tracking-tighter mt-3">One price per book.<br />Cover, inside pages, or both.</h1>
+              <p className="text-neutral-400 mt-4 max-w-xl">No confusing plans. Every book includes a full check of every page, automatic fixes that are checked a second time, and {pricing.book.window_days} days of unlimited downloads.</p>
             </>
           ) : (
             <>
               <h1 className="font-display font-black text-5xl md:text-6xl tracking-tighter mt-3">Pay per title,<br />not per fix.</h1>
-              <p className="text-neutral-400 mt-4 max-w-xl">Every plan includes CMYK, DPI, spine calculator, PDF/X-1a export and distributor templates. Cancel any time.</p>
+              <p className="text-neutral-400 mt-4 max-w-xl">Every plan includes print-color conversion, picture sharpness checks, a spine calculator, print-ready PDF files and printer templates. Cancel any time.</p>
             </>
           )}
         </div>
@@ -195,8 +195,8 @@ function AuditCard({ pricing, bookModel }) {
           </div>
           <h2 className="font-display font-black text-4xl md:text-5xl tracking-tighter mt-4">{money(price)} Print Failure Audit.</h2>
           <p className="text-neutral-400 mt-3 max-w-xl leading-relaxed">
-            One-time pay. Upload a cover or interior and get a pixel-level pinpointed audit — what failed, the exact region, and the publisher rule it breaks.
-            {pricing.advanced_audit ? " Covers are checked in full; interiors on page 1." : ""}
+            Pay once. Upload a cover or inside pages and see every problem: what failed, exactly where, and which printer rule it breaks.
+            {pricing.advanced_audit ? " Covers are checked in full; inside pages on page 1." : ""}
             {bookModel && <> <span className="text-white">Whatever you pay is credited toward your book</span> if you fix it with SparkPrep.</>}
           </p>
           {specialNote(pricing, "audit") && (
@@ -213,7 +213,7 @@ function AuditCard({ pricing, bookModel }) {
           <div className="mt-5 flex flex-wrap gap-2 font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">
             <span className="border border-neutral-700 px-2 py-1">✓ No account</span>
             <span className="border border-neutral-700 px-2 py-1">✓ No subscription</span>
-            <span className="border border-neutral-700 px-2 py-1">✓ Publisher rule cited</span>
+            <span className="border border-neutral-700 px-2 py-1">✓ Printer rule shown</span>
             <span className="border border-neutral-700 px-2 py-1">✓ Exact location</span>
           </div>
         </div>
@@ -332,10 +332,10 @@ function LegacyLadder({ busy, onChoose }) {
       <div className="mt-16">
         <div className="flex items-baseline justify-between flex-wrap gap-3">
           <div>
-            <span className="font-mono-spec text-xs tracking-widest uppercase text-neutral-500">[ Subscription Ladder ]</span>
+            <span className="font-mono-spec text-xs tracking-widest uppercase text-neutral-500">[ Monthly Plans ]</span>
             <h2 className="font-display font-black text-3xl md:text-4xl tracking-tighter mt-2">Ship more books, month after month.</h2>
           </div>
-          <div className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">Books = complete cover + spine + back + interior</div>
+          <div className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">One book = the whole cover (front, spine, back) + the inside pages</div>
         </div>
         <div className="grid md:grid-cols-5 gap-3 mt-10">
           {TIERS.map((t) => (

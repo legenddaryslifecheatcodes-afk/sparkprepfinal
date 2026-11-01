@@ -1,7 +1,7 @@
 {
   "/": {
-    "title": "SparkPrep: Fix KDP & IngramSpark Book File Rejections",
-    "description": "SparkPrep checks your book cover and interior against the exact rules KDP, IngramSpark, Barnes & Noble and Lulu use to reject print files, explains every problem in plain English, and fixes it before you upload."
+    "title": "Book Preflight Checker: Fix KDP & IngramSpark Rejections | SparkPrep",
+    "description": "Book preflight checker for KDP and IngramSpark. SparkPrep checks your cover and pages the way the printer will, explains every problem in plain English, and fixes it in minutes, before you upload."
   },
   "/pricing": {
     "title": "Pricing: One Price Per Book, Cover and Interior | SparkPrep",

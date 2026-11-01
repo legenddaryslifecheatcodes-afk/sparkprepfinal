@@ -115,6 +115,8 @@ for (const [path, page] of Object.entries(PAGES)) {
   const extra = EXTRA[path];
   if (path === "/" || !extra) continue;
   let html = setHead(template, path, page);
+  // The homepage FAQ / commercial structured data only describes the homepage.
+  html = html.replace(/\s*<!-- Homepage-only structured data[\s\S]*?-->/, "").replace(/\s*<script type="application\/ld\+json" data-home-only>[\s\S]*?<\/script>/g, "");
   const ld = `<script type="application/ld+json">${JSON.stringify({ "@context": "https://schema.org", "@graph": extra.schema })}</script>`;
   html = html.replace("</head>", `${ld}</head>`);
   const features = extra.features ? `<ul>${extra.features.map((f) => `<li>${esc(f)}</li>`).join("")}</ul>` : "";

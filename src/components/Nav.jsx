@@ -16,7 +16,7 @@ export default function Nav({ dark = true }) {
     if (location.pathname === "/audit") {
       e.preventDefault();
       document.querySelector('[data-testid="audit-drop"]')?.scrollIntoView({ behavior: "smooth", block: "center" });
-      toast("Start by uploading your cover or interior below. SparkPrep tells you honestly whether it found issues; you only pay to see exactly what and where.");
+      toast("Start by uploading your cover or inside pages below. SparkPrep tells you honestly whether it found problems. You only pay to see exactly what and where.");
     }
   };
   const base = dark
@@ -57,7 +57,7 @@ export default function Nav({ dark = true }) {
         >
           <SparkPrepLogo height={140} />
         </Link>
-        <div className="flex items-center gap-5 text-sm">
+        <div className="flex flex-wrap items-center justify-end gap-x-5 gap-y-2 text-sm">
           {user?.beta_active && (
             <Link to="/beta/feedback" className="font-mono-spec text-[10px] tracking-widest uppercase text-black bg-[#D4AF37] px-2.5 py-1.5 hover:brightness-110 btn-industrial" data-testid="nav-beta-badge">
               BETA · Sign Off

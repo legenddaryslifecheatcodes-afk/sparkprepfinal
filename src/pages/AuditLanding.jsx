@@ -87,23 +87,23 @@ export default function AuditLanding() {
         <div className="relative max-w-6xl mx-auto px-6 pt-20 pb-24 grid md:grid-cols-12 gap-8 items-start">
           <div className="md:col-span-7">
             <span className="font-mono-spec text-xs tracking-widest uppercase text-neutral-400 border border-neutral-700 px-3 py-1.5 inline-flex items-center gap-2" data-testid="audit-tag">
-              <ShieldAlert className="w-3 h-3" /> [ {auditPrice ? `${auditPrice} ` : ""}Failure Audit — No Signup ]
+              <ShieldAlert className="w-3 h-3" /> [ {auditPrice ? `${auditPrice} ` : ""}Book File Audit · No Sign-Up ]
             </span>
             <h1 className="font-display font-black text-5xl md:text-7xl tracking-tighter mt-6 leading-[0.92]" data-testid="audit-title">
               Know exactly<br />why you'll get<br /><span className="text-neutral-500">rejected.</span>
             </h1>
             <p className="mt-6 text-lg text-neutral-400 max-w-xl leading-relaxed">
-              IngramSpark, KDP, B&N — they'll reject your file with a two-line notice like <span className="font-mono-spec text-sm text-white">"resolution insufficient"</span> and no details. Drop your cover or interior here and we'll pinpoint every likely failure, show you exactly where it is, and quote the publisher requirement it breaks. {auditPrice ? `${auditPrice}. ` : ""}No account.
+              IngramSpark, KDP and Barnes & Noble often reject a file with a short note like <span className="font-mono-spec text-sm text-white">"resolution insufficient"</span> and no details. Upload your cover or inside pages here. We'll find every problem, show you exactly where it is, and tell you which printer rule it breaks. {auditPrice ? `${auditPrice}. ` : ""}No account.
             </p>
             <div className="mt-8 flex flex-wrap gap-3 text-xs font-mono-spec tracking-widest text-neutral-500 uppercase">
-              <span className="border border-neutral-700 px-2 py-1">✓ Pinpoint every risk</span>
-              <span className="border border-neutral-700 px-2 py-1">✓ Publisher rule cited</span>
+              <span className="border border-neutral-700 px-2 py-1">✓ Every problem found</span>
+              <span className="border border-neutral-700 px-2 py-1">✓ The printer rule shown</span>
               <span className="border border-neutral-700 px-2 py-1">✓ Exact location</span>
-              <span className="border border-neutral-700 px-2 py-1">✓ What's required</span>
+              <span className="border border-neutral-700 px-2 py-1">✓ What to change</span>
             </div>
             <div className="mt-6 flex items-start gap-3 max-w-xl text-sm text-neutral-300 bg-white/5 border border-neutral-800 px-4 py-3" data-testid="audit-how-it-works">
               <span className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500 shrink-0 mt-0.5">How it works</span>
-              <span>Upload your file first (no payment needed to do this) → SparkPrep scans it and tells you honestly whether it found issues → pay{auditPrice ? ` ${auditPrice}` : ""} to see exactly what failed, where, and the publisher requirement. For an interior, the audit checks page 1.</span>
+              <span>Upload your file first. It's free. SparkPrep scans it and tells you honestly whether it found problems. Then pay{auditPrice ? ` ${auditPrice}` : ""} to see exactly what failed, where, and which printer rule it breaks. For inside pages, the audit checks page 1.</span>
             </div>
           </div>
 
@@ -111,7 +111,7 @@ export default function AuditLanding() {
             <SeasonCountdown />
             <div className="marketing-surface p-6" data-testid="audit-form">
               <div className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500 mb-4">[ Step 01 · Template · Optional: upload your publisher's template ]</div>
-              <p className="text-xs text-neutral-500 mb-3">Have the blank template PDF your distributor gave you (trim/bleed/spine guide)? Upload it first and we'll read the real, current specs straight out of it — no need to guess a preset below.</p>
+              <p className="text-xs text-neutral-500 mb-3">Did your printer give you a blank template PDF (the guide that shows the size, bleed and spine)? Upload it first and we'll read the exact sizes from it, so you don't have to pick them below.</p>
               <label className={`block border-2 border-dashed p-5 text-center cursor-pointer hover:bg-white/5 transition-colors ${uploadingTemplate ? "border-white" : "border-neutral-800"}`} data-testid="audit-template-drop">
                 <input type="file" accept=".pdf" onChange={onTemplateFile} disabled={uploadingTemplate} className="hidden" data-testid="audit-template-input" />
                 <FileCheck2 className="w-6 h-6 mx-auto text-neutral-500" />
@@ -134,8 +134,8 @@ export default function AuditLanding() {
                 </div>
               )}
 
-              <div className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500 mt-6 mb-4">[ Step 02 · Set target ]</div>
-              {auditId && <p className="text-xs text-neutral-500 mb-3">Locked once you've started uploading — start over to change platform or trim size.</p>}
+              <div className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500 mt-6 mb-4">[ Step 02 · Pick your printer and size ]</div>
+              {auditId && <p className="text-xs text-neutral-500 mb-3">Locked once you start uploading. Start over to change the printer or book size.</p>}
               <div className="space-y-4">
                 <div>
                   <Label className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">Distributor</Label>
@@ -164,7 +164,7 @@ export default function AuditLanding() {
                   <Select value={fileType} onValueChange={setFileType} disabled={!!auditId}>
                     <SelectTrigger className="mt-1 bg-transparent border-neutral-700 text-white" data-testid="audit-file-type"><SelectValue /></SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="interior">Interior (manuscript pages)</SelectItem>
+                      <SelectItem value="interior">Inside pages (interior)</SelectItem>
                       <SelectItem value="cover">Cover (front + spine + back)</SelectItem>
                     </SelectContent>
                   </Select>
@@ -246,9 +246,9 @@ export default function AuditLanding() {
       <section className="border-t border-neutral-900">
         <div className="max-w-6xl mx-auto px-6 py-20 grid md:grid-cols-3 gap-4">
           {[
-            { icon: FileSearch, title: "Every likely failure, pinpointed", body: "We check resolution, color space, transparency, bleed, PDF/X-1a and spine formula — and flag exactly which will cause a rejection." },
-            { icon: ShieldAlert, title: "The exact publisher rule you're breaking", body: "Each finding cites the specific IngramSpark / KDP / B&N guideline section — so you know it's real, not guesswork." },
-            { icon: Zap, title: "SparkPrep can fix it for you", body: "The audit shows what's wrong and where. When you're ready, SparkPrep fixes it and hands you print-ready files — your audit fee is credited toward your book. No need to go anywhere else." },
+            { icon: FileSearch, title: "Every problem, found", body: "We check picture sharpness, print colors, see-through effects, bleed, the print file format and spine width, and flag exactly which ones will get your book rejected." },
+            { icon: ShieldAlert, title: "The exact printer rule it breaks", body: "Each problem shows the IngramSpark, KDP or Barnes & Noble rule behind it, so you know it's real, not a guess." },
+            { icon: Zap, title: "SparkPrep can fix it for you", body: "The audit shows what's wrong and where. When you're ready, SparkPrep fixes it and gives you print-ready files. Your audit fee counts toward your book. No need to go anywhere else." },
           ].map((f, i) => (
             <div key={i} className="marketing-surface p-6" data-testid={`audit-feature-${i}`}>
               <f.icon className="w-5 h-5 text-white" />

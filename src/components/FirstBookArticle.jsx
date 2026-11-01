@@ -16,8 +16,12 @@ const SOURCES = {
 // No SparkPrep prices here, because the structured data can't read live prices.
 export const HOME_FAQ = [
   {
+    q: "What is SparkPrep?",
+    a: "SparkPrep is an all-in-one self-publishing suite. You design your book cover, write and format your inside pages, check both against the print rules of Amazon KDP, IngramSpark, Barnes & Noble and Lulu, fix every problem, and download print-ready files, all in one place.",
+  },
+  {
     q: "What is a book preflight check?",
-    a: "A book preflight check looks at your cover and inside pages before you upload them, the same way the printer will. It checks size, bleed, margins, spine width, colors, picture sharpness and fonts, so Amazon KDP or IngramSpark doesn't reject your book.",
+    a: "A book preflight check looks at your cover and inside pages before you upload them, the same way the printer will. It checks size, bleed, margins, spine width, colors, picture sharpness and fonts, so Amazon KDP or IngramSpark doesn't reject your book. It's one of the tools built into SparkPrep.",
   },
   {
     q: "Why did KDP or IngramSpark reject my book file?",
@@ -112,7 +116,7 @@ export function FirstBookArticle({ pricing, auditPrice, auditNote }) {
 
         <h3 className="font-display font-bold text-2xl text-white mt-12 tracking-tight">What SparkPrep does</h3>
         <p className="mt-4">
-          SparkPrep was built by an author whose own book failed to print 18 times. It's a preflight engine: it does the checking a printer does, before you upload, and then fixes what it finds.
+          SparkPrep was built by an author whose own book failed to print 18 times. It's an all-in-one self-publishing suite: you design, format, check, fix and export your book in one place. Our rule for every tool: power without complexity.
         </p>
         <ul className="mt-4 space-y-2 list-disc pl-6 marker:text-[#D4AF37]">
           <li><strong className="text-white">Free design tools:</strong> make your cover in Cover Studio and your pages in Interior Studio, already sized for your printer.</li>

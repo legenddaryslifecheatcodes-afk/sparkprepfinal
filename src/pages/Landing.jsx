@@ -37,18 +37,18 @@ export default function Landing() {
 
             <h1 className="mt-8" data-testid="hero-title">
               <span className="block font-mono-spec text-sm md:text-base tracking-[0.18em] uppercase text-neutral-300">
-                Book preflight checker for KDP &amp; IngramSpark
+                SparkPrep: the evolution of self-publishing
               </span>
               <span className="block font-display font-black text-5xl md:text-7xl lg:text-8xl tracking-tighter mt-4 leading-[0.9]">
-                Your book,<br />
-                ready to<br />
-                <span className="text-[#D4AF37]" style={{ background: "linear-gradient(180deg, #E5C158, #D4AF37 55%, #B8933E)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>print</span><br />
-                the first time.
+                The all-in-one<br />
+                <span className="text-[#D4AF37]" style={{ background: "linear-gradient(180deg, #E5C158, #D4AF37 55%, #B8933E)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>publishing</span><br />
+                suite.
               </span>
             </h1>
+            <p className="mt-6 font-display font-bold italic text-2xl md:text-3xl text-[#D4AF37]" data-testid="hero-motto">Power without complexity.</p>
 
             <p className="mt-8 text-lg text-neutral-300 max-w-xl leading-relaxed">
-              Amazon KDP and IngramSpark send books back for small file problems: blurry pictures, the wrong colors, art that stops short of the edge, or a spine that's the wrong width. Upload your cover and pages. <span className="text-white font-semibold">SparkPrep</span> finds every problem, tells you what it means, and fixes it in minutes.
+              Design your cover, write and format your pages, check them against Amazon KDP and IngramSpark's print rules, fix every problem, and download print-ready files. <span className="text-white font-semibold">Everything you need to publish, in one place</span>, in plain English.
             </p>
 
             <div className="mt-10 flex flex-wrap gap-3">
@@ -65,9 +65,9 @@ export default function Landing() {
 
             {/* Short answer box: written as a 40-60 word definition so Google can lift it as a featured snippet. */}
             <div className="mt-10 max-w-xl border-l-2 border-[#D4AF37] bg-[#D4AF37]/[0.06] px-5 py-4" data-testid="hero-definition">
-              <h2 className="font-display font-bold text-lg text-white tracking-tight">What is a book preflight check?</h2>
+              <h2 className="font-display font-bold text-lg text-white tracking-tight">What is SparkPrep?</h2>
               <p className="mt-2 text-neutral-300 leading-relaxed">
-                A book preflight check looks at your cover and inside pages before you upload them, the same way the printer will. It checks size, bleed, margins, spine width, colors, picture sharpness and fonts, so Amazon KDP or IngramSpark doesn't reject your book.
+                SparkPrep is an all-in-one self-publishing suite. You design your book cover, write and format your inside pages, check both against the print rules of Amazon KDP, IngramSpark, Barnes &amp; Noble and Lulu, fix every problem, and download print-ready files, all in one place.
               </p>
             </div>
 
@@ -226,6 +226,8 @@ export default function Landing() {
           <div className="flex flex-col items-center gap-4">
             <SparkPrepLogo height={140} />
             <LogoMark size={44} />
+            <p className="font-mono-spec text-xs tracking-[0.28em] uppercase text-[#D4AF37]">The Evolution of Self-Publishing</p>
+            <p className="font-display font-bold italic text-2xl text-white">Power without complexity.</p>
           </div>
           <h2 className="font-display font-black text-4xl md:text-6xl tracking-tighter mt-8">
             Stop guessing.<br />
@@ -276,6 +278,7 @@ export default function Landing() {
           <a href="https://sparkpreplandingerrors.legenddary.com/" className="hover:text-white">Rejection messages decoded</a>
           <a href="https://sparkpreplandingnewauthor.legenddary.com/" className="hover:text-white">First book guide</a>
         </nav>
+        <div className="mb-2 text-[#D4AF37]">SparkPrep · The Evolution of Self-Publishing · Power Without Complexity</div>
         © Legenddary — Publish · Automate · Elevate · We Build. You Legenddary.
       </footer>
     </div>

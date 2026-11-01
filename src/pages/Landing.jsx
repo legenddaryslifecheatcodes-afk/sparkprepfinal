@@ -269,6 +269,13 @@ export default function Landing() {
           <a href="/free-manuscript-checklist/" className="hover:text-white">Free manuscript checklist</a>
           <a href="/free-indie-author-templates/" className="hover:text-white">Free author templates</a>
         </nav>
+        <nav aria-label="More free help" className="mb-4 flex flex-wrap justify-center gap-x-6 gap-y-2 normal-case tracking-normal text-neutral-500">
+          <a href="https://sparkpreplanding.legenddary.com/" className="hover:text-white">What is book preflight?</a>
+          <a href="https://sparkpreplandingfix.legenddary.com/" className="hover:text-white">Print file fixes</a>
+          <a href="https://sparkpreplandingcovers.legenddary.com/" className="hover:text-white">Cover size charts</a>
+          <a href="https://sparkpreplandingerrors.legenddary.com/" className="hover:text-white">Rejection messages decoded</a>
+          <a href="https://sparkpreplandingnewauthor.legenddary.com/" className="hover:text-white">First book guide</a>
+        </nav>
         © Legenddary — Publish · Automate · Elevate · We Build. You Legenddary.
       </footer>
     </div>

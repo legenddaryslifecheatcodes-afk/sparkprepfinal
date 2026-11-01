@@ -1,0 +1,37 @@
+{
+  "slug": "fix-page-count-too-low-or-high",
+  "date": "2026-11-05",
+  "category": "platform",
+  "job": "interior",
+  "title": "Book Page Count Too Low or Too High? Minimum & Maximum Pages for KDP, IngramSpark, Lulu, B&N | SparkPrep",
+  "h1": "How to fix \"page count is below the minimum\" (or over the maximum)",
+  "description": "Your book has too few or too many pages for the format you chose. See the page limits for KDP, IngramSpark, Barnes & Noble Press and Lulu, and how to fix it.",
+  "platforms": "Amazon KDP · IngramSpark · Barnes & Noble Press · Lulu",
+  "lead": "Every printer has a smallest and largest book it can bind. Fall outside it and the file is refused before anything else is checked.",
+  "error": "Page count is below the minimum (or above the maximum) for this format",
+  "errorNote": "Paraphrased. Each printer words this a little differently.",
+  "why": "<p>Binding machines need enough pages to glue a spine, and can only hold so many. The limits SparkPrep uses for paperbacks:</p><div class=\"table-wrap\"><table><tr><th>Printer</th><th>Fewest pages</th><th>Most pages</th></tr><tr><td>Amazon KDP</td><td>24</td><td>828</td></tr><tr><td>IngramSpark</td><td>18</td><td>1,200</td></tr><tr><td>Barnes &amp; Noble Press</td><td>48</td><td>800</td></tr><tr><td>Lulu</td><td>32</td><td>800</td></tr></table></div><p>Limits can change with trim size, paper and color, so always confirm on your printer's own calculator. Remember the printer counts every page in the PDF, blank pages included.</p>",
+  "manual": [
+    "Export your interior as a PDF and read the real page count there.",
+    "Compare it with your printer's limits for your trim size and paper.",
+    "Too few pages: add real front and back matter (title page, copyright page, table of contents, about the author) or choose a smaller trim size. Too many: choose a bigger trim size or split the book.",
+    "Re-export the PDF and update the page count (and your cover's spine) in your book setup.",
+    "Re-upload it to your printer and wait for the file review again. If it fails, you start over."
+  ],
+  "cta": {
+    "text": "SparkPrep checks your page count against your printer's limits the moment you set up your book, before you upload anything.",
+    "button": "Check my page count",
+    "href": "/"
+  },
+  "faq": [
+    {
+      "q": "What is the minimum page count for a KDP paperback?",
+      "a": "24 pages."
+    },
+    {
+      "q": "Do blank pages count toward the page count?",
+      "a": "Yes. Printers count every page in the PDF, including blank ones."
+    }
+  ],
+  "diy": []
+}

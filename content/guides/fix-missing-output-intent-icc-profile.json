@@ -1,0 +1,37 @@
+{
+  "slug": "fix-missing-output-intent-icc-profile",
+  "date": "2026-11-06",
+  "category": "color",
+  "job": "both",
+  "title": "\"Output Intent Missing\" or \"No ICC Profile\": How to Fix Your Print PDF | SparkPrep",
+  "h1": "How to fix \"output intent is missing\" or \"no ICC profile\" in your PDF",
+  "description": "Your print PDF says it's PDF/X-1a but has no output intent or ICC profile, so it fails the check. What that means in plain English and how to fix it.",
+  "platforms": "IngramSpark · Barnes & Noble Press · Lulu",
+  "lead": "This one sounds technical, but it's just a missing label inside your file that tells the printer what kind of printing it was made for.",
+  "error": "PDF/X-1a output intent is missing or has no embedded ICC profile",
+  "errorNote": "Paraphrased from preflight checks (Acrobat and printer systems word it differently).",
+  "why": "<p>A PDF/X-1a file must carry an <strong>output intent</strong>: a note saying which printing conditions the colors were prepared for, usually with an <strong>ICC profile</strong> (a small color description) built in. That's how the printer knows how to read your CMYK colors.</p><p>Files often lose it when they're re-saved, merged or \"optimized\" in a different program, or when a tool labels a file PDF/X-1a without doing the full job. Checks then fail even though the pages look fine.</p>",
+  "manual": [
+    "Go back to your original design file (InDesign, Affinity, Illustrator).",
+    "Export again using the built-in \"PDF/X-1a:2001\" preset. Don't re-save it in another app afterwards.",
+    "No InDesign? In Acrobat Pro, open Print Production → Preflight and run \"Convert to PDF/X-1a\", choosing a CMYK profile such as US Web Coated (SWOP) v2.",
+    "Run Preflight again to confirm \"PDF/X-1a compliant\".",
+    "Re-upload it to your printer and wait for the file review again. If it fails, you start over."
+  ],
+  "cta": {
+    "text": "SparkPrep exports a full PDF/X-1a with the output intent and color profile built in, every time, with no Acrobat Pro needed.",
+    "button": "Export a proper PDF/X-1a",
+    "href": "/"
+  },
+  "faq": [
+    {
+      "q": "What is an output intent in a PDF?",
+      "a": "A note inside a print PDF that says which printing conditions its colors were prepared for, usually with an ICC color profile embedded."
+    },
+    {
+      "q": "Which ICC profile should I use?",
+      "a": "Use the one your printer recommends. US Web Coated (SWOP) v2 is a common choice for US book printing."
+    }
+  ],
+  "diy": []
+}

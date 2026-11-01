@@ -1,0 +1,37 @@
+{
+  "slug": "fix-lulu-barnes-noble-interior-margins",
+  "date": "2026-11-09",
+  "category": "interior",
+  "job": "interior",
+  "title": "Lulu & Barnes & Noble Press Margin Errors: How to Fix Your Interior | SparkPrep",
+  "h1": "How to fix margin errors on Lulu and Barnes & Noble Press",
+  "description": "Lulu or Barnes & Noble Press flagged text too close to the page edge. See the 0.5\" safety margin, why it matters, and how to fix your interior quickly.",
+  "platforms": "Lulu · Barnes & Noble Press",
+  "lead": "Lulu and Barnes & Noble Press both want a clear half inch around your text. Here's how to give it to them.",
+  "error": "Content is outside the safety margin",
+  "errorNote": "Paraphrased. Each printer words this a little differently.",
+  "why": "<p>Pages are trimmed after printing and the inside edge curves into the spine. To keep words from being cut or lost, <strong>Lulu</strong> and <strong>Barnes &amp; Noble Press</strong> want everything, including page numbers and headers, at least <strong>0.5\"</strong> from every trim edge.</p><p>The usual cause is a manuscript set up with Word's default page and margins, or pictures and page numbers pushed toward the edge.</p>",
+  "manual": [
+    "Open your manuscript in Word (or InDesign).",
+    "Set the page size to your exact trim size (Layout → Size).",
+    "Set every margin to at least 0.5\" (more on the inside for thick books), and use \"Mirror margins\".",
+    "Check page numbers, headers and pictures sit inside the margins, then re-export as PDF/X-1a:2001 with fonts embedded.",
+    "Re-upload it to your printer and wait for the file review again. If it fails, you start over."
+  ],
+  "cta": {
+    "text": "SparkPrep measures every page against Lulu's and Barnes & Noble Press's own margins and re-fits the pages for you.",
+    "button": "Fix my margins",
+    "href": "/"
+  },
+  "faq": [
+    {
+      "q": "What margins does Lulu require?",
+      "a": "At least 0.5\" from every trim edge for text, page numbers and headers."
+    },
+    {
+      "q": "What margins does Barnes & Noble Press require?",
+      "a": "At least 0.5\" from every trim edge."
+    }
+  ],
+  "diy": []
+}

@@ -111,15 +111,17 @@ export default function BookPassBar({ projectId, bookRequiredAt, onStarted, cred
     );
   }
 
-  const sub = pricing?.plans?.find((p) => p.id === "book_1");
+  const membership = pricing?.membership;
+  const sub = membership ? null : pricing?.plans?.find((p) => p.id === "book_1");
   return (
     <div className="border border-neutral-700 bg-neutral-900/60 px-4 py-3 flex items-center justify-between gap-3 flex-wrap" data-testid="book-none">
       <div className="flex items-start gap-3">
         <BookOpen className="w-4 h-4 text-neutral-400 shrink-0 mt-0.5" />
         <div className="text-sm text-neutral-300">
           {book.active ? "This book's export window has ended. " : ""}
-          Let SparkPrep fix everything and hand you print-ready files — get a book for <span className="text-white font-semibold">{money(book.book_price_cents)}</span> one-time
-          {sub && <> or <span className="text-white font-semibold">{money(sub.price_cents)}/month</span></>}. Cover, interior, or both — same price.
+          Let SparkPrep fix everything and hand you print-ready files — get a book for <span className="text-white font-semibold">{money(book.book_price_cents)}</span>
+          {sub && <> or <span className="text-white font-semibold">{money(sub.price_cents)}/month</span></>}
+          {membership && !book.is_member && <> ({money(membership.book_price_cents)} with a <span className="text-white font-semibold">{money(membership.price_cents)}/month membership</span>)</>}. Cover, interior, or both — same price.
           {creditAuditId && <> Your audit fee is credited.</>}
         </div>
       </div>

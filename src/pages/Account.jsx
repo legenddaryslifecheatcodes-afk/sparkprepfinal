@@ -185,19 +185,26 @@ export default function Account() {
               Each book: cover, interior, or both · {pricing.book.window_days} days of unlimited exports
             </div>
             <Link to="/pricing" className="mt-6 inline-block border border-black px-5 py-2 font-mono-spec text-[10px] tracking-widest uppercase hover:bg-black hover:text-white transition-colors btn-industrial" data-testid="account-get-book">
-              Get A Book — {money(pricing.book.price_cents)}
+              Get A Book — {money(books?.book_price_cents ?? pricing.book.price_cents)}
             </Link>
           </div>
           <div className="bg-white border border-neutral-200 p-6" data-testid="account-subscription">
-            <div className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">Subscription</div>
+            <div className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">{pricing.membership ? "Membership" : "Subscription"}</div>
             <div className="font-display font-black text-3xl tracking-tight mt-2">
               {books?.subscription ? books.subscription.plan_name : "None"}
             </div>
             <div className="mt-4 font-mono-spec text-[10px] tracking-widest uppercase text-neutral-600">
               {books?.subscription
-                ? `Status: ${books.subscription.status || "active"} · new book each month`
-                : `${money(pricing.plans.find((p) => p.id === "book_1")?.price_cents)}/month for 1 book every month`}
+                ? `Status: ${books.subscription.status || "active"} · ${books.is_member ? `books ${money(pricing.membership?.book_price_cents)} each` : "new book each month"}`
+                : pricing.membership
+                  ? `${money(pricing.membership.price_cents)}/month · then every book is ${money(pricing.membership.book_price_cents)} instead of ${money(pricing.book.price_cents)}`
+                  : `${money(pricing.plans.find((p) => p.id === "book_1")?.price_cents)}/month for 1 book every month`}
             </div>
+            {!books?.subscription && pricing.membership && (
+              <Link to="/pricing" className="mt-6 inline-block border border-black px-5 py-2 font-mono-spec text-[10px] tracking-widest uppercase hover:bg-black hover:text-white transition-colors btn-industrial" data-testid="account-become-member">
+                Become A Member — {money(pricing.membership.price_cents)}/mo
+              </Link>
+            )}
           </div>
           <div className="bg-white border border-neutral-200 p-6 md:col-span-2">
             <div className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">Profile</div>

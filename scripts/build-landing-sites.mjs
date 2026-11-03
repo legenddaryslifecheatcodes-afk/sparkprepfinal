@@ -102,7 +102,7 @@ function header(s, page, pages) {
     .map((p) => `<a href="${p.path}"${p.path === page.path ? ' aria-current="page"' : ""}>${esc(p.nav)}</a>`)
     .join("");
   return `<header class="site"><div class="wrap">
-<a class="brand" href="/"><img src="/logo.png" width="60" height="40" alt="SparkPrep logo"><span class="name">${esc(s.name)}<small>by SparkPrep</small></span></a>
+<a class="brand" href="${MAIN_LINKS.home}"><img src="/logo.png" width="60" height="40" alt="SparkPrep logo"><span class="name">${esc(s.name)}<small>by SparkPrep</small></span></a>
 <a class="btn small" href="${MAIN_LINKS.audit}">Check my book</a>
 </div></header>
 <nav class="sub" aria-label="${esc(s.name)} pages"><div class="wrap">${nav}</div></nav>`;

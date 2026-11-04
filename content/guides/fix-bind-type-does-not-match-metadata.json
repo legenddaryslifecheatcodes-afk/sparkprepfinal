@@ -1,0 +1,37 @@
+{
+  "slug": "fix-bind-type-does-not-match-metadata",
+  "date": "2026-10-31",
+  "category": "platform",
+  "job": "cover",
+  "title": "\"Bind Type/Trim Size Does Not Match the Metadata\": How to Fix It (IngramSpark) | SparkPrep",
+  "h1": "How to fix \"bind type/trim size does not match the metadata\"",
+  "description": "IngramSpark rejected your hardcover because the cover file doesn't match the binding or trim size you chose. What it means and how to fix it fast.",
+  "platforms": "IngramSpark",
+  "lead": "Your cover can look perfect and still be built for the wrong kind of book. This error means the file's shape doesn't match what you told IngramSpark you're printing.",
+  "error": "BIND TYPE/TRIM SIZE OF THE JACKET FILE ... DOES NOT MATCH THE METADATA",
+  "errorNote": "From a real IngramSpark rejection email (shortened).",
+  "why": "<p>\"Metadata\" is the book setup you filled in: paperback or hardcover, case laminate or dust jacket, and trim size. Each one needs a cover file of a completely different shape.</p><p>A paperback cover is back + spine + front with 0.125\" bleed. An IngramSpark <strong>case laminate</strong> hardcover wraps around boards, so it needs 0.625\" of wrap and a 0.5\" hinge on each side of the spine. A <strong>dust jacket</strong> adds two 3.25\" flaps and 0.25\" folds. Upload a paperback-shaped file for a jacket book and the sizes are off by inches, so it's rejected.</p>",
+  "manual": [
+    "Check your title setup in IngramSpark: binding (paperback, case laminate or dust jacket) and trim size.",
+    "Download IngramSpark's cover template for exactly that binding, trim size and page count.",
+    "Open your cover file and set it to the template's full size.",
+    "Move your back, spine, front (and flaps, for a jacket) to line up with the template, hide the template layer, and re-export as PDF/X-1a:2001.",
+    "Re-upload it to your printer and wait for the file review again. If it fails, you start over."
+  ],
+  "cta": {
+    "text": "SparkPrep builds paperback, case laminate and dust jacket covers from IngramSpark's own numbers, so the file matches the book you set up.",
+    "button": "Check my hardcover cover",
+    "href": "/"
+  },
+  "faq": [
+    {
+      "q": "Does a dust jacket hardcover need a different cover file than a case laminate?",
+      "a": "Yes. A jacket has two 3.25\" flaps and 0.25\" folds; a case laminate wraps around the boards with 0.625\" of wrap. They are different sizes and can't be swapped."
+    },
+    {
+      "q": "Does KDP offer dust jackets?",
+      "a": "No. KDP hardcovers are case laminate only, so a dust jacket file is an IngramSpark (or Lulu, Barnes & Noble Press) thing."
+    }
+  ],
+  "diy": []
+}

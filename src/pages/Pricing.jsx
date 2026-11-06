@@ -9,92 +9,6 @@ import SeasonBanner from "@/components/SeasonBanner";
 import BrandWatermark from "@/components/BrandWatermark";
 import { Check, Flame, BookOpen, CalendarClock } from "lucide-react";
 
-const TIERS = [
-  {
-    key: "free",
-    name: "Free",
-    tag: "Get started",
-    price: 0,
-    price_label: "$0",
-    books: "Preview & compliance only",
-    features: [
-      "No exports — upgrade to export",
-      "Uploads up to 25 MB",
-      "KDP + IngramSpark templates",
-      "DPI, CMYK + spine calculator",
-    ],
-    cta: "Start Free",
-  },
-  {
-    key: "author",
-    name: "Author",
-    tag: "For self-publishers",
-    price: 19.99,
-    price_label: "$19.99",
-    books: "1 full book / month",
-    features: [
-      "Cover + spine + back + interior",
-      "15 print-ready exports / month",
-      "Uploads up to 100 MB",
-      "All distributor templates",
-      "AI Blurb Writer",
-    ],
-    cta: "Choose Author",
-  },
-  {
-    key: "creator_pro",
-    name: "Creator Pro",
-    tag: "For prolific writers",
-    price: 39.99,
-    price_label: "$39.99",
-    books: "3 full books / month",
-    features: [
-      "Everything in Author",
-      "45 exports / month",
-      "Uploads up to 250 MB",
-      "Priority AI blurb + 3D mockup",
-      "Email support",
-    ],
-    cta: "Choose Creator Pro",
-    highlight: true,
-  },
-  {
-    key: "publisher",
-    name: "Publisher",
-    tag: "For small imprints",
-    price: 69.99,
-    price_label: "$69.99",
-    books: "7 full books / month",
-    features: [
-      "Everything in Creator Pro",
-      "100 exports / month",
-      "Team seats (up to 3)",
-      "Uploads up to 500 MB",
-      "Bulk audit + batch export",
-      "Priority support",
-    ],
-    cta: "Choose Publisher",
-  },
-  {
-    key: "studio",
-    name: "Studio",
-    tag: "For prepress studios",
-    price: 199.99,
-    price_label: "$199.99",
-    books: "30 full books / month",
-    gold: true,
-    features: [
-      "Everything in Publisher",
-      "300 exports / month",
-      "Team seats (up to 10)",
-      "Uploads up to 1 GB",
-      "Advanced color profiles + white-label",
-      "Dedicated account manager",
-    ],
-    cta: "Choose Studio",
-  },
-];
-
 export default function Pricing() {
   const { user } = useAuth();
   const [busy, setBusy] = useState(null);
@@ -109,21 +23,6 @@ export default function Pricing() {
     if (!auditId) return;
     api.get(`/audit/${auditId}`).then(({ data }) => setAuditCredit(data.credit_cents || 0)).catch(() => setAuditCredit(0));
   }, [auditId]);
-
-  const legacyCheckout = async (tier) => {
-    if (tier === "free") { nav(user ? "/dashboard" : "/register"); return; }
-    if (!user) { nav("/register"); return; }
-    setBusy(tier);
-    try {
-      const { data } = await api.post("/payments/checkout", { tier, origin_url: window.location.origin });
-      window.location.href = data.checkout_url;
-    } catch (e) {
-      const msg = fmtErr(e.response?.data?.detail);
-      if (e.response?.status === 503) toast.info("Payments are being set up — check back shortly.");
-      else toast.error(msg);
-      setBusy(null);
-    }
-  };
 
   const bookCheckout = async (kind) => {
     if (!user) { nav("/register"); return; }
@@ -174,7 +73,7 @@ export default function Pricing() {
             <AuditCard pricing={pricing} bookModel={bookModel} />
             {bookModel
               ? <BookModel pricing={pricing} busy={busy} onBuy={bookCheckout} auditId={auditId} auditCredit={auditCredit} user={user} nav={nav} />
-              : <LegacyLadder busy={busy} onChoose={legacyCheckout} />}
+              : <PricesUpdating />}
           </>
         )}
       </div>
@@ -233,8 +132,16 @@ function BookModel({ pricing, busy, onBuy, auditId, auditCredit, user, nav }) {
   const book = pricing.book;
   const credit = auditId ? (auditCredit || 0) : 0;
   const plans = pricing.plans || [];
-  const main = plans.find((p) => p.id === "book_1");
-  const later = plans.filter((p) => p.id !== "book_1");
+  const membership = pricing.membership || null;   // $9.99/month: every book at the member price
+  const main = membership ? null : plans.find((p) => p.id === "book_1");
+  const later = plans.filter((p) => !p.available);
+  // Is this visitor already a member? Then their book price is the member price.
+  const [isMember, setIsMember] = useState(false);
+  useEffect(() => {
+    if (!user || !membership) return;
+    api.get("/me/books").then(({ data }) => setIsMember(!!data.is_member)).catch(() => {});
+  }, [user, membership]);
+  const bookPrice = isMember && membership ? membership.book_price_cents : book.price_cents;
 
   return (
     <div className="mt-16" data-testid="book-pricing">
@@ -245,13 +152,14 @@ function BookModel({ pricing, busy, onBuy, auditId, auditCredit, user, nav }) {
       )}
       <div className="grid md:grid-cols-2 gap-4">
         <div className="marketing-surface p-8 flex flex-col" data-testid="plan-book-pass">
-          <div className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500 flex items-center gap-1.5"><BookOpen className="w-3.5 h-3.5" /> One book · no subscription</div>
-          <h3 className="font-display font-black text-3xl mt-2 tracking-tight">Single Book</h3>
+          <div className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500 flex items-center gap-1.5"><BookOpen className="w-3.5 h-3.5" /> {isMember ? "Your member price" : "One book · no membership needed"}</div>
+          <h3 className="font-display font-black text-3xl mt-2 tracking-tight">One Book</h3>
           <div className="flex items-baseline gap-2 mt-4">
-            <span className="font-display font-black text-5xl">{money(book.price_cents)}</span>
-            <span className="text-neutral-500 text-xs">one-time</span>
+            <span className="font-display font-black text-5xl">{money(bookPrice)}</span>
+            <span className="text-neutral-500 text-xs">per book</span>
           </div>
-          {credit > 0 && <div className="text-xs text-emerald-300 mt-1">You pay {money(book.price_cents - credit)} with your audit credit</div>}
+          {membership && !isMember && <div className="text-xs text-neutral-400 mt-1" data-testid="member-price-note">Members pay {money(membership.book_price_cents)}</div>}
+          {credit > 0 && <div className="text-xs text-emerald-300 mt-1">You pay {money(bookPrice - credit)} with your audit credit</div>}
           <ul className="mt-6 space-y-2 text-sm flex-1">
             {book.includes.map((f, i) => (
               <li key={i} className="flex items-start gap-1.5 text-neutral-300"><Check className="w-4 h-4 mt-0.5 shrink-0 text-neutral-500" /> {f}</li>
@@ -263,9 +171,46 @@ function BookModel({ pricing, busy, onBuy, auditId, auditCredit, user, nav }) {
             className="mt-8 w-full py-3 bg-white text-black font-mono-spec text-xs tracking-widest uppercase hover:bg-neutral-200 btn-industrial disabled:opacity-50"
             data-testid="buy-book-pass"
           >
-            {busy === "book" ? "Redirecting…" : `Buy One Book — ${money(book.price_cents - credit)}`}
+            {busy === "book" ? "Redirecting…" : `Buy One Book — ${money(bookPrice - credit)}`}
           </button>
         </div>
+
+        {membership && (
+          <div className="marketing-surface p-8 flex flex-col border-[#FF6A00]/50 ring-1 ring-[#FF6A00]/30 relative" data-testid="plan-membership">
+            <div className="absolute top-0 right-0 bg-[#FF6A00] text-white font-mono-spec text-[10px] tracking-widest uppercase px-2 py-1">Best value</div>
+            <div className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500 flex items-center gap-1.5"><CalendarClock className="w-3.5 h-3.5" /> For more than one book</div>
+            <h3 className="font-display font-black text-3xl mt-2 tracking-tight">SparkPrep Membership</h3>
+            <div className="flex items-baseline gap-2 mt-4">
+              <span className="font-display font-black text-5xl text-[#FF6A00]">{money(membership.price_cents)}</span>
+              <span className="text-neutral-500 text-xs">/month</span>
+            </div>
+            <p className="text-sm text-neutral-300 mt-3">
+              Members pay <span className="text-white font-semibold">{money(membership.book_price_cents)}</span> per book instead of {money(book.price_cents)}.
+              That saves {money(membership.saves_per_book_cents)} on every book, so the membership pays for itself with your first book.
+            </p>
+            <ul className="mt-6 space-y-2 text-sm flex-1">
+              <li className="flex items-start gap-1.5 text-neutral-300"><Check className="w-4 h-4 mt-0.5 shrink-0 text-neutral-500" /> Every book {money(membership.book_price_cents)}: cover, inside pages, or both, same price</li>
+              {book.includes.slice(1).map((f, i) => (
+                <li key={i} className="flex items-start gap-1.5 text-neutral-300"><Check className="w-4 h-4 mt-0.5 shrink-0 text-neutral-500" /> {f}</li>
+              ))}
+              <li className="flex items-start gap-1.5 text-neutral-300"><Check className="w-4 h-4 mt-0.5 shrink-0 text-neutral-500" /> The membership doesn't include a book. You buy each book when you need it.</li>
+              <li className="flex items-start gap-1.5 text-neutral-300"><Check className="w-4 h-4 mt-0.5 shrink-0 text-neutral-500" /> Cancel any time. Books you already bought stay yours.</li>
+            </ul>
+            {isMember ? (
+              <div className="mt-8 w-full py-3 text-center border border-emerald-700 text-emerald-300 font-mono-spec text-xs tracking-widest uppercase" data-testid="membership-active">You're a member</div>
+            ) : (
+              <button
+                onClick={() => onBuy(membership.plan)}
+                disabled={busy === membership.plan}
+                className="mt-8 w-full py-3 btn-spark font-mono-spec text-xs tracking-widest uppercase btn-industrial disabled:opacity-50"
+                data-testid="subscribe-membership"
+              >
+                {busy === membership.plan ? "Redirecting…" : `Become A Member — ${money(membership.price_cents)}/mo`}
+              </button>
+            )}
+            {credit > 0 && !isMember && <div className="text-xs text-neutral-400 mt-2">Your audit credit is saved for your book.</div>}
+          </div>
+        )}
 
         {main && (
           <div className="marketing-surface p-8 flex flex-col border-[#FF6A00]/50 ring-1 ring-[#FF6A00]/30 relative" data-testid="plan-book_1">
@@ -326,61 +271,12 @@ function BookModel({ pricing, busy, onBuy, auditId, auditCredit, user, nav }) {
   );
 }
 
-function LegacyLadder({ busy, onChoose }) {
+// Shown only if the server ever stops sending the one-price-per-book model.
+// The old monthly plan ladder ($19.99-$199.99) was removed so it can never show by mistake.
+function PricesUpdating() {
   return (
-    <>
-      <div className="mt-16">
-        <div className="flex items-baseline justify-between flex-wrap gap-3">
-          <div>
-            <span className="font-mono-spec text-xs tracking-widest uppercase text-neutral-500">[ Monthly Plans ]</span>
-            <h2 className="font-display font-black text-3xl md:text-4xl tracking-tighter mt-2">Ship more books, month after month.</h2>
-          </div>
-          <div className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">One book = the whole cover (front, spine, back) + the inside pages</div>
-        </div>
-        <div className="grid md:grid-cols-5 gap-3 mt-10">
-          {TIERS.map((t) => (
-            <div
-              key={t.key}
-              className={`marketing-surface p-6 relative flex flex-col ${t.highlight ? "border-[#FF6A00]/50 ring-1 ring-[#FF6A00]/30" : ""} ${t.gold ? "border-[#D4A857]/50" : ""}`}
-              data-testid={`tier-${t.key}`}
-            >
-              {t.highlight && (
-                <div className="absolute top-0 right-0 bg-[#FF6A00] text-white font-mono-spec text-[10px] tracking-widest uppercase px-2 py-1" data-testid={`tier-badge-${t.key}`}>Most Popular</div>
-              )}
-              {t.gold && (
-                <div className="absolute top-0 right-0 bg-[#D4A857] text-black font-mono-spec text-[10px] tracking-widest uppercase px-2 py-1" data-testid={`tier-badge-${t.key}`}>Premium</div>
-              )}
-              <div className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">{t.tag}</div>
-              <h3 className="font-display font-black text-2xl mt-2 tracking-tight">{t.name}</h3>
-              <div className="flex items-baseline gap-1 mt-4">
-                <span className={`font-display font-black text-4xl ${t.highlight ? "text-[#FF6A00]" : t.gold ? "text-[#D4A857]" : ""}`}>{t.price_label}</span>
-                {t.price > 0 && <span className="text-neutral-500 text-xs">/mo</span>}
-              </div>
-              <div className="mt-3 font-mono-spec text-[10px] tracking-widest uppercase text-neutral-400 min-h-[32px]">{t.books}</div>
-              <button
-                onClick={() => onChoose(t.key)}
-                disabled={busy === t.key}
-                className={`mt-5 w-full py-2.5 font-mono-spec text-xs tracking-widest uppercase transition-colors btn-industrial ${
-                  t.highlight ? "btn-spark" : t.gold ? "bg-[#D4A857] text-black hover:brightness-110" : t.price === 0 ? "border border-neutral-700 hover:border-white" : "bg-white text-black hover:bg-neutral-200"
-                }`}
-                data-testid={`tier-select-${t.key}`}
-              >
-                {busy === t.key ? "Redirecting…" : t.cta}
-              </button>
-              <ul className="mt-6 space-y-2 text-xs flex-1">
-                {t.features.map((f, i) => (
-                  <li key={i} className="flex items-start gap-1.5 text-neutral-300 leading-relaxed">
-                    <Check className="w-3.5 h-3.5 mt-0.5 shrink-0 text-neutral-500" /> {f}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-      </div>
-      <div className="mt-12 text-center">
-        <span className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">Upgrade or downgrade any time — new limits apply on the next billing cycle.</span>
-      </div>
-    </>
+    <div className="mt-16 marketing-surface p-8 text-neutral-300" data-testid="pricing-updating">
+      Our book prices are being updated. Run an audit above, or check back in a few minutes.
+    </div>
   );
 }

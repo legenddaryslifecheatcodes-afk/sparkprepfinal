@@ -81,9 +81,7 @@ Facts here were true when written. Before acting on a status line (deployed / br
 
 ## 4. Pricing
 
-**Live today (book-pass model):** $1.99 audit special (regular $9.99; checks the whole cover + page 1 of the interior), Advanced Audit (every page up to 300) $9.99 special / $19.99 regular, **$74.99 per book** (cover, interior or both; 7 days of unlimited exports), $49.99/month subscription = 1 book/month. Audit fees are credited toward the book. The "99-Day Special" ends 2027-01-01.
-
-**NEW model the owner announced 2026-10-16 — NOT built yet:** membership **$9.99/month or $89.99/year** (fee waived during October 2026); per book **$49.99 for members / $74.99 for non-members**. Confirm with the owner before building, then change `book_pass/config.py` only (one source of truth) and re-check every page.
+**Live today (book-pass model, membership LIVE 2026-11-02, backend PR #17 + site PR #29):** $1.99 audit special (regular $9.99; checks the whole cover + page 1 of the interior), Advanced Audit (every page up to 300) $9.99 special / $19.99 regular, **$74.99 per book** for non-members, **$9.99/month SparkPrep Membership** (plan id `member`, includes no books, fee was waived only in October 2026) which makes every book **$49.99** (cover, interior or both; 7 days of unlimited exports). The old "$49.99/month = 1 book/month" plan (`book_1`) is retired: hidden and not sold, still honoured for anyone already on it. Audit fees are credited toward the book, never toward the membership fee. A lapsed (past_due) membership loses the member price until the next paid invoice (needs the `customer.subscription.updated` webhook event enabled in Stripe). The "99-Day Special" ends 2027-01-01. A yearly membership ($89.99/yr, mentioned 2026-10-16) is NOT built.
 
 **Funnel:** free demo scan (honest count only, details locked) → **$1.99 audit** ("See My Results", what + where, never how to fix) → **the book** (Repair Bay, fixes, Certified export). Every audit result carries a "SparkPrep can fix this now" CTA.
 
@@ -127,7 +125,7 @@ Facts here were true when written. Before acting on a status line (deployed / br
 ## 7. What's next
 
 1. **California sales tax:** CA taxes SaaS from **2027-01-01** (SB 122). Add Stripe Tax to checkout before then; owner registers with CDTFA and confirms with an accountant (not tax advice).
-2. **Build the new membership pricing** (§4) once the owner confirms.
+2. Membership pricing is built (§4). Optional: a $89.99/year membership, only if the owner asks.
 3. Owner's rebuilt dust jacket for his own book (`Downloads\Legenddary Mindset - FIXED JACKET\`) — waiting for his visual OK, then he uploads to IngramSpark.
 4. Turn on Cloudflare Web Analytics; re-check Google Search Console around Oct 19 – Nov 9 for the SEO pages to start ranking.
 5. **Video ads ("ad factory"):** owner wants 10 short ads every 3 days (18–22s+, 3–4 shots: problem → turn → real SparkPrep screen → payoff; captions narrate). Post each video once per network, label dramatizations/AI actors. Emergent prompt for Ad 11 "Between Shifts" is written (2026-10-14): `Downloads\SparkPrep Ad 11 - Between Shifts\EMERGENT PROMPT - Between Shifts.txt` — no music, no logo/end card, motto included. Waiting for the owner to bring back Emergent's video; then add theme song, logo end card and the real SparkPrep screen clip (~20–24 s). Deliver videos as H.264 Constrained Baseline / mp42 / 48 kHz (other formats don't play on his device).

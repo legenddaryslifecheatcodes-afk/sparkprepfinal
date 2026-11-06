@@ -323,7 +323,7 @@ function BookStats({ books, pricing, projectCount }) {
   const active = books?.active_windows || [];
   const soonest = active.length ? Math.min(...active.map((w) => w.seconds_left)) : null;
   const sub = books?.subscription;
-  const monthly = pricing?.plans?.find((p) => p.id === "book_1");
+  const monthly = pricing?.membership || pricing?.plans?.find((p) => p.id === "book_1");
   const daysLeft = soonest != null ? Math.max(0, Math.ceil(soonest / 86400)) : null;
   return (
     <div className="grid md:grid-cols-4 gap-4 mt-10" data-testid="book-stats">
@@ -331,7 +331,7 @@ function BookStats({ books, pricing, projectCount }) {
         <div className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">Books ready to start</div>
         <div className="font-display font-black text-2xl mt-2 tracking-tight">{books ? available : "—"}</div>
         <Link to="/pricing" className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500 hover:text-black mt-4 inline-block">
-          Get a book · {money(pricing?.book?.price_cents)} →
+          Get a book · {money(books?.book_price_cents ?? pricing?.book?.price_cents)} →
         </Link>
       </div>
       <div className="bg-white border border-neutral-200 p-6" data-testid="stat-books-active">
@@ -344,13 +344,13 @@ function BookStats({ books, pricing, projectCount }) {
         )}
       </div>
       <div className="bg-white border border-neutral-200 p-6" data-testid="stat-subscription">
-        <div className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">Subscription</div>
+        <div className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">{pricing?.membership ? "Membership" : "Subscription"}</div>
         <div className="font-display font-black text-2xl mt-2 tracking-tight">
           {sub ? `${sub.plan_name}${sub.status && sub.status !== "active" ? ` · ${sub.status}` : ""}` : "None"}
         </div>
         {!sub && monthly && (
           <Link to="/pricing" className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500 hover:text-black mt-4 inline-block">
-            {money(monthly.price_cents)}/month →
+            {pricing?.membership ? `Join · ${money(monthly.price_cents)}/month, books ${money(monthly.book_price_cents)} →` : `${money(monthly.price_cents)}/month →`}
           </Link>
         )}
       </div>

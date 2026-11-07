@@ -1,0 +1,39 @@
+{
+  "slug": "fix-duplicate-barcode-on-cover",
+  "date": "2026-11-14",
+  "category": "platform",
+  "job": "cover",
+  "title": "Two Barcodes on Your Book Cover? How to Fix a Duplicate or Missing ISBN Barcode | SparkPrep",
+  "h1": "How to fix a duplicate or missing barcode on your back cover",
+  "description": "Your cover has a barcode and the printer added another, or there's none at all. Learn where the barcode goes and how to avoid printing two.",
+  "platforms": "Amazon KDP · IngramSpark",
+  "lead": "One barcode belongs on the back cover. Too many authors end up with two, or none.",
+  "error": "Cover has a barcode in the barcode area, or no barcode where one is needed",
+  "errorNote": "Paraphrased. This comes up as a proof problem or a cover review note rather than one fixed message.",
+  "why": "<p>Amazon KDP can place a barcode for you on the back cover. If your designer already put one in and you don't tell KDP your cover includes a barcode, you can end up with a second one printed over your art. KDP's barcode area is 2\" x 1.2\" in the lower right of the back cover.</p><p>IngramSpark needs a barcode on the back cover too. Its barcode area is 1.75\" x 1\". If your file has none, or it doesn't match your ISBN, the cover is rejected.</p>",
+  "manual": [
+    "Decide who adds the barcode: you (in your cover file) or your printer.",
+    "If it's in your file, make sure it encodes your book's exact ISBN and sits in the back cover's lower right, inside the safe area.",
+    "Keep that barcode area clear of text and busy art.",
+    "On KDP, tick that your cover already includes a barcode if it does, so it isn't added twice.",
+    "Re-upload the cover and check the printer's preview or proof for exactly one barcode."
+  ],
+  "quickfix": "SparkPrep makes your barcode from your ISBN and places it in your printer's barcode area. If your art already has one, it leaves it alone.",
+  "spNote": "SparkPrep also reads the ISBN printed on your cover and flags it if it doesn't match your book.",
+  "cta": {
+    "text": "Enter your ISBN and SparkPrep adds one barcode in the right spot for your printer, or skips it if your art already has one.",
+    "button": "Fix my barcode",
+    "href": "/"
+  },
+  "faq": [
+    {
+      "q": "Does KDP add a barcode for me?",
+      "a": "KDP can place one on the back cover. If your cover already has a barcode, tell KDP so it doesn't add a second."
+    },
+    {
+      "q": "How big is the barcode area?",
+      "a": "2\" x 1.2\" on KDP and 1.75\" x 1\" on IngramSpark, in the lower right of the back cover."
+    }
+  ],
+  "diy": []
+}

@@ -1,0 +1,37 @@
+{
+  "slug": "fix-kdp-bleed-setting-mismatch",
+  "date": "2026-11-03",
+  "category": "interior",
+  "job": "interior",
+  "title": "KDP Interior Bleed Error: \"Bleed\" vs \"No Bleed\" Doesn't Match Your PDF | SparkPrep",
+  "h1": "How to fix a KDP interior that doesn't match your bleed setting",
+  "description": "KDP flags your manuscript because its page size doesn't match the bleed setting you picked. Learn the right page size with and without bleed, and fix it quickly.",
+  "platforms": "Amazon KDP",
+  "lead": "When you set up a paperback, KDP asks \"Bleed\" or \"No bleed\". Your PDF's page size has to match the answer exactly.",
+  "error": "Your manuscript's page size doesn't match the trim size and bleed settings you selected",
+  "errorNote": "Paraphrased. Each printer words this a little differently.",
+  "why": "<p><strong>No bleed</strong> means nothing on your pages touches the edge, so each PDF page is exactly your trim size (for example 6\" x 9\").</p><p><strong>Bleed</strong> means pictures or color run off the edge, so each page must be bigger: 0.125\" wider and 0.25\" taller (6.125\" x 9.25\" for a 6\" x 9\" book). If you pick bleed but upload trim-size pages, or the other way round, KDP flags it, or your pictures end up with white edges.</p>",
+  "manual": [
+    "Decide: does anything on your pages need to touch the edge? If yes, you need bleed. If no, choose no bleed.",
+    "Open your manuscript and set the page size to match: trim size for no bleed, or trim + 0.125\" wide and + 0.25\" tall for bleed.",
+    "For bleed, stretch edge-to-edge pictures out to the new page edge; keep text inside the margins.",
+    "Re-export as a PDF and make sure the KDP setup (Bleed / No bleed) matches what you built.",
+    "Re-upload it and wait for the review again (KDP says a review can take up to 72 hours)."
+  ],
+  "cta": {
+    "text": "SparkPrep checks every page's size against your trim and bleed choice and resizes the pages for you, in minutes.",
+    "button": "Fix my page size",
+    "href": "/"
+  },
+  "faq": [
+    {
+      "q": "What size should a 6x9 interior PDF be with bleed?",
+      "a": "6.125\" x 9.25\". Without bleed it's exactly 6\" x 9\"."
+    },
+    {
+      "q": "Do I need bleed for a novel?",
+      "a": "Usually not. You only need bleed when pictures, color blocks or shapes run off the edge of the page."
+    }
+  ],
+  "diy": []
+}

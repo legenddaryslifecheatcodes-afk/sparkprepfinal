@@ -76,6 +76,8 @@ export default function AdminBeta() {
         <span className="font-mono-spec text-[10px] tracking-widest uppercase text-[#D4AF37]">[ Admin · Beta program ]</span>
         <h1 className="font-display font-black text-4xl md:text-5xl tracking-tighter mt-2" data-testid="admin-title">Beta command center.</h1>
 
+        <a href="/admin/traffic" className="mt-6 inline-block btn-gold px-5 py-2.5 font-mono-spec text-xs tracking-widest uppercase" data-testid="admin-traffic-link">See site traffic</a>
+
         <EmailList />
         <LockedTitleFix />
 

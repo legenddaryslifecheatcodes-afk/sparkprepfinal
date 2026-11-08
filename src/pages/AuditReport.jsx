@@ -81,7 +81,7 @@ export default function AuditReport() {
         <div className="flex items-center gap-2 mb-3">
           <CheckCircle2 className="w-5 h-5 text-emerald-400" />
           <span className="font-mono-spec text-[10px] tracking-widest uppercase text-emerald-400" data-testid="paid-badge">
-            {advanced ? "[ Paid · Advanced Audit · Every Page Checked ]" : "[ Paid · Audit Unlocked ]"}
+            {advanced ? "[ Paid · Advanced Audit · Every Page Checked ]" : audit?.free_audit ? "[ Free Holiday Audit · Unlocked ]" : "[ Paid · Audit Unlocked ]"}
           </span>
         </div>
         <h1 className="font-display font-black text-4xl md:text-6xl tracking-tighter" data-testid="report-title">Your print failure report.</h1>
@@ -115,6 +115,27 @@ export default function AuditReport() {
             </div>
           </div>
         </div>
+
+        {/* The one big next step, right after the results (Holiday Free Audit, Nov 2026). */}
+        {findings.length > 0 && (
+          <div className="mt-6 border-2 border-[#D4AF37] bg-[#D4AF37]/10 p-6 md:p-8 text-center" data-testid="fix-all-now">
+            <div className="font-display font-black text-3xl md:text-4xl tracking-tighter text-white">
+              Fix all of this now.
+            </div>
+            <p className="text-neutral-300 mt-3 max-w-2xl mx-auto">
+              SparkPrep fixes {findings.length === 1 ? "this problem" : `these ${findings.length} problems`} for you and gives you print-ready files.
+              {pricing?.book && pricing?.membership && <> One book is {money(pricing.book.price_cents)}, or {money(pricing.book.member_price_cents)} with a {money(pricing.membership?.price_cents)}/month membership.</>}
+            </p>
+            <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
+              <Link to={`/pricing?audit=${id}`} className="btn-gold px-8 py-4 font-mono-spec text-sm tracking-widest uppercase btn-industrial" data-testid="fix-all-now-btn" data-next-step="Fix it all">
+                Fix All of This Now
+              </Link>
+              <a href="/fix-my-file/" className="border border-white text-white px-6 py-4 font-mono-spec text-xs tracking-widest uppercase hover:bg-white hover:text-black btn-industrial" data-testid="fix-my-file-link">
+                Or have us fix it for you
+              </a>
+            </div>
+          </div>
+        )}
 
         {!advanced && ["interior", "combined"].includes(audit?.file_type) && (
           <p className="mt-4 text-xs text-neutral-500" data-testid="audit-page-one-note">

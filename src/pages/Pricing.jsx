@@ -90,9 +90,12 @@ function AuditCard({ pricing, bookModel }) {
       <div className="bg-[#0D0D0D] p-8 grid md:grid-cols-3 gap-6 items-center">
         <div className="md:col-span-2">
           <div className="inline-flex items-center gap-2 bg-[#FF6A00] text-white px-2 py-1 font-mono-spec text-[10px] tracking-widest uppercase">
-            <Flame className="w-3 h-3" /> No Signup Required
+            <Flame className="w-3 h-3" /> {pricing.free_audit?.active ? "Holiday Gift · First Audit Free" : "No Signup Required"}
           </div>
           <h2 className="font-display font-black text-4xl md:text-5xl tracking-tighter mt-4">{money(price)} Print Failure Audit.</h2>
+          {pricing.free_audit?.active && (
+            <p className="mt-3 text-emerald-300 font-semibold" data-testid="pricing-free-audit">This holiday season your first audit is free. One per account, no card needed. After that, it's {money(price)}.</p>
+          )}
           <p className="text-neutral-400 mt-3 max-w-xl leading-relaxed">
             Pay once. Upload a cover or inside pages and see every problem: what failed, exactly where, and which printer rule it breaks.
             {pricing.advanced_audit ? " Covers are checked in full; inside pages on page 1." : ""}

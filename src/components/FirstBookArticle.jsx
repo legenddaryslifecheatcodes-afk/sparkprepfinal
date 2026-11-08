@@ -20,6 +20,14 @@ export const HOME_FAQ = [
     a: "SparkPrep is an all-in-one self-publishing suite. You design your book cover, write and format your inside pages, check both against the print rules of Amazon KDP, IngramSpark, Barnes & Noble and Lulu, fix every problem, and download print-ready files, all in one place.",
   },
   {
+    q: "Is the SparkPrep book file audit free?",
+    a: "Yes. Through December 31, 2026, your first SparkPrep audit is free as a holiday gift, one per account. Create a free account, upload your cover or inside pages, and see every problem that could get your book rejected by Amazon KDP or IngramSpark, where it is, and the printer rule it breaks. No credit card needed.",
+  },
+  {
+    q: "Is there a free KDP file checker?",
+    a: "Yes. SparkPrep's free audit checks your KDP or IngramSpark cover and inside pages for bleed, size, spine width, margins, picture sharpness (DPI), print colors, ink and fonts. Free tools like the spine width calculator, margin calculator and DPI checker are free for everyone, every day.",
+  },
+  {
     q: "What is a book preflight check?",
     a: "A book preflight check looks at your cover and inside pages before you upload them, the same way the printer will. It checks size, bleed, margins, spine width, colors, picture sharpness and fonts, so Amazon KDP or IngramSpark doesn't reject your book. It's one of the tools built into SparkPrep.",
   },

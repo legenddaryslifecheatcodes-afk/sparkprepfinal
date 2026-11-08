@@ -30,7 +30,7 @@ export default function Register() {
     <div className="marketing min-h-screen">
       <Nav dark />
       <div className="max-w-md mx-auto px-6 py-24">
-        <span className="font-mono-spec text-xs tracking-widest uppercase text-neutral-500">[ Free tier · unlimited previews ]</span>
+        <span className="font-mono-spec text-xs tracking-widest uppercase text-neutral-500">{new URLSearchParams(window.location.search).get("next")?.includes("claim=1") ? "[ One step left · your free audit is waiting ]" : "[ Free account · no card needed ]"}</span>
         <h1 className="font-display font-black text-4xl md:text-5xl tracking-tighter mt-4">Create<br/>account.</h1>
         <form onSubmit={submit} className="mt-10 space-y-5" data-testid="register-form">
           <div>
@@ -49,7 +49,7 @@ export default function Register() {
             {busy ? "Creating…" : "Create Account"}
           </button>
         </form>
-        <p className="mt-6 text-sm text-neutral-500">Already have one? <Link to="/login" className="text-white underline" data-testid="link-login">Log in</Link></p>
+        <p className="mt-6 text-sm text-neutral-500">Already have one? <Link to={`/login${window.location.search}`} className="text-white underline" data-testid="link-login">Log in</Link></p>
       </div>
     </div>
   );

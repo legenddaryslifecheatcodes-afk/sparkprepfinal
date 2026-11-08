@@ -15,7 +15,8 @@ export default function SeasonBanner({ variant = "bar" }) {
   const [season, setSeason] = useState(null);
   const pricing = usePricing();
   const location = useLocation();
-  const auditPrice = pricing ? ` for ${money(pricing.audit.price_cents)}` : "";
+  const freeAudit = !!pricing?.free_audit?.active;   // Holiday Free Audit: first audit free, one per account
+  const auditPrice = freeAudit ? " free (your first one)" : pricing ? ` for ${money(pricing.audit.price_cents)}` : "";
   useEffect(() => {
     api.get("/season").then(({ data }) => setSeason(data)).catch(() => {});
   }, []);
@@ -26,7 +27,9 @@ export default function SeasonBanner({ variant = "bar" }) {
     if (location.pathname === "/audit") {
       e.preventDefault();
       document.querySelector('[data-testid="audit-drop"]')?.scrollIntoView({ behavior: "smooth", block: "center" });
-      toast("Start by uploading your cover or inside pages below. SparkPrep tells you honestly whether it found problems. You only pay to see exactly what and where.");
+      toast(freeAudit
+        ? "Upload your cover or inside pages below. SparkPrep tells you how many problems it found, then a free account shows you exactly what and where."
+        : "Start by uploading your cover or inside pages below. SparkPrep tells you honestly whether it found problems. You only pay to see exactly what and where.");
     }
   };
 
@@ -53,8 +56,8 @@ export default function SeasonBanner({ variant = "bar" }) {
           <div className="font-mono-spec text-[10px] md:text-xs tracking-widest uppercase">
             {isActive ? (
               <>
-                <span className="font-bold">99-Day Audit Season is live</span>
-                <span className="opacity-80"> · The final {season.days_remaining} days of the year — audit any book{auditPrice}</span>
+                <span className="font-bold">{freeAudit ? "Holiday gift: your first audit is free" : "99-Day Audit Season is live"}</span>
+                <span className="opacity-80">{freeAudit ? " · One per account, no card needed" : <> · The final {season.days_remaining} days of the year — audit any book{auditPrice}</>}</span>
               </>
             ) : (
               <>
@@ -65,7 +68,7 @@ export default function SeasonBanner({ variant = "bar" }) {
           </div>
         </div>
         <Link to="/audit" onClick={onAuditClick} className="font-mono-spec text-[10px] tracking-widest uppercase bg-white text-[#FF6A00] px-3 py-1 hover:bg-neutral-100 transition-colors btn-industrial whitespace-nowrap" data-testid="season-cta">
-          {isActive ? "Run Audit →" : "Preview Now →"}
+          {isActive ? (freeAudit ? "Free Audit →" : "Run Audit →") : "Preview Now →"}
         </Link>
       </div>
     </div>

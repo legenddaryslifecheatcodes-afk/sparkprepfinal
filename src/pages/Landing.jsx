@@ -4,13 +4,17 @@ import SeasonBanner from "@/components/SeasonBanner";
 import { LogoMark, SparkPrepLogo } from "@/components/Logo";
 import BrandWatermark from "@/components/BrandWatermark";
 import GuaranteeSeal from "@/components/GuaranteeSeal";
-import { CheckCircle2, Zap, FileCheck2, Palette, Ruler, Layers, Flame, ArrowRight } from "lucide-react";
+import { CheckCircle2, Zap, FileCheck2, Palette, Ruler, Layers, Flame, ArrowRight, Gift } from "lucide-react";
 import { usePricing, money, isBookModel, specialNote } from "@/lib/pricing";
 import { HOME_FAQ, FirstBookArticle } from "@/components/FirstBookArticle";
 
 export default function Landing() {
   const pricing = usePricing();
   const auditPrice = pricing ? `${money(pricing.audit.price_cents)} ` : "";
+  // Holiday Free Audit (Nov 2026, Trey): the free audit leads the page while it runs. Until prices load we show
+  // it too, so the page doesn't jump; once the server says the offer is over, the normal hero comes back.
+  const freeAudit = pricing ? !!pricing.free_audit?.active : true;
+  const regularAudit = pricing?.free_audit?.regular_cents ? money(pricing.free_audit.regular_cents) : "";
   return (
     <div className="marketing min-h-screen noise-overlay">
       <SeasonBanner />
@@ -23,6 +27,62 @@ export default function Landing() {
         <BrandWatermark variant="dark" position="hero-left" scale={0.62} maxPx={780} />
 
         <div className="relative max-w-7xl mx-auto px-6 pt-16 pb-20 grid md:grid-cols-12 gap-10 items-center">
+          {freeAudit ? (
+          <div className="md:col-span-7">
+            <div className="flex items-center gap-3">
+              <LogoMark size={32} />
+              <span className="font-mono-spec text-[10px] tracking-[0.28em] uppercase text-[#D4AF37]">
+                SparkPrep: the evolution of self-publishing
+              </span>
+            </div>
+
+            <span className="mt-8 inline-flex items-center gap-2 font-mono-spec text-xs tracking-widest uppercase text-black bg-[#D4AF37] px-3 py-1.5" data-testid="hero-tag">
+              <Gift className="w-3.5 h-3.5" /> Holiday gift · Free for a limited time
+            </span>
+
+            <h1 className="mt-8 font-display font-black text-5xl md:text-7xl tracking-tighter leading-[0.92]" data-testid="hero-title">
+              Free book file audit<br />
+              <span className="text-[#D4AF37]" style={{ background: "linear-gradient(180deg, #E5C158, #D4AF37 55%, #B8933E)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>for KDP &amp; IngramSpark.</span>
+            </h1>
+            <p className="mt-6 font-display font-bold italic text-2xl md:text-3xl text-[#D4AF37]" data-testid="hero-motto">Power without complexity.</p>
+
+            <p className="mt-8 text-lg text-neutral-300 max-w-xl leading-relaxed" data-testid="hero-gift">
+              Times are hard. Gas prices are high and a lot feels uncertain. So this holiday season, SparkPrep is giving self-publishers a gift: <span className="text-white font-semibold">check your book file for free.</span> Upload your cover or inside pages. See every problem that could get your book rejected, where it is, and the printer rule it breaks.
+            </p>
+            <p className="mt-4 text-sm text-emerald-300 max-w-xl" data-testid="hero-free-terms">
+              One free audit per account. No card needed.{regularAudit ? ` Regular price ${regularAudit} from January.` : ""}
+            </p>
+
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link to="/audit" className="btn-gold px-7 py-4 font-mono-spec text-xs tracking-widest uppercase flex items-center gap-2 btn-industrial" data-testid="hero-cta-audit" data-next-step="Start here">
+                <Gift className="w-4 h-4" /> Get My Free Audit <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link to="/register" className="border border-white text-white hover:bg-white hover:text-black px-7 py-4 font-mono-spec text-xs tracking-widest uppercase flex items-center gap-2 btn-industrial" data-testid="hero-cta-primary">
+                Prep My First Book
+              </Link>
+            </div>
+
+            <div className="mt-10 max-w-xl" data-testid="hero-free-tools">
+              <h2 className="font-display font-bold text-lg text-white tracking-tight">Also free for every author</h2>
+              <ul className="mt-3 grid sm:grid-cols-2 gap-x-6 gap-y-2 text-neutral-300">
+                <li><Link to="/cover-studio" className="flex items-center gap-2 hover:text-white"><CheckCircle2 className="w-4 h-4 text-[#D4AF37] shrink-0" /> Cover Studio (cover designer)</Link></li>
+                <li><Link to="/interior-studio" className="flex items-center gap-2 hover:text-white"><CheckCircle2 className="w-4 h-4 text-[#D4AF37] shrink-0" /> Interior Studio (page designer)</Link></li>
+                <li><a href="/tools/" className="flex items-center gap-2 hover:text-white"><CheckCircle2 className="w-4 h-4 text-[#D4AF37] shrink-0" /> Spine, margin &amp; DPI checkers</a></li>
+                <li><a href="/templates/" className="flex items-center gap-2 hover:text-white"><CheckCircle2 className="w-4 h-4 text-[#D4AF37] shrink-0" /> 224 cover templates</a></li>
+                <li><a href="/guides/" className="flex items-center gap-2 hover:text-white"><CheckCircle2 className="w-4 h-4 text-[#D4AF37] shrink-0" /> Step-by-step fix guides</a></li>
+                <li><Link to="/specs" className="flex items-center gap-2 hover:text-white"><CheckCircle2 className="w-4 h-4 text-[#D4AF37] shrink-0" /> Printer spec library</Link></li>
+              </ul>
+            </div>
+
+            {/* Short answer box: a 40-60 word definition so Google can lift it as a featured snippet. */}
+            <div className="mt-10 max-w-xl border-l-2 border-[#D4AF37] bg-[#D4AF37]/[0.06] px-5 py-4" data-testid="hero-definition">
+              <h2 className="font-display font-bold text-lg text-white tracking-tight">What is a book file audit?</h2>
+              <p className="mt-2 text-neutral-300 leading-relaxed">
+                A book file audit checks your cover and inside pages against the printer's rules before you upload. It finds problems like missing bleed, the wrong size or spine width, blurry pictures, screen colors and missing fonts, shows where each one is, and names the Amazon KDP or IngramSpark rule it breaks.
+              </p>
+            </div>
+          </div>
+          ) : (
           <div className="md:col-span-7">
             <div className="flex items-center gap-3">
               <LogoMark size={32} />
@@ -78,6 +138,7 @@ export default function Landing() {
               <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-[#D4AF37]" /> Lulu</span>
             </div>
           </div>
+          )}
 
           {/* The SparkPrep commercial, now in the hero. Click to play: no autoplay, nothing downloads until pressed. */}
           <div className="md:col-span-5 flex flex-col items-center">
@@ -102,8 +163,44 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* While the Holiday Free Audit leads the hero, the "all-in-one suite" intro sits right below it. */}
+      {freeAudit && (
+        <section className="border-t border-neutral-900" aria-labelledby="suite-intro" data-testid="suite-intro">
+          <div className="max-w-7xl mx-auto px-6 py-20 grid md:grid-cols-12 gap-10 items-start">
+            <div className="md:col-span-7">
+              <span className="font-mono-spec text-xs tracking-widest uppercase text-[#D4AF37]">[ Built by an author whose book was rejected 18 times ]</span>
+              <h2 id="suite-intro" className="font-display font-black text-5xl md:text-7xl tracking-tighter mt-4 leading-[0.9]">
+                The all-in-one<br />
+                <span className="text-[#D4AF37]">publishing</span> suite.
+              </h2>
+              <p className="mt-6 font-display font-bold italic text-2xl text-[#D4AF37]">Power without complexity.</p>
+              <p className="mt-6 text-lg text-neutral-300 max-w-xl leading-relaxed">
+                Design your cover, write and format your pages, check them against Amazon KDP and IngramSpark's print rules, fix every problem, and download print-ready files. <span className="text-white font-semibold">Everything you need to publish, in one place</span>, in plain English.
+              </p>
+            </div>
+            <div className="md:col-span-5">
+              <div className="border-l-2 border-[#D4AF37] bg-[#D4AF37]/[0.06] px-5 py-4" data-testid="suite-definition">
+                <h3 className="font-display font-bold text-lg text-white tracking-tight">What is SparkPrep?</h3>
+                <p className="mt-2 text-neutral-300 leading-relaxed">
+                  SparkPrep is an all-in-one self-publishing suite. You design your book cover, write and format your inside pages, check both against the print rules of Amazon KDP, IngramSpark, Barnes &amp; Noble and Lulu, fix every problem, and download print-ready files, all in one place.
+                </p>
+              </div>
+              <div className="mt-6 flex flex-wrap gap-6 text-xs font-mono-spec tracking-widest text-neutral-500 uppercase">
+                <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-[#D4AF37]" /> IngramSpark</span>
+                <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-[#D4AF37]" /> Amazon KDP</span>
+                <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-[#D4AF37]" /> Barnes & Noble</span>
+                <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-[#D4AF37]" /> Lulu</span>
+              </div>
+              <Link to="/register" className="mt-8 inline-flex btn-spark px-7 py-4 font-mono-spec text-xs tracking-widest uppercase text-white items-center gap-2 btn-industrial">
+                <Flame className="w-3.5 h-3.5" /> Start My Book <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* First-time author article (2026-11-01, Trey: talk to new authors, honest numbers). */}
-      <FirstBookArticle pricing={pricing} auditPrice={auditPrice.trim()} auditNote={specialNote(pricing, "audit")} />
+      <FirstBookArticle pricing={pricing} auditPrice={freeAudit && pricing ? "free" : auditPrice.trim()} auditNote={freeAudit ? "" : specialNote(pricing, "audit")} />
 
       {/* New authors: the three things nobody tells you, beside the old editor mock (moved here from the hero). */}
       <section className="border-t border-neutral-900" aria-labelledby="new-authors">
@@ -233,7 +330,12 @@ export default function Landing() {
             Stop guessing.<br />
             <span style={{ background: "linear-gradient(180deg, #E5C158, #D4AF37 55%, #B8933E)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>Start printing.</span>
           </h2>
-          {isBookModel(pricing) ? (
+          {freeAudit && pricing?.book ? (
+            <p className="text-neutral-400 mt-6 max-w-xl mx-auto">
+              This holiday season your first audit is free. Upload your book, see every problem, then let SparkPrep fix it all and hand you
+              print-ready files for {money(pricing.book.price_cents)} a book. No subscription needed. No card to start.
+            </p>
+          ) : isBookModel(pricing) ? (
             <p className="text-neutral-400 mt-6 max-w-xl mx-auto">
               Try SparkPrep free: create an account, upload your book, and watch SparkPrep run a real scan of your file.
               Want to see exactly what it found? Unlock your complete audit for {auditPrice.trim()}. When SparkPrep fixes your book and hands you

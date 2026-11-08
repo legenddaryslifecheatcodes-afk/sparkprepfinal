@@ -16,6 +16,8 @@ const PROVENANCE_LABEL = { extracted: "Extracted", calculated: "Calculated", geo
 export default function AuditLanding() {
   const pricing = usePricing();
   const auditPrice = pricing ? money(pricing.audit.price_cents) : "";
+  // Holiday Free Audit (backend book_pass config): one free audit per account while it runs.
+  const freeAudit = !!pricing?.free_audit?.active;
   const [specs, setSpecs] = useState(null);
   const [platform, setPlatform] = useState("kdp");
   const [trim, setTrim] = useState("6x9");
@@ -87,13 +89,13 @@ export default function AuditLanding() {
         <div className="relative max-w-6xl mx-auto px-6 pt-20 pb-24 grid md:grid-cols-12 gap-8 items-start">
           <div className="md:col-span-7">
             <span className="font-mono-spec text-xs tracking-widest uppercase text-neutral-400 border border-neutral-700 px-3 py-1.5 inline-flex items-center gap-2" data-testid="audit-tag">
-              <ShieldAlert className="w-3 h-3" /> [ {auditPrice ? `${auditPrice} ` : ""}Book File Audit · No Sign-Up ]
+              <ShieldAlert className="w-3 h-3" /> {freeAudit ? "[ Free Book File Audit · Holiday Gift ]" : `[ ${auditPrice ? `${auditPrice} ` : ""}Book File Audit · No Sign-Up ]`}
             </span>
             <h1 className="font-display font-black text-5xl md:text-7xl tracking-tighter mt-6 leading-[0.92]" data-testid="audit-title">
               Know exactly<br />why you'll get<br /><span className="text-neutral-500">rejected.</span>
             </h1>
             <p className="mt-6 text-lg text-neutral-400 max-w-xl leading-relaxed">
-              IngramSpark, KDP and Barnes & Noble often reject a file with a short note like <span className="font-mono-spec text-sm text-white">"resolution insufficient"</span> and no details. Upload your cover or inside pages here. We'll find every problem, show you exactly where it is, and tell you which printer rule it breaks. {auditPrice ? `${auditPrice}. ` : ""}No account.
+              IngramSpark, KDP and Barnes & Noble often reject a file with a short note like <span className="font-mono-spec text-sm text-white">"resolution insufficient"</span> and no details. Upload your cover or inside pages here. We'll find every problem, show you exactly where it is, and tell you which printer rule it breaks. {freeAudit ? "Free this holiday season, one per account." : <>{auditPrice ? `${auditPrice}. ` : ""}No account.</>}
             </p>
             <div className="mt-8 flex flex-wrap gap-3 text-xs font-mono-spec tracking-widest text-neutral-500 uppercase">
               <span className="border border-neutral-700 px-2 py-1">✓ Every problem found</span>
@@ -103,7 +105,11 @@ export default function AuditLanding() {
             </div>
             <div className="mt-6 flex items-start gap-3 max-w-xl text-sm text-neutral-300 bg-white/5 border border-neutral-800 px-4 py-3" data-testid="audit-how-it-works">
               <span className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500 shrink-0 mt-0.5">How it works</span>
-              <span>Upload your file first. It's free. SparkPrep scans it and tells you honestly whether it found problems. Then pay{auditPrice ? ` ${auditPrice}` : ""} to see exactly what failed, where, and which printer rule it breaks. For inside pages, the audit checks page 1.</span>
+              {freeAudit ? (
+                <span>Upload your file. SparkPrep scans it and tells you how many problems it found. Then create a free account to see every problem, where it is, and which printer rule it breaks. No card needed. For inside pages, the free audit checks page 1.</span>
+              ) : (
+                <span>Upload your file first. It's free. SparkPrep scans it and tells you honestly whether it found problems. Then pay{auditPrice ? ` ${auditPrice}` : ""} to see exactly what failed, where, and which printer rule it breaks. For inside pages, the audit checks page 1.</span>
+              )}
             </div>
           </div>
 
@@ -234,8 +240,14 @@ export default function AuditLanding() {
                 <div className="font-mono-spec text-[10px] tracking-widest text-neutral-500 mt-1 uppercase">PDF · JPG · PNG · TIFF · WebP (up to 50 MB)</div>
               </label>
               <p className="mt-6 font-mono-spec text-[10px] tracking-widest text-neutral-500 uppercase leading-relaxed">
-                The scan is free. See exactly what it found for <span className="text-white">{auditPrice}</span>. No subscription, no account.
-                {isBookModel(pricing) && <> The full amount is credited toward your book if you fix it with SparkPrep.</>}
+                {freeAudit ? (
+                  <>Your first audit is free. One per account, no card needed.</>
+                ) : (
+                  <>
+                    The scan is free. See exactly what it found for <span className="text-white">{auditPrice}</span>. No subscription, no account.
+                    {isBookModel(pricing) && <> The full amount is credited toward your book if you fix it with SparkPrep.</>}
+                  </>
+                )}
               </p>
             </div>
           </div>

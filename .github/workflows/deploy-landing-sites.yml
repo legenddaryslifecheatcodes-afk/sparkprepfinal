@@ -20,6 +20,7 @@ on:
       - ".github/workflows/deploy-landing-sites.yml"
       - "analytics.json"
       - "scripts/inject-analytics.mjs"
+      - "scripts/inject-tracker.mjs"
   workflow_dispatch:
 
 concurrency:
@@ -54,6 +55,9 @@ jobs:
 
       - name: Add Cloudflare Web Analytics (token from analytics.json)
         run: node scripts/inject-analytics.mjs sites/${{ matrix.key }} ${{ matrix.host }}
+
+      - name: Add SparkPrep's own traffic counter
+        run: node scripts/inject-tracker.mjs sites/${{ matrix.key }}
 
       - name: Create the Pages project (first run only)
         run: npx --yes wrangler@3 pages project create ${{ matrix.project }} --production-branch=main || echo "Project already exists"

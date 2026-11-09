@@ -372,6 +372,7 @@ export default function Landing() {
           <a href="/free-book-formatting-guide/" className="hover:text-white">Free formatting guide</a>
           <a href="/free-manuscript-checklist/" className="hover:text-white">Free manuscript checklist</a>
           <a href="/free-indie-author-templates/" className="hover:text-white">Free author templates</a>
+          <a href="/privacy/" className="hover:text-white">Privacy</a>
         </nav>
         <nav aria-label="More free help" className="mb-4 flex flex-wrap justify-center gap-x-6 gap-y-2 normal-case tracking-normal text-neutral-500">
           <a href="https://sparkpreplanding.legenddary.com/" className="hover:text-white">What is book preflight?</a>

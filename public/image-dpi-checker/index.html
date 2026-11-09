@@ -3,19 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Free Image DPI Checker for Print Books (300 DPI) | SparkPrep</title>
-<meta name="description" content="Check if your cover or interior picture is 300 DPI at the size it will print. Free, instant, and your picture never leaves your device. Shows the pixels you need for KDP and IngramSpark covers.">
+<title>Free PDF &amp; Image DPI Checker Online for Print Books (300 DPI) | SparkPrep</title>
+<meta name="description" content="Free online PDF DPI checker: drop in your book PDF and see the real DPI of every picture on every page, or check one picture. Printers ask for 300 DPI. Nothing is uploaded.">
 <link rel="canonical" href="https://sparkprep.legenddary.com/image-dpi-checker/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="SparkPrep">
-<meta property="og:title" content="Image DPI Checker for Print Books">
+<meta property="og:title" content="PDF &amp; Image DPI Checker for Print Books">
 <meta property="og:description" content="Check if your cover or interior picture is 300 DPI at the size it will print. Free, instant, and your picture never leaves your device. Shows the pixels you need for KDP and IngramSpark covers.">
 <meta property="og:url" content="https://sparkprep.legenddary.com/image-dpi-checker/">
 <meta property="og:image" content="https://sparkprep.legenddary.com/brand/sparkprep-logo.png">
 <meta name="twitter:card" content="summary">
 <link rel="icon" type="image/png" href="/favicon.png">
 <link rel="stylesheet" href="/tools/tools.css">
-<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "WebApplication", "name": "Image DPI Checker for Print Books", "url": "https://sparkprep.legenddary.com/image-dpi-checker/", "applicationCategory": "DesignApplication", "operatingSystem": "Web", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "publisher": {"@type": "Organization", "name": "SparkPrep", "url": "https://sparkprep.legenddary.com/"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "SparkPrep", "item": "https://sparkprep.legenddary.com/"}, {"@type": "ListItem", "position": 2, "name": "Free tools", "item": "https://sparkprep.legenddary.com/tools/"}, {"@type": "ListItem", "position": 3, "name": "Image DPI Checker for Print Books", "item": "https://sparkprep.legenddary.com/image-dpi-checker/"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What DPI does KDP require?", "acceptedAnswer": {"@type": "Answer", "text": "KDP recommends 300 DPI for images in print books and warns about images below that in its previewer."}}, {"@type": "Question", "name": "How do I check the DPI of an image?", "acceptedAnswer": {"@type": "Answer", "text": "Divide the picture's width in pixels by the width in inches it will print. 1,800 pixels printed 6 inches wide is 300 DPI. This free checker does it for you."}}, {"@type": "Question", "name": "Does this tool upload my picture?", "acceptedAnswer": {"@type": "Answer", "text": "No. The picture is read in your own browser and never leaves your device."}}]}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "WebApplication", "name": "PDF & Image DPI Checker for Print Books", "url": "https://sparkprep.legenddary.com/image-dpi-checker/", "applicationCategory": "DesignApplication", "operatingSystem": "Web", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "publisher": {"@type": "Organization", "name": "SparkPrep", "url": "https://sparkprep.legenddary.com/"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "SparkPrep", "item": "https://sparkprep.legenddary.com/"}, {"@type": "ListItem", "position": 2, "name": "Free tools", "item": "https://sparkprep.legenddary.com/tools/"}, {"@type": "ListItem", "position": 3, "name": "Image DPI Checker for Print Books", "item": "https://sparkprep.legenddary.com/image-dpi-checker/"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How do I check the DPI of a PDF?", "acceptedAnswer": {"@type": "Answer", "text": "Open the PDF in a PDF DPI checker like this one. It finds every picture on every page and divides each picture's pixels by the size it is placed on the page in inches. Printers such as KDP and IngramSpark ask for 300 DPI at the printed size."}}, {"@type": "Question", "name": "What DPI does KDP require?", "acceptedAnswer": {"@type": "Answer", "text": "KDP recommends 300 DPI for images in print books and warns about images below that in its previewer."}}, {"@type": "Question", "name": "How do I check the DPI of an image?", "acceptedAnswer": {"@type": "Answer", "text": "Divide the picture's width in pixels by the width in inches it will print. 1,800 pixels printed 6 inches wide is 300 DPI. This free checker does it for you."}}, {"@type": "Question", "name": "Does this tool upload my picture?", "acceptedAnswer": {"@type": "Answer", "text": "No. The picture is read in your own browser and never leaves your device."}}]}]}</script>
 </head>
 <body>
 <header class="site">
@@ -24,8 +24,29 @@
 </header>
 <main>
   <div class="eyebrow">Free tool · Covers &amp; interior pictures</div>
-  <h1>Image DPI Checker for Print Books</h1>
-  <p class="lead">Find out if your picture is sharp enough to print. Pick your picture and where it will print, and see its real DPI at that size. Your picture stays on your device.</p>
+  <h1>PDF &amp; Image DPI Checker for Print Books</h1>
+  <p class="lead">Find out if your pictures are sharp enough to print. Check a whole PDF at once, or one picture. You see the real DPI at the size it prints. Nothing is uploaded; it all happens on your device.</p>
+
+  <section class="card tool" aria-label="PDF DPI checker">
+    <h2 style="margin-top:0">Check a whole PDF</h2>
+    <p class="note" style="margin-top:0">Your book's cover or interior PDF. Every picture on every page is checked at the size it's placed.</p>
+    <label for="pdf-file">Your PDF</label><input id="pdf-file" type="file" accept="application/pdf,.pdf">
+    <div class="result">
+      <div><b id="pdf-count">—</b><span>Pictures found</span></div>
+      <div><b id="pdf-low">—</b><span>Under 300 DPI</span></div>
+      <div><b id="pdf-min">—</b><span>Lowest DPI</span></div>
+      <div><b id="pdf-trim">—</b><span>Page size (page 1)</span></div>
+    </div>
+    <div id="pdf-msg" class="note">Pick a PDF to check. It stays on your device; nothing is uploaded.</div>
+    <div id="pdf-out" class="pdf-out"></div>
+    <div class="next-step" data-next-step-box>
+      <p><strong>Pictures are one check. Printers make about 20 more.</strong></p>
+      <p>SparkPrep checks your whole book against KDP and IngramSpark's own rules: bleed, margins, fonts, color, ink and every picture, then fixes what it finds. The standard audit is free through December 31.</p>
+      <a class="btn" href="/audit?utm_source=pdf-dpi-checker" data-track="PDF DPI checker: free audit">Check my book free</a>
+    </div>
+  </section>
+
+  <h2>Check one picture</h2>
 
   <section class="card tool" aria-label="Image DPI checker">
     <div class="row">
@@ -71,6 +92,9 @@
   </table></div>
   <p class="note">A full wrap cover (back, spine and front) needs more: use the <a href="/kdp-cover-calculator/">KDP cover calculator</a> to get its pixel size.</p>
 
+  <h2>How to check the DPI of a PDF</h2>
+  <p>Drop your PDF into the checker at the top of this page. It finds every picture on every page and divides each picture's pixels by the size it is placed on the page. A 1,200-pixel-wide photo placed 4 inches wide is 300 DPI; the same photo stretched to 6 inches is only 200 DPI. That is the number KDP and IngramSpark care about, not the "DPI" saved in the picture's settings.</p>
+
   <h2>What to do if your picture is too small</h2>
   <ul>
     <li>Find the original, full-size file (not one saved from email, a website or social media, which shrink pictures).</li>
@@ -109,5 +133,6 @@
 <script src="/tools/cover-calc.js" defer></script>
 <script src="/tools/more-tools.js" defer></script>
 <script src="/tools/next-step.js" defer></script>
+<script src="/tools/pdf-dpi.js" defer></script>
 </body>
 </html>

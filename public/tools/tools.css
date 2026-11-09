@@ -75,3 +75,5 @@ footer.site a { color: var(--muted); margin: 0 8px; }
 .chips a:hover { border-color: var(--gold); }
 @media print { header.site, footer.site, .cta, .btn, .no-print { display: none !important; } body { background: #fff; color: #000; }
   .card { border-color: #999; background: #fff; } h2 { color: #000; } }
+/* PDF DPI checker results (2026-11-09) */
+.pdf-out tr.bad td { color: #ffd2cf; } .pdf-out tr.soft td { color: #ffe9a8; } .pdf-out tr.good td { color: #cff3df; }

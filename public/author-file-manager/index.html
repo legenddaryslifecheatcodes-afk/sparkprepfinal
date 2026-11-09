@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Free File Manager for Authors: Keep Your Book, Drafts &amp; Notes in One Place | SparkPrep</title>
+<meta name="description" content="A free file manager made for authors. Keep your manuscript, every draft and edit, notes, cover files and any other file in one place. Works in your browser, no sign-up, your files stay on your device.">
+<link rel="canonical" href="https://sparkprep.legenddary.com/author-file-manager/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SparkPrep">
+<meta property="og:title" content="Free File Manager for Authors">
+<meta property="og:description" content="Keep your manuscript, drafts, edits, notes and cover files in one place. Free, no sign-up, your files stay on your device.">
+<meta property="og:url" content="https://sparkprep.legenddary.com/author-file-manager/">
+<meta property="og:image" content="https://sparkprep.legenddary.com/brand/sparkprep-logo.png">
+<meta name="twitter:card" content="summary">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="stylesheet" href="/tools/tools.css">
+<link rel="stylesheet" href="/tools/file-manager.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "WebApplication", "name": "SparkPrep File Manager for Authors", "url": "https://sparkprep.legenddary.com/author-file-manager/", "applicationCategory": "BusinessApplication", "operatingSystem": "Web", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "description": "A free browser file manager for authors with ready-made folders for the manuscript, drafts and edits, notes, cover files, research, marketing and publishing paperwork.", "publisher": {"@type": "Organization", "name": "SparkPrep", "url": "https://sparkprep.legenddary.com/"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "SparkPrep", "item": "https://sparkprep.legenddary.com/"}, {"@type": "ListItem", "position": 2, "name": "Free tools", "item": "https://sparkprep.legenddary.com/tools/"}, {"@type": "ListItem", "position": 3, "name": "File manager for authors", "item": "https://sparkprep.legenddary.com/author-file-manager/"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Is the SparkPrep file manager free?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. It is free, with no sign-up and no limit on folders or notes. The only limit is the storage your own browser allows."}}, {"@type": "Question", "name": "Where are my files kept?", "acceptedAnswer": {"@type": "Answer", "text": "On your own device, inside this browser. Nothing is uploaded to SparkPrep. That also means clearing your browser data deletes them, so use Download a backup now and then."}}, {"@type": "Question", "name": "How should an author organize book files?", "acceptedAnswer": {"@type": "Answer", "text": "Keep one folder for the current manuscript, one for every older draft and edit, one for notes, one for cover files, and one each for research, marketing and paperwork like ISBNs and contracts. Put the date or a version number in every draft's name so you never send the wrong file to the printer."}}]}]}</script>
+</head>
+<body>
+<header class="site">
+  <a class="brand" href="/"><img src="/brand/sparkprep-logo.png" alt="SparkPrep logo" width="120" height="34"></a>
+  <nav><a href="/tools/">Free tools</a><a class="hide-sm" href="/guides/">Guides</a><a href="/">SparkPrep</a></nav>
+</header>
+<main class="fm-main">
+  <div class="eyebrow">Free tool · For authors</div>
+  <h1>File Manager for Authors</h1>
+  <p class="lead">Keep your book, every draft, your notes and any other file in one place. Free, no sign-up. Your files stay on your device.</p>
+
+  <section class="card fm" id="fm" aria-label="File manager">
+    <noscript><p class="warn">The file manager needs JavaScript turned on.</p></noscript>
+    <div class="fm-top">
+      <input id="fm-search" type="search" placeholder="Search all files and notes" aria-label="Search">
+      <label class="btn fm-add">Add files<input id="fm-input" type="file" multiple hidden></label>
+      <button class="btn ghost" id="fm-new-note" type="button">New note</button>
+    </div>
+    <div class="fm-body">
+      <nav class="fm-folders" id="fm-folders" aria-label="Folders"></nav>
+      <div class="fm-list-wrap">
+        <div class="fm-head"><h2 id="fm-folder-title">Folder</h2><span id="fm-folder-hint" class="note"></span></div>
+        <div id="fm-drop" class="fm-drop">Drop files here, or tap <b>Add files</b>.</div>
+        <ul id="fm-list" class="fm-list"></ul>
+        <div id="fm-cta" class="next-step" hidden>
+          <p><strong>Your book file is safe here. Is it ready to print?</strong></p>
+          <p>Before you upload to Amazon KDP or IngramSpark, let SparkPrep check it. The standard audit is free through December 31 and shows every problem in plain English.</p>
+          <a class="btn" href="/audit?utm_source=file-manager" data-track="File manager: free audit">Check my book free</a>
+        </div>
+      </div>
+    </div>
+    <div class="fm-foot">
+      <span id="fm-usage" class="note"></span>
+      <span>
+        <button class="btn ghost fm-small" id="fm-new-folder" type="button">New folder</button>
+        <button class="btn ghost fm-small" id="fm-backup" type="button">Download a backup</button>
+      </span>
+    </div>
+  </section>
+
+  <dialog id="fm-note" class="fm-dialog">
+    <form method="dialog" class="fm-note-form">
+      <input id="fm-note-title" placeholder="Note title" aria-label="Note title">
+      <textarea id="fm-note-text" rows="14" placeholder="Write your note. Plot ideas, character names, editor feedback, to-do list..." aria-label="Note"></textarea>
+      <div class="fm-note-btns">
+        <span class="note" id="fm-note-saved"></span>
+        <span><button class="btn ghost" value="cancel" type="submit">Close</button><button class="btn" id="fm-note-save" type="button">Save note</button></span>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="fm-view" class="fm-dialog fm-viewer">
+    <div class="fm-view-bar"><b id="fm-view-name"></b><button class="btn ghost fm-small" id="fm-view-close" type="button">Close</button></div>
+    <div id="fm-view-body"></div>
+  </dialog>
+
+  <h2>Folders made for writing a book</h2>
+  <p>Every author ends up with the same mess: <em>final.docx</em>, <em>final-2.docx</em>, <em>final-REAL.docx</em>, notes in three apps and cover files nobody can find. This file manager starts you with the folders a book needs:</p>
+  <ul>
+    <li><strong>My Book</strong> for the one manuscript you are working on now.</li>
+    <li><strong>Drafts &amp; Edits</strong> for every older version and your editor's markup. Add a file with the same name twice and both are kept, each with its date.</li>
+    <li><strong>Notes</strong> for ideas, characters, timelines and feedback. Write them right here.</li>
+    <li><strong>Cover Files</strong> for your front cover, full wrap, artwork and barcode.</li>
+    <li><strong>Research</strong>, <strong>Marketing</strong> and <strong>Publishing Paperwork</strong> (ISBNs, contracts, printer emails).</li>
+    <li><strong>Other Files</strong> for anything else. It takes every kind of file.</li>
+  </ul>
+
+  <h2>Your files stay with you</h2>
+  <p>Files are saved inside this browser on this device. Nothing is sent to SparkPrep, so there's nothing to hack and no account to make. Two things to know: your files won't show up on your other devices, and clearing this browser's data deletes them. Press <strong>Download a backup</strong> now and then to keep a copy.</p>
+
+  <h2>Questions</h2>
+  <h3>Is it really free?</h3>
+  <p>Yes. No sign-up and no limit on folders or notes. The only limit is the space your browser allows, which on most computers is several gigabytes.</p>
+  <h3>Can I open my files here?</h3>
+  <p>Pictures, PDFs and text files open right on the page. Word files and others download so you can open them in their own app.</p>
+  <h3>What should I do when my book is finished?</h3>
+  <p>Check it before you upload it. KDP and IngramSpark reject books for margins, bleed, fonts, low-resolution pictures and ink. <a href="/audit?utm_source=file-manager">SparkPrep's free audit</a> finds all of them, and SparkPrep can fix them for you.</p>
+
+  <section class="cta">
+    <h2>SparkPrep: the evolution of self-publishing</h2>
+    <p>Design your cover, write and format your pages, check every file against the printer's rules and export print-ready files, all in one place. Power without complexity.</p>
+    <a class="btn" href="/audit?utm_source=file-manager" data-track="File manager: free audit">Check my book free</a>
+    <a class="btn ghost" href="/">See everything SparkPrep does</a>
+  </section>
+
+  <h2>More free tools</h2>
+  <ul class="links">
+    <li><a href="/free-manuscript-checklist/">Free manuscript checklist</a></li>
+    <li><a href="/book-margin-calculator/">Book margin and bleed calculator</a></li>
+    <li><a href="/kdp-cover-calculator/">KDP cover size calculator</a></li>
+    <li><a href="/image-dpi-checker/">Image DPI checker</a></li>
+    <li><a href="/tools/">All free tools</a></li>
+  </ul>
+</main>
+<footer class="site">© SparkPrep by Legenddary · <a href="/">Home</a><a href="/tools/">Free tools</a><a href="/guides/">Guides</a><a href="/pricing">Pricing</a></footer>
+<script src="/tools/file-manager.js" defer></script>
+</body>
+</html>

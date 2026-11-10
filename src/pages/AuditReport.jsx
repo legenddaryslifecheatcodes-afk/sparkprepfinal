@@ -5,6 +5,7 @@ import Nav from "@/components/Nav";
 import { toast } from "sonner";
 import { Check, AlertTriangle, XCircle, MapPin, BookOpen, Wrench, CheckCircle2 } from "lucide-react";
 import { usePricing, money, isBookModel } from "@/lib/pricing";
+import ScreenOnlyGuard from "@/components/ScreenOnlyGuard";
 
 const sevIcon = (s) => s === "pass" ? <Check className="w-4 h-4" /> : s === "warning" ? <AlertTriangle className="w-4 h-4" /> : <XCircle className="w-4 h-4" />;
 const sevClass = (s) => s === "pass" ? "text-emerald-400 border-emerald-400/30 bg-emerald-500/10" : s === "warning" ? "text-amber-400 border-amber-400/30 bg-amber-500/10" : "text-red-400 border-red-400/30 bg-red-500/10";
@@ -66,6 +67,8 @@ export default function AuditReport() {
   const s = audit?.summary || {};
   const creditCta = isBookModel(pricing) && audit?.paid;
   const advanced = audit?.level === "advanced";
+  // Free Holiday Audit: results on screen only, no PDF (the server refuses it too).
+  const screenOnly = !!audit?.free_audit && !advanced;
   const upgradeCents = pricing?.advanced_audit && pricing?.audit ? pricing.advanced_audit.price_cents - pricing.audit.price_cents : null;
   const upgrade = async () => {
     try {
@@ -88,7 +91,7 @@ export default function AuditReport() {
         <p className="text-neutral-400 mt-3">
           <span className="font-mono-spec text-white">{audit?.platform_name}</span> · trim <span className="font-mono-spec text-white">{audit?.trim_label}</span> · file <span className="font-mono-spec text-white">{audit?.file_metadata?.original_filename}</span>
         </p>
-        {audit?.paid && (
+        {audit?.paid && !screenOnly && (
           <a
             href={`${API_URL}/audit/${id}/report`}
             target="_blank"
@@ -100,6 +103,7 @@ export default function AuditReport() {
           </a>
         )}
 
+        <ScreenOnlyGuard active={screenOnly} email={audit?.claimed_email}>
         {/* Overall banner */}
         <div className="mt-8 marketing-surface p-6">
           <div className="flex items-center justify-between flex-wrap gap-4">
@@ -223,6 +227,11 @@ export default function AuditReport() {
             </div>
           )}
         </div>
+
+        </ScreenOnlyGuard>
+        {screenOnly && (
+          <p className="mt-4 text-xs text-neutral-500" data-testid="screen-only-note">Your free audit is shown on screen only. A printable PDF report comes with a paid audit or a SparkPrep book.</p>
+        )}
 
         {/* Upsell to the product: the audit only finds problems; the book fixes them */}
         {findings.length > 0 && (

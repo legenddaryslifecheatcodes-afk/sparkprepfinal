@@ -95,7 +95,7 @@ export default function AuditLanding() {
               Know exactly<br />why you'll get<br /><span className="text-neutral-500">rejected.</span>
             </h1>
             <p className="mt-6 text-lg text-neutral-400 max-w-xl leading-relaxed">
-              IngramSpark, KDP and Barnes & Noble often reject a file with a short note like <span className="font-mono-spec text-sm text-white">"resolution insufficient"</span> and no details. Upload your cover or inside pages here. We'll find every problem, show you exactly where it is, and tell you which printer rule it breaks. {freeAudit ? "Free this holiday season, one per account." : <>{auditPrice ? `${auditPrice}. ` : ""}No account.</>}
+              IngramSpark, KDP and Barnes & Noble often reject a file with a short note like <span className="font-mono-spec text-sm text-white">"resolution insufficient"</span> and no details. Upload your cover or inside pages here. We'll find every problem, show you exactly where it is, and tell you which printer rule it breaks. {freeAudit ? "Free this holiday season. No sign-up." : <>{auditPrice ? `${auditPrice}. ` : ""}No account.</>}
             </p>
             <div className="mt-8 flex flex-wrap gap-3 text-xs font-mono-spec tracking-widest text-neutral-500 uppercase">
               <span className="border border-neutral-700 px-2 py-1">✓ Every problem found</span>
@@ -106,7 +106,7 @@ export default function AuditLanding() {
             <div className="mt-6 flex items-start gap-3 max-w-xl text-sm text-neutral-300 bg-white/5 border border-neutral-800 px-4 py-3" data-testid="audit-how-it-works">
               <span className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500 shrink-0 mt-0.5">How it works</span>
               {freeAudit ? (
-                <span>Upload your file. SparkPrep scans it and tells you how many problems it found. Then create a free account to see every problem, where it is, and which printer rule it breaks. No card needed. For inside pages, the free audit checks page 1.</span>
+                <span>Upload your file. SparkPrep scans it and tells you how many problems it found. Then type your email to see every problem, where it is, and which printer rule it breaks. No sign-up, no card. For inside pages, the free audit checks page 1.</span>
               ) : (
                 <span>Upload your file first. It's free. SparkPrep scans it and tells you honestly whether it found problems. Then pay{auditPrice ? ` ${auditPrice}` : ""} to see exactly what failed, where, and which printer rule it breaks. For inside pages, the audit checks page 1.</span>
               )}
@@ -241,7 +241,7 @@ export default function AuditLanding() {
               </label>
               <p className="mt-6 font-mono-spec text-[10px] tracking-widest text-neutral-500 uppercase leading-relaxed">
                 {freeAudit ? (
-                  <>Your first audit is free. One per account, no card needed.</>
+                  <>Your first audit is free. No sign-up, no card. Just your email.</>
                 ) : (
                   <>
                     The scan is free. See exactly what it found for <span className="text-white">{auditPrice}</span>. No subscription, no account.

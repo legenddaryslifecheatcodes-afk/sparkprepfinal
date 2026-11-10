@@ -94,7 +94,7 @@ function AuditCard({ pricing, bookModel }) {
           </div>
           <h2 className="font-display font-black text-4xl md:text-5xl tracking-tighter mt-4">{money(price)} Print Failure Audit.</h2>
           {pricing.free_audit?.active && (
-            <p className="mt-3 text-emerald-300 font-semibold" data-testid="pricing-free-audit">This holiday season your first audit is free. One per account, no card needed. After that, it's {money(price)}.</p>
+            <p className="mt-3 text-emerald-300 font-semibold" data-testid="pricing-free-audit">This holiday season your first audit is free. No sign-up, no card. Just your email. After that, it's {money(price)}.</p>
           )}
           <p className="text-neutral-400 mt-3 max-w-xl leading-relaxed">
             Pay once. Upload a cover or inside pages and see every problem: what failed, exactly where, and which printer rule it breaks.

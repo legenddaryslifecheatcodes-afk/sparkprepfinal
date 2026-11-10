@@ -57,7 +57,7 @@ export default function SeasonBanner({ variant = "bar" }) {
             {isActive ? (
               <>
                 <span className="font-bold">{freeAudit ? "Holiday gift: your first audit is free" : "99-Day Audit Season is live"}</span>
-                <span className="opacity-80">{freeAudit ? " · One per account, no card needed" : <> · The final {season.days_remaining} days of the year — audit any book{auditPrice}</>}</span>
+                <span className="opacity-80">{freeAudit ? " · No sign-up, no card needed" : <> · The final {season.days_remaining} days of the year — audit any book{auditPrice}</>}</span>
               </>
             ) : (
               <>

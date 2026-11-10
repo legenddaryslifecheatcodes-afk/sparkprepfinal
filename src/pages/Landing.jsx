@@ -52,7 +52,7 @@ export default function Landing() {
               Times are hard. Gas prices are high and a lot feels uncertain. So this holiday season, SparkPrep is giving self-publishers a gift: <span className="text-white font-semibold">check your book file for free.</span> Upload your cover or inside pages. See every problem that could get your book rejected, where it is, and the printer rule it breaks.
             </p>
             <p className="mt-4 text-sm text-emerald-300 max-w-xl" data-testid="hero-free-terms">
-              One free audit per account. No card needed.{regularAudit ? ` Regular price ${regularAudit} from January.` : ""}
+              No sign-up. No card. Just your email.{regularAudit ? ` Regular price ${regularAudit} from January.` : ""}
             </p>
 
             <div className="mt-8 flex flex-wrap gap-3">

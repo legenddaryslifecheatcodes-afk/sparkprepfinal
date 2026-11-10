@@ -21,7 +21,7 @@ export const HOME_FAQ = [
   },
   {
     q: "Is the SparkPrep book file audit free?",
-    a: "Yes. Through December 31, 2026, your first SparkPrep audit is free as a holiday gift, one per account. Create a free account, upload your cover or inside pages, and see every problem that could get your book rejected by Amazon KDP or IngramSpark, where it is, and the printer rule it breaks. No credit card needed.",
+    a: "Yes. Through December 31, 2026, your first SparkPrep audit is free as a holiday gift. No sign-up: upload your cover or inside pages, type the email you want your results sent to, and see every problem that could get your book rejected by Amazon KDP or IngramSpark, where it is, and the printer rule it breaks. No credit card needed.",
   },
   {
     q: "Is there a free KDP file checker?",

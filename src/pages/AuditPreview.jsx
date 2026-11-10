@@ -17,10 +17,12 @@ export default function AuditPreview() {
   const pricing = usePricing();
   const { user } = useAuth();
   const [params] = useSearchParams();
-  // Holiday Free Audit: one free standard audit per account (sign-up gets us the author's email).
+  // Holiday Free Audit: no sign-up (Trey, 2026-11-10). The author just types the email their results go to;
+  // one free audit per email. Signed-in authors still use their account (one per account).
   const freeAudit = !!pricing?.free_audit?.active;
   const [freeUsed, setFreeUsed] = useState(false);
   const [claiming, setClaiming] = useState(false);
+  const [email, setEmail] = useState("");
   const canFree = freeAudit && !freeUsed;
 
   useEffect(() => {
@@ -29,13 +31,14 @@ export default function AuditPreview() {
   }, [user, freeAudit]);
 
   const claimFree = async () => {
-    if (!user) {
-      nav(`/register?next=${encodeURIComponent(`/audit/${id}/preview?claim=1`)}`);
+    if (!user && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      toast.error("Type the email you'd like your results sent to.");
       return;
     }
     setClaiming(true);
     try {
-      await api.post(`/audit/${id}/claim-free`);
+      if (user) await api.post(`/audit/${id}/claim-free`);
+      else await api.post(`/audit/${id}/claim-free-email`, { email: email.trim() });
       nav(`/audit/${id}/report`);
     } catch (e) {
       if (e.response?.status === 409 || e.response?.status === 410) setFreeUsed(true);
@@ -90,23 +93,38 @@ export default function AuditPreview() {
               <li className="flex items-center gap-2"><Sparkles className="w-4 h-4 text-white" /> Exactly where each problem is</li>
               <li className="flex items-center gap-2"><Sparkles className="w-4 h-4 text-white" /> What failed and why it gets rejected</li>
               <li className="flex items-center gap-2"><Sparkles className="w-4 h-4 text-white" /> The publisher requirement it breaks</li>
-              <li className="flex items-center gap-2"><Sparkles className="w-4 h-4 text-white" /> A downloadable PDF of your audit</li>
+              {!canFree && <li className="flex items-center gap-2"><Sparkles className="w-4 h-4 text-white" /> A downloadable PDF of your audit</li>}
             </ul>
             {canFree && (
-              <div data-testid="free-audit-offer">
+              <form data-testid="free-audit-offer" onSubmit={(e) => { e.preventDefault(); claimFree(); }}>
+                {!user && (
+                  <label className="mt-7 block">
+                    <span className="block font-display font-bold text-lg text-white">What email should your results go to?</span>
+                    <input
+                      type="email"
+                      required
+                      autoComplete="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="you@example.com"
+                      className="mt-2 w-full bg-black border border-neutral-600 focus:border-[#D4AF37] outline-none px-4 py-3 text-white text-base"
+                      data-testid="free-audit-email"
+                    />
+                  </label>
+                )}
                 <button
-                  onClick={claimFree}
+                  type="submit"
                   disabled={claiming || !!checkingOut}
-                  className="mt-7 w-full btn-gold px-6 py-4 font-mono-spec text-xs tracking-widest uppercase disabled:opacity-50 btn-industrial flex items-center justify-center gap-2"
+                  className={`${user ? "mt-7" : "mt-3"} w-full btn-gold px-6 py-4 font-mono-spec text-xs tracking-widest uppercase disabled:opacity-50 btn-industrial flex items-center justify-center gap-2`}
                   data-testid="free-audit-btn"
                   data-next-step="See what to fix, free"
                 >
-                  <Gift className="w-4 h-4" /> {claiming ? "Unlocking…" : user ? "See My Results Free" : "Sign Up Free & See My Results"}
+                  <Gift className="w-4 h-4" /> {claiming ? "Unlocking…" : "See My Results Free"}
                 </button>
                 <div className="mt-2 text-center text-xs text-emerald-300">
-                  Holiday gift: your first audit is free{pricing?.free_audit?.regular_cents ? ` (regular price ${money(pricing.free_audit.regular_cents)} from January)` : ""}. One per account, no card needed.
+                  Holiday gift: your first audit is free{pricing?.free_audit?.regular_cents ? ` (regular price ${money(pricing.free_audit.regular_cents)} from January)` : ""}. No sign-up, no card. One free audit per email.
                 </div>
-              </div>
+              </form>
             )}
             {!canFree && <button
               onClick={() => unlock("standard")}
@@ -142,7 +160,7 @@ export default function AuditPreview() {
               </div>
             )}
             <div className="mt-4 text-center text-xs text-neutral-400">
-              {canFree ? "Free audit: sign-up needed, no card. Paid audits are secure via Stripe." : <>{isBookModel(pricing) && "Whatever you pay is credited in full toward your SparkPrep book. "}Secure via Stripe · No account needed.</>}
+              {canFree ? "Free audit: no sign-up, no card. We never sell your email. Paid audits are secure via Stripe." : <>{isBookModel(pricing) && "Whatever you pay is credited in full toward your SparkPrep book. "}Secure via Stripe · No account needed.</>}
             </div>
             <p className="mt-6 text-sm text-neutral-400">Then let SparkPrep fix it for you — no need to go anywhere else.</p>
           </div>

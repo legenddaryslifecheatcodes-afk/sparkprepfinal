@@ -7,6 +7,7 @@ import GuaranteeSeal from "@/components/GuaranteeSeal";
 import { CheckCircle2, Zap, FileCheck2, Palette, Ruler, Layers, Flame, ArrowRight, Gift } from "lucide-react";
 import { usePricing, money, isBookModel, specialNote } from "@/lib/pricing";
 import { HOME_FAQ, FirstBookArticle } from "@/components/FirstBookArticle";
+import HomePriceBlock, { HeroPriceStrip } from "@/components/HomePriceBlock";
 
 export default function Landing() {
   const pricing = usePricing();
@@ -45,6 +46,7 @@ export default function Landing() {
               <span className="text-[#D4AF37]" style={{ background: "linear-gradient(180deg, #E5C158, #D4AF37 55%, #B8933E)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>for KDP &amp; IngramSpark.</span>
             </h1>
             <p className="mt-6 font-display font-bold italic text-2xl md:text-3xl text-[#D4AF37]" data-testid="hero-motto">Power without complexity.</p>
+            <HeroPriceStrip pricing={pricing} />
 
             <p className="mt-8 text-lg text-neutral-300 max-w-xl leading-relaxed" data-testid="hero-gift">
               Times are hard. Gas prices are high and a lot feels uncertain. So this holiday season, SparkPrep is giving self-publishers a gift: <span className="text-white font-semibold">check your book file for free.</span> Upload your cover or inside pages. See every problem that could get your book rejected, where it is, and the printer rule it breaks.
@@ -106,6 +108,7 @@ export default function Landing() {
               </span>
             </h1>
             <p className="mt-6 font-display font-bold italic text-2xl md:text-3xl text-[#D4AF37]" data-testid="hero-motto">Power without complexity.</p>
+            <HeroPriceStrip pricing={pricing} />
 
             <p className="mt-8 text-lg text-neutral-300 max-w-xl leading-relaxed">
               Design your cover, write and format your pages, check them against Amazon KDP and IngramSpark's print rules, fix every problem, and download print-ready files. <span className="text-white font-semibold">Everything you need to publish, in one place</span>, in plain English.
@@ -162,6 +165,9 @@ export default function Landing() {
           </div>
         </div>
       </section>
+
+      {/* Book prices, big, right under the hero (2026-11-10). */}
+      <HomePriceBlock pricing={pricing} />
 
       {/* While the Holiday Free Audit leads the hero, the "all-in-one suite" intro sits right below it. */}
       {freeAudit && (

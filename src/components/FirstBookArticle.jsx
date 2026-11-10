@@ -36,6 +36,10 @@ export const HOME_FAQ = [
     a: "Most rejections come from a few file problems: art that doesn't reach past the trim edge (bleed), text too close to the edge, the wrong spine width for your page count, blurry pictures under 300 DPI, screen colors (RGB) instead of print colors, too much ink in dark areas, or fonts that aren't built into the PDF.",
   },
   {
+    q: "How much does SparkPrep cost?",
+    a: "SparkPrep costs $74.99 per book, or $49.99 per book with the $9.99/month membership. That one price covers the full cover check and fix, the full inside-page check and fix (every page up to 300), cover design, writing help, a PDF report of every repair, the SparkPrep Certified stamp when your files pass, and print-ready files. Hiring freelancers for the same work costs about $1,730.",
+  },
+  {
     q: "How much does it cost to hire someone to format a book for print?",
     a: "Reedsy reports a median of about $930 for a professional cover and an average of about $800 for interior formatting, so about $1,730 for both. Newer designers often charge about $300 to $500 for a cover.",
   },

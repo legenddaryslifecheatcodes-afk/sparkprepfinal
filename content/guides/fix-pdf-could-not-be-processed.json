@@ -1,0 +1,37 @@
+{
+  "slug": "fix-pdf-could-not-be-processed",
+  "date": "2026-11-07",
+  "category": "platform",
+  "job": "both",
+  "title": "\"Your PDF Could Not Be Processed\": Fix Password-Protected or Damaged Book Files | SparkPrep",
+  "h1": "How to fix \"your file could not be processed\"",
+  "description": "KDP or IngramSpark can't open your book PDF. The usual causes are a password, a damaged export or an odd PDF setting. Here's how to fix it.",
+  "platforms": "Amazon KDP · IngramSpark · Barnes & Noble Press · Lulu",
+  "lead": "Before a printer can check your book, it has to open it. If it can't, you get a vague \"could not be processed\" message.",
+  "error": "Your file could not be processed. Please upload a valid PDF.",
+  "errorNote": "Paraphrased. Each printer words this a little differently.",
+  "why": "<p>Printers' systems need to open every page. The common reasons they can't:</p><ul><li><strong>A password or security setting</strong>, even one that only blocks printing or editing.</li><li><strong>A damaged file</strong> from an export that stopped early, a bad download, or a file synced while still saving.</li><li><strong>A \"PDF\" that isn't really one</strong>, like a renamed Word or image file, or a web \"Print to PDF\" with odd settings.</li></ul>",
+  "manual": [
+    "Open the PDF on your computer. If it asks for a password or shows a lock, remove the security: Acrobat → File → Properties → Security → \"No Security\".",
+    "If it won't open cleanly, go back to your original Word, InDesign or Canva file.",
+    "Export a fresh PDF straight from that original (File → Save As / Export → PDF), not from a browser or a converter website.",
+    "Open the new PDF and scroll through every page to check it's complete.",
+    "Re-upload it to your printer and wait for the file review again. If it fails, you start over."
+  ],
+  "cta": {
+    "text": "SparkPrep tells you straight away if a file can't be read, and every file it exports is a fresh, clean print PDF with no locks.",
+    "button": "Check my file",
+    "href": "/"
+  },
+  "faq": [
+    {
+      "q": "Can I upload a password-protected PDF to KDP?",
+      "a": "No. Remove any password or security settings before uploading."
+    },
+    {
+      "q": "Why does my PDF open on my computer but fail on KDP?",
+      "a": "Security settings, a partly damaged export, or unusual PDF features can all pass on your screen but fail the printer's check. A fresh export from the original file usually fixes it."
+    }
+  ],
+  "diy": []
+}

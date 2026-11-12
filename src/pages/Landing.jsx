@@ -366,6 +366,7 @@ export default function Landing() {
         <nav aria-label="Free tools" className="mb-4 flex flex-wrap justify-center gap-x-6 gap-y-2 normal-case tracking-normal text-neutral-400">
           <a href="/tools/" className="hover:text-white">Free tools</a>
           <a href="/guides/" className="hover:text-white">Guides</a>
+          <a href="/answers/" className="hover:text-white">Quick answers</a>
           <a href="/kdp-cover-calculator/" className="hover:text-white">KDP cover calculator</a>
           <a href="/book-spine-width-calculator/" className="hover:text-white">Spine width calculator</a>
           <a href="/book-cover-dimensions/" className="hover:text-white">Book cover dimensions</a>
@@ -378,6 +379,7 @@ export default function Landing() {
           <a href="/free-book-formatting-guide/" className="hover:text-white">Free formatting guide</a>
           <a href="/free-manuscript-checklist/" className="hover:text-white">Free manuscript checklist</a>
           <a href="/free-indie-author-templates/" className="hover:text-white">Free author templates</a>
+          <a href="/about/" className="hover:text-white">About SparkPrep</a>
           <a href="/privacy/" className="hover:text-white">Privacy</a>
         </nav>
         <nav aria-label="More free help" className="mb-4 flex flex-wrap justify-center gap-x-6 gap-y-2 normal-case tracking-normal text-neutral-500">

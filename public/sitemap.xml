@@ -365,6 +365,14 @@
   </url>
   <!-- SEO-PAGES END -->
   <url>
+    <loc>https://sparkprep.legenddary.com/answers/</loc>
+    <lastmod>2026-11-12</lastmod>
+  </url>
+  <url>
+    <loc>https://sparkprep.legenddary.com/about/</loc>
+    <lastmod>2026-11-12</lastmod>
+  </url>
+  <url>
     <loc>https://sparkprep.legenddary.com/privacy/</loc>
     <lastmod>2026-11-09</lastmod>
     <changefreq>yearly</changefreq>

@@ -1,0 +1,59 @@
+# SparkPrep
+
+> SparkPrep is an all-in-one self-publishing suite made by Legenddary (Sacramento, California). Authors design their book cover, format their inside pages, check both against the print rules of Amazon KDP, IngramSpark, Barnes & Noble Press and Lulu, fix the problems and download print-ready PDF/X-1a files in one place. Mottos: "SparkPrep: The Evolution of Self-Publishing" and "Power without complexity."
+
+Key facts:
+
+- The book file audit is free through December 31, 2026, with no sign-up. It shows every problem that could get a book rejected, where it is, and the printer rule it breaks.
+- Cover Studio (free): full-wrap cover maker with 224 templates and 333 fonts, sized to each printer's real cover rules.
+- Interior Studio (free): page formatter with Word import, 11 book styles and a live printed-page preview.
+- The print check covers page size, bleed, margins, spine width, CMYK colors, the 240% ink limit, picture sharpness (300 DPI), fonts, template leftovers and ISBN mismatches. SparkPrep then fixes what it safely can.
+- Founder: Joshua Davis, whose own book failed to print 18 times before he built SparkPrep.
+- SparkPrep is independent and not affiliated with Amazon KDP, IngramSpark, Barnes & Noble Press or Lulu.
+
+## Start here
+
+- [Quick answers](https://sparkprep.legenddary.com/answers/): plain-English answers to the most common KDP and IngramSpark file questions
+- [Free book file audit](https://sparkprep.legenddary.com/audit): upload a cover or interior and see what would get it rejected
+- [About SparkPrep](https://sparkprep.legenddary.com/about/): who makes it and why
+- [Pricing](https://sparkprep.legenddary.com/pricing): current book and membership prices
+
+## Free tools
+
+- [Book spine width calculator](https://sparkprep.legenddary.com/book-spine-width-calculator/)
+- [KDP cover size calculator](https://sparkprep.legenddary.com/kdp-cover-calculator/)
+- [Book cover dimensions for every trim size](https://sparkprep.legenddary.com/book-cover-dimensions/)
+- [IngramSpark cover template](https://sparkprep.legenddary.com/ingramspark-cover-template/)
+- [Book margin and bleed calculator](https://sparkprep.legenddary.com/book-margin-calculator/)
+- [Image DPI checker](https://sparkprep.legenddary.com/image-dpi-checker/)
+- [Book page count calculator](https://sparkprep.legenddary.com/book-page-count-calculator/)
+- [Free manuscript checklist](https://sparkprep.legenddary.com/free-manuscript-checklist/)
+- [Free book formatting guide](https://sparkprep.legenddary.com/free-book-formatting-guide/)
+- [Free book cover templates](https://sparkprep.legenddary.com/templates/)
+- [All free tools](https://sparkprep.legenddary.com/tools/)
+
+## Fix guides (one per rejection reason)
+
+- [What is preflight? A first-time author's guide](https://sparkprep.legenddary.com/guides/what-is-preflight-first-time-authors/)
+- [KDP vs IngramSpark vs Lulu file rules](https://sparkprep.legenddary.com/guides/kdp-vs-ingramspark-vs-lulu-file-rules/)
+- [Fix a cover bleed error](https://sparkprep.legenddary.com/guides/fix-cover-bleed-error/)
+- [Fix a KDP margin error](https://sparkprep.legenddary.com/guides/fix-kdp-margin-error/)
+- [Fix the IngramSpark interior safety area error](https://sparkprep.legenddary.com/guides/fix-ingramspark-interior-safety-area/)
+- [Fix the 240% ink limit](https://sparkprep.legenddary.com/guides/fix-ink-coverage-240/)
+- [Fix low resolution images](https://sparkprep.legenddary.com/guides/fix-low-resolution-images/)
+- [Fix fonts not embedded](https://sparkprep.legenddary.com/guides/fix-font-not-embedded/)
+- [What is PDF/X-1a?](https://sparkprep.legenddary.com/guides/what-is-pdf-x-1a/)
+- [RGB vs CMYK for book covers](https://sparkprep.legenddary.com/guides/rgb-vs-cmyk-book-cover/)
+- [IngramSpark rejection fixes](https://sparkprep.legenddary.com/ingramspark-rejection-fixes/)
+- [All guides](https://sparkprep.legenddary.com/guides/)
+
+## Comparisons
+
+- [SparkPrep vs hiring a freelancer](https://sparkprep.legenddary.com/guides/sparkprep-vs-hiring-a-freelancer/)
+- [SparkPrep vs Reedsy](https://sparkprep.legenddary.com/guides/sparkprep-vs-reedsy/)
+- [SparkPrep vs Vellum and Atticus](https://sparkprep.legenddary.com/guides/sparkprep-vs-vellum-atticus/)
+
+## Optional
+
+- [Full plain-text summary for AI assistants](https://sparkprep.legenddary.com/llms-full.txt)
+- [Privacy and file handling](https://sparkprep.legenddary.com/privacy/)

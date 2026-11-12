@@ -1,0 +1,39 @@
+{
+  "slug": "fix-google-docs-pdf-for-print",
+  "date": "2026-11-15",
+  "category": "interior",
+  "job": "interior",
+  "title": "Google Docs PDF Rejected for Print? How to Make a KDP & IngramSpark Interior | SparkPrep",
+  "h1": "How to fix a book interior written in Google Docs",
+  "description": "A PDF straight out of Google Docs is office-paper size with no gutter. Here's how to turn your Google Doc into a print-ready book interior.",
+  "platforms": "Amazon KDP · IngramSpark",
+  "lead": "Google Docs is great for writing. But a PDF from Docs is set up for printer paper, not a book.",
+  "error": "Interior page size does not match the trim size you selected",
+  "errorNote": "Paraphrased. This is the most common message for a Docs PDF. Margin errors often come with it.",
+  "why": "<p>Google Docs is built for office paper like Letter (8.5\" x 11\") and A4. Your book is probably 6\" x 9\" or 5.5\" x 8.5\". Upload a Letter-size PDF for a 6\" x 9\" book and the page size check fails.</p><p>Books also need a wider inside margin (the <strong>gutter</strong>) so words don't vanish into the spine. At KDP it grows with page count, from 0.375\" up to 0.875\". IngramSpark wants everything at least 0.5\" from the edge. Docs doesn't set either for you.</p>",
+  "manual": [
+    "In Google Docs, choose File → Download → Microsoft Word (.docx).",
+    "Open it in Word and set Layout → Size → More Paper Sizes to your trim size (for example 6\" x 9\").",
+    "Set Margins → Custom: choose Mirror margins and set the inside margin for your page count from your printer's table.",
+    "Fix any pages that moved, then File → Save As → PDF, with fonts embedded.",
+    "Upload it to your printer and check the previewer for margin and page size warnings."
+  ],
+  "quickfix": "Download your Google Doc as Word (.docx) and import it into SparkPrep's Interior Studio. It lays out real book pages at your trim size with your printer's margins.",
+  "spNote": "Already have a PDF? SparkPrep checks its page size and margins against your printer's own numbers.",
+  "cta": {
+    "text": "Import your Google Doc (downloaded as .docx) into SparkPrep's Interior Studio. It sets the trim size and your printer's margins for you.",
+    "button": "Format my Google Doc",
+    "href": "/interior-studio"
+  },
+  "faq": [
+    {
+      "q": "Can I upload a Google Docs PDF to KDP?",
+      "a": "Only if the page size matches your trim size and the margins meet KDP's table. A default Docs PDF is Letter size, so it won't."
+    },
+    {
+      "q": "What's the easiest way out of Google Docs?",
+      "a": "Download as Word (.docx), then set the book size and margins in Word or import it into a book formatter."
+    }
+  ],
+  "diy": []
+}

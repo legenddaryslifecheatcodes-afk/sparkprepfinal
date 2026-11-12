@@ -1,0 +1,39 @@
+{
+  "slug": "fix-cover-in-separate-files",
+  "date": "2026-11-10",
+  "category": "cover",
+  "job": "cover",
+  "title": "Cover Uploaded as Separate Front, Spine and Back Files? How to Make One Full Wrap | SparkPrep",
+  "h1": "How to fix a cover made as separate front, spine and back files",
+  "description": "KDP and IngramSpark want one cover file: back, spine and front together. Here's how to join separate cover pieces into one print-ready wrap.",
+  "platforms": "Amazon KDP · IngramSpark",
+  "lead": "Designers often hand you a front cover, a back cover and a spine as three files. A paperback printer only takes one.",
+  "error": "Cover must be a single file that includes the back cover, spine and front cover",
+  "errorNote": "Paraphrased. Each printer words this a little differently.",
+  "why": "<p>A paperback cover is printed on one sheet and wrapped around the book. So the printer needs one file laid out left to right: <strong>back cover, spine, front cover</strong>, with 0.125\" of bleed around the outside.</p><p>If you upload just the front, or three separate pictures, there is nothing to wrap around the spine and back. The file gets rejected, or the printer's system stretches your front art to fill the space.</p>",
+  "manual": [
+    "Get your printer's cover template for your exact trim size, page count and paper.",
+    "Make a new document at the template's full size (back + spine + front + bleed).",
+    "Place the back on the left, the spine in the middle and the front on the right, lining each one up with the template's guides.",
+    "Hide the template layer, flatten, and export as a print PDF (PDF/X-1a:2001 if you can).",
+    "Re-upload it to your printer and wait for the file review again. If it fails, you start over."
+  ],
+  "quickfix": "Upload your front, spine and back as separate pieces. SparkPrep sizes the spine from your page count and joins them into one full wrap for paperbacks.",
+  "spNote": "Joining separate pieces works for paperbacks today. For a hardcover, upload one full wrap.",
+  "cta": {
+    "text": "Upload your front, spine and back as separate pieces. For paperbacks, SparkPrep joins them into one correctly sized wrap.",
+    "button": "Join my cover pieces",
+    "href": "/"
+  },
+  "faq": [
+    {
+      "q": "Can I upload only a front cover to KDP or IngramSpark?",
+      "a": "Not for a paperback. Both need one file with the back cover, spine and front cover together."
+    },
+    {
+      "q": "What order do the pieces go in?",
+      "a": "Left to right: back cover, spine, front cover."
+    }
+  ],
+  "diy": []
+}

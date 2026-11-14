@@ -85,6 +85,8 @@
     "seo-pages": "node scripts/build-seo-pages.mjs",
     "landing-sites": "node scripts/build-landing-sites.mjs",
     "indexnow-landing": "node scripts/indexnow-landing-sites.mjs",
+    "check-landing": "node scripts/check-landing-sites.mjs",
+    "check-landing-live": "node scripts/check-landing-sites.mjs --live",
     "test": "craco test"
   },
   "browserslist": {

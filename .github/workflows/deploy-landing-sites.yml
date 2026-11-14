@@ -17,6 +17,7 @@ on:
     paths:
       - "content/landing-sites/**"
       - "scripts/build-landing-sites.mjs"
+      - "scripts/check-landing-sites.mjs"
       - ".github/workflows/deploy-landing-sites.yml"
       - "analytics.json"
       - "scripts/inject-analytics.mjs"
@@ -53,6 +54,10 @@ jobs:
       # Plain Node, no npm install needed: the generator has no dependencies.
       - run: node scripts/build-landing-sites.mjs
 
+      # Stops the deploy if a sitemap, robots.txt, canonical or link between pages is wrong.
+      - name: Check sitemaps, robots.txt, canonicals and internal links
+        run: node scripts/check-landing-sites.mjs
+
       - name: Add Cloudflare Web Analytics (token from analytics.json)
         run: node scripts/inject-analytics.mjs sites/${{ matrix.key }} ${{ matrix.host }}
 
@@ -72,6 +77,22 @@ jobs:
             "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects/${{ matrix.project }}/domains" \
             -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" -H "Content-Type: application/json" \
             --data '{"name":"${{ matrix.host }}"}' | head -c 600; echo
+
+  # Proves the deploy worked: fetches every live sitemap and robots.txt over HTTPS, loads every
+  # sitemap URL (must be 200 with no redirect, indexable, canonical = its own URL), checks links
+  # between the topic pages and the links into sparkprep.legenddary.com.
+  verify-live:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Give Cloudflare a moment to publish
+        run: sleep 30
+      - name: Check the live sitemaps over HTTPS
+        run: node scripts/check-landing-sites.mjs --live
 
   indexnow:
     needs: deploy

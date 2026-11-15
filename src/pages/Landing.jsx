@@ -161,7 +161,7 @@ export default function Landing() {
                 data-testid="home-commercial"
               />
             </div>
-            <p className="mt-3 text-[11px] text-neutral-500 text-center max-w-[320px]">Watch the 40-second ad. Dramatization with AI-generated actors.</p>
+            <p className="mt-3 text-[11px] text-neutral-500 text-center max-w-[320px]">Watch the 40-second ad. Dramatization with AI-generated actors. <a href="/video/" className="underline hover:text-[#D4AF37]">Open the video page</a></p>
           </div>
         </div>
       </section>

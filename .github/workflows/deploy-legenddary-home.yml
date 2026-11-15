@@ -1,7 +1,10 @@
 # Static copy of the legenddary.com homepage (legenddary-home/), deployed to its own
 # Cloudflare Pages project "legenddary-home" -> https://legenddary-home.pages.dev
-# It does NOT attach legenddary.com and does not change DNS. Pointing legenddary.com at it
-# is a separate decision for the owner (DNS lives at Namecheap).
+# It asks Cloudflare to attach www.legenddary.com (safe to repeat). DNS stays at Namecheap:
+#   www  CNAME            -> legenddary-home.pages.dev
+#   @    URL Redirect 301 -> https://www.legenddary.com   (email forwarding/MX records untouched)
+# Cloudflare Pages can only serve a bare apex domain when the zone is on Cloudflare, and the
+# nameservers must never move (email forwarding lives at Namecheap), hence www + redirect.
 name: Deploy legenddary.com copy
 
 on:
@@ -32,3 +35,10 @@ jobs:
         run: npx --yes wrangler@3 pages project create legenddary-home --production-branch=main || echo "Project already exists"
       - name: Deploy to Cloudflare Pages
         run: npx --yes wrangler@3 pages deploy legenddary-home --project-name=legenddary-home --branch=main --commit-dirty=true
+      - name: Attach www.legenddary.com (safe to repeat)
+        continue-on-error: true
+        run: |
+          curl -sS -X POST \
+            "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects/legenddary-home/domains" \
+            -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" -H "Content-Type: application/json" \
+            --data '{"name":"www.legenddary.com"}' | head -c 800; echo

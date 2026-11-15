@@ -56,6 +56,14 @@
   },
   "faq": [
     {
+      "q": "What is a bleed error on a book cover?",
+      "a": "A bleed error means your cover's background stops right at the edge instead of running 0.125\" past it. Printers trim the edge off, so without bleed you can get a thin white line. Fix it by making the cover file at bleed size and stretching the background art past every edge."
+    },
+    {
+      "q": "What does full bleed mean in printing?",
+      "a": "Full bleed means the artwork runs all the way to every edge of the finished page or cover, with no white border. To print full bleed, your file must be 0.125\" bigger than the book on every outside edge, with the background reaching that outer edge."
+    },
+    {
       "q": "How much bleed does a book cover need?",
       "a": "0.125 inches (3.2 mm) on every outside edge for paperbacks at KDP, IngramSpark, Barnes & Noble Press and Lulu. Hardcover case covers need more, so always use your printer's own template for hardcovers."
     },
@@ -73,7 +81,7 @@
   ],
   "updated": "2026-11-15",
   "answer": {
-    "q": "What is a bleed error on a book cover?",
-    "a": "A bleed error means your cover's background stops right at the edge instead of running 0.125\" past it. Printers trim the edge off, so without bleed you can get a thin white line. Fix it by making the cover file at bleed size and stretching the background art past every edge."
+    "q": "What is bleed in printing?",
+    "a": "Bleed in printing is extra artwork that runs past the edge where the page will be cut. For books, it's 0.125 inch (3.2 mm) on each outside edge. Printers trim the sheet after printing, and the cut can drift slightly, so bleed stops thin white lines from showing at the edges."
   }
 }

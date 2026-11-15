@@ -22,5 +22,10 @@
       "q": "Can I format my book myself without hiring anyone?",
       "a": "Yes. Tools like SparkPrep let you design the cover and pages yourself, then check and fix them against KDP, IngramSpark, Barnes and Noble Press or Lulu rules in minutes."
     }
-  ]
+  ],
+  "answer": {
+    "q": "How much does it cost to hire someone to format a book?",
+    "a": "On Reedsy, professional interior formatting averages about $800 and a professional cover has a median of about $930, by Reedsy's own figures. Freelancers also mean waiting days per revision round, and if KDP or IngramSpark rejects the file, you go back and wait again."
+  },
+  "updated": "2026-11-15"
 }

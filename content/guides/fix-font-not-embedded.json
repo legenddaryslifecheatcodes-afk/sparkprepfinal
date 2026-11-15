@@ -64,5 +64,9 @@
     "Re-export as PDF/X-1a:2001, then check in Acrobat (File → Properties → Fonts) that every font says \"Embedded\" or \"Embedded Subset\".",
     "Re-upload it to your printer and wait for the file review again. If it fails, you start over."
   ],
-  "updated": "2026-10-31"
+  "updated": "2026-11-15",
+  "answer": {
+    "q": "What does \"font not embedded\" mean?",
+    "a": "It means your PDF names a font but doesn't carry it inside the file. Printers require every font to be embedded so your book prints exactly as designed. Fix it by turning on font embedding when you save as PDF, or by exporting as PDF/X-1a, which embeds all fonts."
+  }
 }

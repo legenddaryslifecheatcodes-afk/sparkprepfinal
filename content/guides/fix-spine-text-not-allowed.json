@@ -33,5 +33,10 @@
     }
   ],
   "date": "2026-10-28",
-  "diy": []
+  "diy": [],
+  "answer": {
+    "q": "When can a book have text on the spine?",
+    "a": "Amazon KDP only allows spine text on books with more than 79 pages, and IngramSpark doesn't allow spine text on paperbacks under 48 pages. On thinner books the spine is too narrow and the fold can shift, so words could wrap onto the cover. Remove spine text if your book is under the limit."
+  },
+  "updated": "2026-11-15"
 }

@@ -33,5 +33,10 @@
     }
   ],
   "date": "2026-10-28",
-  "diy": []
+  "diy": [],
+  "answer": {
+    "q": "What does \"font cannot be embedded because of licensing restrictions\" mean?",
+    "a": "It means the font's license doesn't allow it to be packed inside a PDF, so it gets left out and the printer can't use it. This is common with fonts from free font sites. The fix is to switch to a font whose license allows embedding, such as a Google Font, and export again."
+  },
+  "updated": "2026-11-15"
 }

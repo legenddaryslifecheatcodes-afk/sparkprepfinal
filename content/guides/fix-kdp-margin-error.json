@@ -57,5 +57,9 @@
     "Re-export as a PDF at your exact trim size with all fonts embedded.",
     "Re-upload it and wait for the review again (KDP says a review can take up to 72 hours)."
   ],
-  "updated": "2026-10-31"
+  "updated": "2026-11-15",
+  "answer": {
+    "q": "What margins does KDP require?",
+    "a": "KDP's inside margin grows with page count: 0.375\" for 24 to 150 pages, 0.5\" for 151 to 300, 0.625\" for 301 to 500, 0.75\" for 501 to 700 and 0.875\" for 701 to 828. Outside, top and bottom margins must be at least 0.25\", or 0.375\" if your book has bleed."
+  }
 }

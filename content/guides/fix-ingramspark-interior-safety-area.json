@@ -56,5 +56,9 @@
     "Re-export as PDF/X-1a:2001 with fonts embedded, and check the PDF page size matches your trim size.",
     "Re-upload it to IngramSpark and wait for the file review and new e-proof."
   ],
-  "updated": "2026-10-31"
+  "updated": "2026-11-15",
+  "answer": {
+    "q": "What is the IngramSpark interior safety area?",
+    "a": "IngramSpark wants everything on your pages, including page numbers and headers, at least 0.5\" (13 mm) from every trim edge. The error usually happens when the PDF was made at letter size instead of your book size, or when margins or page numbers sit closer than 0.5\" to the edge."
+  }
 }

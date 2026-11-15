@@ -26,5 +26,10 @@
       "q": "Do I need preflight if I use KDP?",
       "a": "Yes. Amazon KDP checks every file for size, bleed, margins and picture quality, and sends back files that don't pass. Checking first saves you the back-and-forth."
     }
-  ]
+  ],
+  "answer": {
+    "q": "What is preflight in self-publishing?",
+    "a": "Preflight means checking your book files before you upload them, so the printer doesn't reject them. It covers your cover and inside pages: bleed, margins, page size, spine width, fonts, image sharpness (300 DPI) and color (CMYK and ink limits). Catching problems first saves days of rejections and re-uploads."
+  },
+  "updated": "2026-11-15"
 }

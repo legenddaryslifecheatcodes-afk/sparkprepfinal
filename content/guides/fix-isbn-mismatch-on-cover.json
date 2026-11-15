@@ -35,5 +35,10 @@
   ],
   "date": "2026-10-28",
   "diy": [],
-  "quickfix": "SparkPrep reads the ISBN on your cover, checks it against your book, and shows you exactly what to change."
+  "quickfix": "SparkPrep reads the ISBN on your cover, checks it against your book, and shows you exactly what to change.",
+  "answer": {
+    "q": "Why does the printer say my cover ISBN doesn't match?",
+    "a": "Each edition (paperback, hardcover, ebook) has its own ISBN, and the barcode on your back cover must carry the exact ISBN entered for this edition. The error usually happens when a cover is reused from another edition. Fix it by making a new barcode with the right ISBN and replacing the old one."
+  },
+  "updated": "2026-11-15"
 }

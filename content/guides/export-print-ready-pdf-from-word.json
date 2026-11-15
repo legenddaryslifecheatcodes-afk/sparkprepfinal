@@ -52,5 +52,10 @@
       "q": "Why is my Word PDF rejected?",
       "a": "Usually the page size is still letter size, the margins are too small for the page count, fonts aren't embedded or images were compressed below 300 DPI."
     }
-  ]
+  ],
+  "answer": {
+    "q": "How do you export a print-ready PDF from Word?",
+    "a": "Set Word's page size to your book's trim size (like 6\" x 9\"), set margins that meet your printer's minimum, embed all fonts, and turn off picture compression. Then save as PDF using the \"Standard (publishing online and printing)\" option. Check the PDF's page size and fonts before you upload it."
+  },
+  "updated": "2026-11-15"
 }

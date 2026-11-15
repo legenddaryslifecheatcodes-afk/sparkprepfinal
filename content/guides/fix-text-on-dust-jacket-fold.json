@@ -34,5 +34,10 @@
   ],
   "date": "2026-10-28",
   "diy": [],
-  "quickfix": "SparkPrep checks your jacket against the printer's exact layout and flags any text sitting on a fold, before you upload."
+  "quickfix": "SparkPrep checks your jacket against the printer's exact layout and flags any text sitting on a fold, before you upload.",
+  "answer": {
+    "q": "What size is a dust jacket for IngramSpark?",
+    "a": "A dust jacket laid flat is bleed, back flap, fold, back cover, spine, front cover, fold, front flap and bleed. At IngramSpark the flaps are 3.25\" wide and the folds 0.25\". Jackets get rejected when built like a paperback cover, when sizes don't match the template, or when text runs over a fold."
+  },
+  "updated": "2026-11-15"
 }

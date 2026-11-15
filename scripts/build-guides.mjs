@@ -175,6 +175,9 @@ function article(g, all) {
   const url = `${SITE}/guides/${g.slug}/`;
   const cat = CATEGORIES.find((c) => c.key === g.category);
   const faq = g.faq || [];
+  // The short "quick answer" (40-60 words) is shown as a card under the lead
+  // (featured-snippet target) and goes first in the FAQPage data.
+  const faqLd = g.answer ? [g.answer, ...faq] : faq;
   const schema = {
     "@context": "https://schema.org",
     "@graph": [
@@ -198,8 +201,8 @@ function article(g, all) {
           { "@type": "ListItem", position: 3, name: g.h1, item: url },
         ],
       },
-      ...(faq.length
-        ? [{ "@type": "FAQPage", mainEntity: faq.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: strip(f.a) } })) }]
+      ...(faqLd.length
+        ? [{ "@type": "FAQPage", mainEntity: faqLd.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: strip(f.a) } })) }]
         : []),
     ],
   };
@@ -213,7 +216,8 @@ function article(g, all) {
   <h1>${esc(g.h1)}</h1>
   <p class="note">Updated ${prettyDate(g.updated || g.date)} · ${esc(g.platforms || "")}</p>
   <p class="lead">${g.lead || ""}</p>
-
+${g.answer ? `  <div class="card" id="answer"><p style="margin:0"><strong>${esc(g.answer.q)}</strong> ${esc(g.answer.a)}</p></div>
+` : ""}
 ${g.manual ? treyFormat(g, diy) : `${g.body ? g.body : `  <h2>1. The error${errorHeading(g) ? `: ${q(errorHeading(g))}` : ""}</h2>
   <blockquote>${esc(g.error)}</blockquote>
   ${g.errorNote ? `<p class="note">${g.errorNote}</p>` : ""}${akaList(g)}

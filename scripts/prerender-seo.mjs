@@ -20,8 +20,8 @@ const studioApp = (name, category, description, features) => ({
   operatingSystem: "Web browser",
   description,
   featureList: features,
-  isPartOf: { "@type": "WebSite", name: "SparkPrep", url: `${SITE}/` },
-  publisher: { "@type": "Organization", name: "SparkPrep", url: `${SITE}/` },
+  isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website`, name: "Legenddary's SparkPrep", alternateName: "SparkPrep", url: `${SITE}/` },
+  publisher: { "@type": "Organization", "@id": `${SITE}/#org`, name: "Legenddary's SparkPrep", alternateName: "SparkPrep", url: `${SITE}/`, parentOrganization: { "@type": "Organization", name: "Legenddary", url: "https://legenddary.com/" } },
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD", description: "Designing is free. The print-ready file comes with the book." },
 });
 

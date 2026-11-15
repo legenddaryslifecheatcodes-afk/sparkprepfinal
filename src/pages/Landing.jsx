@@ -377,6 +377,8 @@ export default function Landing() {
           <a href="/tools/" className="hover:text-white">Free tools</a>
           <a href="/guides/" className="hover:text-white">Guides</a>
           <a href="/answers/" className="hover:text-white">Quick answers</a>
+          <a href="/how-to-self-publish-a-book/" className="hover:text-white">How to self publish a book</a>
+          <a href="/book-formatting/" className="hover:text-white">Book formatting</a>
           <a href="/kdp-cover-calculator/" className="hover:text-white">KDP cover calculator</a>
           <a href="/book-spine-width-calculator/" className="hover:text-white">Spine width calculator</a>
           <a href="/book-cover-dimensions/" className="hover:text-white">Book cover dimensions</a>

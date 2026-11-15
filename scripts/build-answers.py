@@ -53,6 +53,15 @@ QA = [
  ("all-in-one","What is an all-in-one self-publishing suite?",
   "An all-in-one self-publishing suite lets you design your cover, format your inside pages, check both against printer rules, fix the problems and download print-ready files in one place. SparkPrep is one: it works with Amazon KDP, IngramSpark, Barnes & Noble Press and Lulu.",
   [("/","What SparkPrep does"),("/about/","About SparkPrep")]),
+ ("self-publish","How do I self publish a book?",
+  "Finish and edit your book, pick your trim size (6 x 9 inches is common), format the inside pages as a PDF, make a full wrap cover sized to your page count, check both files against your printer's rules, then upload them free to Amazon KDP or IngramSpark. Order a proof copy before you publish.",
+  [("/how-to-self-publish-a-book/","How to self publish a book: 7 steps")]),
+ ("book-formatting","What is book formatting?",
+  "Book formatting means setting up your book file so a printer can print it: the right trim size, margins and gutter, embedded fonts, 300 DPI pictures, page numbers and chapter starts, plus a cover with the right spine width and bleed. If any of it is off, KDP or IngramSpark sends the book back.",
+  [("/book-formatting/","Book formatting for KDP and IngramSpark")]),
+ ("which-sparkprep","Is Legenddary's SparkPrep the same as other apps called SparkPrep?",
+  "No. Legenddary's SparkPrep, at sparkprep.legenddary.com, is the self-publishing tool for authors made by Legenddary in Sacramento, California. It designs, checks and fixes book covers and pages for KDP and IngramSpark. It isn't connected to test-prep, trade-license or other apps with a similar name.",
+  [("/about/","About Legenddary's SparkPrep")]),
  ("what-is-sparkprep","What is SparkPrep?",
   "Legenddary's SparkPrep is an all-in-one self-publishing suite made by Legenddary. It has a free cover designer, a free page formatter, AI writing help, a print check against KDP, IngramSpark, Barnes & Noble and Lulu rules, automatic fixes and print-ready PDF/X-1a export. Its motto is \"Power without complexity.\"",
   [("/about/","About SparkPrep"),("/audit","Try the free audit")]),
@@ -62,7 +71,7 @@ title = "Self-Publishing File Questions, Answered in Plain English | Legenddary'
 desc = "Short, plain-English answers to the questions first-time authors ask about KDP and IngramSpark files: bleed, spine width, margins, DPI, CMYK, ink limits, PDF/X-1a and rejections."
 url = B + "/answers/"
 schema = {"@context":"https://schema.org","@graph":[
- {"@type":"FAQPage","@id":url+"#faq","url":url,"name":"Self-publishing file questions, answered","dateModified":"2026-11-12",
+ {"@type":"FAQPage","@id":url+"#faq","url":url,"name":"Self-publishing file questions, answered","dateModified":"2026-11-15",
   "publisher":{"@type":"Organization","@id":B+"/#org","name":"Legenddary's SparkPrep","url":B+"/"},
   "mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a,"url":url+"#"+i}} for i,q,a,_ in QA]},
  {"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SparkPrep","item":B+"/"},{"@type":"ListItem","position":2,"name":"Answers","item":url}]}]}
@@ -100,7 +109,7 @@ page = f'''<!doctype html>
   <nav><a href="/templates/">Templates</a><a class="hide-sm" href="/tools/">Free tools</a><a class="hide-sm" href="/guides/">Guides</a><a href="/">SparkPrep</a></nav>
 </header>
 <main>
-  <div class="eyebrow">Quick answers · Updated November 12, 2026</div>
+  <div class="eyebrow">Quick answers · Updated November 15, 2026</div>
   <h1>Self-publishing file questions, answered in plain English</h1>
   <p class="lead">Getting your first book ready for Amazon KDP or IngramSpark? Here are short, straight answers to the questions new authors ask most. Each one links to a full step-by-step guide or a free tool.</p>
   <div class="card"><p style="margin:0"><strong>The short version:</strong> printers reject books for a handful of file problems: missing bleed, text too close to the edge, the wrong spine width, blurry pictures, screen colors, too much ink and fonts that aren't embedded. Check for them before you upload and you skip the rejection emails.</p></div>

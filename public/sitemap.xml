@@ -43,6 +43,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://sparkprep.legenddary.com/partners/</loc>
+    <lastmod>2026-11-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://sparkprep.legenddary.com/fix-my-file/</loc>
     <lastmod>2026-11-03</lastmod>
     <changefreq>monthly</changefreq>

@@ -363,6 +363,16 @@ export default function Landing() {
       </section>
 
       <footer className="border-t border-neutral-900 py-8 text-xs text-neutral-600 font-mono-spec tracking-widest uppercase text-center">
+        <nav aria-label="Popular fix guides" className="mb-4 flex flex-wrap justify-center gap-x-6 gap-y-2 normal-case tracking-normal text-neutral-400">
+          <a href="/guides/fix-cover-wrong-size/" className="hover:text-white">Cover wrong size</a>
+          <a href="/guides/fix-kdp-margin-error/" className="hover:text-white">KDP margin error</a>
+          <a href="/guides/fix-font-not-embedded/" className="hover:text-white">Font not embedded</a>
+          <a href="/guides/fix-low-resolution-images/" className="hover:text-white">Low-resolution images</a>
+          <a href="/guides/fix-cover-bleed-error/" className="hover:text-white">Cover bleed error</a>
+          <a href="/guides/rgb-vs-cmyk-book-cover/" className="hover:text-white">RGB vs CMYK</a>
+          <a href="/guides/fix-ink-coverage-240/" className="hover:text-white">Ink coverage over 240%</a>
+          <a href="/guides/fix-pdf-page-size-mismatch/" className="hover:text-white">Page size mismatch</a>
+        </nav>
         <nav aria-label="Free tools" className="mb-4 flex flex-wrap justify-center gap-x-6 gap-y-2 normal-case tracking-normal text-neutral-400">
           <a href="/tools/" className="hover:text-white">Free tools</a>
           <a href="/guides/" className="hover:text-white">Guides</a>

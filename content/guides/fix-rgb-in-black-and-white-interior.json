@@ -62,5 +62,9 @@
     "Re-export as PDF/X-1a:2001, or in Acrobat Pro use Print Production → Convert Colors → Grayscale.",
     "Re-upload it to your printer and wait for the file review again. If it fails, you start over."
   ],
-  "updated": "2026-10-31"
+  "updated": "2026-11-15",
+  "answer": {
+    "q": "Why is color found in my black and white book?",
+    "a": "Most programs save black text and images as RGB, a screen color. On a black-and-white press that turns into a mix of inks, so printers reject it. A colored logo, blue link or color photo causes it too. Fix it by converting the whole interior to grayscale before exporting."
+  }
 }

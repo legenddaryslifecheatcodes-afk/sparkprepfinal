@@ -55,5 +55,10 @@
       "q": "Can Word export PDF/X-1a?",
       "a": "No. Save a normal PDF from Word, then convert it to PDF/X-1a with a tool such as Adobe Acrobat Pro or SparkPrep."
     }
-  ]
+  ],
+  "answer": {
+    "q": "What is PDF/X-1a?",
+    "a": "PDF/X-1a is a print standard for PDF files. It requires every font to be embedded, colors in CMYK or spot colors only, see-through effects flattened, and the trim and bleed size written into the file. IngramSpark asks for PDF/X-1a, and following it fixes most other file errors at the same time."
+  },
+  "updated": "2026-11-15"
 }

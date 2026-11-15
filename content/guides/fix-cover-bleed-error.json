@@ -71,5 +71,9 @@
     "Re-export as a print PDF (PDF/X-1a:2001 if your program has it) with the bleed included and no crop marks or printer marks.",
     "Re-upload it to your printer and wait for the file review again. If it fails, you start over."
   ],
-  "updated": "2026-10-31"
+  "updated": "2026-11-15",
+  "answer": {
+    "q": "What is a bleed error on a book cover?",
+    "a": "A bleed error means your cover's background stops right at the edge instead of running 0.125\" past it. Printers trim the edge off, so without bleed you can get a thin white line. Fix it by making the cover file at bleed size and stretching the background art past every edge."
+  }
 }

@@ -48,5 +48,10 @@
       "q": "Why does my cover look duller in CMYK?",
       "a": "Ink can't reproduce some bright screen colors. CMYK shows you the real printed color, so you can adjust it before printing."
     }
-  ]
+  ],
+  "answer": {
+    "q": "Should a book cover be RGB or CMYK?",
+    "a": "Printers print in CMYK (cyan, magenta, yellow, black ink). Screens show RGB (light). If you upload RGB, the printer converts it and bright colors can come out duller or darker. Converting your cover to CMYK yourself lets you see the real printed colors and fix them before you order a proof."
+  },
+  "updated": "2026-11-15"
 }

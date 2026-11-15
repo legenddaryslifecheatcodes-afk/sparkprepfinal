@@ -33,5 +33,10 @@
     }
   ],
   "date": "2026-10-28",
-  "diy": []
+  "diy": [],
+  "answer": {
+    "q": "How far from the edge should cover text be?",
+    "a": "Keep all cover text at least 0.125\" inside the trim line for KDP, and 0.25\" or more to be safe. Printers trim covers after printing and the cut can move slightly, so text right at the edge can get clipped. Spine text also needs room so it doesn't touch the folds."
+  },
+  "updated": "2026-11-15"
 }

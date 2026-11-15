@@ -54,5 +54,10 @@
     "Check the ISBN printed on the cover is the same ISBN you entered for this exact edition, then re-export as PDF/X-1a:2001.",
     "Re-upload it to your printer and wait for the file review again. If it fails, you start over."
   ],
-  "spNote": "If the ISBN on your cover doesn't match your book, SparkPrep shows you exactly where, but only you can confirm the right ISBN. Swap it in, re-scan, and you're done."
+  "spNote": "If the ISBN on your cover doesn't match your book, SparkPrep shows you exactly where, but only you can confirm the right ISBN. Swap it in, re-scan, and you're done.",
+  "answer": {
+    "q": "Where does the barcode go on a book cover?",
+    "a": "The barcode goes in the lower right corner of the back cover. KDP needs an empty area 2\" wide by 1.2\" tall there, and IngramSpark needs 1.75\" wide by 1\" tall. Keep text and art out of that box, and make sure the barcode carries the same ISBN you entered for this edition."
+  },
+  "updated": "2026-11-15"
 }

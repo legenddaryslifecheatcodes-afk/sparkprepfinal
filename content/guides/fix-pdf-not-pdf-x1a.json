@@ -39,5 +39,9 @@
   ],
   "date": "2026-10-28",
   "diy": [],
-  "updated": "2026-10-31"
+  "updated": "2026-11-15",
+  "answer": {
+    "q": "What does \"not PDF/X-1a compliant\" mean?",
+    "a": "It means your PDF breaks the PDF/X-1a print standard: it may have RGB colors, fonts that aren't embedded, live transparency, or no output intent. IngramSpark, Barnes & Noble Press and Lulu ask for PDF/X-1a. Fix it by exporting with a PDF/X-1a preset from InDesign, Affinity or Acrobat."
+  }
 }

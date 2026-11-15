@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shop the Collection | Legenddary Clothing, Lady Legenddary &amp; SparkPrep Gear</title>
+<meta name="description" content="Shop Legenddary: organic cotton tees, hoodies and hats for everyone, the Lady Legenddary women's line, The Awakening book merch, and SparkPrep gear for authors. Printed fresh when you order.">
+<link rel="canonical" href="https://www.legenddary.com/shop/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Legenddary">
+<meta property="og:title" content="Shop the Collection | Legenddary">
+<meta property="og:description" content="Legenddary clothing for everyone, Lady Legenddary for women, SparkPrep gear and book merch.">
+<meta property="og:url" content="https://www.legenddary.com/shop/">
+<meta name="theme-color" content="#000000">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "@id": "https://www.legenddary.com/shop/#page",
+  "name": "Shop the Collection",
+  "url": "https://www.legenddary.com/shop/",
+  "isPartOf": { "@id": "https://legenddary.com/#website" },
+  "publisher": { "@id": "https://legenddary.com/#org" }
+}
+</script>
+<script src="https://cdn.tailwindcss.com/3.4.1"></script>
+<style>body{background:#000}</style>
+<script>
+/* =====================================================================
+   PRODUCTS: the one place to edit the shop.
+   - provider: "printful" (premium clothes) or "printify" (everyday items)
+   - url: paste the product's link from the Printful Quick Store or the
+     Printify Pop-Up Store. The customer pays there, the printer makes and
+     ships it, and Trey's cut is paid out. Empty url = "Coming soon".
+   - price: the retail price shown here; keep it the same as in the store.
+   ===================================================================== */
+window.SHOP_PRODUCTS = [
+  // ---- 1. Legenddary + Lady Legenddary clothing (Printful, premium) ----
+  { collection: "legenddary", name: "Legenddary Organic Tee", detail: "100% organic cotton, black", price: 35, provider: "printful", organic: true, img: "legenddary-organic-tee", url: "" },
+  { collection: "legenddary", name: "Legenddary Organic Hoodie", detail: "Organic cotton fleece", price: 65, provider: "printful", organic: true, img: "legenddary-organic-hoodie", url: "" },
+  { collection: "legenddary", name: "Lady Legenddary Organic Tee", detail: "100% organic cotton, cream", price: 35, provider: "printful", organic: true, img: "lady-legenddary-organic-tee", url: "" },
+  { collection: "legenddary", name: "Legenddary Crown Hat", detail: "Embroidered gold crown", price: 32, provider: "printful", img: "legenddary-crown-hat", url: "" },
+
+  // ---- 2. The Awakening (book merch) ----
+  { collection: "awakening", name: "Legenddary Mindset: The Awakening", detail: "Ebook, read it today", price: 9.99, provider: "book", img: "", url: "https://bookshop.org/p/books/legenddary-mindset-the-awakening-joshua-w-davis/bfbeda0873a28061", cta: "Get the ebook" },
+  { collection: "awakening", name: "The Awakening Hardcover", detail: "Preorder", price: null, provider: "book", img: "", url: "", cta: "Preorder", soon: "Preorder link coming soon" },
+  { collection: "awakening", name: "The Awakening Tee", detail: "\"Stop living on default.\"", price: 29, provider: "printful", img: "awakening-tee", url: "" },
+  { collection: "awakening", name: "The Awakening Hat", detail: "Embroidered", price: 32, provider: "printful", img: "awakening-hat", url: "" },
+  { collection: "awakening", name: "The Awakening 20-Code Planner", detail: "Hardcover, lined pages", price: 24, provider: "printify", img: "awakening-planner", url: "" },
+  { collection: "awakening", name: "The Awakening Pen", detail: "Engraved brass", price: 25, provider: "printify", img: "awakening-pen", url: "" },
+
+  // ---- 3. SparkPrep gear (for authors and book lovers) ----
+  { collection: "sparkprep", name: "SparkPrep Mug", detail: "11oz ceramic", price: 17, provider: "printify", img: "sparkprep-mug", url: "" },
+  { collection: "sparkprep", name: "SparkPrep Writer's Notebook", detail: "Spiral, ruled pages", price: 17, provider: "printify", img: "sparkprep-notebook", url: "" },
+  { collection: "sparkprep", name: "SparkPrep Book Tote", detail: "Cotton canvas", price: 22, provider: "printify", img: "sparkprep-tote", url: "" },
+  { collection: "sparkprep", name: "SparkPrep Sticker", detail: "Logo sticker", price: 5, provider: "printify", img: "sparkprep-sticker", url: "" }
+];
+</script>
+</head>
+<body class="min-h-screen bg-black antialiased">
+<main class="min-h-screen overflow-x-hidden bg-black text-white selection:bg-[#D4AF37] selection:text-black">
+
+<nav class="sticky top-0 z-50 border-b border-[#D4AF37]/20 bg-black/90 backdrop-blur">
+  <div class="mx-auto flex max-w-[1400px] items-center justify-between px-4 py-3 sm:px-8">
+    <a href="/" class="font-serif text-lg tracking-[0.18em] text-[#E8D58F]">LEGENDDARY</a>
+    <div class="flex items-center gap-4 text-[10px] font-semibold uppercase tracking-[0.2em] sm:gap-7">
+      <a href="/#book" class="text-white/60 hover:text-[#D4AF37]">The Book</a>
+      <a href="https://sparkprep.legenddary.com/" class="hidden text-white/60 hover:text-[#D4AF37] sm:inline">SparkPrep</a>
+      <a href="/shop/" class="border border-[#D4AF37] bg-[#D4AF37] px-3 py-2 text-black">Shop</a>
+    </div>
+  </div>
+</nav>
+
+<header class="relative overflow-hidden border-b border-[#D4AF37]/20 px-5 py-14 text-center sm:px-8 lg:py-20">
+  <div class="pointer-events-none absolute left-1/2 top-[-200px] h-[440px] w-[820px] -translate-x-1/2 rounded-full bg-[#D4AF37]/[0.08] blur-[110px]"></div>
+  <div class="relative mx-auto max-w-3xl">
+    <p class="text-[10px] font-bold uppercase tracking-[0.3em] text-[#D4AF37]">The Legenddary Shop</p>
+    <h1 class="mt-4 font-serif text-5xl leading-[0.95] tracking-[-0.04em] text-[#F4E8BE] sm:text-6xl">Shop the <span class="italic text-white">Collection.</span></h1>
+    <p class="mx-auto mt-5 max-w-xl text-base leading-7 text-white/60">Fashionable gear for everybody. Every piece is printed fresh when you order and shipped straight to your door.</p>
+    <p class="mx-auto mt-3 max-w-xl text-xs text-white/35">Pictures are design previews. Final product photos are coming soon.</p>
+    <div class="mt-8 flex flex-wrap justify-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em]">
+      <a href="#legenddary" class="border border-[#D4AF37]/50 px-4 py-2 text-[#E8D58F] hover:bg-[#D4AF37] hover:text-black">Legenddary</a>
+      <a href="#awakening" class="border border-[#D4AF37]/50 px-4 py-2 text-[#E8D58F] hover:bg-[#D4AF37] hover:text-black">The Awakening</a>
+      <a href="#sparkprep" class="border border-[#D4AF37]/50 px-4 py-2 text-[#E8D58F] hover:bg-[#D4AF37] hover:text-black">SparkPrep Gear</a>
+    </div>
+  </div>
+</header>
+
+<div id="collections"></div>
+
+<section class="border-t border-[#D4AF37]/20 bg-[#030303] px-5 py-14 sm:px-8">
+  <div class="mx-auto grid max-w-[1300px] gap-6 text-sm text-white/55 sm:grid-cols-3">
+    <div><p class="font-serif text-xl text-[#F4E8BE]">Made when you order</p><p class="mt-2 leading-6">Nothing sits in a warehouse. Your item is printed after you buy it, then shipped to you.</p></div>
+    <div><p class="font-serif text-xl text-[#F4E8BE]">Going green</p><p class="mt-2 leading-6">Legenddary is moving toward clothing that is safe for your body and the planet. Look for the organic cotton tag.</p></div>
+    <div><p class="font-serif text-xl text-[#F4E8BE]">Secure checkout</p><p class="mt-2 leading-6">You pay on our print partner's secure checkout page (Printful or Printify), and they handle shipping and tracking.</p></div>
+  </div>
+</section>
+
+<footer class="border-t border-[#D4AF37]/20 bg-black px-5 pb-8 pt-10 sm:px-8">
+  <div class="mx-auto flex max-w-[1400px] flex-col items-center">
+    <nav class="flex flex-wrap justify-center gap-6 text-[10px] uppercase tracking-[0.22em]">
+      <a href="/" class="text-white/60 hover:text-[#D4AF37]">Home</a>
+      <a href="/#book" class="text-white/60 hover:text-[#D4AF37]">The Awakening</a>
+      <a href="https://sparkprep.legenddary.com/" class="text-[#D4AF37] hover:text-white">Legenddary's SparkPrep</a>
+    </nav>
+    <p class="mt-6 text-[8px] font-semibold uppercase tracking-[0.24em] text-white/30">Legenddary · Sacramento, CA · Live It · Build It · Leave It</p>
+  </div>
+</footer>
+</main>
+
+<script>
+(function () {
+  var COLLECTIONS = [
+    { key: "legenddary", title: "Legenddary & Lady Legenddary", tag: "Fashion for everyone", blurb: "Premium and organic cotton gear with the gold crown. Lady Legenddary is the women's line." },
+    { key: "awakening", title: "The Awakening Collection", tag: "Book merch", blurb: "Wear the mindset. Gear for Legenddary Mindset: The Awakening." },
+    { key: "sparkprep", title: "SparkPrep Gear", tag: "For authors and book lovers", blurb: "For the writers who refuse to quit. The Evolution of Self-Publishing." }
+  ];
+  var COVER = "https://customer-assets-eiarnc6j.emergentagent.net/job_sparkprep-awakening/artifacts/y2t5f80t_cover%20last%20final%20cover.png";
+
+  function money(n) { return n == null ? "" : "$" + (n % 1 ? n.toFixed(2) : n); }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+
+  var products = window.SHOP_PRODUCTS || [];
+  var html = COLLECTIONS.map(function (c, i) {
+    var items = products.filter(function (p) { return p.collection === c.key; });
+    var cards = items.map(function (p) {
+      var live = !!p.url;
+      var cta = live ? (p.cta || "Buy now") : (p.soon || "Coming soon");
+      var btn = live
+        ? '<a href="' + esc(p.url) + '" target="_blank" rel="noopener" data-provider="' + esc(p.provider) + '" class="mt-5 flex items-center justify-between border border-[#D4AF37] bg-gradient-to-r from-[#A47D16] via-[#E4C45B] to-[#9A7210] px-4 py-3 text-xs font-black uppercase tracking-[0.14em] text-black hover:brightness-110">' + esc(cta) + ' <span aria-hidden="true">→</span></a>'
+        : '<span aria-disabled="true" class="mt-5 flex cursor-not-allowed items-center justify-between border border-white/15 px-4 py-3 text-xs font-bold uppercase tracking-[0.14em] text-white/40">' + cta + '</span>';
+      return '<article class="flex flex-col border border-[#D4AF37]/20 bg-[linear-gradient(160deg,#0a0905,#000)] p-5 transition hover:border-[#D4AF37]/60">' +
+        '<div class="relative flex aspect-square items-center justify-center overflow-hidden border border-[#D4AF37]/10 bg-[radial-gradient(circle_at_50%_40%,rgba(212,175,55,.16),transparent_65%)]">' +
+          (p.img ? '<img src="/shop/img/' + esc(p.img) + '.jpg" alt="' + esc(p.name) + ' mockup" loading="lazy" class="h-full w-full object-cover">'
+                 : '<img src="' + COVER + '" alt="' + esc(p.name) + ' book cover" loading="lazy" class="h-[85%] w-auto border border-[#D4AF37]/40 shadow-2xl">') +
+          (p.organic ? '<span class="absolute left-3 top-3 bg-[#2f5d3a] px-2 py-1 text-[9px] font-bold uppercase tracking-[0.15em] text-[#d9f2dd]">Organic cotton</span>' : '') +
+        '</div>' +
+        '<h3 class="mt-4 font-serif text-xl leading-6 text-[#F4E8BE]">' + esc(p.name) + '</h3>' +
+        '<p class="mt-1 text-sm text-white/50">' + esc(p.detail || "") + '</p>' +
+        '<p class="mt-3 text-lg font-bold text-white">' + money(p.price) + '</p>' +
+        '<div class="mt-auto">' + btn + '</div>' +
+      '</article>';
+    }).join("");
+    return '<section id="' + c.key + '" class="scroll-mt-20 px-5 py-14 sm:px-8 ' + (i % 2 ? 'bg-[#030303]' : 'bg-black') + '">' +
+      '<div class="mx-auto max-w-[1300px]">' +
+        '<p class="text-[10px] font-bold uppercase tracking-[0.3em] text-[#D4AF37]">' + esc(c.tag) + '</p>' +
+        '<h2 class="mt-3 font-serif text-4xl tracking-[-0.03em] text-[#F4E8BE]">' + esc(c.title) + '</h2>' +
+        '<p class="mt-2 max-w-xl text-white/55">' + esc(c.blurb) + '</p>' +
+        '<div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">' + cards + '</div>' +
+      '</div></section>';
+  }).join("");
+  document.getElementById("collections").innerHTML = html;
+})();
+</script>
+</body>
+</html>

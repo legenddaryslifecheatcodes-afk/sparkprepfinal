@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
     <loc>https://sparkprep.legenddary.com/</loc>
     <lastmod>2026-11-15</lastmod>
@@ -385,6 +385,19 @@
   <url>
     <loc>https://sparkprep.legenddary.com/answers/</loc>
     <lastmod>2026-11-12</lastmod>
+  </url>
+  <url>
+    <loc>https://sparkprep.legenddary.com/video/</loc>
+    <lastmod>2026-11-15</lastmod>
+    <video:video>
+      <video:thumbnail_loc>https://sparkprep.legenddary.com/media/sparkprep-commercial-poster.jpg</video:thumbnail_loc>
+      <video:title>SparkPrep commercial: a rejected book file, fixed</video:title>
+      <video:description>A 40-second SparkPrep ad: an author's book file is rejected by the printer, and SparkPrep finds and fixes the problems. Dramatization with AI-generated actors.</video:description>
+      <video:content_loc>https://sparkprep.legenddary.com/media/sparkprep-commercial.mp4</video:content_loc>
+      <video:duration>41</video:duration>
+      <video:publication_date>2026-10-28T12:00:00-07:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
   </url>
   <url>
     <loc>https://sparkprep.legenddary.com/about/</loc>

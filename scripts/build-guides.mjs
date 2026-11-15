@@ -85,7 +85,7 @@ function head({ title, description, url, type, extra = "" }) {
 <meta name="description" content="${esc(description)}">
 <link rel="canonical" href="${url}">
 <meta property="og:type" content="${type}">
-<meta property="og:site_name" content="SparkPrep">
+<meta property="og:site_name" content="Legenddary's SparkPrep">
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(description)}">
 <meta property="og:url" content="${url}">
@@ -97,7 +97,7 @@ ${extra}
 </head>
 <body>
 <header class="site">
-  <a class="brand" href="/"><img src="/brand/sparkprep-logo.png" alt="SparkPrep logo" width="120" height="34"></a>
+  <a class="brand" href="/"><img src="/brand/sparkprep-logo.png" alt="Legenddary's SparkPrep logo" width="120" height="34"></a>
   <nav><a href="/guides/">Guides</a><a class="hide-sm" href="/tools/">Free tools</a><a href="/">SparkPrep</a></nav>
 </header>
 <main>`;
@@ -106,7 +106,7 @@ ${extra}
 const FOOT = `
   <p class="note">SparkPrep is an independent tool and is not affiliated with Amazon KDP, IngramSpark, Barnes &amp; Noble Press or Lulu.</p>
 </main>
-<footer class="site">© SparkPrep by Legenddary · <a href="/">Home</a><a href="/guides/">Guides</a><a href="/tools/">Free tools</a><a href="/pricing">Pricing</a></footer>
+<footer class="site">© Legenddary's SparkPrep, a <a href="https://legenddary.com/">Legenddary</a> product · <a href="/">Home</a><a href="/guides/">Guides</a><a href="/tools/">Free tools</a><a href="/pricing">Pricing</a></footer>
 </body>
 </html>
 `;
@@ -188,8 +188,8 @@ function article(g, all) {
         datePublished: g.date,
         dateModified: g.updated || g.date,
         mainEntityOfPage: url,
-        author: { "@type": "Organization", name: "SparkPrep", url: `${SITE}/` },
-        publisher: { "@type": "Organization", name: "SparkPrep", logo: { "@type": "ImageObject", url: `${SITE}/brand/sparkprep-logo.png` } },
+        author: { "@type": "Organization", "@id": `${SITE}/#org`, name: "Legenddary's SparkPrep", url: `${SITE}/` },
+        publisher: { "@type": "Organization", "@id": `${SITE}/#org`, name: "Legenddary's SparkPrep", logo: { "@type": "ImageObject", url: `${SITE}/brand/sparkprep-logo.png` } },
         image: `${SITE}/brand/sparkprep-logo.png`,
         articleSection: cat.name,
       },
@@ -250,7 +250,7 @@ ${FOOT}`;
 
 function hub(all) {
   const url = `${SITE}/guides/`;
-  const title = "Print Book Rejection Fixes: KDP, IngramSpark & Lulu Guides | SparkPrep";
+  const title = "Print Book Rejection Fixes: KDP, IngramSpark & Lulu Guides | Legenddary's SparkPrep";
   const description = "Plain-English guides to every common print book rejection: the error, why it happens, how to fix it yourself in Word, Acrobat or InDesign, and the fast fix with SparkPrep.";
   const schema = {
     "@context": "https://schema.org",

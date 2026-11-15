@@ -33,7 +33,7 @@ export default function Landing() {
             <div className="flex items-center gap-3">
               <LogoMark size={32} />
               <span className="font-mono-spec text-[10px] tracking-[0.28em] uppercase text-[#D4AF37]">
-                SparkPrep: the evolution of self-publishing
+                Legenddary&apos;s SparkPrep: the evolution of self-publishing
               </span>
             </div>
 
@@ -99,7 +99,7 @@ export default function Landing() {
 
             <h1 className="mt-8" data-testid="hero-title">
               <span className="block font-mono-spec text-sm md:text-base tracking-[0.18em] uppercase text-neutral-300">
-                SparkPrep: the evolution of self-publishing
+                Legenddary&apos;s SparkPrep: the evolution of self-publishing
               </span>
               <span className="block font-display font-black text-5xl md:text-7xl lg:text-8xl tracking-tighter mt-4 leading-[0.9]">
                 The all-in-one<br />
@@ -130,7 +130,7 @@ export default function Landing() {
             <div className="mt-10 max-w-xl border-l-2 border-[#D4AF37] bg-[#D4AF37]/[0.06] px-5 py-4" data-testid="hero-definition">
               <h2 className="font-display font-bold text-lg text-white tracking-tight">What is SparkPrep?</h2>
               <p className="mt-2 text-neutral-300 leading-relaxed">
-                SparkPrep is an all-in-one self-publishing suite. You design your book cover, write and format your inside pages, check both against the print rules of Amazon KDP, IngramSpark, Barnes &amp; Noble and Lulu, fix every problem, and download print-ready files, all in one place.
+                Legenddary&apos;s SparkPrep is an all-in-one self-publishing suite. You design your book cover, write and format your inside pages, check both against the print rules of Amazon KDP, IngramSpark, Barnes &amp; Noble and Lulu, fix every problem, and download print-ready files, all in one place.
               </p>
             </div>
 
@@ -188,7 +188,7 @@ export default function Landing() {
               <div className="border-l-2 border-[#D4AF37] bg-[#D4AF37]/[0.06] px-5 py-4" data-testid="suite-definition">
                 <h3 className="font-display font-bold text-lg text-white tracking-tight">What is SparkPrep?</h3>
                 <p className="mt-2 text-neutral-300 leading-relaxed">
-                  SparkPrep is an all-in-one self-publishing suite. You design your book cover, write and format your inside pages, check both against the print rules of Amazon KDP, IngramSpark, Barnes &amp; Noble and Lulu, fix every problem, and download print-ready files, all in one place.
+                  Legenddary&apos;s SparkPrep is an all-in-one self-publishing suite. You design your book cover, write and format your inside pages, check both against the print rules of Amazon KDP, IngramSpark, Barnes &amp; Noble and Lulu, fix every problem, and download print-ready files, all in one place.
                 </p>
               </div>
               <div className="mt-6 flex flex-wrap gap-6 text-xs font-mono-spec tracking-widest text-neutral-500 uppercase">
@@ -399,8 +399,9 @@ export default function Landing() {
           <a href="https://sparkpreplandingerrors.legenddary.com/" className="hover:text-white">Rejection messages decoded</a>
           <a href="https://sparkpreplandingnewauthor.legenddary.com/" className="hover:text-white">First book guide</a>
         </nav>
-        <div className="mb-2 text-[#D4AF37]">SparkPrep · The Evolution of Self-Publishing · Power Without Complexity</div>
-        © Legenddary — Publish · Automate · Elevate · We Build. You Legenddary.
+        <div className="mb-2 text-[#D4AF37]">Legenddary&apos;s SparkPrep · The Evolution of Self-Publishing · Power Without Complexity</div>
+        <div className="mb-2 normal-case tracking-normal text-neutral-500">SparkPrep is a <a href="https://legenddary.com/" className="text-neutral-300 underline hover:text-white">Legenddary</a> product.</div>
+        © <a href="https://legenddary.com/" className="hover:text-white">Legenddary</a> — Publish · Automate · Elevate · We Build. You Legenddary.
       </footer>
     </div>
   );

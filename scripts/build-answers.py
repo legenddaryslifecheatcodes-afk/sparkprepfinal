@@ -54,16 +54,16 @@ QA = [
   "An all-in-one self-publishing suite lets you design your cover, format your inside pages, check both against printer rules, fix the problems and download print-ready files in one place. SparkPrep is one: it works with Amazon KDP, IngramSpark, Barnes & Noble Press and Lulu.",
   [("/","What SparkPrep does"),("/about/","About SparkPrep")]),
  ("what-is-sparkprep","What is SparkPrep?",
-  "SparkPrep is an all-in-one self-publishing suite made by Legenddary. It has a free cover designer, a free page formatter, AI writing help, a print check against KDP, IngramSpark, Barnes & Noble and Lulu rules, automatic fixes and print-ready PDF/X-1a export. Its motto is \"Power without complexity.\"",
+  "Legenddary's SparkPrep is an all-in-one self-publishing suite made by Legenddary. It has a free cover designer, a free page formatter, AI writing help, a print check against KDP, IngramSpark, Barnes & Noble and Lulu rules, automatic fixes and print-ready PDF/X-1a export. Its motto is \"Power without complexity.\"",
   [("/about/","About SparkPrep"),("/audit","Try the free audit")]),
 ]
 def e(s): return html.escape(s, quote=True)
-title = "Self-Publishing File Questions, Answered in Plain English | SparkPrep"
+title = "Self-Publishing File Questions, Answered in Plain English | Legenddary's SparkPrep"
 desc = "Short, plain-English answers to the questions first-time authors ask about KDP and IngramSpark files: bleed, spine width, margins, DPI, CMYK, ink limits, PDF/X-1a and rejections."
 url = B + "/answers/"
 schema = {"@context":"https://schema.org","@graph":[
  {"@type":"FAQPage","@id":url+"#faq","url":url,"name":"Self-publishing file questions, answered","dateModified":"2026-11-12",
-  "publisher":{"@type":"Organization","name":"SparkPrep","url":B+"/"},
+  "publisher":{"@type":"Organization","@id":B+"/#org","name":"Legenddary's SparkPrep","url":B+"/"},
   "mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a,"url":url+"#"+i}} for i,q,a,_ in QA]},
  {"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SparkPrep","item":B+"/"},{"@type":"ListItem","position":2,"name":"Answers","item":url}]}]}
 toc = "\n".join(f'    <li><a href="#{i}">{e(q)}</a></li>' for i,q,_,_ in QA)
@@ -84,7 +84,7 @@ page = f'''<!doctype html>
 <meta name="description" content="{e(desc)}">
 <link rel="canonical" href="{url}">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="SparkPrep">
+<meta property="og:site_name" content="Legenddary's SparkPrep">
 <meta property="og:title" content="{e(title)}">
 <meta property="og:description" content="{e(desc)}">
 <meta property="og:url" content="{url}">
@@ -96,7 +96,7 @@ page = f'''<!doctype html>
 </head>
 <body>
 <header class="site">
-  <a class="brand" href="/"><img src="/brand/sparkprep-logo.png" alt="SparkPrep logo" width="120" height="34"></a>
+  <a class="brand" href="/"><img src="/brand/sparkprep-logo.png" alt="Legenddary's SparkPrep logo" width="120" height="34"></a>
   <nav><a href="/templates/">Templates</a><a class="hide-sm" href="/tools/">Free tools</a><a class="hide-sm" href="/guides/">Guides</a><a href="/">SparkPrep</a></nav>
 </header>
 <main>
@@ -117,7 +117,7 @@ page = f'''<!doctype html>
   </section>
   <p class="note">SparkPrep is an independent tool and is not affiliated with Amazon KDP, IngramSpark, Barnes &amp; Noble Press or Lulu. Printer numbers on this page come from each printer's own published rules; check their help pages if they change.</p>
 </main>
-<footer class="site">© SparkPrep by Legenddary · <a href="/">Home</a><a href="/answers/">Answers</a><a href="/about/">About</a><a href="/tools/">Free tools</a><a href="/guides/">Guides</a><a href="/pricing">Pricing</a></footer>
+<footer class="site">© Legenddary's SparkPrep, a <a href="https://legenddary.com/">Legenddary</a> product · <a href="/">Home</a><a href="/answers/">Answers</a><a href="/about/">About</a><a href="/tools/">Free tools</a><a href="/guides/">Guides</a><a href="/pricing">Pricing</a></footer>
 </body>
 </html>
 '''

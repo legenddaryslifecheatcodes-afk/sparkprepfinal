@@ -17,7 +17,7 @@ const SOURCES = {
 export const HOME_FAQ = [
   {
     q: "What is SparkPrep?",
-    a: "SparkPrep is an all-in-one self-publishing suite. You design your book cover, write and format your inside pages, check both against the print rules of Amazon KDP, IngramSpark, Barnes & Noble and Lulu, fix every problem, and download print-ready files, all in one place.",
+    a: "Legenddary's SparkPrep is an all-in-one self-publishing suite. You design your book cover, write and format your inside pages, check both against the print rules of Amazon KDP, IngramSpark, Barnes & Noble and Lulu, fix every problem, and download print-ready files, all in one place.",
   },
   {
     q: "Is the SparkPrep book file audit free?",

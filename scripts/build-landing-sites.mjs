@@ -67,7 +67,7 @@ function pageUrl(s, path) {
 
 function jsonLd(s, page, url) {
   const graph = [];
-  const org = { "@type": "Organization", "@id": `${MAIN}/#org`, name: "SparkPrep", url: `${MAIN}/`, logo: `${MAIN}/brand/sparkprep-logo.png`, parentOrganization: { "@type": "Organization", name: "Legenddary", url: "https://legenddary.com/" } };
+  const org = { "@type": "Organization", "@id": `${MAIN}/#org`, name: "Legenddary's SparkPrep", alternateName: "SparkPrep", url: `${MAIN}/`, logo: `${MAIN}/brand/sparkprep-logo.png`, parentOrganization: { "@type": "Organization", name: "Legenddary", url: "https://legenddary.com/" } };
   graph.push(org);
   if (page.path === "/") {
     graph.push({ "@type": "WebSite", "@id": `https://${s.host}/#site`, name: `SparkPrep: ${s.name}`, url: `https://${s.host}/`, description: s.blurb, publisher: { "@id": `${MAIN}/#org` }, inLanguage: "en-US" });
@@ -102,7 +102,7 @@ function header(s, page, pages) {
     .map((p) => `<a href="${p.path}"${p.path === page.path ? ' aria-current="page"' : ""}>${esc(p.nav)}</a>`)
     .join("");
   return `<header class="site"><div class="wrap">
-<a class="brand" href="${MAIN_LINKS.home}"><img src="/logo.png" width="60" height="40" alt="SparkPrep logo"><span class="name">${esc(s.name)}<small>by SparkPrep</small></span></a>
+<a class="brand" href="${MAIN_LINKS.home}"><img src="/logo.png" width="60" height="40" alt="Legenddary's SparkPrep logo"><span class="name">${esc(s.name)}<small>by Legenddary's SparkPrep</small></span></a>
 <a class="btn small" href="${MAIN_LINKS.audit}">Check my book</a>
 </div></header>
 <nav class="sub" aria-label="${esc(s.name)} pages"><div class="wrap">${nav}</div></nav>`;
@@ -140,8 +140,9 @@ function network(s) {
 
 function footer(s) {
   return `<footer class="site"><div class="wrap"><div class="cols">
-<div><h2>SparkPrep</h2><ul>
+<div><h2>Legenddary's SparkPrep</h2><ul>
 <li><a href="${MAIN_LINKS.home}">SparkPrep home</a></li>
+<li><a href="https://legenddary.com/">Legenddary (the company behind SparkPrep)</a></li>
 <li><a href="${MAIN_LINKS.audit}">Scan my book free</a></li>
 <li><a href="${MAIN_LINKS.coverStudio}">Cover Studio (free templates)</a></li>
 <li><a href="${MAIN_LINKS.interiorStudio}">Interior Studio (format your pages)</a></li>
@@ -154,7 +155,7 @@ function footer(s) {
 <li><a href="${MAIN_LINKS.guides}">All SparkPrep guides</a></li></ul></div>
 <div><h2>SparkPrep help sites</h2><ul>${SITES.map((x) => `<li><a href="https://${x.host}/">${esc(x.name)}</a></li>`).join("")}</ul></div>
 </div>
-<p class="legal">© 2026 Legenddary · SparkPrep, made by Joshua Davis after his own book was rejected by the printer 18 times. Amazon KDP, IngramSpark, Barnes &amp; Noble Press and Lulu are trademarks of their owners; SparkPrep is not affiliated with them. Printer rules change, so always check your printer's current guide before you upload.</p>
+<p class="legal">© 2026 <a href="https://legenddary.com/">Legenddary</a> · Legenddary's SparkPrep, made by Joshua Davis after his own book was rejected by the printer 18 times. Amazon KDP, IngramSpark, Barnes &amp; Noble Press and Lulu are trademarks of their owners; SparkPrep is not affiliated with them. Printer rules change, so always check your printer's current guide before you upload.</p>
 </div></footer>`;
 }
 
@@ -209,7 +210,7 @@ ${footer(s)}
 
 function render404(s, pages) {
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Page not found | SparkPrep: ${esc(s.name)}</title><meta name="robots" content="noindex"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/style.css"></head>
+<title>Page not found | Legenddary's SparkPrep: ${esc(s.name)}</title><meta name="robots" content="noindex"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/style.css"></head>
 <body>${header(s, { path: "" }, pages)}<main class="wrap"><h1>That page isn't here</h1>
 <p class="lead">It may have moved. Try one of these, or check your book right now.</p>
 <div class="cards">${pages.map((p) => `<a class="card" href="${p.path}"><b>${esc(p.crumb || p.h1)}</b><span>${esc(p.description)}</span></a>`).join("")}</div>

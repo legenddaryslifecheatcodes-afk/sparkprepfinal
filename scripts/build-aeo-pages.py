@@ -10,8 +10,8 @@ def e(s): return html.escape(s, quote=True)
 PAGES = [
 {
  "slug": "how-to-self-publish-a-book",
- "title": "How to Self Publish a Book: 7 Simple Steps (KDP & IngramSpark) | " + BRAND,
- "desc": "A plain-English guide to self publishing your first book on Amazon KDP and IngramSpark: the 7 steps, what it costs, how long it takes and how to avoid getting your book rejected.",
+ "title": "How to Self Publish a Book: 7 Simple Steps | " + BRAND,
+ "desc": "Self publish your first book on Amazon KDP and IngramSpark in 7 plain-English steps: what it costs, how long it takes and how to avoid a rejection.",
  "eyebrow": "Step-by-step guide · Updated November 15, 2026",
  "h1": "How to self publish a book: 7 simple steps",
  "lead": "Never published before? Here is the whole process in plain words, from finished manuscript to a book for sale on Amazon and in bookstores.",
@@ -42,8 +42,8 @@ PAGES = [
 },
 {
  "slug": "book-formatting",
- "title": "Book Formatting for KDP & IngramSpark: What It Is & What It Costs | " + BRAND,
- "desc": "What book formatting is, what it covers inside and on the cover, what a book formatter costs, and how to check your formatting against KDP and IngramSpark rules for free.",
+ "title": "Book Formatting for KDP & IngramSpark | " + BRAND,
+ "desc": "What book formatting covers inside and on the cover, what a formatter costs, and how to check your formatting against KDP and IngramSpark rules for free.",
  "eyebrow": "Book formatting · Updated November 15, 2026",
  "h1": "Book formatting for KDP and IngramSpark, in plain English",
  "lead": "Formatting is what turns your manuscript into a file a printer will accept. Here is what it covers, what it costs, and how to know if yours is right.",

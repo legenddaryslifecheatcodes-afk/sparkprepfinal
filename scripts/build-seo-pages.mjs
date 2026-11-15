@@ -132,7 +132,7 @@ function page({ path, title, description, schema, body, fonts = [] }) {
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(description)}">
 <meta property="og:url" content="${url}">
-<meta property="og:image" content="${SITE}/brand/sparkprep-logo.png">
+<meta property="og:image" content="${SITE}/brand/sparkprep-og.jpg">
 <meta name="twitter:card" content="summary">
 <link rel="icon" type="image/png" href="/favicon.png">
 <link rel="stylesheet" href="/tools/tools.css">
@@ -141,7 +141,7 @@ ${ld({ "@context": "https://schema.org", "@graph": schema })}
 </head>
 <body>
 <header class="site">
-  <a class="brand" href="/"><img src="/brand/sparkprep-logo.png" alt="Legenddary's SparkPrep logo" width="120" height="34"></a>
+  <a class="brand" href="/"><img src="/brand/sparkprep-logo-480.png" alt="Legenddary's SparkPrep logo" width="84" height="56"></a>
   <nav><a href="/templates/">Templates</a><a class="hide-sm" href="/tools/">Free tools</a><a class="hide-sm" href="/guides/">Guides</a><a href="/">SparkPrep</a></nav>
 </header>
 <main>

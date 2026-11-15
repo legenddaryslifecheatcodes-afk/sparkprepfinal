@@ -10,7 +10,7 @@ a { color: var(--gold-soft); }
 header.site { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 20px;
   border-bottom: 1px solid var(--line); background: #0d0d0d; position: sticky; top: 0; z-index: 5; }
 header.site a.brand { display: flex; align-items: center; gap: 10px; color: var(--text); text-decoration: none; font-weight: 700; }
-header.site img { height: 34px; width: auto; }
+header.site img { height: 56px; width: auto; }
 header.site nav a { color: var(--muted); text-decoration: none; margin-left: 16px; font-size: 15px; }
 header.site nav a:hover { color: var(--gold); }
 main { max-width: 860px; margin: 0 auto; padding: 28px 20px 60px; }

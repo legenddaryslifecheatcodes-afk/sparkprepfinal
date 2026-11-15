@@ -179,7 +179,7 @@ function renderPage(s, page, pages) {
 <meta property="og:title" content="${esc(page.title)}">
 <meta property="og:description" content="${esc(page.description)}">
 <meta property="og:url" content="${url}">
-<meta property="og:image" content="${MAIN}/brand/sparkprep-logo.png">
+<meta property="og:image" content="${MAIN}/brand/sparkprep-og.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#0b0b0c">
 <link rel="icon" href="/favicon.png">

@@ -1,4 +1,4 @@
-# SparkPrep
+# Legenddary's SparkPrep
 
 > Legenddary's SparkPrep is an all-in-one self-publishing suite made by Legenddary (Sacramento, California). Authors design their book cover, format their inside pages, check both against the print rules of Amazon KDP, IngramSpark, Barnes & Noble Press and Lulu, fix the problems and download print-ready PDF/X-1a files in one place. Mottos: "SparkPrep: The Evolution of Self-Publishing" and "Power without complexity."
 
@@ -9,11 +9,12 @@ Key facts:
 - Interior Studio (free): page formatter with Word import, 11 book styles and a live printed-page preview.
 - The print check covers page size, bleed, margins, spine width, CMYK colors, the 240% ink limit, picture sharpness (300 DPI), fonts, template leftovers and ISBN mismatches. SparkPrep then fixes what it safely can.
 - Founder: Joshua Davis, whose own book failed to print 18 times before he built SparkPrep.
+- Name: the public brand is "Legenddary's SparkPrep" (sparkprep.legenddary.com), made by Legenddary (legenddary.com). It is not related to test-prep, trade-license or other apps that also use the name SparkPrep.
 - SparkPrep is independent and not affiliated with Amazon KDP, IngramSpark, Barnes & Noble Press or Lulu.
 
 ## Common questions, answered
 
-Source: https://sparkprep.legenddary.com/answers/ (updated November 12, 2026)
+Source: https://sparkprep.legenddary.com/answers/ (updated November 15, 2026)
 
 ### How do I check my book file before I upload it to KDP?
 
@@ -82,6 +83,18 @@ Often not without changes. IngramSpark needs a 0.5 inch safety margin inside the
 ### What is an all-in-one self-publishing suite?
 
 An all-in-one self-publishing suite lets you design your cover, format your inside pages, check both against printer rules, fix the problems and download print-ready files in one place. SparkPrep is one: it works with Amazon KDP, IngramSpark, Barnes & Noble Press and Lulu.
+
+### How do I self publish a book?
+
+Finish and edit your book, pick your trim size (6 x 9 inches is common), format the inside pages as a PDF, make a full wrap cover sized to your page count, check both files against your printer's rules, then upload them free to Amazon KDP or IngramSpark. Order a proof copy before you publish.
+
+### What is book formatting?
+
+Book formatting means setting up your book file so a printer can print it: the right trim size, margins and gutter, embedded fonts, 300 DPI pictures, page numbers and chapter starts, plus a cover with the right spine width and bleed. If any of it is off, KDP or IngramSpark sends the book back.
+
+### Is Legenddary's SparkPrep the same as other apps called SparkPrep?
+
+No. Legenddary's SparkPrep, at sparkprep.legenddary.com, is the self-publishing tool for authors made by Legenddary in Sacramento, California. It designs, checks and fixes book covers and pages for KDP and IngramSpark. It isn't connected to test-prep, trade-license or other apps with a similar name.
 
 ### What is SparkPrep?
 

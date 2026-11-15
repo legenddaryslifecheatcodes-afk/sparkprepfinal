@@ -54,6 +54,13 @@ export const HOME_FAQ = [
   {
     q: "Does SparkPrep work for KDP, IngramSpark, Barnes & Noble and Lulu?",
     a: "Yes. SparkPrep checks your files against each printer's own rules: Amazon KDP, IngramSpark, Barnes & Noble Press and Lulu.",
+  },  {
+    q: "What does SparkPrep check in my book file?",
+    a: "SparkPrep checks your trim size, bleed, margins and gutter, the safe zone, spine width, embedded fonts, picture resolution (300 DPI), CMYK color, the 240% ink limit, PDF/X-1a, and the barcode and ISBN area. It checks the full wrap cover (back, spine and front) and every inside page, for paperback and hardcover books, before KDP's Print Previewer or IngramSpark sees them.",
+  },
+  {
+    q: "Is my book file private?",
+    a: "Yes. SparkPrep never sells or shares your book files and never uses them to train AI. Your file is only used to run your check and make your print-ready files, nobody else can see it, and you can delete your projects at any time. Read the full privacy page for details.",
   },
 ];
 

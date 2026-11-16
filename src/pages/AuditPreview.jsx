@@ -78,7 +78,7 @@ export default function AuditPreview() {
   return (
     <div className="marketing min-h-screen noise-overlay">
       <Nav dark />
-      <div className="max-w-3xl mx-auto px-6 py-12">
+      <div className="max-w-3xl mx-auto px-5 md:px-6 py-10 md:pt-24 md:pb-12">
         <span className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">[ Audit {id.slice(0, 8)} ]</span>
         <p className="text-neutral-400 mt-3">
           Checked against <span className="font-mono-spec text-white">{audit.platform_name}</span> · trim <span className="font-mono-spec text-white">{audit.trim_label}</span> · file <span className="font-mono-spec text-white">{audit.file_metadata?.original_filename}</span>

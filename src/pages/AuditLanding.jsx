@@ -34,6 +34,15 @@ export default function AuditLanding() {
   const nav = useNavigate();
   const uploadBoxRef = useRef(null);
 
+  // Welcome pop-up: 3 quick steps the first time someone opens the audit page (remembered per browser).
+  const [showWelcome, setShowWelcome] = useState(() => {
+    try { return localStorage.getItem("sp_audit_welcome_seen") !== "1"; } catch { return true; }
+  });
+  const closeWelcome = () => {
+    setShowWelcome(false);
+    try { localStorage.setItem("sp_audit_welcome_seen", "1"); } catch { /* private mode: just close */ }
+  };
+
   // Big "Upload" button at the top: brings the upload box into view and opens the file picker.
   const goToUpload = () => {
     const box = uploadBoxRef.current;
@@ -104,6 +113,49 @@ export default function AuditLanding() {
 
   return (
     <div className="marketing min-h-screen noise-overlay">
+      {showWelcome && (
+        <div className="fixed inset-0 z-[60] bg-black/80 flex items-center justify-center p-4" onClick={closeWelcome}>
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="audit-welcome-title"
+            className="relative w-full max-w-md bg-neutral-950 border border-neutral-700 p-6 md:p-8 text-white max-h-[90vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+            data-testid="audit-welcome"
+          >
+            <button type="button" onClick={closeWelcome} aria-label="Close" className="absolute top-3 right-4 text-neutral-500 hover:text-white text-2xl leading-none">×</button>
+            <h2 id="audit-welcome-title" className="font-display font-black text-2xl md:text-3xl tracking-tight">Check your book in 3 easy steps</h2>
+            <p className="mt-2 text-sm text-neutral-400">{freeAudit ? "Free through December 31. No sign-up, no card." : "No sign-up needed."}</p>
+            <ol className="mt-5 space-y-4 text-sm leading-relaxed">
+              <li className="flex gap-3"><span className="font-display font-black text-xl text-white w-6 shrink-0">1</span><span><b>Pick your printer and book size.</b> For example Amazon KDP, 6 x 9. Not sure? Leave it as it is.</span></li>
+              <li className="flex gap-3"><span className="font-display font-black text-xl text-white w-6 shrink-0">2</span><span><b>Upload your cover or your inside pages.</b> A PDF works best. A picture of your cover works too.</span></li>
+              <li className="flex gap-3"><span className="font-display font-black text-xl text-white w-6 shrink-0">3</span><span><b>See what the printer would reject.</b> We show every problem and where it is{freeAudit ? ". Type your email to see the full list." : "."}</span></li>
+            </ol>
+            <p className="mt-5 flex items-start gap-2 text-xs text-neutral-400"><Lock className="w-4 h-4 shrink-0" /> Your file stays private. We never share or sell it.</p>
+            <div className="mt-6 flex flex-col gap-3">
+              <button
+                type="button"
+                onClick={() => { closeWelcome(); goToUpload(); }}
+                className="w-full inline-flex items-center justify-center gap-2 bg-white text-black font-display font-black text-lg px-6 py-3 hover:bg-neutral-200"
+                data-testid="audit-welcome-upload"
+                data-next-step="Click to start"
+                data-next-step-label="Upload your book file"
+              >
+                <Upload className="w-5 h-5" /> Upload my file
+              </button>
+              <button
+                type="button"
+                onClick={() => { closeWelcome(); trySample(); }}
+                className="w-full text-sm text-neutral-300 underline underline-offset-4 hover:text-white"
+                data-testid="audit-welcome-sample"
+              >
+                Not ready? Try a practice file first
+              </button>
+              <button type="button" onClick={closeWelcome} className="text-xs text-neutral-500 hover:text-white" data-testid="audit-welcome-close">I'll look around first</button>
+            </div>
+          </div>
+        </div>
+      )}
       <SeasonBanner />
       <Nav dark />
       <section className="relative overflow-hidden">

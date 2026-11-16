@@ -10,7 +10,7 @@ def e(s): return html.escape(s, quote=True)
 PAGES = [
 {
  "slug": "how-to-self-publish-a-book",
- "title": "How to Self Publish a Book: 7 Simple Steps | " + BRAND,
+ "title": "How to Self Publish a Book in 2026: 7 Simple Steps for Beginners | " + BRAND,
  "desc": "Self publish your first book on Amazon KDP and IngramSpark in 7 plain-English steps: what it costs, how long it takes and how to avoid a rejection.",
  "eyebrow": "Step-by-step guide · Updated November 15, 2026",
  "h1": "How to self publish a book: 7 simple steps",
@@ -132,6 +132,9 @@ def build(p):
   <ul class="links">
     <li><a href="/how-to-self-publish-a-book/">How to self publish a book: 7 steps</a></li>
     <li><a href="/book-formatting/">Book formatting for KDP and IngramSpark</a></li>
+    <li><a href="/guides/self-publishing-on-amazon-pros-and-cons/">Self-publishing on Amazon: pros and cons</a></li>
+    <li><a href="/guides/ingramspark-promo-code-and-fees/">What IngramSpark costs in 2026 (and promo codes)</a></li>
+    <li><a href="/guides/barnes-and-noble-self-publishing/">Barnes and Noble self-publishing, explained</a></li>
     <li><a href="/answers/">Self-publishing questions, answered in plain English</a></li>
     <li><a href="/free-manuscript-checklist/">Free manuscript checklist</a></li>
     <li><a href="/book-spine-width-calculator/">Book spine width calculator</a></li>

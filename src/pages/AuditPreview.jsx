@@ -122,7 +122,7 @@ export default function AuditPreview() {
                   <Gift className="w-4 h-4" /> {claiming ? "Unlocking…" : "See My Results Free"}
                 </button>
                 <div className="mt-2 text-center text-xs text-emerald-300">
-                  Holiday gift: your first audit is free{pricing?.free_audit?.regular_cents ? ` (regular price ${money(pricing.free_audit.regular_cents)} from January)` : ""}. No sign-up, no card. One free audit per email.
+                  Holiday gift: your first audit is free{pricing?.free_audit?.regular_cents ? ` (regular price ${money(pricing.free_audit.regular_cents)} from January)` : ""}. No sign-up, no card. {(pricing?.free_audit?.per_account || 1) > 1 ? `${pricing.free_audit.per_account} free audits per email: try the practice file, then check your own book.` : "One free audit per email."}
                 </div>
               </form>
             )}

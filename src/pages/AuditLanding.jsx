@@ -125,7 +125,7 @@ export default function AuditLanding() {
           >
             <button type="button" onClick={closeWelcome} aria-label="Close" className="absolute top-3 right-4 text-neutral-500 hover:text-white text-2xl leading-none">×</button>
             <h2 id="audit-welcome-title" className="font-display font-black text-2xl md:text-3xl tracking-tight">Check your book in 3 easy steps</h2>
-            <p className="mt-2 text-sm text-neutral-400">{freeAudit ? "Free through December 31. No sign-up, no card." : "No sign-up needed."}</p>
+            <p className="mt-2 text-sm text-neutral-400">{freeAudit ? `Free through December 31${(pricing?.free_audit?.per_account || 1) > 1 ? `, ${pricing.free_audit.per_account} free audits each` : ""}. No sign-up, no card.` : "No sign-up needed."}</p>
             <ol className="mt-5 space-y-4 text-sm leading-relaxed">
               <li className="flex gap-3"><span className="font-display font-black text-xl text-white w-6 shrink-0">1</span><span><b>Pick your printer and book size.</b> For example Amazon KDP, 6 x 9. Not sure? Leave it as it is.</span></li>
               <li className="flex gap-3"><span className="font-display font-black text-xl text-white w-6 shrink-0">2</span><span><b>Upload your cover or your inside pages.</b> A PDF works best. A picture of your cover works too.</span></li>
@@ -208,7 +208,7 @@ export default function AuditLanding() {
               >
                 <FileText className="w-4 h-4" /> Not ready to upload your own book? Try a practice file
               </button>
-              <p className="mt-1 text-xs text-neutral-500">Our practice page breaks print rules on purpose, so you can watch the check find them. It doesn't use up your free audit unless you choose to unlock its results.</p>
+              <p className="mt-1 text-xs text-neutral-500">Our practice page breaks print rules on purpose, so you can watch the check find them. {(pricing?.free_audit?.per_account || 1) > 1 ? `You get ${pricing.free_audit.per_account} free audits, so you can try the practice file and still check your own book.` : ""}</p>
             </div>
           </div>
 
@@ -342,7 +342,7 @@ export default function AuditLanding() {
               </label>
               <p className="mt-6 font-mono-spec text-[10px] tracking-widest text-neutral-500 uppercase leading-relaxed">
                 {freeAudit ? (
-                  <>Your first audit is free. No sign-up, no card. Just your email.</>
+                  <>{(pricing?.free_audit?.per_account || 1) > 1 ? `Your first ${pricing.free_audit.per_account} audits are free` : "Your first audit is free"}. No sign-up, no card. Just your email.</>
                 ) : (
                   <>
                     The scan is free. See exactly what it found for <span className="text-white">{auditPrice}</span>. No subscription, no account.

@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { toast } from "sonner";
 import { useAuth } from "@/context/AuthContext";
@@ -8,6 +9,19 @@ export default function Nav({ dark = true }) {
   const { user, logout } = useAuth();
   const pricing = usePricing();
   const location = useLocation();
+  // The big SparkPrep logo (140px) hangs below the sticky bar. While
+  // scrolling it used to cover page content such as the audit report
+  // (tester feedback, 2026-11-16). Now it shows big only at the very top of
+  // the page; once scrolled it fades out and a small copy appears beside the
+  // Legenddary mark inside the bar. On phones the bar is not sticky at all
+  // (its links wrap to 2-3 rows, which covered a fifth of the screen).
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
   // Clicking "$X Audit" while already ON the audit page is a same-route Link,
   // which React Router treats as a no-op -- it looks like a broken button to
   // someone expecting it to start payment. The audit's first step is an
@@ -24,10 +38,15 @@ export default function Nav({ dark = true }) {
     : "border-b border-neutral-200 bg-[#F7F7F5]/90 backdrop-blur-xl";
   const linkCls = dark ? "text-neutral-400 hover:text-white transition-colors" : "text-neutral-600 hover:text-neutral-900 transition-colors";
   return (
-    <nav className={`sticky top-0 z-50 ${base}`} data-testid="top-nav">
+    <nav className={`relative md:sticky top-0 z-50 ${base}`} data-testid="top-nav">
       <div className="max-w-7xl mx-auto relative flex flex-wrap items-center justify-between gap-y-1 px-6 py-4 overflow-visible">
-        <Link to="/" data-testid="nav-logo">
+        <Link to="/" className="flex items-center gap-3" data-testid="nav-logo">
           <Logo dark={dark} compact />
+          {/* Once scrolled, the SparkPrep logo moves here, small, beside the
+              Legenddary mark, so it stays visible without covering anything. */}
+          <span className={`hidden md:block transition-opacity duration-300 ${scrolled ? "opacity-100" : "opacity-0 w-0 overflow-hidden"}`} aria-hidden="true">
+            <SparkPrepLogo height={40} />
+          </span>
         </Link>
         {/* SparkPrep's own main logo -- the brand being promoted, so it gets
             the dead-center spot at a larger size than the Legenddary mark.
@@ -52,8 +71,9 @@ export default function Nav({ dark = true }) {
             nothing else is, actually reads as "breaking out." */}
         <Link
           to="/"
-          className="hidden md:block absolute left-1/2 top-2 -translate-x-1/2 -z-10 pointer-events-none"
+          className={`hidden md:block absolute left-1/2 top-2 -translate-x-1/2 -z-10 pointer-events-none transition-opacity duration-300 ${scrolled ? "opacity-0" : "opacity-100"}`}
           data-testid="nav-sparkprep-logo"
+          data-shrunk={scrolled ? "true" : "false"}
         >
           <SparkPrepLogo height={140} />
         </Link>

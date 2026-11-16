@@ -80,7 +80,7 @@ export default function AuditReport() {
   return (
     <div className="marketing min-h-screen noise-overlay">
       <Nav dark />
-      <div className="max-w-5xl mx-auto px-6 py-12">
+      <div className="max-w-4xl mx-auto px-5 md:px-6 py-10 md:pt-24 md:pb-12">
         <div className="flex items-center gap-2 mb-3">
           <CheckCircle2 className="w-5 h-5 text-emerald-400" />
           <span className="font-mono-spec text-[10px] tracking-widest uppercase text-emerald-400" data-testid="paid-badge">
@@ -88,7 +88,7 @@ export default function AuditReport() {
           </span>
         </div>
         <h1 className="font-display font-black text-4xl md:text-6xl tracking-tighter" data-testid="report-title">Your print failure report.</h1>
-        <p className="text-neutral-400 mt-3">
+        <p className="text-neutral-400 mt-3 leading-relaxed break-words">
           <span className="font-mono-spec text-white">{audit?.platform_name}</span> · trim <span className="font-mono-spec text-white">{audit?.trim_label}</span> · file <span className="font-mono-spec text-white">{audit?.file_metadata?.original_filename}</span>
         </p>
         {audit?.paid && !screenOnly && (
@@ -172,34 +172,39 @@ export default function AuditReport() {
         )}
 
         {/* Detailed findings */}
-        <div className="mt-8 space-y-3" data-testid="findings-list">
+        {findings.length > 0 && (
+          <h2 className="mt-12 font-display font-black text-2xl md:text-3xl tracking-tight text-white" data-testid="findings-heading">
+            What we found <span className="text-neutral-500">({findings.length})</span>
+          </h2>
+        )}
+        <div className="mt-4 space-y-5" data-testid="findings-list">
           {findings.map((f, i) => (
-            <div key={i} className="marketing-surface p-6" data-testid={`finding-${i}`}>
-              <div className="flex items-start gap-3">
-                <div className={`px-2 py-0.5 border font-mono-spec text-[10px] tracking-widest uppercase inline-flex items-center gap-1 ${sevClass(f.severity)}`}>
+            <div key={i} className="marketing-surface p-5 md:p-7 scroll-mt-28" data-testid={`finding-${i}`}>
+              <div className="flex flex-col sm:flex-row sm:items-start gap-3">
+                <div className={`self-start shrink-0 px-2 py-0.5 border font-mono-spec text-[10px] tracking-widest uppercase inline-flex items-center gap-1 ${sevClass(f.severity)}`}>
                   {sevIcon(f.severity)} {f.severity}
                 </div>
-                <div className="flex-1">
-                  <div className="font-display font-bold text-xl tracking-tight text-white">{f.title}</div>
-                  <p className="text-sm text-neutral-300 mt-2 leading-relaxed">{f.why_it_fails}</p>
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-display font-bold text-xl md:text-2xl leading-snug tracking-tight text-white break-words">{f.title}</h3>
+                  <p className="text-base text-neutral-300 mt-2 leading-relaxed max-w-prose">{f.why_it_fails}</p>
                 </div>
               </div>
 
               {/* Publisher rule */}
-              <div className="mt-5 pl-3 border-l-2 border-neutral-700">
+              <div className="mt-6 pl-4 border-l-2 border-neutral-700">
                 <div className="flex items-center gap-2 font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">
                   <BookOpen className="w-3 h-3" /> Publisher Rule
                 </div>
-                <p className="text-sm text-neutral-200 mt-1 font-mono-spec">{f.publisher_rule}</p>
+                <p className="text-[15px] text-neutral-200 mt-1.5 leading-relaxed max-w-prose break-words">{f.publisher_rule}</p>
               </div>
 
               {/* Pinpoint */}
               {f.pinpoint && (
-                <div className="mt-4 pl-3 border-l-2 border-neutral-700">
+                <div className="mt-5 pl-4 border-l-2 border-neutral-700">
                   <div className="flex items-center gap-2 font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">
                     <MapPin className="w-3 h-3" /> Where in your file
                   </div>
-                  <div className="text-sm text-neutral-200 mt-1 font-mono-spec">
+                  <div className="text-sm text-neutral-200 mt-1.5 font-mono-spec leading-relaxed break-words">
                     Region: <span className="text-white">{f.pinpoint.region}</span>
                     {f.pinpoint.actual_dpi != null && <> · Actual DPI: <span className="text-red-300">{f.pinpoint.actual_dpi}</span> / Required: <span className="text-white">{f.pinpoint.required_dpi || 300}</span></>}
                     {f.pinpoint.actual_pixels && <> · Actual: <span className="text-red-300">{f.pinpoint.actual_pixels[0]}×{f.pinpoint.actual_pixels[1]}px</span></>}

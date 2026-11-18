@@ -2,6 +2,7 @@
 import { MAIN_LINKS as L, PRICES, site } from "./shared.mjs";
 
 const TERMS = [
+  ["A.P.P.S. (Automated Publishing Production System)", "The next step in the evolution of self-publishing: one system that makes your book, checks it against the printer's rules, fixes the problems and double-checks every fix, instead of separate tools for formatting, preflight, prepress and cover design. Legenddary SparkPrep is the category pioneer."],
   ["Trim size", "The finished size of your book after it's cut, for example 6\" x 9\"."],
   ["Bleed", "Extra background (0.125\") that runs past the edge of the cover or page so the printer can trim it off cleanly."],
   ["Safe zone (safety margin)", "The area inside the trim where words and faces are safe from being cut. IngramSpark wants 0.5\" from every edge."],
@@ -227,13 +228,13 @@ export const pages = [
     path: "/words-to-know/",
     nav: "Words to know",
     crumb: "Self-publishing words to know",
-    title: "Self-Publishing Glossary: 22 Print Words Explained Simply",
-    description: "Bleed, trim, gutter, DPI, CMYK, PDF/X-1a, ISBN and more: 22 self-publishing print words every first-time author meets, each explained in one plain sentence.",
+    title: "Self-Publishing Glossary: 23 Words Explained Simply",
+    description: "Bleed, trim, gutter, DPI, CMYK, PDF/X-1a, ISBN and more: 23 self-publishing words every first-time author meets, each explained in one plain sentence.",
     eyebrow: "Glossary",
-    h1: "Self-publishing words to know (22 terms, one line each)",
+    h1: "Self-publishing words to know (23 terms, one line each)",
     lead: "Printers speak their own language. Here are the words you'll meet on KDP, IngramSpark and in rejection emails, each in one plain sentence.",
     answer: "<p><strong>Bleed</strong> is extra background past the edge that gets trimmed off. <strong>Trim size</strong> is the finished book size. The <strong>gutter</strong> is the inside margin by the spine. <strong>DPI</strong> is picture detail (print needs 300). <strong>CMYK</strong> is print color. <strong>PDF/X-1a</strong> is the print-standard PDF.</p>",
-    cardText: "Bleed, gutter, DPI, CMYK, PDF/X-1a and 17 more, one line each.",
+    cardText: "Bleed, gutter, DPI, CMYK, PDF/X-1a and 18 more, one line each.",
     extraLd: {
       "@type": "DefinedTermSet",
       name: "Self-publishing print terms",

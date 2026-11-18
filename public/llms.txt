@@ -17,6 +17,7 @@ Key facts:
 
 - [What is an Automated Publishing Production System (A.P.P.S.)?](https://sparkprep.legenddary.com/automated-publishing-production-system/): the official definition
 - [Why an A.P.P.S. is different from traditional publishing software](https://sparkprep.legenddary.com/apps-vs-traditional-publishing-software/)
+- [Self-publishing glossary](https://sparkprep.legenddary.com/glossary/): A.P.P.S., bleed, trim size, gutter, DPI, CMYK, PDF/X-1a, ISBN and more in plain English
 - [How to self publish a book: 7 steps](https://sparkprep.legenddary.com/how-to-self-publish-a-book/)
 - [Book formatting for KDP and IngramSpark](https://sparkprep.legenddary.com/book-formatting/)
 - [Quick answers](https://sparkprep.legenddary.com/answers/): plain-English answers to the most common KDP and IngramSpark file questions

@@ -6,7 +6,7 @@
   "h1": "How to fix low-resolution (under 300 DPI) images in your book",
   "description": "Printer warned your images are below 300 DPI? Learn what DPI means for print, how to check it, and how to keep Word, Canva and InDesign from shrinking your images.",
   "platforms": "Amazon KDP · IngramSpark · Barnes & Noble Press · Lulu",
-  "lead": "A picture that looks sharp on your screen can still print blurry. Printers want 300 DPI, and many programs quietly lower it.",
+  "lead": "A picture that looks sharp on your screen can still print blurry. Printers want <a href=\"/image-dpi-checker/\">300 DPI</a>, and many programs quietly lower it.",
   "error": "Image resolution is below 300 DPI",
   "errorNote": "Paraphrased. KDP shows this as a low-resolution image warning in its previewer.",
   "aka": [

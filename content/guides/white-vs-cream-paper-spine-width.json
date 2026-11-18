@@ -6,7 +6,7 @@
   "h1": "White vs cream paper: how your paper choice changes your spine",
   "description": "Cream paper is thicker than white, so the same book needs a wider spine. See KDP and IngramSpark spine numbers by paper, and how to avoid a cover that no longer fits.",
   "platforms": "Amazon KDP · IngramSpark",
-  "lead": "Switching from white to cream paper feels like a small choice. It changes your cover size.",
+  "lead": "Switching from white to cream paper feels like a small choice. It changes your <a href=\"/book-cover-dimensions/\">cover size</a>.",
   "error": "Spine width does not match the page count and paper selected",
   "errorNote": "Paraphrased. This is what you get when a cover built for white paper is uploaded for a cream-paper book.",
   "why": "<p>Every page adds thickness, and cream paper is thicker than white. So the same 300-page book has a different spine on each paper:</p><div class=\"table-wrap\"><table><tr><th>KDP paper</th><th>Spine per page</th><th>300 pages</th></tr><tr><td>White</td><td>0.002252\"</td><td>0.676\"</td></tr><tr><td>Cream</td><td>0.0025\"</td><td>0.750\"</td></tr><tr><td>Premium color</td><td>0.002347\"</td><td>0.704\"</td></tr></table></div><p>IngramSpark measures paper in pages per inch: about 512 for white 50#, 444 for creme 50#, 400 for groundwood and 377 for 70# color. Each printer's own numbers only work for that printer.</p>",

@@ -16,12 +16,12 @@ const SOURCES = {
 // No SparkPrep prices here, because the structured data can't read live prices.
 export const HOME_FAQ = [
   {
-    q: "What is SparkPrep?",
-    a: "Legenddary's SparkPrep is an Automated Publishing Production System (A.P.P.S.): an all-in-one self-publishing suite. You design your book cover, write and format your inside pages, check both against the print rules of Amazon KDP, IngramSpark, Barnes & Noble and Lulu, fix every problem, and download print-ready files, all in one place.",
+    q: "What is an Automated Publishing Production System?",
+    a: "An Automated Publishing Production System (A.P.P.S.) is the next step in the evolution of self-publishing. Publishing software started as separate tools for formatting, preflight, prepress and cover design. An A.P.P.S. brings them into one system that makes your book, checks it against the printer's rules, fixes the problems and double-checks every fix. Legenddary SparkPrep is the category pioneer.",
   },
   {
-    q: "What is an Automated Publishing Production System (A.P.P.S.)?",
-    a: "An Automated Publishing Production System (A.P.P.S.) is one system that helps you make your book, checks its files against the printer's rules, fixes the problems and double-checks the fixes. Instead of separate tools for formatting, preflight, prepress and cover design, an A.P.P.S. does all of it in one place. Legenddary SparkPrep is the category pioneer.",
+    q: "What is SparkPrep?",
+    a: "Legenddary's SparkPrep is an Automated Publishing Production System (A.P.P.S.): an all-in-one self-publishing suite. You design your book cover, write and format your inside pages, check both against the print rules of Amazon KDP, IngramSpark, Barnes & Noble and Lulu, fix every problem, and download print-ready files, all in one place.",
   },
   {
     q: "Is the SparkPrep book file audit free?",

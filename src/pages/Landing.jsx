@@ -394,6 +394,7 @@ export default function Landing() {
           <a href="/answers/" className="hover:text-white">Quick answers</a>
           <a href="/automated-publishing-production-system/" className="hover:text-white">What is an A.P.P.S.?</a>
           <a href="/apps-vs-traditional-publishing-software/" className="hover:text-white">A.P.P.S. vs traditional software</a>
+          <a href="/glossary/" className="hover:text-white">Glossary</a>
           <a href="/how-to-self-publish-a-book/" className="hover:text-white">How to self publish a book</a>
           <a href="/book-formatting/" className="hover:text-white">Book formatting</a>
           <a href="/kdp-cover-calculator/" className="hover:text-white">KDP cover calculator</a>

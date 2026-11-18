@@ -1,0 +1,43 @@
+{
+  "slug": "what-is-an-isbn-number",
+  "category": "start",
+  "date": "2026-11-18",
+  "title": "What Is an ISBN Number? What the 13 Digits Mean for Your Book | Legenddary's SparkPrep",
+  "h1": "What is an ISBN number? A plain-English guide for your first book",
+  "description": "An ISBN is the 13-digit number that identifies your book. What the digits mean, where it goes on your book, how it differs from a barcode and an ASIN, and how to get one free or paid.",
+  "platforms": "Amazon KDP, IngramSpark, Bowker (U.S.)",
+  "lead": "ISBN is one of the first words you'll see when you set up your book on Amazon KDP or IngramSpark. It's just your book's ID number. Here is what it is, what the numbers mean, and how to get one.",
+  "answer": {
+    "q": "What is an ISBN number?",
+    "a": "An ISBN (International Standard Book Number) is a 13-digit number that identifies one book in one format, so stores and libraries order the right one. It is printed above the barcode on the back cover and on the copyright page. Paperback, hardcover and ebook each need their own. KDP and IngramSpark give free ones."
+  },
+  "body": "\n  <h2>What ISBN stands for</h2>\n  <p>ISBN stands for <strong>International Standard Book Number</strong>. Think of it like a license plate for your book. Bookstores, libraries and online shops use it to find, order and sell the exact book you made.</p>\n  <ul>\n    <li>Every ISBN made since January 1, 2007 has <strong>13 digits</strong>. Older books may show a 10-digit one.</li>\n    <li>One ISBN = one book in one format. Your paperback, hardcover and ebook each get a different number.</li>\n    <li>An ISBN is <strong>not</strong> copyright. You own your writing with or without one.</li>\n  </ul>\n\n  <h2>What the 13 digits mean</h2>\n  <p>An ISBN looks like <strong>978-0-306-40615-7</strong>. It has five parts:</p>\n  <div class=\"table-wrap\"><table>\n    <tr><th>Part</th><th>In the example</th><th>What it means</th></tr>\n    <tr><td>Prefix</td><td>978</td><td>Says \"this is a book.\" It is always 978 or 979.</td></tr>\n    <tr><td>Group</td><td>0</td><td>The country or language area (0 and 1 are English-speaking countries).</td></tr>\n    <tr><td>Publisher</td><td>306</td><td>Who published the book. If you buy your own ISBN, this part is you.</td></tr>\n    <tr><td>Title</td><td>40615</td><td>Which book, and which format, from that publisher.</td></tr>\n    <tr><td>Check digit</td><td>7</td><td>A math check, so a typo in the number gets caught.</td></tr>\n  </table></div>\n  <p>You never have to work these out yourself. The ISBN is given to you whole.</p>\n\n  <h2>Where the ISBN goes on your book</h2>\n  <ul>\n    <li><strong>Back cover:</strong> printed above the barcode, usually at the bottom right.</li>\n    <li><strong>Copyright page:</strong> the page behind the title page, often listed by format (\"Paperback ISBN: ...\").</li>\n    <li><strong>Your book details</strong> on KDP or IngramSpark, when you set the book up.</li>\n  </ul>\n  <p>All three must be the same number. Look up the exact spot on the cover in <a href=\"/guides/book-cover-barcode-placement/\">where the barcode goes on a book cover</a>, and get the full size of your back cover from the <a href=\"/book-cover-dimensions/\">book cover size chart</a>.</p>\n\n  <h2>ISBN vs barcode vs ASIN</h2>\n  <div class=\"table-wrap\"><table>\n    <tr><th></th><th>What it is</th><th>Do you need it?</th></tr>\n    <tr><td>ISBN</td><td>Your book's 13-digit ID number</td><td>Yes for print books (it can be free)</td></tr>\n    <tr><td>Barcode</td><td>The black stripes on the back cover. They hold your ISBN so a scanner can read it.</td><td>Yes for print. KDP and IngramSpark can add it to your cover for free.</td></tr>\n    <tr><td>ASIN</td><td>Amazon's own number for products, including Kindle ebooks</td><td>Amazon gives it to you. A Kindle ebook needs no ISBN.</td></tr>\n  </table></div>\n\n  <h2>How to get an ISBN</h2>\n  <ul>\n    <li><strong>Free from KDP:</strong> for Amazon paperbacks and hardcovers. It only works on Amazon.</li>\n    <li><strong>Free from IngramSpark</strong> (U.S. authors): it only works with IngramSpark.</li>\n    <li><strong>Buy your own from Bowker</strong>, the official U.S. ISBN agency: $125 for one, $295 for ten. Your own ISBN works everywhere and lists you as the publisher. Other countries have their own agency (Canada's are free).</li>\n  </ul>\n  <p>Not sure which one to pick? Read <a href=\"/guides/do-i-need-an-isbn-to-self-publish/\">do I need an ISBN to self-publish? Free vs paid</a>. Prices from Bowker's <a href=\"https://www.myidentifiers.com/identify-protect-your-book/isbn/buy-isbn\" rel=\"nofollow noopener\">myidentifiers.com</a>, checked November 2026. The 13-digit rule is from <a href=\"https://www.isbn.org/about_ISBN_standard\" rel=\"nofollow noopener\">ISBN.org</a>.</p>\n\n  <h2>The ISBN mistake that gets books sent back</h2>\n  <p>If the ISBN on your cover barcode doesn't match the one in your book details, the printer sends the book back. It happens a lot when someone switches from a free ISBN to their own and forgets to change the cover. SparkPrep, an <a href=\"/automated-publishing-production-system/\">Automated Publishing Production System</a> (A.P.P.S.), reads the barcode on your cover and checks it against your ISBN before you upload. More help: <a href=\"/guides/fix-isbn-mismatch-on-cover/\">fix an ISBN mismatch on your cover</a>.</p>",
+  "faq": [
+    {
+      "q": "What does ISBN stand for?",
+      "a": "ISBN stands for International Standard Book Number. It is the 13-digit number that identifies a book and its format."
+    },
+    {
+      "q": "Where do I find the ISBN on a book?",
+      "a": "On the back cover, printed just above the barcode, and on the copyright page inside the book."
+    },
+    {
+      "q": "Is an ISBN the same as a barcode?",
+      "a": "No. The ISBN is the number. The barcode is the pattern of stripes that holds that number so a store scanner can read it."
+    },
+    {
+      "q": "Does a Kindle ebook need an ISBN?",
+      "a": "No. Amazon gives Kindle ebooks their own number, called an ASIN. Other ebook stores may ask for one, and it must be different from your print ISBN."
+    },
+    {
+      "q": "Do I need a new ISBN for a second edition?",
+      "a": "Yes, if the book changes a lot (new chapters, a new size or a new format). Fixing a few typos does not need a new ISBN."
+    }
+  ],
+  "cta": {
+    "text": "SparkPrep checks that your ISBN, barcode and book details match, and that your cover and pages meet the printer's rules. The basic check is free through Dec 31.",
+    "button": "Check my book for free",
+    "href": "/audit"
+  },
+  "updated": "2026-11-18"
+}

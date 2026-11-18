@@ -43,6 +43,8 @@ Key facts:
 ## Fix guides (one per rejection reason)
 
 - [What is preflight? A first-time author's guide](https://sparkprep.legenddary.com/guides/what-is-preflight-first-time-authors/)
+- [What is an ISBN number?](https://sparkprep.legenddary.com/guides/what-is-an-isbn-number/)
+- [Ebook cover size for Kindle (1,600 x 2,560 pixels)](https://sparkprep.legenddary.com/guides/ebook-cover-size-kindle/)
 - [KDP vs IngramSpark vs Lulu file rules](https://sparkprep.legenddary.com/guides/kdp-vs-ingramspark-vs-lulu-file-rules/)
 - [Fix a cover bleed error](https://sparkprep.legenddary.com/guides/fix-cover-bleed-error/)
 - [Fix a KDP margin error](https://sparkprep.legenddary.com/guides/fix-kdp-margin-error/)

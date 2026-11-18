@@ -111,9 +111,21 @@
   <!-- GUIDES START (written by scripts/build-guides.mjs) -->
   <url>
     <loc>https://sparkprep.legenddary.com/guides/</loc>
-    <lastmod>2026-11-16</lastmod>
+    <lastmod>2026-11-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sparkprep.legenddary.com/guides/do-i-need-an-isbn-to-self-publish/</loc>
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://sparkprep.legenddary.com/guides/what-is-dpi-for-book-printing/</loc>
+    <lastmod>2026-11-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sparkprep.legenddary.com/guides/barnes-and-noble-self-publishing/</loc>

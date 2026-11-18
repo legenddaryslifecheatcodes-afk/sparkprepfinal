@@ -1,0 +1,35 @@
+{
+  "slug": "ebook-vs-paperback-vs-hardcover-first-book",
+  "category": "start",
+  "date": "2026-11-23",
+  "title": "Ebook vs Paperback vs Hardcover: Which Should Your First Book Be? | Legenddary's SparkPrep",
+  "h1": "Ebook, paperback or hardcover: which should your first book be?",
+  "description": "A plain-English comparison for first-time authors: what each format costs to publish, royalties on KDP, the files you need, and the simplest order to release them.",
+  "platforms": "Amazon KDP, IngramSpark",
+  "lead": "You don't have to choose just one. But each format needs different files, and doing all three at once is where many first-time authors get stuck. Here's what each one takes, and an easy order to do them in.",
+  "answer": {
+    "q": "Should I publish an ebook or paperback first?",
+    "a": "Most first-time authors do best publishing the paperback and ebook together, then a hardcover later. All three are free to publish on Amazon KDP. The ebook is easiest; the paperback needs a print-ready PDF and a full wrap cover; a hardcover needs 75 to 550 pages and its own cover file."
+  },
+  "body": "\n  <h2>The three formats side by side</h2>\n  <div class=\"table-wrap\"><table>\n    <tr><th></th><th>Ebook</th><th>Paperback</th><th>Hardcover</th></tr>\n    <tr><td>Cost to publish on KDP</td><td>Free</td><td>Free (printing comes out of each sale)</td><td>Free (printing comes out of each sale)</td></tr>\n    <tr><td>KDP royalty</td><td>70% if priced $2.99 to $9.99, else 35%</td><td>60% at $9.99+, 50% below, minus printing</td><td>A share of the price minus printing, which costs more than a paperback</td></tr>\n    <tr><td>Inside file</td><td>Word or EPUB (re-flows to fit any screen)</td><td>Print-ready PDF at your trim size</td><td>Print-ready PDF at a hardcover size</td></tr>\n    <tr><td>Cover file</td><td>Front only, about 2,560 x 1,600 px</td><td>Full wrap: back, spine, front + bleed</td><td>Full wrap, larger (wraps around the boards)</td></tr>\n    <tr><td>Pages</td><td>Any</td><td>24 to 828 (depends on size)</td><td>75 to 550</td></tr>\n  </table></div>\n  <p class=\"note\">Royalty rates and page ranges from KDP's help pages; read the full breakdown in <a href=\"/guides/self-publishing-on-amazon-pros-and-cons/\">self-publishing on Amazon: pros and cons</a>.</p>\n\n  <h2>Ebook: the easiest start</h2>\n  <p>An ebook has no page size, no margins and no spine. Your text re-flows to fit each reader's screen. You only need a clean manuscript and a front cover image.</p>\n\n  <h2>Paperback: what most authors want to hold</h2>\n  <p>A paperback needs a fixed-size PDF (your <a href=\"/guides/kdp-trim-sizes-which-book-size-to-choose/\">trim size</a>), correct margins, pictures at 300 DPI, and a full wrap cover whose spine width depends on your page count and paper. This is where most rejections happen, so it's worth checking before you upload. Cover sizes for every format are in the <a href=\"/book-cover-dimensions/\">book cover dimensions chart</a>.</p>\n\n  <h2>Hardcover: a nice extra, later</h2>\n  <p>A hardcover needs a different cover file and a book of 75 to 550 pages on KDP. If you plan one, choose a paperback size that KDP also offers in hardcover (5.5 x 8.5, 6 x 9, 6.14 x 9.21, 7 x 10 or 8.25 x 11), so you can reuse your interior. Bookstores and libraries also like hardcovers through IngramSpark, which needs <a href=\"/guides/fix-text-on-dust-jacket-fold/\">its own jacket rules</a>.</p>\n\n  <h2>An easy order for your first book</h2>\n  <ol>\n    <li>Finish and edit your manuscript.</li>\n    <li>Publish the paperback and ebook close together. Amazon shows both formats on one book page.</li>\n    <li>Order a proof copy and read it on paper.</li>\n    <li>Add a hardcover once the paperback is right.</li>\n  </ol>\n  <p>Each format needs its own ISBN if you buy your own; see <a href=\"/guides/do-i-need-an-isbn-to-self-publish/\">do I need an ISBN?</a></p>\n\n  <h2>One place for all three</h2>\n  <p>Juggling three cover sizes and two print files is the hard part. SparkPrep is an <a href=\"/automated-publishing-production-system/\">Automated Publishing Production System</a> (A.P.P.S.): one place to design the cover, set up the pages, check them against your printer's rules and export the print-ready files for each format.</p>",
+  "faq": [
+    {
+      "q": "Is it free to publish a paperback on Amazon?",
+      "a": "Yes. KDP charges nothing up front for a paperback or hardcover. The printing cost is taken out of each sale, and you keep the royalty."
+    },
+    {
+      "q": "Do I need a different cover for the ebook and paperback?",
+      "a": "Yes. The ebook cover is the front only, about 2,560 x 1,600 pixels. The paperback cover is one file with the back, spine and front plus bleed, sized for your trim size and page count."
+    },
+    {
+      "q": "How many pages does a KDP hardcover need?",
+      "a": "Between 75 and 550 pages, in one of five sizes: 5.5 x 8.5, 6 x 9, 6.14 x 9.21, 7 x 10 or 8.25 x 11 inches."
+    }
+  ],
+  "cta": {
+    "text": "Starting with the paperback? Upload it and SparkPrep checks your pages and cover against KDP's or IngramSpark's rules, free through Dec 31.",
+    "button": "Check my paperback",
+    "href": "/audit"
+  },
+  "updated": "2026-11-23"
+}

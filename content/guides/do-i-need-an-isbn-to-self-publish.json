@@ -1,0 +1,35 @@
+{
+  "slug": "do-i-need-an-isbn-to-self-publish",
+  "category": "start",
+  "date": "2026-11-18",
+  "title": "Do I Need an ISBN to Self-Publish? Free vs Paid ISBNs Explained | Legenddary's SparkPrep",
+  "h1": "Do you need an ISBN to self-publish? Free vs paid, in plain English",
+  "description": "What an ISBN is, when you need one, what it costs ($125 for one from Bowker, or free from KDP and IngramSpark), and the catch with free ISBNs. Written for first-time authors.",
+  "platforms": "Amazon KDP, IngramSpark, Bowker (U.S.)",
+  "lead": "An ISBN is the 13-digit number that identifies your book. New authors often think they must buy one before anything else. You might not need to. Here is the simple version.",
+  "answer": {
+    "q": "Do I need an ISBN to self-publish a book?",
+    "a": "For a print book, yes, but it can be free. Amazon KDP and IngramSpark (U.S. authors) both give free ISBNs. A KDP ebook needs no ISBN at all. Buy your own from Bowker ($125 for one, $295 for ten) only if you want your own publisher name on the book and full control."
+  },
+  "body": "\n  <h2>What an ISBN is</h2>\n  <p>ISBN stands for <strong>International Standard Book Number</strong>. It is a 13-digit number that tells stores and libraries exactly which book, which edition and which format they are ordering. It is usually printed above the barcode on your back cover.</p>\n  <ul>\n    <li>Each <strong>format</strong> needs its own ISBN: paperback, hardcover and ebook are three different numbers.</li>\n    <li>An ISBN does <strong>not</strong> give you copyright. You own your writing either way.</li>\n    <li>ISBNs never expire, so you can buy some now and use them later.</li>\n  </ul>\n\n  <h2>Your three choices</h2>\n  <div class=\"table-wrap\"><table>\n    <tr><th></th><th>Cost</th><th>Publisher name on the book</th><th>Can you use it elsewhere?</th></tr>\n    <tr><td>Free KDP ISBN (paperback/hardcover)</td><td>$0</td><td>\"Independently published\"</td><td>No, Amazon only</td></tr>\n    <tr><td>Free IngramSpark ISBN (U.S. only)</td><td>$0</td><td>IngramSpark's imprint, not yours</td><td>No, it stays with IngramSpark</td></tr>\n    <tr><td>Your own ISBN from Bowker (U.S.)</td><td>$125 for 1, $295 for 10, $575 for 100</td><td>Your name or your imprint</td><td>Yes, anywhere</td></tr>\n  </table></div>\n  <p class=\"note\">Prices from Bowker's <a href=\"https://www.myidentifiers.com/identify-protect-your-book/isbn/buy-isbn\" rel=\"nofollow noopener\">myidentifiers.com</a> and IngramSpark's own help pages, checked November 2026. Bowker is the official ISBN agency for the United States; other countries have their own (Canada gives them out free).</p>\n\n  <h2>What about ebooks?</h2>\n  <p>A Kindle ebook on KDP does <strong>not</strong> need an ISBN. Amazon gives it its own number, called an ASIN. Other ebook stores and IngramSpark ask for one, and it must be different from your print ISBN.</p>\n\n  <h2>So which should a first-time author pick?</h2>\n  <ul>\n    <li><strong>Just testing the waters on Amazon?</strong> The free KDP ISBN is fine.</li>\n    <li><strong>Want bookstores and libraries too?</strong> Buying 10 ISBNs ($295) is the most common choice. It covers a paperback, hardcover and ebook, with numbers left over for your next book, and you can use the same number on KDP and IngramSpark.</li>\n    <li><strong>Building a brand or a series?</strong> Own your ISBNs, so your publisher name is the same on every book.</li>\n  </ul>\n\n  <h2>The mistake that gets books rejected</h2>\n  <p>The ISBN in your book details must match the barcode on your cover and the number on your copyright page. A mismatch is one of the most common reasons a file is sent back. SparkPrep, an <a href=\"/automated-publishing-production-system/\">Automated Publishing Production System</a> (A.P.P.S.), reads the barcode on your cover and checks it against the ISBN you entered before you upload. Read more: <a href=\"/guides/fix-isbn-mismatch-on-cover/\">how to fix an ISBN mismatch</a> and <a href=\"/guides/book-cover-barcode-placement/\">where the barcode goes</a>.</p>",
+  "faq": [
+    {
+      "q": "How much does an ISBN cost?",
+      "a": "In the U.S., Bowker charges $125 for one ISBN, $295 for ten and $575 for one hundred. KDP and IngramSpark (for U.S. authors) also offer free ISBNs, but they can only be used with that company."
+    },
+    {
+      "q": "Can I use the same ISBN for my paperback and ebook?",
+      "a": "No. Every format needs its own ISBN. A paperback, a hardcover and an ebook are three different numbers."
+    },
+    {
+      "q": "Can I use a free KDP ISBN on IngramSpark?",
+      "a": "No. A free KDP ISBN can only be used on Amazon. To sell the same paperback through IngramSpark, use your own ISBN on both."
+    }
+  ],
+  "cta": {
+    "text": "SparkPrep checks that your ISBN, barcode and book details all match, and that your cover and pages meet the printer's rules. The basic check is free through Dec 31.",
+    "button": "Check my book for free",
+    "href": "/audit"
+  },
+  "updated": "2026-11-18"
+}

@@ -2,7 +2,7 @@
   "slug": "fix-template-elements-on-cover",
   "category": "cover",
   "date": "2026-10-28",
-  "title": "\"Cover Contains Template Elements\": How to Fix It (IngramSpark) | SparkPrep",
+  "title": "\"Cover Contains Template Elements\": How to Fix It (IngramSpark) | Legenddary's SparkPrep",
   "h1": "How to fix \"cover contains template elements\"",
   "description": "IngramSpark rejected your cover for template elements or wrong document size? Here's how to remove the template guides and export the cover at the right size.",
   "platforms": "IngramSpark · Amazon KDP",
@@ -55,5 +55,10 @@
     "Make sure the document is exactly the template's full size, not the template page with extra margins around it.",
     "Flatten the artwork and re-export as PDF/X-1a:2001.",
     "Re-upload it to your printer and wait for the file review again. If it fails, you start over."
-  ]
+  ],
+  "answer": {
+    "q": "What does \"cover contains template elements\" mean?",
+    "a": "It means guide boxes, labels or lines from the printer's cover template are still in your final file and would print on your book. Delete or hide the template layer before exporting, but don't crop or resize the cover: it must stay the template's full size, bleed included."
+  },
+  "updated": "2026-11-15"
 }

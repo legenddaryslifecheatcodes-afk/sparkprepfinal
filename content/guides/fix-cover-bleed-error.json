@@ -2,7 +2,7 @@
   "slug": "fix-cover-bleed-error",
   "category": "cover",
   "date": "2026-10-28",
-  "title": "How to Fix \"Insufficient or No Bleed\" on a Book Cover (KDP & IngramSpark) | SparkPrep",
+  "title": "How to Fix \"Insufficient or No Bleed\" on a Book Cover (KDP & IngramSpark) | Legenddary's SparkPrep",
   "h1": "How to fix the \"insufficient or no bleed\" cover error",
   "description": "Your book cover was rejected for missing bleed. Here's what bleed is, why printers need it, and how to add it in Canva, Word, InDesign or Acrobat, step by step.",
   "platforms": "Amazon KDP · IngramSpark · Barnes & Noble Press · Lulu",
@@ -56,6 +56,14 @@
   },
   "faq": [
     {
+      "q": "What is a bleed error on a book cover?",
+      "a": "A bleed error means your cover's background stops right at the edge instead of running 0.125\" past it. Printers trim the edge off, so without bleed you can get a thin white line. Fix it by making the cover file at bleed size and stretching the background art past every edge."
+    },
+    {
+      "q": "What does full bleed mean in printing?",
+      "a": "Full bleed means the artwork runs all the way to every edge of the finished page or cover, with no white border. To print full bleed, your file must be 0.125\" bigger than the book on every outside edge, with the background reaching that outer edge."
+    },
+    {
       "q": "How much bleed does a book cover need?",
       "a": "0.125 inches (3.2 mm) on every outside edge for paperbacks at KDP, IngramSpark, Barnes & Noble Press and Lulu. Hardcover case covers need more, so always use your printer's own template for hardcovers."
     },
@@ -71,5 +79,9 @@
     "Re-export as a print PDF (PDF/X-1a:2001 if your program has it) with the bleed included and no crop marks or printer marks.",
     "Re-upload it to your printer and wait for the file review again. If it fails, you start over."
   ],
-  "updated": "2026-10-31"
+  "updated": "2026-11-15",
+  "answer": {
+    "q": "What is bleed in printing?",
+    "a": "Bleed in printing is extra artwork that runs past the edge where the page will be cut. For books, it's 0.125 inch (3.2 mm) on each outside edge. Printers trim the sheet after printing, and the cut can drift slightly, so bleed stops thin white lines from showing at the edges."
+  }
 }

@@ -2,7 +2,7 @@
   "slug": "fix-pdf-page-size-mismatch",
   "category": "interior",
   "date": "2026-10-28",
-  "title": "PDF Page Size Doesn't Match Trim Size: How to Fix It | SparkPrep",
+  "title": "PDF Page Size Doesn't Match Trim Size: How to Fix It | Legenddary's SparkPrep",
   "h1": "How to fix a PDF page size that doesn't match your trim size",
   "description": "Your book was rejected because the PDF page size doesn't match the trim size you picked. Here's how to set the right size in Word, Google Docs and InDesign, with or without bleed.",
   "platforms": "Amazon KDP · IngramSpark · Barnes & Noble Press · Lulu",
@@ -62,5 +62,9 @@
     "Re-export as a PDF. Don't use \"Fit to page\" or \"Shrink to fit\" when you save it.",
     "Re-upload it to your printer and wait for the file review again. If it fails, you start over."
   ],
-  "updated": "2026-10-31"
+  "updated": "2026-11-15",
+  "answer": {
+    "q": "Why doesn't my PDF page size match my trim size?",
+    "a": "Word and Google Docs start at letter size (8.5\" x 11\"), so a book saved from there is the wrong size unless you change it. Your interior PDF must be exactly your trim size, like 6\" x 9\". With bleed, KDP wants each page 0.125\" wider and 0.25\" taller than trim."
+  }
 }

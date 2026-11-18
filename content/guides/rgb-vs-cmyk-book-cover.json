@@ -2,7 +2,7 @@
   "slug": "rgb-vs-cmyk-book-cover",
   "category": "color",
   "date": "2026-10-30",
-  "title": "RGB vs CMYK for Book Covers: Which Do KDP and IngramSpark Want? | SparkPrep",
+  "title": "RGB vs CMYK for Book Covers: Which Do KDP and IngramSpark Want? | Legenddary's SparkPrep",
   "h1": "RGB vs CMYK for book covers: what printers want and how to convert",
   "description": "Should your book cover be RGB or CMYK? Learn the difference, why colors shift in print, and how to convert your cover to CMYK in Canva, Photoshop or Acrobat before you upload.",
   "platforms": "Amazon KDP · IngramSpark · Barnes & Noble Press · Lulu",
@@ -48,5 +48,10 @@
       "q": "Why does my cover look duller in CMYK?",
       "a": "Ink can't reproduce some bright screen colors. CMYK shows you the real printed color, so you can adjust it before printing."
     }
-  ]
+  ],
+  "answer": {
+    "q": "Should a book cover be RGB or CMYK?",
+    "a": "Printers print in CMYK (cyan, magenta, yellow, black ink). Screens show RGB (light). If you upload RGB, the printer converts it and bright colors can come out duller or darker. Converting your cover to CMYK yourself lets you see the real printed colors and fix them before you order a proof."
+  },
+  "updated": "2026-11-15"
 }

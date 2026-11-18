@@ -2,7 +2,7 @@
   "slug": "fix-transparency-and-layers-in-pdf",
   "category": "color",
   "job": "both",
-  "title": "PDF Has Transparency or Layers: How to Flatten It for Print (IngramSpark & KDP) | SparkPrep",
+  "title": "PDF Has Transparency or Layers: How to Flatten It for Print (IngramSpark & KDP) | Legenddary's SparkPrep",
   "h1": "How to fix \"PDF contains transparency or layers\"",
   "description": "Your print PDF has live transparency or layers, so it was rejected or may print wrong. What that means and how to flatten it for IngramSpark and KDP.",
   "platforms": "IngramSpark · Amazon KDP · Barnes & Noble Press · Lulu",
@@ -40,5 +40,9 @@
   ],
   "date": "2026-10-28",
   "diy": [],
-  "updated": "2026-10-31"
+  "updated": "2026-11-15",
+  "answer": {
+    "q": "What does \"PDF contains transparency or layers\" mean?",
+    "a": "It means your PDF still has see-through effects (shadows, glows, faded images) or separate layers. They can print unevenly, so the PDF/X-1a standard that IngramSpark asks for doesn't allow them. Fix it by flattening transparency when you export, for example with a PDF/X-1a preset."
+  }
 }

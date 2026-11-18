@@ -2,7 +2,7 @@
   "slug": "white-vs-cream-paper-spine-width",
   "category": "platform",
   "date": "2026-11-01",
-  "title": "White vs Cream Paper: How It Changes Your Spine Width (KDP & IngramSpark) | SparkPrep",
+  "title": "White vs Cream Paper: How It Changes Your Spine Width (KDP & IngramSpark) | Legenddary's SparkPrep",
   "h1": "White vs cream paper: how your paper choice changes your spine",
   "description": "Cream paper is thicker than white, so the same book needs a wider spine. See KDP and IngramSpark spine numbers by paper, and how to avoid a cover that no longer fits.",
   "platforms": "Amazon KDP · IngramSpark",
@@ -40,5 +40,10 @@
       "q": "Can I use KDP's spine width for IngramSpark?",
       "a": "No. Each printer's paper is different, so always use that printer's own numbers or template."
     }
-  ]
+  ],
+  "answer": {
+    "q": "Does paper color change spine width?",
+    "a": "Yes. Cream paper is thicker than white, so the same book gets a wider spine. On KDP, white paper adds 0.002252\" per page and cream adds 0.0025\", so a 300-page book has a 0.676\" spine on white and 0.750\" on cream. Rebuild your cover if you switch paper."
+  },
+  "updated": "2026-11-15"
 }

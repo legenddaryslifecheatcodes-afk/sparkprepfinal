@@ -5,6 +5,7 @@ import Nav from "@/components/Nav";
 import { toast } from "sonner";
 import { Check, AlertTriangle, XCircle, MapPin, BookOpen, Wrench, CheckCircle2 } from "lucide-react";
 import { usePricing, money, isBookModel } from "@/lib/pricing";
+import ScreenOnlyGuard from "@/components/ScreenOnlyGuard";
 
 const sevIcon = (s) => s === "pass" ? <Check className="w-4 h-4" /> : s === "warning" ? <AlertTriangle className="w-4 h-4" /> : <XCircle className="w-4 h-4" />;
 const sevClass = (s) => s === "pass" ? "text-emerald-400 border-emerald-400/30 bg-emerald-500/10" : s === "warning" ? "text-amber-400 border-amber-400/30 bg-amber-500/10" : "text-red-400 border-red-400/30 bg-red-500/10";
@@ -66,6 +67,8 @@ export default function AuditReport() {
   const s = audit?.summary || {};
   const creditCta = isBookModel(pricing) && audit?.paid;
   const advanced = audit?.level === "advanced";
+  // Free Holiday Audit: results on screen only, no PDF (the server refuses it too).
+  const screenOnly = !!audit?.free_audit && !advanced;
   const upgradeCents = pricing?.advanced_audit && pricing?.audit ? pricing.advanced_audit.price_cents - pricing.audit.price_cents : null;
   const upgrade = async () => {
     try {
@@ -77,18 +80,18 @@ export default function AuditReport() {
   return (
     <div className="marketing min-h-screen noise-overlay">
       <Nav dark />
-      <div className="max-w-5xl mx-auto px-6 py-12">
+      <div className="max-w-4xl mx-auto px-5 md:px-6 py-10 md:pt-24 md:pb-12">
         <div className="flex items-center gap-2 mb-3">
           <CheckCircle2 className="w-5 h-5 text-emerald-400" />
           <span className="font-mono-spec text-[10px] tracking-widest uppercase text-emerald-400" data-testid="paid-badge">
-            {advanced ? "[ Paid · Advanced Audit · Every Page Checked ]" : "[ Paid · Audit Unlocked ]"}
+            {advanced ? "[ Paid · Advanced Audit · Every Page Checked ]" : audit?.free_audit ? "[ Free Holiday Audit · Unlocked ]" : "[ Paid · Audit Unlocked ]"}
           </span>
         </div>
         <h1 className="font-display font-black text-4xl md:text-6xl tracking-tighter" data-testid="report-title">Your print failure report.</h1>
-        <p className="text-neutral-400 mt-3">
+        <p className="text-neutral-400 mt-3 leading-relaxed break-words">
           <span className="font-mono-spec text-white">{audit?.platform_name}</span> · trim <span className="font-mono-spec text-white">{audit?.trim_label}</span> · file <span className="font-mono-spec text-white">{audit?.file_metadata?.original_filename}</span>
         </p>
-        {audit?.paid && (
+        {audit?.paid && !screenOnly && (
           <a
             href={`${API_URL}/audit/${id}/report`}
             target="_blank"
@@ -100,6 +103,7 @@ export default function AuditReport() {
           </a>
         )}
 
+        <ScreenOnlyGuard active={screenOnly} email={audit?.claimed_email}>
         {/* Overall banner */}
         <div className="mt-8 marketing-surface p-6">
           <div className="flex items-center justify-between flex-wrap gap-4">
@@ -115,6 +119,27 @@ export default function AuditReport() {
             </div>
           </div>
         </div>
+
+        {/* The one big next step, right after the results (Holiday Free Audit, Nov 2026). */}
+        {findings.length > 0 && (
+          <div className="mt-6 border-2 border-[#D4AF37] bg-[#D4AF37]/10 p-6 md:p-8 text-center" data-testid="fix-all-now">
+            <div className="font-display font-black text-3xl md:text-4xl tracking-tighter text-white">
+              Fix all of this now.
+            </div>
+            <p className="text-neutral-300 mt-3 max-w-2xl mx-auto">
+              SparkPrep fixes {findings.length === 1 ? "this problem" : `these ${findings.length} problems`} for you and gives you print-ready files.
+              {pricing?.book && pricing?.membership && <> One book is {money(pricing.book.price_cents)}, or {money(pricing.book.member_price_cents)} with a {money(pricing.membership?.price_cents)}/month membership.</>}
+            </p>
+            <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
+              <Link to={`/pricing?audit=${id}`} className="btn-gold px-8 py-4 font-mono-spec text-sm tracking-widest uppercase btn-industrial" data-testid="fix-all-now-btn" data-next-step="Fix it all">
+                Fix All of This Now
+              </Link>
+              <a href="/fix-my-file/" className="border border-white text-white px-6 py-4 font-mono-spec text-xs tracking-widest uppercase hover:bg-white hover:text-black btn-industrial" data-testid="fix-my-file-link">
+                Or have us fix it for you
+              </a>
+            </div>
+          </div>
+        )}
 
         {!advanced && ["interior", "combined"].includes(audit?.file_type) && (
           <p className="mt-4 text-xs text-neutral-500" data-testid="audit-page-one-note">
@@ -147,34 +172,39 @@ export default function AuditReport() {
         )}
 
         {/* Detailed findings */}
-        <div className="mt-8 space-y-3" data-testid="findings-list">
+        {findings.length > 0 && (
+          <h2 className="mt-12 font-display font-black text-2xl md:text-3xl tracking-tight text-white" data-testid="findings-heading">
+            What we found <span className="text-neutral-500">({findings.length})</span>
+          </h2>
+        )}
+        <div className="mt-4 space-y-5" data-testid="findings-list">
           {findings.map((f, i) => (
-            <div key={i} className="marketing-surface p-6" data-testid={`finding-${i}`}>
-              <div className="flex items-start gap-3">
-                <div className={`px-2 py-0.5 border font-mono-spec text-[10px] tracking-widest uppercase inline-flex items-center gap-1 ${sevClass(f.severity)}`}>
+            <div key={i} className="marketing-surface p-5 md:p-7 scroll-mt-28" data-testid={`finding-${i}`}>
+              <div className="flex flex-col sm:flex-row sm:items-start gap-3">
+                <div className={`self-start shrink-0 px-2 py-0.5 border font-mono-spec text-[10px] tracking-widest uppercase inline-flex items-center gap-1 ${sevClass(f.severity)}`}>
                   {sevIcon(f.severity)} {f.severity}
                 </div>
-                <div className="flex-1">
-                  <div className="font-display font-bold text-xl tracking-tight text-white">{f.title}</div>
-                  <p className="text-sm text-neutral-300 mt-2 leading-relaxed">{f.why_it_fails}</p>
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-display font-bold text-xl md:text-2xl leading-snug tracking-tight text-white break-words">{f.title}</h3>
+                  <p className="text-base text-neutral-300 mt-2 leading-relaxed max-w-prose">{f.why_it_fails}</p>
                 </div>
               </div>
 
               {/* Publisher rule */}
-              <div className="mt-5 pl-3 border-l-2 border-neutral-700">
+              <div className="mt-6 pl-4 border-l-2 border-neutral-700">
                 <div className="flex items-center gap-2 font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">
                   <BookOpen className="w-3 h-3" /> Publisher Rule
                 </div>
-                <p className="text-sm text-neutral-200 mt-1 font-mono-spec">{f.publisher_rule}</p>
+                <p className="text-[15px] text-neutral-200 mt-1.5 leading-relaxed max-w-prose break-words">{f.publisher_rule}</p>
               </div>
 
               {/* Pinpoint */}
               {f.pinpoint && (
-                <div className="mt-4 pl-3 border-l-2 border-neutral-700">
+                <div className="mt-5 pl-4 border-l-2 border-neutral-700">
                   <div className="flex items-center gap-2 font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">
                     <MapPin className="w-3 h-3" /> Where in your file
                   </div>
-                  <div className="text-sm text-neutral-200 mt-1 font-mono-spec">
+                  <div className="text-sm text-neutral-200 mt-1.5 font-mono-spec leading-relaxed break-words">
                     Region: <span className="text-white">{f.pinpoint.region}</span>
                     {f.pinpoint.actual_dpi != null && <> · Actual DPI: <span className="text-red-300">{f.pinpoint.actual_dpi}</span> / Required: <span className="text-white">{f.pinpoint.required_dpi || 300}</span></>}
                     {f.pinpoint.actual_pixels && <> · Actual: <span className="text-red-300">{f.pinpoint.actual_pixels[0]}×{f.pinpoint.actual_pixels[1]}px</span></>}
@@ -202,6 +232,11 @@ export default function AuditReport() {
             </div>
           )}
         </div>
+
+        </ScreenOnlyGuard>
+        {screenOnly && (
+          <p className="mt-4 text-xs text-neutral-500" data-testid="screen-only-note">Your free audit is shown on screen only. A printable PDF report comes with a paid audit or a SparkPrep book.</p>
+        )}
 
         {/* Upsell to the product: the audit only finds problems; the book fixes them */}
         {findings.length > 0 && (

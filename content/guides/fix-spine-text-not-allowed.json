@@ -2,7 +2,7 @@
   "slug": "fix-spine-text-not-allowed",
   "category": "cover",
   "job": "cover",
-  "title": "\"Spine Text Not Allowed\" on a Thin Book: How to Fix It (KDP & IngramSpark) | SparkPrep",
+  "title": "\"Spine Text Not Allowed\" on a Thin Book: How to Fix It (KDP & IngramSpark) | Legenddary's SparkPrep",
   "h1": "How to fix \"spine text not allowed\" on a thin book",
   "description": "Your cover was rejected because your book is too thin for spine text. See the page counts KDP and IngramSpark require and how to fix your cover fast.",
   "platforms": "Amazon KDP · IngramSpark",
@@ -33,5 +33,10 @@
     }
   ],
   "date": "2026-10-28",
-  "diy": []
+  "diy": [],
+  "answer": {
+    "q": "When can a book have text on the spine?",
+    "a": "Amazon KDP only allows spine text on books with more than 79 pages, and IngramSpark doesn't allow spine text on paperbacks under 48 pages. On thinner books the spine is too narrow and the fold can shift, so words could wrap onto the cover. Remove spine text if your book is under the limit."
+  },
+  "updated": "2026-11-15"
 }

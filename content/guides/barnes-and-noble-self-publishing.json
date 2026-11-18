@@ -1,0 +1,35 @@
+{
+  "slug": "barnes-and-noble-self-publishing",
+  "category": "platform",
+  "date": "2026-11-16",
+  "updated": "2026-11-16",
+  "title": "Barnes and Noble Self Publishing: B&N Press in Plain English | Legenddary's SparkPrep",
+  "h1": "Barnes and Noble self-publishing: how B&N Press works in 2026",
+  "description": "How to self-publish with Barnes & Noble Press in 2026: it's free, pays 70% on ebooks, needs a $14.99 minimum print price, and won't put you in stores. Plain-English guide.",
+  "platforms": "Barnes & Noble Press, for first-time self-publishers",
+  "lead": "Barnes & Noble Press lets you sell your book on BN.com and NOOK for free. The rules changed in 2026. Here's what it pays, what it doesn't do, and how to avoid a common scam.",
+  "body": "\n  <h2>What is Barnes & Noble Press?</h2>\n  <p>B&N Press is Barnes & Noble's free self-publishing service. You upload your book and sell it as an ebook on NOOK and as a print book on BN.com. You don't have to be exclusive, so you can also sell on Amazon and elsewhere (<a href=\"https://press.barnesandnoble.com/make-more-money\" rel=\"nofollow noopener\">B&N Press</a>).</p>\n\n  <h2>What B&N Press pays</h2>\n  <ul>\n    <li><strong>Ebooks:</strong> 70% royalty on ebooks priced $0.99 to $9.99.</li>\n    <li><strong>Print books:</strong> 55% of the price, minus the cost of printing. B&N's own example: a 300-page 6\" x 9\" paperback at $14.99 earns about <strong>$3.40</strong> per copy.</li>\n    <li><strong>Payments:</strong> monthly once you've earned $10 or more.</li>\n  </ul>\n\n  <h2>The 2026 rule changes</h2>\n  <ul>\n    <li><strong>$14.99 minimum price for print books</strong> since April 22, 2026. Cheaper print listings are removed.</li>\n    <li><strong>100 titles per account.</strong></li>\n    <li><strong>No public domain books.</strong> Only your own original work.</li>\n  </ul>\n  <p>Source: <a href=\"https://press.barnesandnoble.com/bnpress-blog/may-2026-policy-updates/\" rel=\"nofollow noopener\">B&N Press, May 2026 policy update</a>.</p>\n\n  <h2>Will my book be in Barnes & Noble stores?</h2>\n  <p><strong>Not automatically.</strong> B&N Press sells your book online. Store shelves are a separate decision made by B&N's buyers.</p>\n  <p><strong>Watch out:</strong> Barnes & Noble says it will <strong>never</strong> ask authors for money in exchange for store placement. If someone \"from Barnes & Noble\" offers that for a fee, it's a scam.</p>\n\n  <h2>How to publish on B&N Press, step by step</h2>\n  <ol>\n    <li>Make a free account at press.barnesandnoble.com.</li>\n    <li>Add your title, description and price (print: $14.99 or more).</li>\n    <li>Upload your inside pages and your cover. Print books need a full cover (back, spine and front) sized for your page count.</li>\n    <li>Order a proof copy if you can, and check it.</li>\n    <li>Publish.</li>\n  </ol>\n  <p>B&N's free ISBN can only be used at B&N. If you'll also sell through Amazon or IngramSpark, many authors buy their own ISBN.</p>\n\n  <h2>Where most new authors get stuck</h2>\n  <p>The upload. Print files must match B&N's size, margin and cover rules, and they differ from Amazon's. See <a href=\"/guides/kdp-vs-ingramspark-vs-lulu-file-rules/\">how the printers' rules differ</a>, or start with <a href=\"/how-to-self-publish-a-book/\">how to self-publish a book in 7 steps</a>.</p>\n",
+  "cta": {
+    "text": "B&N Press is free. Getting the files right is the hard part. SparkPrep checks your cover and pages against Barnes & Noble Press rules and fixes them before you upload.",
+    "button": "Check my book for B&N Press",
+    "href": "/"
+  },
+  "faq": [
+    {
+      "q": "Is Barnes and Noble self-publishing free?",
+      "a": "Yes. Barnes & Noble Press charges nothing to publish. It pays 70% on ebooks priced $0.99 to $9.99 and 55% of the price minus printing on print books."
+    },
+    {
+      "q": "What is the minimum price for a print book on B&N Press?",
+      "a": "$14.99. Since April 22, 2026, B&N Press doesn't allow new print listings under $14.99 and removes older ones priced lower."
+    },
+    {
+      "q": "Will B&N Press put my book in Barnes & Noble stores?",
+      "a": "Not automatically. B&N Press sells online on BN.com and NOOK. Barnes & Noble says it never charges authors for store placement, so any such offer is a scam."
+    }
+  ],
+  "answer": {
+    "q": "How does Barnes and Noble self-publishing work?",
+    "a": "Barnes & Noble Press is free. You upload your book and sell it on BN.com and NOOK, with no exclusivity. Ebooks priced $0.99 to $9.99 earn 70%. Print books earn 55% minus printing, and since April 2026 must be priced at $14.99 or more. It does not put your book in stores automatically."
+  }
+}

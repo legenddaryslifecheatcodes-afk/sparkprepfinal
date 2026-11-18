@@ -23,6 +23,7 @@ import PaymentCancel from "@/pages/PaymentCancel";
 import BetaRedeem from "@/pages/BetaRedeem";
 import BetaFeedback from "@/pages/BetaFeedback";
 import AdminBeta from "@/pages/AdminBeta";
+import AdminTraffic from "@/pages/AdminTraffic";
 
 // The Cover Studio carries its own drawing engine, so it loads only when someone opens it.
 const CoverStudio = lazy(() => import("@/pages/CoverStudio"));
@@ -92,6 +93,7 @@ export default function App() {
           <Route path="/beta/redeem" element={<BetaRedeem />} />
           <Route path="/beta/feedback" element={<Protected><BetaFeedback /></Protected>} />
           <Route path="/admin/beta" element={<AdminOnly><AdminBeta /></AdminOnly>} />
+          <Route path="/admin/traffic" element={<AdminOnly><AdminTraffic /></AdminOnly>} />
           <Route path="/dashboard" element={<Protected><Dashboard /></Protected>} />
           <Route path="/editor/:id" element={<Protected><Editor /></Protected>} />
           <Route path="/account" element={<Protected><Account /></Protected>} />

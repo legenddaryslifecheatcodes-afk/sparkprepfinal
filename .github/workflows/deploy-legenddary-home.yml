@@ -1,0 +1,44 @@
+# Static copy of the legenddary.com homepage (legenddary-home/), deployed to its own
+# Cloudflare Pages project "legenddary-home" -> https://legenddary-home.pages.dev
+# It asks Cloudflare to attach www.legenddary.com (safe to repeat). DNS stays at Namecheap:
+#   www  CNAME            -> legenddary-home.pages.dev
+#   @    URL Redirect 301 -> https://www.legenddary.com   (email forwarding/MX records untouched)
+# Cloudflare Pages can only serve a bare apex domain when the zone is on Cloudflare, and the
+# nameservers must never move (email forwarding lives at Namecheap), hence www + redirect.
+name: Deploy legenddary.com copy
+
+on:
+  push:
+    branches: [sparkprep-logo-and-ai-gating]
+    paths:
+      - "legenddary-home/**"
+      - ".github/workflows/deploy-legenddary-home.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-legenddary-home
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Create the Pages project (first run only)
+        run: npx --yes wrangler@3 pages project create legenddary-home --production-branch=main || echo "Project already exists"
+      - name: Deploy to Cloudflare Pages
+        run: npx --yes wrangler@3 pages deploy legenddary-home --project-name=legenddary-home --branch=main --commit-dirty=true
+      - name: Attach www.legenddary.com (safe to repeat)
+        continue-on-error: true
+        run: |
+          curl -sS -X POST \
+            "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects/legenddary-home/domains" \
+            -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" -H "Content-Type: application/json" \
+            --data '{"name":"www.legenddary.com"}' | head -c 800; echo

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { api, fmtErr } from "@/lib/api";
 import { toast } from "sonner";
@@ -8,7 +8,7 @@ import SeasonCountdown from "@/components/SeasonCountdown";
 import BrandWatermark from "@/components/BrandWatermark";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import { Upload, ShieldAlert, Zap, FileSearch, FileCheck2 } from "lucide-react";
+import { Upload, ShieldAlert, Zap, FileSearch, FileCheck2, Lock, FileText } from "lucide-react";
 import { usePricing, money, isBookModel } from "@/lib/pricing";
 
 const PROVENANCE_LABEL = { extracted: "Extracted", calculated: "Calculated", geometry: "From geometry", unresolved: "Unresolved" };
@@ -16,6 +16,8 @@ const PROVENANCE_LABEL = { extracted: "Extracted", calculated: "Calculated", geo
 export default function AuditLanding() {
   const pricing = usePricing();
   const auditPrice = pricing ? money(pricing.audit.price_cents) : "";
+  // Holiday Free Audit (backend book_pass config): one free audit per account while it runs.
+  const freeAudit = !!pricing?.free_audit?.active;
   const [specs, setSpecs] = useState(null);
   const [platform, setPlatform] = useState("kdp");
   const [trim, setTrim] = useState("6x9");
@@ -30,6 +32,24 @@ export default function AuditLanding() {
   const [uploadingTemplate, setUploadingTemplate] = useState(false);
   const [detectedSpec, setDetectedSpec] = useState(null);
   const nav = useNavigate();
+  const uploadBoxRef = useRef(null);
+
+  // Welcome pop-up: 3 quick steps the first time someone opens the audit page (remembered per browser).
+  const [showWelcome, setShowWelcome] = useState(() => {
+    try { return localStorage.getItem("sp_audit_welcome_seen") !== "1"; } catch { return true; }
+  });
+  const closeWelcome = () => {
+    setShowWelcome(false);
+    try { localStorage.setItem("sp_audit_welcome_seen", "1"); } catch { /* private mode: just close */ }
+  };
+
+  // Big "Upload" button at the top: brings the upload box into view and opens the file picker.
+  const goToUpload = () => {
+    const box = uploadBoxRef.current;
+    if (!box) return;
+    box.scrollIntoView({ behavior: "smooth", block: "center" });
+    box.querySelector("input[type=file]")?.click();
+  };
 
   useEffect(() => { api.get("/specs").then(({ data }) => setSpecs(data)); }, []);
 
@@ -63,8 +83,21 @@ export default function AuditLanding() {
     } finally { setUploadingTemplate(false); }
   };
 
-  const onFile = async (e) => {
-    const file = e.target.files?.[0];
+  const onFile = (e) => uploadFile(e.target.files?.[0]);
+
+  // "Try a practice file": runs the same check on a small PDF that breaks print rules on purpose.
+  const trySample = async () => {
+    try {
+      const res = await fetch("/samples/sparkprep-practice-file.pdf");
+      const blob = await res.blob();
+      uploadBoxRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      await uploadFile(new File([blob], "sparkprep-practice-file.pdf", { type: "application/pdf" }));
+    } catch {
+      toast.error("Could not load the practice file. Please try again.");
+    }
+  };
+
+  const uploadFile = async (file) => {
     if (!file) return;
     setUploading(true);
     try {
@@ -80,6 +113,49 @@ export default function AuditLanding() {
 
   return (
     <div className="marketing min-h-screen noise-overlay">
+      {showWelcome && (
+        <div className="fixed inset-0 z-[60] bg-black/80 flex items-center justify-center p-4" onClick={closeWelcome}>
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="audit-welcome-title"
+            className="relative w-full max-w-md bg-neutral-950 border border-neutral-700 p-6 md:p-8 text-white max-h-[90vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+            data-testid="audit-welcome"
+          >
+            <button type="button" onClick={closeWelcome} aria-label="Close" className="absolute top-3 right-4 text-neutral-500 hover:text-white text-2xl leading-none">×</button>
+            <h2 id="audit-welcome-title" className="font-display font-black text-2xl md:text-3xl tracking-tight">Check your book in 3 easy steps</h2>
+            <p className="mt-2 text-sm text-neutral-400">{freeAudit ? `Free through December 31${(pricing?.free_audit?.per_account || 1) > 1 ? `, ${pricing.free_audit.per_account} free audits each` : ""}. No sign-up, no card.` : "No sign-up needed."}</p>
+            <ol className="mt-5 space-y-4 text-sm leading-relaxed">
+              <li className="flex gap-3"><span className="font-display font-black text-xl text-white w-6 shrink-0">1</span><span><b>Pick your printer and book size.</b> For example Amazon KDP, 6 x 9. Not sure? Leave it as it is.</span></li>
+              <li className="flex gap-3"><span className="font-display font-black text-xl text-white w-6 shrink-0">2</span><span><b>Upload your cover or your inside pages.</b> A PDF works best. A picture of your cover works too.</span></li>
+              <li className="flex gap-3"><span className="font-display font-black text-xl text-white w-6 shrink-0">3</span><span><b>See what the printer would reject.</b> We show every problem and where it is{freeAudit ? ". Type your email to see the full list." : "."}</span></li>
+            </ol>
+            <p className="mt-5 flex items-start gap-2 text-xs text-neutral-400"><Lock className="w-4 h-4 shrink-0" /> Your file stays private. We never share or sell it.</p>
+            <div className="mt-6 flex flex-col gap-3">
+              <button
+                type="button"
+                onClick={() => { closeWelcome(); goToUpload(); }}
+                className="w-full inline-flex items-center justify-center gap-2 bg-white text-black font-display font-black text-lg px-6 py-3 hover:bg-neutral-200"
+                data-testid="audit-welcome-upload"
+                data-next-step="Click to start"
+                data-next-step-label="Upload your book file"
+              >
+                <Upload className="w-5 h-5" /> Upload my file
+              </button>
+              <button
+                type="button"
+                onClick={() => { closeWelcome(); trySample(); }}
+                className="w-full text-sm text-neutral-300 underline underline-offset-4 hover:text-white"
+                data-testid="audit-welcome-sample"
+              >
+                Not ready? Try a practice file first
+              </button>
+              <button type="button" onClick={closeWelcome} className="text-xs text-neutral-500 hover:text-white" data-testid="audit-welcome-close">I'll look around first</button>
+            </div>
+          </div>
+        </div>
+      )}
       <SeasonBanner />
       <Nav dark />
       <section className="relative overflow-hidden">
@@ -87,13 +163,13 @@ export default function AuditLanding() {
         <div className="relative max-w-6xl mx-auto px-6 pt-20 pb-24 grid md:grid-cols-12 gap-8 items-start">
           <div className="md:col-span-7">
             <span className="font-mono-spec text-xs tracking-widest uppercase text-neutral-400 border border-neutral-700 px-3 py-1.5 inline-flex items-center gap-2" data-testid="audit-tag">
-              <ShieldAlert className="w-3 h-3" /> [ {auditPrice ? `${auditPrice} ` : ""}Book File Audit · No Sign-Up ]
+              <ShieldAlert className="w-3 h-3" /> {freeAudit ? "[ Free Book File Audit · Holiday Gift ]" : `[ ${auditPrice ? `${auditPrice} ` : ""}Book File Audit · No Sign-Up ]`}
             </span>
             <h1 className="font-display font-black text-5xl md:text-7xl tracking-tighter mt-6 leading-[0.92]" data-testid="audit-title">
               Know exactly<br />why you'll get<br /><span className="text-neutral-500">rejected.</span>
             </h1>
             <p className="mt-6 text-lg text-neutral-400 max-w-xl leading-relaxed">
-              IngramSpark, KDP and Barnes & Noble often reject a file with a short note like <span className="font-mono-spec text-sm text-white">"resolution insufficient"</span> and no details. Upload your cover or inside pages here. We'll find every problem, show you exactly where it is, and tell you which printer rule it breaks. {auditPrice ? `${auditPrice}. ` : ""}No account.
+              IngramSpark, KDP and Barnes & Noble often reject a file with a short note like <span className="font-mono-spec text-sm text-white">"resolution insufficient"</span> and no details. Upload your cover or inside pages here. We'll find every problem, show you exactly where it is, and tell you which printer rule it breaks. {freeAudit ? "Free this holiday season. No sign-up." : <>{auditPrice ? `${auditPrice}. ` : ""}No account.</>}
             </p>
             <div className="mt-8 flex flex-wrap gap-3 text-xs font-mono-spec tracking-widest text-neutral-500 uppercase">
               <span className="border border-neutral-700 px-2 py-1">✓ Every problem found</span>
@@ -103,14 +179,44 @@ export default function AuditLanding() {
             </div>
             <div className="mt-6 flex items-start gap-3 max-w-xl text-sm text-neutral-300 bg-white/5 border border-neutral-800 px-4 py-3" data-testid="audit-how-it-works">
               <span className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500 shrink-0 mt-0.5">How it works</span>
-              <span>Upload your file first. It's free. SparkPrep scans it and tells you honestly whether it found problems. Then pay{auditPrice ? ` ${auditPrice}` : ""} to see exactly what failed, where, and which printer rule it breaks. For inside pages, the audit checks page 1.</span>
+              {freeAudit ? (
+                <span>Upload your file. SparkPrep scans it and tells you how many problems it found. Then type your email to see every problem, where it is, and which printer rule it breaks. No sign-up, no card. For inside pages, the free audit checks page 1.</span>
+              ) : (
+                <span>Upload your file first. It's free. SparkPrep scans it and tells you honestly whether it found problems. Then pay{auditPrice ? ` ${auditPrice}` : ""} to see exactly what failed, where, and which printer rule it breaks. For inside pages, the audit checks page 1.</span>
+              )}
+            </div>
+            <div className="mt-8 max-w-xl" data-testid="audit-quick-start">
+              <button
+                type="button"
+                onClick={goToUpload}
+                disabled={uploading}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-white text-black font-display font-black text-lg md:text-xl px-8 py-4 hover:bg-neutral-200 transition-colors"
+                data-testid="audit-quick-upload"
+              >
+                <Upload className="w-5 h-5" /> {freeAudit ? "Upload your cover or PDF, free" : "Upload your cover or PDF"}
+              </button>
+              <p className="mt-3 flex items-start gap-2 text-sm text-neutral-400 leading-relaxed">
+                <Lock className="w-4 h-4 mt-0.5 shrink-0" />
+                <span>Your file stays private. We only use it to check your book, and we never share or sell it. No sign-up needed. <a href="/privacy/" className="underline hover:text-white">How we keep files private</a></span>
+              </p>
+              <button
+                type="button"
+                onClick={trySample}
+                disabled={uploading}
+                className="mt-4 inline-flex items-center gap-2 text-sm text-neutral-300 underline underline-offset-4 hover:text-white"
+                data-testid="audit-try-sample"
+              >
+                <FileText className="w-4 h-4" /> Not ready to upload your own book? Try a practice file
+              </button>
+              <p className="mt-1 text-xs text-neutral-500">Our practice page breaks print rules on purpose, so you can watch the check find them. {(pricing?.free_audit?.per_account || 1) > 1 ? `You get ${pricing.free_audit.per_account} free audits, so you can try the practice file and still check your own book.` : ""}</p>
             </div>
           </div>
 
           <div className="md:col-span-5 space-y-4">
             <SeasonCountdown />
             <div className="marketing-surface p-6" data-testid="audit-form">
-              <div className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500 mb-4">[ Step 01 · Template · Optional: upload your publisher's template ]</div>
+              <details className="group" data-testid="audit-template-step">
+              <summary className="cursor-pointer list-none font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500 mb-4 hover:text-white">[ Optional · Have your printer's blank template? Click here ]</summary>
               <p className="text-xs text-neutral-500 mb-3">Did your printer give you a blank template PDF (the guide that shows the size, bleed and spine)? Upload it first and we'll read the exact sizes from it, so you don't have to pick them below.</p>
               <label className={`block border-2 border-dashed p-5 text-center cursor-pointer hover:bg-white/5 transition-colors ${uploadingTemplate ? "border-white" : "border-neutral-800"}`} data-testid="audit-template-drop">
                 <input type="file" accept=".pdf" onChange={onTemplateFile} disabled={uploadingTemplate} className="hidden" data-testid="audit-template-input" />
@@ -133,8 +239,9 @@ export default function AuditLanding() {
                   ))}
                 </div>
               )}
+              </details>
 
-              <div className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500 mt-6 mb-4">[ Step 02 · Pick your printer and size ]</div>
+              <div className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500 mt-6 mb-4">[ Step 1 · Pick your printer and book size ]</div>
               {auditId && <p className="text-xs text-neutral-500 mb-3">Locked once you start uploading. Start over to change the printer or book size.</p>}
               <div className="space-y-4">
                 <div>
@@ -169,7 +276,7 @@ export default function AuditLanding() {
                     </SelectContent>
                   </Select>
                   <p className="text-[11px] text-neutral-500 mt-1.5 leading-relaxed">
-                    A cover's correct size depends on its spine width, which depends on binding and page count — pick "Cover" so the size/resolution check compares against the real full-wrap size, not a plain page size.
+                    For a cover, pick "Cover" so we check it against the full size: front, spine and back together.
                   </p>
                 </div>
                 {fileType === "cover" && (
@@ -226,16 +333,22 @@ export default function AuditLanding() {
                 )}
               </div>
 
-              <div className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500 mt-6 mb-3">[ Step 03 · Upload · Drop your {fileType} file ]</div>
-              <label className={`block border-2 border-dashed p-8 text-center cursor-pointer hover:bg-white/5 transition-colors ${uploading ? "border-white" : "border-neutral-700"}`} data-testid="audit-drop" data-next-step="Click to upload" data-next-step-label="Choose the file to check">
+              <div className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500 mt-6 mb-3">[ Step 2 · Upload your {fileType === "cover" ? "cover" : "inside pages"} ]</div>
+              <label ref={uploadBoxRef} className={`block border-2 border-dashed p-8 text-center cursor-pointer hover:bg-white/5 transition-colors ${uploading ? "border-white" : "border-neutral-700"}`} data-testid="audit-drop" data-next-step="Click to upload" data-next-step-label="Choose the file to check">
                 <input type="file" accept=".pdf,.jpg,.jpeg,.png,.tif,.tiff,.webp" onChange={onFile} disabled={uploading} className="hidden" data-testid="audit-file-input" />
                 <Upload className="w-8 h-8 mx-auto text-neutral-500" />
                 <div className="font-display font-bold text-lg mt-3 text-white">{uploading ? "Analyzing…" : "Choose file"}</div>
                 <div className="font-mono-spec text-[10px] tracking-widest text-neutral-500 mt-1 uppercase">PDF · JPG · PNG · TIFF · WebP (up to 50 MB)</div>
               </label>
               <p className="mt-6 font-mono-spec text-[10px] tracking-widest text-neutral-500 uppercase leading-relaxed">
-                The scan is free. See exactly what it found for <span className="text-white">{auditPrice}</span>. No subscription, no account.
-                {isBookModel(pricing) && <> The full amount is credited toward your book if you fix it with SparkPrep.</>}
+                {freeAudit ? (
+                  <>{(pricing?.free_audit?.per_account || 1) > 1 ? `Your first ${pricing.free_audit.per_account} audits are free` : "Your first audit is free"}. No sign-up, no card. Just your email.</>
+                ) : (
+                  <>
+                    The scan is free. See exactly what it found for <span className="text-white">{auditPrice}</span>. No subscription, no account.
+                    {isBookModel(pricing) && <> The full amount is credited toward your book if you fix it with SparkPrep.</>}
+                  </>
+                )}
               </p>
             </div>
           </div>

@@ -2,7 +2,7 @@
   "slug": "sparkprep-vs-vellum-atticus",
   "category": "compare",
   "date": "2026-10-28",
-  "title": "SparkPrep vs Vellum vs Atticus: Price, Covers and Print Checks | SparkPrep",
+  "title": "SparkPrep vs Vellum vs Atticus: Price, Covers and Print Checks | Legenddary's SparkPrep",
   "h1": "SparkPrep vs Vellum vs Atticus: which one gets your book printed?",
   "description": "Vellum costs $249.99 for print and runs only on Mac. Atticus costs $147. Compare what each does for your cover, your interior and printer rejections, side by side.",
   "platforms": "Book formatting software compared",
@@ -22,5 +22,10 @@
       "q": "Does Atticus or Vellum make book covers?",
       "a": "No. Both format the inside of your book. You need a separate tool or designer for the full wrap cover. SparkPrep's Cover Studio designs the front, spine and back sized to your printer."
     }
-  ]
+  ],
+  "answer": {
+    "q": "What's the difference between Vellum, Atticus and SparkPrep?",
+    "a": "Vellum ($199.99 to $249.99, Mac only) and Atticus ($147) format the inside of your book. Neither designs a full print cover or checks your files against KDP and IngramSpark rules. SparkPrep formats, designs the full cover, then checks and fixes both, including bleed, margins, spine, ink, fonts and DPI."
+  },
+  "updated": "2026-11-15"
 }

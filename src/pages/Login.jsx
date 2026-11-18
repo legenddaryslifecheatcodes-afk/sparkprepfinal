@@ -44,7 +44,7 @@ export default function Login() {
             {busy ? "Signing in…" : "Continue"}
           </button>
         </form>
-        <p className="mt-6 text-sm text-neutral-500">No account? <Link to="/register" className="text-white underline" data-testid="link-register">Create one</Link></p>
+        <p className="mt-6 text-sm text-neutral-500">No account? <Link to={`/register${window.location.search}`} className="text-white underline" data-testid="link-register">Create one</Link></p>
       </div>
     </div>
   );

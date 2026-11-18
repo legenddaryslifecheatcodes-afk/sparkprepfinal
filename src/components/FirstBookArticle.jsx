@@ -17,7 +17,15 @@ const SOURCES = {
 export const HOME_FAQ = [
   {
     q: "What is SparkPrep?",
-    a: "SparkPrep is an all-in-one self-publishing suite. You design your book cover, write and format your inside pages, check both against the print rules of Amazon KDP, IngramSpark, Barnes & Noble and Lulu, fix every problem, and download print-ready files, all in one place.",
+    a: "Legenddary's SparkPrep is an all-in-one self-publishing suite. You design your book cover, write and format your inside pages, check both against the print rules of Amazon KDP, IngramSpark, Barnes & Noble and Lulu, fix every problem, and download print-ready files, all in one place.",
+  },
+  {
+    q: "Is the SparkPrep book file audit free?",
+    a: "Yes. Through December 31, 2026, your first SparkPrep audit is free as a holiday gift. No sign-up: upload your cover or inside pages, type the email you want your results sent to, and see every problem that could get your book rejected by Amazon KDP or IngramSpark, where it is, and the printer rule it breaks. No credit card needed.",
+  },
+  {
+    q: "Is there a free KDP file checker?",
+    a: "Yes. SparkPrep's free audit checks your KDP or IngramSpark cover and inside pages for bleed, size, spine width, margins, picture sharpness (DPI), print colors, ink and fonts. Free tools like the spine width calculator, margin calculator and DPI checker are free for everyone, every day.",
   },
   {
     q: "What is a book preflight check?",
@@ -26,6 +34,10 @@ export const HOME_FAQ = [
   {
     q: "Why did KDP or IngramSpark reject my book file?",
     a: "Most rejections come from a few file problems: art that doesn't reach past the trim edge (bleed), text too close to the edge, the wrong spine width for your page count, blurry pictures under 300 DPI, screen colors (RGB) instead of print colors, too much ink in dark areas, or fonts that aren't built into the PDF.",
+  },
+  {
+    q: "How much does SparkPrep cost?",
+    a: "SparkPrep costs $74.99 per book, or $49.99 per book with the $9.99/month membership. That one price covers the full cover check and fix, the full inside-page check and fix (every page up to 300), cover design, writing help, a PDF report of every repair, the SparkPrep Certified stamp when your files pass, and print-ready files. Hiring freelancers for the same work costs about $1,730.",
   },
   {
     q: "How much does it cost to hire someone to format a book for print?",
@@ -42,6 +54,13 @@ export const HOME_FAQ = [
   {
     q: "Does SparkPrep work for KDP, IngramSpark, Barnes & Noble and Lulu?",
     a: "Yes. SparkPrep checks your files against each printer's own rules: Amazon KDP, IngramSpark, Barnes & Noble Press and Lulu.",
+  },  {
+    q: "What does SparkPrep check in my book file?",
+    a: "SparkPrep checks your trim size, bleed, margins and gutter, the safe zone, spine width, embedded fonts, picture resolution (300 DPI), CMYK color, the 240% ink limit, PDF/X-1a, and the barcode and ISBN area. It checks the full wrap cover (back, spine and front) and every inside page, for paperback and hardcover books, before KDP's Print Previewer or IngramSpark sees them.",
+  },
+  {
+    q: "Is my book file private?",
+    a: "Yes. SparkPrep never sells or shares your book files and never uses them to train AI. Your file is only used to run your check and make your print-ready files, nobody else can see it, and you can delete your projects at any time. Read the full privacy page for details.",
   },
 ];
 

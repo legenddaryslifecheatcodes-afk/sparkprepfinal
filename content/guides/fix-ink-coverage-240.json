@@ -2,7 +2,7 @@
   "slug": "fix-ink-coverage-240",
   "category": "color",
   "date": "2026-10-28",
-  "title": "IngramSpark \"Ink Coverage Exceeds 240%\": What It Means & How to Fix | SparkPrep",
+  "title": "IngramSpark \"Ink Coverage Exceeds 240%\": What It Means & How to Fix | Legenddary's SparkPrep",
   "h1": "How to fix \"ink coverage exceeds 240%\" (IngramSpark)",
   "description": "IngramSpark rejected your file for ink coverage over 240%? Here's what total ink means, why rich black causes it, and how to fix it in Acrobat, InDesign or Word.",
   "platforms": "IngramSpark",
@@ -62,5 +62,9 @@
     "Re-export as PDF/X-1a:2001, then check in Acrobat Pro (Print Production → Output Preview → Total Area Coverage at 240%) that nothing is highlighted.",
     "Re-upload it to IngramSpark and wait for the file review and new e-proof."
   ],
-  "updated": "2026-10-31"
+  "updated": "2026-11-15",
+  "answer": {
+    "q": "What does \"ink coverage exceeds 240%\" mean?",
+    "a": "It means some part of your file uses more than 240% total ink (cyan, magenta, yellow and black added together), which is IngramSpark's limit. Too much ink smears and dries slowly. It usually comes from rich black text or dark photos. Fix it by using black-only text and limiting ink when converting to CMYK."
+  }
 }

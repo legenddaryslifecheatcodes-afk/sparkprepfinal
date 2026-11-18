@@ -56,8 +56,8 @@ export function Logo({ compact = false, dark = false }) {
 export function SparkPrepLogo({ height = 40, className = "" }) {
   return (
     <img
-      src="/brand/sparkprep-logo.png"
-      alt="SparkPrep — Print Right. Every Time."
+      src="/brand/sparkprep-logo-480.png"
+      alt="Legenddary's SparkPrep: The Evolution of Self-Publishing"
       className={`block object-contain ${className}`}
       style={{ height, width: "auto" }}
       draggable={false}

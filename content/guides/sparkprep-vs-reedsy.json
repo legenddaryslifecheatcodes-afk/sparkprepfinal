@@ -2,7 +2,7 @@
   "slug": "sparkprep-vs-reedsy",
   "category": "compare",
   "date": "2026-10-28",
-  "title": "SparkPrep vs Reedsy: Real Cost and Speed for Covers & Formatting | SparkPrep",
+  "title": "SparkPrep vs Reedsy: Real Cost and Speed for Covers & Formatting | Legenddary's SparkPrep",
   "h1": "SparkPrep vs hiring on Reedsy: what it really costs and how long it takes",
   "description": "Reedsy's own data puts a pro cover around $930 and interior formatting around $800. Here's how that compares to SparkPrep's one price per book, done in minutes.",
   "platforms": "For first-time and experienced self-publishers",
@@ -22,5 +22,10 @@
       "q": "Is SparkPrep cheaper than hiring a freelancer?",
       "a": "Yes. SparkPrep charges one flat price per book for the cover, the interior or both, a small fraction of typical freelancer fees, and the checks and fixes take minutes instead of days or weeks."
     }
-  ]
+  ],
+  "answer": {
+    "q": "How much does Reedsy cost for a book cover and formatting?",
+    "a": "By Reedsy's own figures, a professional book cover has a median of about $930 and interior design averages about $800. Together that's roughly $1,100 to $2,475, and a full self-publishing budget with editing runs $2,940 to $5,660. You also wait on the freelancer's schedule for each round."
+  },
+  "updated": "2026-11-15"
 }

@@ -2,7 +2,7 @@
   "slug": "fix-cover-wrong-size",
   "category": "cover",
   "job": "cover",
-  "title": "Book Cover Is the Wrong Size: How to Fix Cover Dimensions (KDP & IngramSpark) | SparkPrep",
+  "title": "Book Cover Is the Wrong Size: How to Fix Cover Dimensions (KDP & IngramSpark) | Legenddary's SparkPrep",
   "h1": "How to fix \"cover dimensions are incorrect\"",
   "description": "Your cover file is the wrong size for your book. Learn how to work out the exact cover size from trim size, page count and paper, and fix it fast.",
   "platforms": "Amazon KDP · IngramSpark · Barnes & Noble Press · Lulu",
@@ -33,5 +33,10 @@
     }
   ],
   "date": "2026-10-28",
-  "diy": []
+  "diy": [],
+  "answer": {
+    "q": "Why does KDP say my cover is the wrong size?",
+    "a": "Your cover's full size depends on trim size, spine width and bleed. For a 6\" x 9\" paperback it's 9.25\" tall and 0.125\" + 6\" + spine + 6\" + 0.125\" wide. If the cover was made without bleed, with the wrong paper type, or before the page count changed, the size won't match."
+  },
+  "updated": "2026-11-15"
 }

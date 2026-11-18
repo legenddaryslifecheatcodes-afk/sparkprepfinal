@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useSearchParams } from "react-router-dom";
+import { useAuth } from "@/context/AuthContext";
 import { api, fmtErr } from "@/lib/api";
 import { toast } from "sonner";
 import Nav from "@/components/Nav";
-import { Check, Sparkles } from "lucide-react";
+import { Check, Sparkles, Gift } from "lucide-react";
 import { usePricing, money, isBookModel, specialNote, savePercent } from "@/lib/pricing";
 
 // Owner's rule: one defined audit, no free preview. Before paying, the customer sees only the honest total --
@@ -14,6 +15,42 @@ export default function AuditPreview() {
   const [checkingOut, setCheckingOut] = useState(false);
   const nav = useNavigate();
   const pricing = usePricing();
+  const { user } = useAuth();
+  const [params] = useSearchParams();
+  // Holiday Free Audit: no sign-up (Trey, 2026-11-10). The author just types the email their results go to;
+  // one free audit per email. Signed-in authors still use their account (one per account).
+  const freeAudit = !!pricing?.free_audit?.active;
+  const [freeUsed, setFreeUsed] = useState(false);
+  const [claiming, setClaiming] = useState(false);
+  const [email, setEmail] = useState("");
+  const canFree = freeAudit && !freeUsed;
+
+  useEffect(() => {
+    if (!user || !freeAudit) return;
+    api.get("/free-audit/status").then(({ data }) => setFreeUsed(!!data.used)).catch(() => {});
+  }, [user, freeAudit]);
+
+  const claimFree = async () => {
+    if (!user && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      toast.error("Type the email you'd like your results sent to.");
+      return;
+    }
+    setClaiming(true);
+    try {
+      if (user) await api.post(`/audit/${id}/claim-free`);
+      else await api.post(`/audit/${id}/claim-free-email`, { email: email.trim() });
+      nav(`/audit/${id}/report`);
+    } catch (e) {
+      if (e.response?.status === 409 || e.response?.status === 410) setFreeUsed(true);
+      toast.error(fmtErr(e.response?.data?.detail) || "Could not unlock your free audit");
+      setClaiming(false);
+    }
+  };
+
+  // Back from sign-up with ?claim=1: unlock it straight away.
+  useEffect(() => {
+    if (params.get("claim") === "1" && user && audit && canFree && !claiming) claimFree();
+  }, [user, audit, canFree]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     api.get(`/audit/${id}`).then(({ data }) => {
@@ -41,7 +78,7 @@ export default function AuditPreview() {
   return (
     <div className="marketing min-h-screen noise-overlay">
       <Nav dark />
-      <div className="max-w-3xl mx-auto px-6 py-12">
+      <div className="max-w-3xl mx-auto px-5 md:px-6 py-10 md:pt-24 md:pb-12">
         <span className="font-mono-spec text-[10px] tracking-widest uppercase text-neutral-500">[ Audit {id.slice(0, 8)} ]</span>
         <p className="text-neutral-400 mt-3">
           Checked against <span className="font-mono-spec text-white">{audit.platform_name}</span> · trim <span className="font-mono-spec text-white">{audit.trim_label}</span> · file <span className="font-mono-spec text-white">{audit.file_metadata?.original_filename}</span>
@@ -56,9 +93,40 @@ export default function AuditPreview() {
               <li className="flex items-center gap-2"><Sparkles className="w-4 h-4 text-white" /> Exactly where each problem is</li>
               <li className="flex items-center gap-2"><Sparkles className="w-4 h-4 text-white" /> What failed and why it gets rejected</li>
               <li className="flex items-center gap-2"><Sparkles className="w-4 h-4 text-white" /> The publisher requirement it breaks</li>
-              <li className="flex items-center gap-2"><Sparkles className="w-4 h-4 text-white" /> A downloadable PDF of your audit</li>
+              {!canFree && <li className="flex items-center gap-2"><Sparkles className="w-4 h-4 text-white" /> A downloadable PDF of your audit</li>}
             </ul>
-            <button
+            {canFree && (
+              <form data-testid="free-audit-offer" onSubmit={(e) => { e.preventDefault(); claimFree(); }}>
+                {!user && (
+                  <label className="mt-7 block">
+                    <span className="block font-display font-bold text-lg text-white">What email should your results go to?</span>
+                    <input
+                      type="email"
+                      required
+                      autoComplete="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="you@example.com"
+                      className="mt-2 w-full bg-black border border-neutral-600 focus:border-[#D4AF37] outline-none px-4 py-3 text-white text-base"
+                      data-testid="free-audit-email"
+                    />
+                  </label>
+                )}
+                <button
+                  type="submit"
+                  disabled={claiming || !!checkingOut}
+                  className={`${user ? "mt-7" : "mt-3"} w-full btn-gold px-6 py-4 font-mono-spec text-xs tracking-widest uppercase disabled:opacity-50 btn-industrial flex items-center justify-center gap-2`}
+                  data-testid="free-audit-btn"
+                  data-next-step="See what to fix, free"
+                >
+                  <Gift className="w-4 h-4" /> {claiming ? "Unlocking…" : "See My Results Free"}
+                </button>
+                <div className="mt-2 text-center text-xs text-emerald-300">
+                  Holiday gift: your first audit is free{pricing?.free_audit?.regular_cents ? ` (regular price ${money(pricing.free_audit.regular_cents)} from January)` : ""}. No sign-up, no card. {(pricing?.free_audit?.per_account || 1) > 1 ? `${pricing.free_audit.per_account} free audits per email: try the practice file, then check your own book.` : "One free audit per email."}
+                </div>
+              </form>
+            )}
+            {!canFree && <button
               onClick={() => unlock("standard")}
               disabled={!!checkingOut}
               className="mt-7 w-full bg-white text-black px-6 py-4 font-mono-spec text-xs tracking-widest uppercase hover:bg-neutral-200 disabled:opacity-50 btn-industrial"
@@ -66,8 +134,8 @@ export default function AuditPreview() {
               data-next-step="See what to fix"
             >
               {checkingOut === "standard" ? "Redirecting…" : `See My Results${price ? ` — ${price}` : ""}${isInterior ? " · page 1" : ""}`}
-            </button>
-            {specialNote(pricing, "audit") && (
+            </button>}
+            {!canFree && specialNote(pricing, "audit") && (
               <div className="mt-2 text-center text-xs text-emerald-300" data-testid="audit-special-note">
                 {specialNote(pricing, "audit")}{savePercent(pricing, "audit") ? ` — save ${savePercent(pricing, "audit")}%` : ""}
               </div>
@@ -92,7 +160,7 @@ export default function AuditPreview() {
               </div>
             )}
             <div className="mt-4 text-center text-xs text-neutral-400">
-              {isBookModel(pricing) && "Whatever you pay is credited in full toward your SparkPrep book. "}Secure via Stripe · No account needed.
+              {canFree ? "Free audit: no sign-up, no card. We never sell your email. Paid audits are secure via Stripe." : <>{isBookModel(pricing) && "Whatever you pay is credited in full toward your SparkPrep book. "}Secure via Stripe · No account needed.</>}
             </div>
             <p className="mt-6 text-sm text-neutral-400">Then let SparkPrep fix it for you — no need to go anywhere else.</p>
           </div>

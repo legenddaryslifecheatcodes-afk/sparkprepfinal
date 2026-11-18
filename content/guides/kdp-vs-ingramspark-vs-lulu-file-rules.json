@@ -2,7 +2,7 @@
   "slug": "kdp-vs-ingramspark-vs-lulu-file-rules",
   "category": "platform",
   "date": "2026-10-28",
-  "title": "KDP vs IngramSpark vs Lulu vs B&N Press: Print File Rules Compared | SparkPrep",
+  "title": "KDP vs IngramSpark vs Lulu vs B&N Press: Print File Rules Compared | Legenddary's SparkPrep",
   "h1": "KDP vs IngramSpark vs Lulu vs Barnes & Noble Press: print file rules side by side",
   "description": "The same book file can pass KDP and fail IngramSpark. Compare bleed, safety margins, barcode area, spine text and page limits for KDP, IngramSpark, Lulu and B&N Press.",
   "platforms": "Amazon KDP · IngramSpark · Barnes & Noble Press · Lulu",
@@ -48,5 +48,10 @@
       "q": "Which printer has the strictest file rules?",
       "a": "For most books IngramSpark is the strictest, mainly because of its 0.5 inch safety margin and 240 percent ink limit."
     }
-  ]
+  ],
+  "answer": {
+    "q": "What's the difference between KDP and IngramSpark file rules?",
+    "a": "Both need 0.125\" bleed, but IngramSpark wants interior content at least 0.5\" from every edge, while KDP allows 0.25\" on the outside. IngramSpark also limits ink to 240% and uses a 1.75\" x 1\" barcode area instead of KDP's 2\" x 1.2\". That's why a file can pass KDP and fail IngramSpark."
+  },
+  "updated": "2026-11-15"
 }

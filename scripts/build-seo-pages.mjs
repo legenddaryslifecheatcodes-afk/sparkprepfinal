@@ -91,7 +91,7 @@ const COPY = {
     slug: "childrens-book-covers", noun: "children's",
     intro: "Children's book covers are bright, round and playful. Big friendly fonts and happy colors catch a child's eye, and a parent's too.",
     tips: ["Round, friendly fonts like Fredoka are easy for kids to read.", "Bright primary colors catch the eye.", "Leave room for your illustration. It's the star of a picture book.", "Keep the title short and large."],
-    faq: [["What font is best for a children's book cover?", "Round, friendly fonts like Fredoka or Nunito. They're easy to read and feel playful."], ["Can I put my own illustration on the cover?", "Yes. Upload your art in Cover Studio and place it on any template. Make sure it's 300 DPI at print size."]],
+    faq: [["What font is best for a children's book cover?", "Round, friendly fonts like Fredoka or Nunito. They're easy to read and feel playful."], ["Can I put my own illustration on the cover?", "Yes. Upload your art in Cover Studio and place it on any template. Make sure it's 300 DPI at print size."], ["What size is a children's book cover?", "It matches your book's trim size. Picture books are often square, like 8.5\" x 8.5\", or 8\" x 10\". The print cover adds 0.125\" bleed on each outside edge, plus the spine. Cover Studio works out the exact size for your page count."]],
   },
   poetry: {
     slug: "poetry-book-covers", noun: "poetry",
@@ -128,11 +128,11 @@ function page({ path, title, description, schema, body, fonts = [] }) {
 <meta name="description" content="${esc(description)}">
 <link rel="canonical" href="${url}">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="SparkPrep">
+<meta property="og:site_name" content="Legenddary's SparkPrep">
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(description)}">
 <meta property="og:url" content="${url}">
-<meta property="og:image" content="${SITE}/brand/sparkprep-logo.png">
+<meta property="og:image" content="${SITE}/brand/sparkprep-og.jpg">
 <meta name="twitter:card" content="summary">
 <link rel="icon" type="image/png" href="/favicon.png">
 <link rel="stylesheet" href="/tools/tools.css">
@@ -141,14 +141,14 @@ ${ld({ "@context": "https://schema.org", "@graph": schema })}
 </head>
 <body>
 <header class="site">
-  <a class="brand" href="/"><img src="/brand/sparkprep-logo.png" alt="SparkPrep logo" width="120" height="34"></a>
+  <a class="brand" href="/"><img src="/brand/sparkprep-logo-480.png" alt="Legenddary's SparkPrep logo" width="84" height="56"></a>
   <nav><a href="/templates/">Templates</a><a class="hide-sm" href="/tools/">Free tools</a><a class="hide-sm" href="/guides/">Guides</a><a href="/">SparkPrep</a></nav>
 </header>
 <main>
 ${body}
   <p class="note">SparkPrep is an independent tool and is not affiliated with Amazon KDP, IngramSpark, Barnes &amp; Noble Press or Lulu.</p>
 </main>
-<footer class="site">© SparkPrep by Legenddary · <a href="/">Home</a><a href="/templates/">Templates</a><a href="/tools/">Free tools</a><a href="/guides/">Guides</a><a href="/pricing">Pricing</a></footer>
+<footer class="site">© Legenddary's SparkPrep, a <a href="https://legenddary.com/">Legenddary</a> product · <a href="/">Home</a><a href="/templates/">Templates</a><a href="/tools/">Free tools</a><a href="/guides/">Guides</a><a href="/pricing">Pricing</a></footer>
 </body>
 </html>
 `;
@@ -194,19 +194,20 @@ function genrePage(g, label) {
   // Up to 12 previews, mixing this genre's styles across different layouts.
   LAYOUTS.forEach(([lk, ln]) => styles.forEach((st) => shown.push(mock(st, lk, ln, c.noun))));
   // Targets searches like "free thriller book cover templates" and "romance novel cover layout examples".
-  const title = `Free ${nice.replace(" & ", " and ")} Book Cover Templates: ${n} Print-Ready Layouts | SparkPrep`;
-  const description = `Free ${c.noun} book cover templates and cover layout examples: ${n} print-ready designs sized for KDP, IngramSpark, Barnes & Noble Press and Lulu, with the right spine width.`;
+  const title = `Free ${nice.replace(" & ", " and ")} Book Cover Design Templates: ${n} Print-Ready Layouts | Legenddary's SparkPrep`;
+  const description = `Free ${c.noun} book cover design templates and layout examples: ${n} print-ready designs sized for KDP, IngramSpark, Barnes & Noble Press and Lulu, with the right spine width.`;
   const faq = [...c.faq, ["Will these templates fit my book's spine?", "Yes. Each template is built on your book's real cover size, so the spine matches your page count and paper for KDP, IngramSpark, Barnes & Noble Press or Lulu."]];
   const others = realGenres.filter(([k]) => k !== g).map(([k, l]) => `<a href="${genreUrl(k)}">${esc(l)}</a>`).join("");
   const schema = [
     { "@type": "CollectionPage", name: `Free ${nice} book cover templates`, url: `${SITE}${path}`, description, numberOfItems: n,
-      isPartOf: { "@type": "WebSite", name: "SparkPrep", url: `${SITE}/` } },
+      isPartOf: { "@type": "WebSite", "@id": `${SITE}/#website`, name: "Legenddary's SparkPrep", alternateName: "SparkPrep", url: `${SITE}/` } },
     crumbs([["SparkPrep", `${SITE}/`], ["Cover templates", `${SITE}/templates/`], [`${nice} covers`, `${SITE}${path}`]]),
     faqLd(faq),
   ];
   const body = `  <div class="eyebrow"><a href="/templates/" style="color:inherit">Cover templates</a> · ${esc(nice)}</div>
   <h1>Free ${esc(nice)} Book Cover Templates</h1>
   <p class="lead">${n} free ${esc(c.noun)} book cover templates, ready for print. Browse the ${esc(c.phrase || c.noun)} cover layout examples below, pick one, type your title, and SparkPrep sizes the whole cover (front, spine and back) to your book.</p>
+  <div class="card" id="what"><p style="margin:0"><strong>What is a ${esc(c.noun)} book cover template?</strong> It's a ready-made ${esc(c.noun)} cover design with the fonts, colors and layout already set. You type your title and author name, add a picture if you want, and SparkPrep sizes the front, spine and back to your book's trim size and page count, so it's ready to print on KDP or IngramSpark.</p></div>
   <a class="btn" href="/cover-studio?genre=${g}">Open the ${esc(nice)} templates</a>
 
   <h2>${esc((c.phrase || c.noun).charAt(0).toUpperCase() + (c.phrase || c.noun).slice(1))} cover layout examples</h2>
@@ -253,7 +254,7 @@ ${faqHtml(faq)}
 
 function templatesHub() {
   const path = "/templates/";
-  const title = `${TOTAL} Free Book Cover Templates for KDP & IngramSpark | SparkPrep`;
+  const title = `${TOTAL} Free Book Cover Templates for KDP & IngramSpark | Legenddary's SparkPrep`;
   const description = `${TOTAL} free book cover templates in ${realGenres.length} genres, sized for your exact book: front, spine and back. For Amazon KDP, IngramSpark, Barnes & Noble Press and Lulu.`;
   const faq = [
     ["Are SparkPrep's book cover templates really free?", "Yes. Every template, font and design tool in Cover Studio is free to use. A free preview download is included; the full-size print-ready file comes with a SparkPrep book."],
@@ -305,7 +306,7 @@ ${faqHtml(faq)}
 // ---------- Free book formatting guide ----------
 function formattingGuide() {
   const path = "/free-book-formatting-guide/";
-  const title = "Free Book Formatting Guide for KDP & IngramSpark (Step by Step) | SparkPrep";
+  const title = "Free Book Formatting Guide for KDP & IngramSpark (Step by Step) | Legenddary's SparkPrep";
   const description = "A free, plain-English guide to formatting your book for print: trim size, margins, fonts, page numbers, front matter and exporting a print-ready PDF for KDP and IngramSpark.";
   const steps = [
     ["Pick your trim size", "Trim size is your book's finished size. 6\" x 9\" is the most common for novels and nonfiction. 5.5\" x 8.5\" and 5\" x 8\" are popular for fiction. Pick it first, because everything else depends on it. In Word: Layout → Size → More Paper Sizes."],
@@ -370,7 +371,7 @@ ${faqHtml(faq)}
 // ---------- Free manuscript checklist ----------
 function checklist() {
   const path = "/free-manuscript-checklist/";
-  const title = "Free Manuscript Checklist: Grammar, Formatting & Print-Ready | SparkPrep";
+  const title = "Free Printable Manuscript Checklist: Grammar, Formatting & Print-Ready | Legenddary's SparkPrep";
   const description = "A free, printable manuscript checklist for self-published authors: grammar and proofreading, front matter, interior formatting, cover file and the final checks before you upload to KDP or IngramSpark.";
   const groups = [
     ["Writing, grammar and proofreading", [
@@ -415,6 +416,7 @@ function checklist() {
   const faq = [
     ["What should I check before self-publishing my manuscript?", "Spelling and grammar, consistent names, front matter, page size and margins, embedded fonts, 300 DPI pictures, a cover sized from your final page count, and a matching ISBN. This free checklist covers all of it."],
     ["Is there a free grammar checker for my book?", "SparkPrep's free Interior Studio has a built-in spell check with red underlines. Its AI grammar and wording help comes with a SparkPrep book."],
+    ["How do I get my manuscript ready for KDP?", "Proofread it, set the page size to your trim size, meet KDP's minimum margins for your page count, make every picture 300 DPI, embed all fonts in the PDF, and size your cover from the final page count. Then order a proof copy."],
     ["Can I print this checklist?", "Yes. Use the Print button on this page; your ticks are saved in your browser so you can come back."],
   ];
   const schema = [
@@ -426,6 +428,7 @@ function checklist() {
   const body = `  <div class="eyebrow">Free checklist · Printable</div>
   <h1>Free Manuscript Checklist for Self-Published Authors</h1>
   <p class="lead">${total} checks that catch the mistakes readers notice and the problems printers reject. Tick them off as you go. Your ticks are saved on this device, and you can print the list.</p>
+  <div class="card" id="what"><p style="margin:0"><strong>What is a manuscript checklist?</strong> It's a list of everything to check before you publish your book: spelling and grammar, front matter, page size and margins, fonts, picture quality, the cover file and the ISBN. Going through it once can save you weeks of rejected uploads and reprints.</p></div>
   <div class="progress no-print" aria-hidden="true"><div id="cl-bar"></div></div>
   <p class="note no-print"><span id="cl-done">0</span> of ${total} done · <a href="#" id="cl-print">Print this checklist</a> · <a href="#" id="cl-reset">Clear my ticks</a></p>
 
@@ -453,6 +456,9 @@ ${faqHtml(faq)}
     <li><a href="/book-margin-calculator/">Book margin and bleed calculator</a></li>
     <li><a href="/book-spine-width-calculator/">Book spine width calculator</a></li>
     <li><a href="/free-indie-author-templates/">Free indie author templates</a></li>
+    <li><a href="/image-dpi-checker/">PDF and image DPI checker (are your pictures 300 DPI?)</a></li>
+    <li><a href="/book-cover-dimensions/">Book cover size for every trim size</a></li>
+    <li><a href="/guides/">Fix guides for KDP and IngramSpark rejections</a></li>
   </ul>
 <script>
 (function(){var K="sp_checklist_v1",s={};try{s=JSON.parse(localStorage.getItem(K)||"{}")||{}}catch(e){}
@@ -471,7 +477,7 @@ count()})();
 // ---------- Free indie author templates ----------
 function authorTemplates() {
   const path = "/free-indie-author-templates/";
-  const title = "Free Indie Author Templates: Book Covers, Interiors & Checklists | SparkPrep";
+  const title = "Free Indie Author Templates: Book Covers, Interiors & Checklists | Legenddary's SparkPrep";
   const description = `Free templates for indie authors: ${TOTAL} book cover templates in ${realGenres.length} genres, book interior styles, a printable KDP cover template, a manuscript checklist and a formatting guide.`;
   const items = [
     ["Book cover templates", `${TOTAL} free full-wrap cover templates (front, spine and back) in ${realGenres.length} genres, sized to your exact book.`, "/templates/", "Browse cover templates"],

@@ -240,6 +240,7 @@ ${costBox(g)}
   <h2>Quick answers</h2>
 ${faq.map((f) => `  <h3>${esc(f.q)}</h3>\n  <p>${f.a}</p>`).join("\n")}
 ` : ""}
+${beforeUpload(g)}
   <h2>More guides</h2>
   <ul class="links">
 ${more.map((o) => `    <li><a href="/guides/${o.slug}/">${esc(o.h1)}</a></li>`).join("\n")}
@@ -247,6 +248,21 @@ ${more.map((o) => `    <li><a href="/guides/${o.slug}/">${esc(o.h1)}</a></li>`).
   </ul>
 ${PRICE_SCRIPT}
 ${FOOT}`;
+}
+
+// "Before you upload" links: three plain links, with the words people search,
+// into the pages already closest to Google's top 3. A page never links to itself.
+function beforeUpload(g) {
+  const links = [
+    ["what-is-preflight-first-time-authors", "/guides/what-is-preflight-first-time-authors/", "What is preflight?", "the check every book file needs before you upload"],
+    ["", "/free-manuscript-checklist/", "Free manuscript checklist", "26 checks you can tick off and print"],
+    ["", "/specs", "KDP trim sizes", "every size, margin and bleed rule in one chart"],
+  ].filter(([slug]) => slug !== g.slug);
+  return `  <h2>Before you upload</h2>
+  <ul class="links">
+${links.map(([, href, text, note]) => `    <li><a href="${href}">${text}</a>: ${note}</li>`).join("\n")}
+  </ul>
+`;
 }
 
 function hub(all) {

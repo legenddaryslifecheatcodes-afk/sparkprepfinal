@@ -1,0 +1,39 @@
+{
+  "slug": "ebook-cover-size-kindle",
+  "category": "start",
+  "date": "2026-11-18",
+  "title": "Ebook Cover Size: Kindle Cover Dimensions in Pixels (1,600 x 2,560) | Legenddary's SparkPrep",
+  "h1": "Ebook cover size: the Kindle cover dimensions, in plain English",
+  "description": "The right ebook cover size for Kindle is 1,600 x 2,560 pixels. Here is the full list of KDP ebook cover rules, how it differs from a print cover, and the mistakes that get covers rejected.",
+  "platforms": "Amazon KDP (Kindle), other ebook stores",
+  "lead": "An ebook cover is much simpler than a print cover. It's just the front, as one picture. But it has its own size, and it is not the same as your paperback cover. Here are the numbers.",
+  "answer": {
+    "q": "What size should an ebook cover be?",
+    "a": "For Kindle, Amazon recommends 1,600 pixels wide by 2,560 pixels tall, saved as a JPEG in RGB color. That is a 1 to 1.6 shape. The file must be under 50 MB and no more than 10,000 pixels on a side. It is the front only: no spine, back cover or barcode."
+  },
+  "body": "\n  <h2>Kindle ebook cover rules at a glance</h2>\n  <div class=\"table-wrap\"><table>\n    <tr><th>Rule</th><th>What Amazon KDP says</th></tr>\n    <tr><td>Best size</td><td><strong>1,600 x 2,560 pixels</strong> (width x height)</td></tr>\n    <tr><td>Shape</td><td>About 1 wide to 1.6 tall</td></tr>\n    <tr><td>Smallest size</td><td>At least 500 pixels on the long side, or the cover won't show on Amazon. Go much bigger than that.</td></tr>\n    <tr><td>Biggest size</td><td>10,000 pixels on each side, 50 MB file</td></tr>\n    <tr><td>File type</td><td>JPEG is best. PNG, TIFF and GIF also work. SVG does not.</td></tr>\n    <tr><td>Color</td><td>RGB (screen color). CMYK is accepted and changed to RGB for you.</td></tr>\n    <tr><td>What goes on it</td><td>The front only, with your title and author name. No spine, back cover or barcode.</td></tr>\n  </table></div>\n  <p class=\"note\">From Amazon's <a href=\"https://kdp.amazon.com/en_US/help/topic/G6GTK3T3NUHKLEFX\" rel=\"nofollow noopener\">Cover Image Guidelines for Kindle eBooks</a>, checked November 2026.</p>\n\n  <h2>Ebook cover vs print cover</h2>\n  <div class=\"table-wrap\"><table>\n    <tr><th></th><th>Ebook cover</th><th>Print (paperback) cover</th></tr>\n    <tr><td>What it is</td><td>The front only</td><td>Back, spine and front as one piece</td></tr>\n    <tr><td>Size is set by</td><td>Pixels (1,600 x 2,560)</td><td>Your trim size, page count and bleed, in inches</td></tr>\n    <tr><td>Bleed</td><td>None</td><td>0.125 inch on every outside edge</td></tr>\n    <tr><td>Color</td><td>RGB</td><td>CMYK is safest</td></tr>\n    <tr><td>File</td><td>JPEG</td><td>Print-ready PDF</td></tr>\n  </table></div>\n  <p>Need the print cover too? The <a href=\"/book-cover-dimensions/\">book cover size chart</a> lists the exact print cover size for every trim size, and the <a href=\"/kdp-cover-calculator/\">KDP cover calculator</a> works it out from your page count.</p>\n\n  <h2>Can I use my paperback front cover as my ebook cover?</h2>\n  <p>Yes, with one change. A 6 x 9 inch paperback front is 1 wide to 1.5 tall. Kindle's best shape is a little taller (1 to 1.6). So either add a bit of background at the top and bottom, or save it at 1,600 x 2,400 pixels. Amazon will still show it. Just cut off the bleed and spine first, so only the front is left.</p>\n\n  <h2>Mistakes that get ebook covers rejected</h2>\n  <ul>\n    <li><strong>Too small or blurry.</strong> Text that is fuzzy or cut off fails Amazon's check.</li>\n    <li><strong>Words that don't match.</strong> The title and author name on the cover must match your book details exactly.</li>\n    <li><strong>Prices or sale words</strong> like \"only 99 cents\" or \"free today.\"</li>\n    <li><strong>Leftover print parts:</strong> a spine, back cover or barcode.</li>\n    <li><strong>A white cover with no edge.</strong> It disappears on Amazon's white page. Amazon suggests a thin gray border (3 to 4 pixels).</li>\n  </ul>\n\n  <h2>Make the cover once, get every size</h2>\n  <p>SparkPrep, an <a href=\"/automated-publishing-production-system/\">Automated Publishing Production System</a> (A.P.P.S.), sizes your cover for your book and checks the print version against your printer's rules before you upload. If KDP says your print cover is the wrong size, see <a href=\"/guides/fix-cover-wrong-size/\">how to fix a wrong cover size</a>.</p>",
+  "faq": [
+    {
+      "q": "What is the best size for a Kindle cover?",
+      "a": "1,600 pixels wide by 2,560 pixels tall. Amazon says covers at least 2,500 pixels tall look best on high-definition screens."
+    },
+    {
+      "q": "What DPI should an ebook cover be?",
+      "a": "Amazon recommends at least 300 DPI. For an ebook, the pixel size (1,600 x 2,560) matters more than the DPI number."
+    },
+    {
+      "q": "Does an ebook cover need bleed?",
+      "a": "No. Bleed is only for printed covers, because the printer trims the edges. An ebook cover is shown on a screen, so nothing is trimmed."
+    },
+    {
+      "q": "Can my ebook cover be a PNG?",
+      "a": "Yes. KDP accepts JPEG, PNG, TIFF and non-moving GIF files. JPEG is Amazon's first choice. SVG files are not accepted."
+    }
+  ],
+  "cta": {
+    "text": "SparkPrep checks your print cover's size, bleed and spine against your printer's rules, so your paperback matches your ebook. The basic check is free through Dec 31.",
+    "button": "Check my cover for free",
+    "href": "/audit"
+  },
+  "updated": "2026-11-18"
+}

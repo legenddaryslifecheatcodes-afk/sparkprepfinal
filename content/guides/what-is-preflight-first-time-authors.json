@@ -15,8 +15,8 @@
   },
   "faq": [
     {
-      "q": "What is preflight in self-publishing?",
-      "a": "Preflight means checking your book's cover and interior files against the printer's rules (bleed, colors, picture sharpness, margins, spine width and fonts) before you upload, so KDP or IngramSpark doesn't reject them."
+      "q": "What does a preflight check look for?",
+      "a": "Bleed on the cover, margins and page size on the inside pages, spine width, fonts built into the PDF, picture sharpness (about 300 DPI) and colors and ink. Use the <a href=\"/free-manuscript-checklist/\">free manuscript checklist</a> to check the writing side too."
     },
     {
       "q": "How much does it cost to hire someone to make my book print-ready?",

@@ -232,7 +232,7 @@ ${styles.map((st) => { const p = PALETTES[st.palette]; return `    <tr><td>${esc
 
   <section class="cta">
     <h2>Make your ${esc(c.noun)} cover now</h2>
-    <p>Open Cover Studio with the ${esc(nice)} templates ready. Enter your trim size and page count, pick a template, and change anything you like. When your book is ready, SparkPrep checks the cover and inside pages against your printer's rules.</p>
+    <p>Open Cover Studio with the ${esc(nice)} templates ready. Enter your trim size and page count, pick a template, and change anything you like. When your book is ready, SparkPrep, the A.P.P.S. behind Cover Studio, checks the cover and inside pages against your printer's rules.</p>
     <a class="btn" href="/cover-studio?genre=${g}">Design my cover free</a>
     <a class="btn ghost" href="/book-spine-width-calculator/">Check my spine width</a>
   </section>
@@ -286,7 +286,7 @@ ${cards}
 
   <section class="cta">
     <h2>Already have a cover?</h2>
-    <p>SparkPrep checks your cover and inside pages against your printer's own rules (size, bleed, spine, fonts, image quality and ink), explains any problem in plain English and fixes it.</p>
+    <p>SparkPrep is an <a href="/automated-publishing-production-system/">Automated Publishing Production System</a> (A.P.P.S.): it checks your cover and inside pages against your printer's own rules (size, bleed, spine, fonts, image quality and ink), explains any problem in plain English and fixes it.</p>
     <a class="btn" href="/audit">Check my book files</a>
   </section>
 
@@ -350,7 +350,7 @@ ${steps.map(([n, t], i) => `  <h2>Step ${i + 1}: ${esc(n)}</h2>\n  <p>${t}</p>`)
 
   <section class="cta">
     <h2>Formatted? Check it before the printer does.</h2>
-    <p>SparkPrep checks your interior and cover against Amazon KDP, IngramSpark, Barnes &amp; Noble Press and Lulu rules, explains every problem in plain English, and fixes what it can for you. It was built by an author whose own book was rejected 18 times.</p>
+    <p>SparkPrep checks your interior and cover against Amazon KDP, IngramSpark, Barnes &amp; Noble Press and Lulu rules, explains every problem in plain English, and fixes what it can for you. That is what an <a href="/automated-publishing-production-system/">Automated Publishing Production System</a> (A.P.P.S.) does. It was built by an author whose own book was rejected 18 times.</p>
     <a class="btn" href="/audit">Check my book files</a>
     <a class="btn ghost" href="/free-manuscript-checklist/">Get the free checklist</a>
   </section>
@@ -510,7 +510,7 @@ ${items.map(([n, d, h, b]) => `  <div class="card"><h2 style="margin-top:0"><a h
 
   <section class="cta">
     <h2>Templates done? Make sure the printer says yes.</h2>
-    <p>SparkPrep checks your cover and interior against Amazon KDP, IngramSpark, Barnes &amp; Noble Press and Lulu rules, explains every problem in plain English and fixes what it can. Built by an author whose own book was rejected 18 times.</p>
+    <p>SparkPrep checks your cover and interior against Amazon KDP, IngramSpark, Barnes &amp; Noble Press and Lulu rules, explains every problem in plain English and fixes what it can, all in one <a href="/automated-publishing-production-system/">Automated Publishing Production System</a> (A.P.P.S.). Built by an author whose own book was rejected 18 times.</p>
     <a class="btn" href="/audit">Check my book files</a>
   </section>
 

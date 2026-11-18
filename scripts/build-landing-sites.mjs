@@ -112,7 +112,7 @@ function ctaBox(page) {
   const c = page.cta || {};
   return `<section class="cta" aria-label="Check your book with SparkPrep">
 <h2>${esc(c.title || "Find out what's wrong with your files before the printer does")}</h2>
-<p>${c.text || "SparkPrep checks your cover and every interior page against the exact rules Amazon KDP, IngramSpark, Barnes &amp; Noble Press and Lulu use, tells you each problem in plain English, and can fix it for you."}</p>
+<p>${c.text || `SparkPrep, an <a href="${MAIN}/automated-publishing-production-system/">Automated Publishing Production System</a> (A.P.P.S.), checks your cover and every interior page against the exact rules Amazon KDP, IngramSpark, Barnes &amp; Noble Press and Lulu use, tells you each problem in plain English, and can fix it for you.`}</p>
 <a class="btn" href="${c.href || MAIN_LINKS.audit}">${esc(c.button || "Scan my book free")}</a>
 <a class="btn ghost" href="${MAIN_LINKS.home}">See how SparkPrep works</a>
 <p class="fine">${PRICE_LINE}</p>

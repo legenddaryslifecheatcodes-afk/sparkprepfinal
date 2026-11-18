@@ -187,7 +187,7 @@ d_body = f'''  <div class="eyebrow">Official definition · First published Novem
   <h2>How Legenddary SparkPrep works as an A.P.P.S.</h2>
   <ul>
     <li><strong>Make it:</strong> Cover Studio (free cover designer, 224 templates) and Interior Studio (free page formatter with Word import), plus AI writing help.</li>
-    <li><strong>Check it:</strong> the whole cover and every inside page against the rules of Amazon KDP, IngramSpark, Barnes &amp; Noble Press and Lulu: trim size, bleed, margins, spine width, colors, the 240% ink limit, picture sharpness and fonts.</li>
+    <li><strong>Check it:</strong> the whole cover and every inside page against the rules of Amazon KDP, IngramSpark, Barnes &amp; Noble Press and Lulu: <a href="/specs">trim size, bleed and margins</a>, spine width, colors, the 240% ink limit, <a href="/image-dpi-checker/">picture sharpness</a> and fonts.</li>
     <li><strong>Fix it:</strong> SparkPrep fixes what it safely can, and tells you plainly when something needs new art.</li>
     <li><strong>Double-check it:</strong> each repair is checked again by a separate step before it is accepted.</li>
     <li><strong>Export it:</strong> print-ready PDF/X-1a files, and the SparkPrep Certified report when every check passes.</li>
@@ -361,7 +361,21 @@ g_schema = {"@context": "https://schema.org", "@graph": [
     crumbs("Glossary", GLOSS_URL),
 ]}
 rows = [f'''  <div class="card" id="apps"><h3 style="margin-top:0">{e(apps_gloss[0])}</h3><p style="margin:0">{e(apps_gloss[1])} <a href="/automated-publishing-production-system/">Read the official definition</a>.</p></div>''']
-rows += [f'''  <div class="card" id="{slug(t)}"><h3 style="margin-top:0">{e(t)}</h3><p style="margin:0">{e(d)}</p></div>''' for t, d in TERMS]
+# Where a term has a page that explains it in depth, link it (descriptive anchor, one per term).
+SEE = {
+    "Trim size": ("/specs", "KDP and IngramSpark trim sizes"),
+    "Bleed": ("/book-margin-calculator/", "Bleed and margin calculator"),
+    "Gutter": ("/specs", "KDP margin and gutter rules"),
+    "Spine width": ("/book-spine-width-calculator/", "Spine width calculator"),
+    "Full cover (wrap)": ("/book-cover-dimensions/", "Book cover dimensions for every trim size"),
+    "DPI": ("/image-dpi-checker/", "Check the resolution of your pictures"),
+    "Preflight": (DEF_URL.replace(B, ""), "Preflight is one of the jobs an A.P.P.S. does"),
+}
+def see(t):
+    if t not in SEE: return ""
+    h, a = SEE[t]
+    return f' <a href="{h}">{e(a)}</a>.'
+rows += [f'''  <div class="card" id="{slug(t)}"><h3 style="margin-top:0">{e(t)}</h3><p style="margin:0">{e(d)}{see(t)}</p></div>''' for t, d in TERMS]
 g_body = f'''  <div class="eyebrow">Glossary · Updated <time datetime="{MODIFIED}">November 18, 2026</time></div>
   <h1>Self-publishing glossary: the words you'll meet, in plain English</h1>
   <p class="byline">By <a href="/about/">Joshua Davis</a>, founder of Legenddary SparkPrep</p>

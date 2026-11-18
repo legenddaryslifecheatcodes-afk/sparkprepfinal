@@ -139,7 +139,7 @@ export function FirstBookArticle({ pricing, auditPrice, auditNote }) {
 
         <h3 className="font-display font-bold text-2xl text-white mt-12 tracking-tight">What SparkPrep does</h3>
         <p className="mt-4">
-          SparkPrep was built by an author whose own book failed to print 18 times. It's an all-in-one self-publishing suite: you design, format, check, fix and export your book in one place. Our rule for every tool: power without complexity.
+          SparkPrep was built by an author whose own book failed to print 18 times. It&apos;s an <a href="/automated-publishing-production-system/" className="text-[#D4AF37] underline underline-offset-2 hover:text-white">Automated Publishing Production System (A.P.P.S.)</a>, an all-in-one self-publishing suite: you design, format, check, fix and export your book in one place. Our rule for every tool: power without complexity.
         </p>
         <ul className="mt-4 space-y-2 list-disc pl-6 marker:text-[#D4AF37]">
           <li><strong className="text-white">Free design tools:</strong> make your cover in Cover Studio and your pages in Interior Studio, already sized for your printer.</li>

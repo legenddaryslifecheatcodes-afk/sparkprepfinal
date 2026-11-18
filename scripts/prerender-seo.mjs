@@ -85,6 +85,7 @@ const NAV = [
   link("/kdp-cover-calculator/", "KDP cover size calculator"),
   link("/book-spine-width-calculator/", "Book spine width calculator"),
   link("/specs", "Print specs library"),
+  link("/automated-publishing-production-system/", "What is an Automated Publishing Production System (A.P.P.S.)?"),
 ].join("\n            ");
 
 const template = readFileSync(new URL("index.html", BUILD), "utf8");

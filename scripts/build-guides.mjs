@@ -157,7 +157,7 @@ ${bridge(g)}
   <section class="cta">
     <h2>How to fix it instantly (the SparkPrep way)</h2>
     <p>If you don't have expensive design software, or you just want to get your book published without the headache, let SparkPrep handle it.</p>
-    <p>SparkPrep was built by a self-published author whose own book was rejected 18 times. It checks your files against the exact print rules Amazon KDP, IngramSpark, Barnes &amp; Noble Press and Lulu publish.</p>
+    <p>SparkPrep is an <a href="/automated-publishing-production-system/">Automated Publishing Production System</a> (A.P.P.S.), built by a self-published author whose own book was rejected 18 times. It checks your files against the exact print rules Amazon KDP, IngramSpark, Barnes &amp; Noble Press and Lulu publish.</p>
     <p>When you upload your file to SparkPrep:</p>
     <ul>
       <li>We automatically scan for page size, bleed, spine width, safety margins, ink coverage and embedded fonts.</li>
@@ -287,7 +287,7 @@ ${sections}
 
   <section class="cta">
     <h2>Rather not fix it by hand?</h2>
-    <p>Upload your cover and interior. SparkPrep checks them against your printer's rules, explains every problem in plain English and fixes it for you.</p>
+    <p>Upload your cover and interior. SparkPrep, an A.P.P.S. (one system that makes, checks and fixes your book), checks them against your printer's rules, explains every problem in plain English and fixes it for you.</p>
     <a class="btn" href="/">Check my book files</a>
   </section>
 ${FOOT}`;

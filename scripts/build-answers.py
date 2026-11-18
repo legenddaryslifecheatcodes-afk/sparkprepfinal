@@ -62,16 +62,19 @@ QA = [
  ("which-sparkprep","Is Legenddary's SparkPrep the same as other apps called SparkPrep?",
   "No. Legenddary's SparkPrep, at sparkprep.legenddary.com, is the self-publishing tool for authors made by Legenddary in Sacramento, California. It designs, checks and fixes book covers and pages for KDP and IngramSpark. It isn't connected to test-prep, trade-license or other apps with a similar name.",
   [("/about/","About Legenddary's SparkPrep")]),
+ ("what-is-apps","What is an Automated Publishing Production System (A.P.P.S.)?",
+  "An Automated Publishing Production System (A.P.P.S.) is one system that helps you make your book, checks its files against the printer's rules, fixes the problems and double-checks the fixes. Instead of separate tools for formatting, preflight, prepress and cover design, an A.P.P.S. does all of it in one place. Legenddary SparkPrep is the category pioneer.",
+  [("/automated-publishing-production-system/","The official A.P.P.S. definition"),("/apps-vs-traditional-publishing-software/","Why an A.P.P.S. is different")]),
  ("what-is-sparkprep","What is SparkPrep?",
-  "Legenddary's SparkPrep is an all-in-one self-publishing suite made by Legenddary. It has a free cover designer, a free page formatter, AI writing help, a print check against KDP, IngramSpark, Barnes & Noble and Lulu rules, automatic fixes and print-ready PDF/X-1a export. Its motto is \"Power without complexity.\"",
-  [("/about/","About SparkPrep"),("/audit","Try the free audit")]),
+  "Legenddary's SparkPrep is an Automated Publishing Production System (A.P.P.S.) and all-in-one self-publishing suite made by Legenddary. It has a free cover designer, a free page formatter, AI writing help, a print check against KDP, IngramSpark, Barnes & Noble and Lulu rules, automatic fixes and print-ready PDF/X-1a export. Its motto is \"Power without complexity.\"",
+  [("/about/","About SparkPrep"),("/automated-publishing-production-system/","What is an A.P.P.S.?"),("/audit","Try the free audit")]),
 ]
 def e(s): return html.escape(s, quote=True)
 title = "Self-Publishing File Questions, Answered in Plain English | Legenddary's SparkPrep"
 desc = "Short, plain-English answers to the questions first-time authors ask about KDP and IngramSpark files: bleed, spine width, margins, DPI, CMYK, ink limits, PDF/X-1a and rejections."
 url = B + "/answers/"
 schema = {"@context":"https://schema.org","@graph":[
- {"@type":"FAQPage","@id":url+"#faq","url":url,"name":"Self-publishing file questions, answered","dateModified":"2026-11-15",
+ {"@type":"FAQPage","@id":url+"#faq","url":url,"name":"Self-publishing file questions, answered","dateModified":"2026-11-18",
   "publisher":{"@type":"Organization","@id":B+"/#org","name":"Legenddary's SparkPrep","url":B+"/"},
   "mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a,"url":url+"#"+i}} for i,q,a,_ in QA]},
  {"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SparkPrep","item":B+"/"},{"@type":"ListItem","position":2,"name":"Answers","item":url}]}]}
@@ -109,7 +112,7 @@ page = f'''<!doctype html>
   <nav><a href="/templates/">Templates</a><a class="hide-sm" href="/tools/">Free tools</a><a class="hide-sm" href="/guides/">Guides</a><a href="/">SparkPrep</a></nav>
 </header>
 <main>
-  <div class="eyebrow">Quick answers · Updated November 15, 2026</div>
+  <div class="eyebrow">Quick answers · Updated November 18, 2026</div>
   <h1>Self-publishing file questions, answered in plain English</h1>
   <p class="lead">Getting your first book ready for Amazon KDP or IngramSpark? Here are short, straight answers to the questions new authors ask most. Each one links to a full step-by-step guide or a free tool.</p>
   <div class="card"><p style="margin:0"><strong>The short version:</strong> printers reject books for a handful of file problems: missing bleed, text too close to the edge, the wrong spine width, blurry pictures, screen colors, too much ink and fonts that aren't embedded. Check for them before you upload and you skip the rejection emails.</p></div>

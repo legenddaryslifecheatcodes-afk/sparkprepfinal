@@ -97,7 +97,7 @@ HEAD = '''<!doctype html>
 
 FOOT = '''  <p class="note">SparkPrep is an independent tool and is not affiliated with Amazon KDP, IngramSpark, Barnes &amp; Noble Press or Lulu. Each printer makes the final call on every file.</p>
 </main>
-<footer class="site">© Legenddary's SparkPrep, a <a href="https://legenddary.com/">Legenddary</a> product · <a href="/">Home</a><a href="/automated-publishing-production-system/">What is an A.P.P.S.?</a><a href="/answers/">Answers</a><a href="/glossary/">Glossary</a><a href="/about/">About</a><a href="/tools/">Free tools</a><a href="/guides/">Guides</a><a href="/pricing">Pricing</a></footer>
+<footer class="site">© Legenddary's SparkPrep, a <a href="https://legenddary.com/">Legenddary</a> product · <a href="/">Home</a><a href="/automated-publishing-production-system/">What is an A.P.P.S.?</a><a href="/evolution-of-self-publishing/">The evolution of self-publishing</a><a href="/answers/">Answers</a><a href="/glossary/">Glossary</a><a href="/about/">About</a><a href="/tools/">Free tools</a><a href="/guides/">Guides</a><a href="/pricing">Pricing</a></footer>
 </body>
 </html>
 '''
@@ -201,6 +201,7 @@ d_body = f'''  <div class="eyebrow">Official definition · First published Novem
     <li><strong>Single-job tools:</strong> separate apps appeared for formatting, cover design and file checking (preflight). Authors had to learn each one and move files between them.</li>
     <li><strong>The A.P.P.S.:</strong> those jobs come together in one system that does the technical work for you. That is the next step, and it is why SparkPrep's motto is <em>The Evolution of Self-Publishing</em>.</li>
   </ol>
+  <p><strong>Legenddary SparkPrep is the first A.P.P.S. the self-publishing industry has ever seen.</strong> <a href="/evolution-of-self-publishing/">Read why SparkPrep is the evolution of self-publishing</a>.</p>
   <p>Each word in the name says what it does:</p>
   <ul>
     <li><strong>Automated:</strong> the system does the checking and fixing itself, so you don't need to learn printer rules first.</li>
@@ -219,6 +220,7 @@ d_body = f'''  <div class="eyebrow">Official definition · First published Novem
   <h2>Read next</h2>
   <ul class="links">
     <li><a href="/apps-vs-traditional-publishing-software/">Why an A.P.P.S. is different from traditional publishing software</a></li>
+    <li><a href="/evolution-of-self-publishing/">Why SparkPrep is the evolution of self-publishing</a></li>
     <li><a href="/how-to-self-publish-a-book/">How to self publish a book: 7 simple steps</a></li>
     <li><a href="/book-formatting/">Book formatting for KDP and IngramSpark</a></li>
     <li><a href="/guides/what-is-preflight-first-time-authors/">What is preflight? A first-time author's guide</a></li>
@@ -318,6 +320,7 @@ a_body = f'''  <div class="eyebrow">Article · The A.P.P.S. category</div>
   <h2>Read next</h2>
   <ul class="links">
     <li><a href="/automated-publishing-production-system/">The official A.P.P.S. definition</a></li>
+    <li><a href="/evolution-of-self-publishing/">Why SparkPrep is the evolution of self-publishing (the first A.P.P.S.)</a></li>
     <li><a href="/guides/sparkprep-vs-hiring-a-freelancer/">SparkPrep vs hiring a freelancer</a></li>
     <li><a href="/guides/sparkprep-vs-vellum-atticus/">SparkPrep vs Vellum and Atticus</a></li>
     <li><a href="/how-to-self-publish-a-book/">How to self publish a book: 7 simple steps</a></li>
@@ -392,4 +395,121 @@ write(ROOT + "/public/glossary/index.html",
       HEAD.format(title=e(g_title), desc=e(g_desc), url=GLOSS_URL, B=B, pub=PUBLISHED, mod=MODIFIED,
                   ogtitle=e("Self-publishing glossary, in plain English"),
                   schema=json.dumps(g_schema, ensure_ascii=False)).replace('content="article"', 'content="website"', 1) + g_body + FOOT)
-print("built 3 A.P.P.S. pages (definition, article, glossary)")
+print("built 4 A.P.P.S. pages (definition, article, glossary, evolution)")
+
+# ---------------- 4. Why SparkPrep is the evolution of self-publishing ----------------
+# Home of the "first A.P.P.S." statement. Keep it true: SparkPrep defined A.P.P.S. as a category and
+# published the definition first (2026-11-18). Never claim SparkPrep coined the words.
+EVO_URL = B + "/evolution-of-self-publishing/"
+FIRST = ("Legenddary SparkPrep is the first Automated Publishing Production System (A.P.P.S.) the self-publishing "
+         "industry has ever seen.")
+E_SHORT = ("SparkPrep is called the evolution of self-publishing because it is the first Automated Publishing Production "
+           "System (A.P.P.S.) for self-published authors. Instead of separate tools for the cover, the pages, the file "
+           "check and the fixes, one system makes your book, checks it against the printer's rules, fixes the problems "
+           "and double-checks every fix.")
+E_FAQ = [
+    ("Why is SparkPrep called the evolution of self-publishing?", E_SHORT),
+    ("Is SparkPrep really the first A.P.P.S.?",
+     "Yes. Legenddary SparkPrep defined the Automated Publishing Production System (A.P.P.S.) as a category and published "
+     "the first definition on November 18, 2026, and it is the first product built and named as one for self-published authors. Other tools do one "
+     "part, such as formatting or file checking."),
+    ("What came before an A.P.P.S.?",
+     "Desktop publishing put page layout on home computers. Print on demand from Lightning Source, Amazon KDP and "
+     "IngramSpark let anyone print without buying stock. Then single-job tools appeared for formatting, covers and file "
+     "checks. An A.P.P.S. joins those jobs into one system."),
+    ("Is SparkPrep only for experienced authors?",
+     "No. It was made for first-time authors. You don't need to know printer words like bleed or PDF/X-1a. SparkPrep "
+     "explains each problem in plain English and fixes what it safely can. That is what Power without complexity means."),
+]
+e_title = "Why SparkPrep Is the Evolution of Self-Publishing: The First A.P.P.S. | Legenddary's SparkPrep"
+e_desc = ("Self-publishing went from print shops to home computers to print on demand. The next step is the Automated "
+          "Publishing Production System (A.P.P.S.), and SparkPrep is the first one. Here's what that means for your book.")
+e_schema = {"@context": "https://schema.org", "@graph": [
+    {"@type": "Article", "@id": EVO_URL + "#article", "url": EVO_URL, "mainEntityOfPage": EVO_URL,
+     "headline": "Why SparkPrep is the evolution of self-publishing",
+     "alternativeHeadline": "The first Automated Publishing Production System (A.P.P.S.) for self-publishing",
+     "description": e_desc, "inLanguage": "en",
+     "datePublished": PUBLISHED, "dateModified": MODIFIED,
+     "author": AUTHOR, "publisher": ORG, "image": B + "/brand/sparkprep-og.jpg",
+     "about": [{"@id": TERM_ID}, {"@id": B + "/#app"}],
+     "mentions": [{"@id": TERM_ID}, {"@id": B + "/#org"}, {"@id": ART_URL + "#article"}],
+     "isPartOf": {"@id": B + "/#website"}},
+    {"@type": "SoftwareApplication", "@id": B + "/#app", "name": BRAND,
+     "applicationCategory": "BusinessApplication",
+     "applicationSubCategory": "Automated Publishing Production System (A.P.P.S.)",
+     "slogan": "The Evolution of Self-Publishing",
+     "operatingSystem": "Web", "url": B + "/", "publisher": ORG, "about": {"@id": TERM_ID}},
+    faq_ld(EVO_URL, E_FAQ),
+    crumbs("The evolution of self-publishing", EVO_URL),
+]}
+e_faq_html = "\n".join(f'  <h3>{e(q)}</h3>\n  <p>{e(a)}</p>' for q, a in E_FAQ)
+e_body = f'''  <div class="eyebrow">The Evolution of Self-Publishing</div>
+  <h1>Why SparkPrep is the evolution of self-publishing</h1>
+  <p class="byline">By <a href="/about/">Joshua Davis</a>, founder of Legenddary SparkPrep · Published <time datetime="{PUBLISHED}">November 18, 2026</time></p>
+
+  <div class="card" id="answer"><p style="margin:0"><strong>Short answer:</strong> {e(E_SHORT)}</p></div>
+
+  <div class="pos" id="first">
+    <div class="k">Category Pioneer</div>
+    <div class="h">{e(FIRST)}</div>
+    <p>One system that makes, checks, fixes and double-checks your book.</p>
+    <p class="note" style="margin-top:10px">The Evolution of Self-Publishing · Power without complexity</p>
+  </div>
+
+  <h2>How self-publishing got here</h2>
+  <p>Every big step in self-publishing let one more kind of person put a book into the world. Here is the short version:</p>
+  <ol>
+    <li><strong>Desktop publishing (1985):</strong> programs like Aldus PageMaker moved page layout from the print shop to a home computer. You could design a book, but you still had to pay a printer for a big stack of copies.</li>
+    <li><strong>Print on demand (late 1990s):</strong> Ingram's Lightning Source started printing one book at a time, when someone ordered it. No warehouse, no boxes in the garage.</li>
+    <li><strong>Publish it yourself online (2007 onward):</strong> Amazon's Kindle Direct Publishing (KDP) opened in 2007, and IngramSpark opened to independent authors in 2013. Anyone could upload a book for free and sell it worldwide.</li>
+    <li><strong>A tool for every job:</strong> as more people published, separate apps appeared for formatting pages, designing covers and checking files (preflight). Each one does one job well.</li>
+    <li><strong>The A.P.P.S. (2026):</strong> those jobs come together in one <a href="/automated-publishing-production-system/">Automated Publishing Production System</a>. That is the step SparkPrep takes.</li>
+  </ol>
+  <p>It worked. Bowker counted about 3.53 million self-published titles in 2025. More people are publishing than ever.</p>
+
+  <h2>The problem the last step left behind</h2>
+  <p>Uploading got easy. Getting the file <em>right</em> did not. KDP and IngramSpark still check your cover and pages against strict print rules: the exact cover size, the spine width, bleed, safe margins, picture sharpness, fonts and ink. A file that looks perfect on your screen can still be sent back.</p>
+  <p>So a first-time author ends up doing a job no one told them about. You move the book between a writing app, a cover app, a formatter and maybe a checker, and you hope nothing breaks between them. Or you hire freelancers: Reedsy reports a median of about $930 for a cover and an average of about $800 for interior formatting.</p>
+  <p>That is how SparkPrep started. Founder Joshua Davis's own book, <em>Legenddary Mindset: The Awakening</em>, was sent back by the printer 18 times. He built SparkPrep so no author has to go through that again.</p>
+
+  <h2>What makes SparkPrep the next step</h2>
+  <p>SparkPrep doesn't add one more tool to the pile. It replaces the pile with one system:</p>
+  <ul>
+    <li><strong>Make it:</strong> free Cover Studio (224 templates) and Interior Studio (import your Word file), plus AI writing help.</li>
+    <li><strong>Check it:</strong> the whole cover and every inside page against the rules of Amazon KDP, IngramSpark, Barnes &amp; Noble Press and Lulu.</li>
+    <li><strong>Fix it:</strong> SparkPrep fixes what it safely can, and tells you plainly when something needs new art from you.</li>
+    <li><strong>Double-check it:</strong> every repair is checked again by a separate step before it's accepted.</li>
+    <li><strong>Export it:</strong> print-ready PDF files, plus the SparkPrep Certified report when every check passes.</li>
+  </ul>
+  <p>That is the difference between a tool and an A.P.P.S. Read the side-by-side in <a href="/apps-vs-traditional-publishing-software/">A.P.P.S. vs traditional publishing software</a>.</p>
+
+  <h2>Power without complexity</h2>
+  <p>A lot happens under the hood: spine math from each printer's own paper numbers, the 240% ink limit, color conversion, page-size fixes. You don't have to learn any of it. On screen you see one clear next step, and every problem is explained in plain English. That is SparkPrep's second motto: <em>Power without complexity</em>.</p>
+
+  <h2>Why we can say "first"</h2>
+  <p>We don't say it lightly. Legenddary SparkPrep defined the Automated Publishing Production System as a category and published the first definition of it on <time datetime="{PUBLISHED}">November 18, 2026</time>. SparkPrep is the first product built and named as an A.P.P.S. for self-published authors. Other good tools do one part, like formatting or file checking. The <a href="/automated-publishing-production-system/#definition">official definition</a> spells out all five parts, so you can judge for yourself.</p>
+  <p>What it won't do: write your book for you, or promise a printer will accept it. KDP and IngramSpark always make the final call. SparkPrep makes sure your files follow their published rules before you upload.</p>
+
+  <h2>Common questions</h2>
+{e_faq_html}
+
+  <h2>Read next</h2>
+  <ul class="links">
+    <li><a href="/automated-publishing-production-system/">What is an Automated Publishing Production System (A.P.P.S.)?</a></li>
+    <li><a href="/apps-vs-traditional-publishing-software/">Why an A.P.P.S. is different from traditional publishing software</a></li>
+    <li><a href="/how-to-self-publish-a-book/">How to self publish a book: 7 simple steps</a></li>
+    <li><a href="/glossary/">Self-publishing glossary</a></li>
+    <li><a href="/about/">About Legenddary's SparkPrep</a></li>
+  </ul>
+
+  <section class="cta">
+    <h2>See the first A.P.P.S. check your book, free</h2>
+    <p>Upload your cover or inside pages. SparkPrep shows every problem, where it is and the printer rule it breaks. Free through December 31, 2026. No sign-up.</p>
+    <a class="btn" href="/audit" data-next-step="Start here">Check my book for free</a>
+    <a class="btn ghost" href="/automated-publishing-production-system/">Read the definition</a>
+  </section>
+'''
+write(ROOT + "/public/evolution-of-self-publishing/index.html",
+      HEAD.format(title=e(e_title), desc=e(e_desc), url=EVO_URL, B=B, pub=PUBLISHED, mod=MODIFIED,
+                  ogtitle=e("Why SparkPrep is the evolution of self-publishing"),
+                  schema=json.dumps(e_schema, ensure_ascii=False)) + e_body + FOOT)

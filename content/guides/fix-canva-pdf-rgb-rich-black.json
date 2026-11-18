@@ -1,0 +1,39 @@
+{
+  "slug": "fix-canva-pdf-rgb-rich-black",
+  "date": "2026-11-16",
+  "category": "color",
+  "job": "both",
+  "title": "Canva PDF Rejected for Print? Fix RGB Color and Rich Black (KDP & IngramSpark) | SparkPrep",
+  "h1": "How to fix a Canva PDF that's rejected for color",
+  "description": "Canva files are made in screen color, so black text can turn into four inks. Here's how to export a Canva book file the printer accepts.",
+  "platforms": "Amazon KDP · IngramSpark",
+  "lead": "Canva is the go-to for book covers. But its files start in screen color, and that trips up printers.",
+  "error": "File contains RGB color",
+  "errorNote": "Paraphrased. An ink coverage over 240% message often comes with it.",
+  "why": "<p>Canva designs in <strong>RGB</strong>, the color of screens. Printers use <strong>CMYK</strong> ink. When RGB black is turned into ink, it often becomes a \"rich black\" that mixes all four inks.</p><p>That causes two problems. A black-and-white interior is only allowed black ink, so any color fails. And dark areas can pass IngramSpark's 240% total ink limit, which gets the file rejected.</p>",
+  "manual": [
+    "In Canva, choose Share → Download → PDF Print.",
+    "Turn on \"Crop marks and bleed\" only if your printer asks for bleed in the file, and pick CMYK under Color profile if your plan shows it.",
+    "Make black text and lines plain black, not a dark photo or gradient.",
+    "Open the PDF in Acrobat Pro and check Print Production → Output Preview for RGB and for areas over 240% total ink.",
+    "Re-upload it to your printer and wait for the file review again. If it fails, you start over."
+  ],
+  "quickfix": "SparkPrep finds the RGB color and over-limit ink in your Canva file, converts it to print color within the 240% limit, and exports a PDF/X-1a.",
+  "spNote": "For black-and-white interiors, SparkPrep makes text black-ink only and exports the pages as true grayscale.",
+  "cta": {
+    "text": "Upload your Canva PDF. SparkPrep converts it to CMYK, keeps ink under 240%, makes B&W pages black-only and exports a PDF/X-1a.",
+    "button": "Fix my Canva file",
+    "href": "/"
+  },
+  "faq": [
+    {
+      "q": "Is Canva's PDF Print good enough for KDP?",
+      "a": "It can be, if the size and bleed are right. Color is the usual problem, so check for RGB and rich black before uploading."
+    },
+    {
+      "q": "What is rich black?",
+      "a": "Black made from several inks mixed together instead of black ink alone. It can break ink limits and isn't allowed in black-and-white books."
+    }
+  ],
+  "diy": []
+}

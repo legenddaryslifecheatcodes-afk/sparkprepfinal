@@ -1,0 +1,38 @@
+{
+  "slug": "fix-dust-jacket-wrong-size",
+  "date": "2026-11-13",
+  "category": "cover",
+  "job": "cover",
+  "title": "Dust Jacket Cover the Wrong Size? IngramSpark & Barnes & Noble Press Jacket Sizes | SparkPrep",
+  "h1": "How to fix a hardcover dust jacket that's the wrong size",
+  "description": "A dust jacket needs flaps, folds and panels bigger than the trim. See IngramSpark's and B&N Press's own jacket sizes and fix your file.",
+  "platforms": "IngramSpark · Barnes & Noble Press",
+  "lead": "A dust jacket is the paper cover that wraps around a hardcover and tucks inside with flaps. It's much wider than any other cover.",
+  "error": "Dust jacket file does not match the jacket template size",
+  "errorNote": "Paraphrased. Each printer words this a little differently.",
+  "why": "<p>A dust jacket has seven parts from left to right: back flap, fold, back panel, spine, front panel, fold, front flap. Each flap is 3.25\" and each fold is 0.25\", plus 0.125\" bleed around the outside.</p><p>The panels are bigger than your trim because the jacket covers the boards. For a 6\" x 9\" book:</p><ul><li><strong>IngramSpark:</strong> each panel is the trim + 0.4375\" wide and + 0.25\" tall. Their own template for a 0.313\" spine is 20.438\" x 9.5\".</li><li><strong>Barnes & Noble Press:</strong> same layout, but each panel is about trim + 0.4445\" wide. Their own template for a 0.31\" spine is 20.451\" x 9.5\".</li></ul><p>Amazon KDP and Lulu don't offer a dust jacket binding at all, so there is no jacket file to make for them.</p>",
+  "manual": [
+    "Download your printer's own dust jacket template for your exact trim size, page count and paper.",
+    "Set your cover document to the template's full size.",
+    "Line up the back flap, back panel, spine, front panel and front flap with the template, and keep text off the 0.25\" folds.",
+    "Hide the template layer, flatten, and export as PDF/X-1a:2001.",
+    "Re-upload it to your printer and wait for the file review again. If it fails, you start over."
+  ],
+  "quickfix": "SparkPrep checks your dust jacket against your printer's own jacket size, flaps and folds, and shows exactly what's off.",
+  "cta": {
+    "text": "SparkPrep checks your jacket against IngramSpark's or B&N Press's own jacket numbers (they differ) and flags text sitting on the folds.",
+    "button": "Check my dust jacket",
+    "href": "/"
+  },
+  "faq": [
+    {
+      "q": "How wide are dust jacket flaps?",
+      "a": "3.25\" each at IngramSpark and Barnes & Noble Press, with a 0.25\" fold between each flap and its panel."
+    },
+    {
+      "q": "Can I print a dust jacket through KDP?",
+      "a": "No. KDP's hardcover is case laminate only, so it has no dust jacket option."
+    }
+  ],
+  "diy": []
+}

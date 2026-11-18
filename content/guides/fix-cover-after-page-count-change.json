@@ -1,0 +1,39 @@
+{
+  "slug": "fix-cover-after-page-count-change",
+  "date": "2026-11-12",
+  "category": "cover",
+  "job": "cover",
+  "title": "Changed Your Page Count? Why Your Book Cover No Longer Fits (KDP & IngramSpark) | SparkPrep",
+  "h1": "How to fix a cover that stopped fitting after your page count changed",
+  "description": "Adding or cutting pages changes your spine width, so your old cover is now the wrong size. Here's how to refit it before the printer rejects it.",
+  "platforms": "Amazon KDP · IngramSpark",
+  "lead": "You edited the book, the page count moved, and the cover you already approved suddenly gets rejected.",
+  "error": "Cover spine width does not match the page count of the interior",
+  "errorNote": "Paraphrased. Each printer words this a little differently.",
+  "why": "<p>Your spine width comes from your page count and your paper. Add pages and the spine gets wider. Cut pages and it gets thinner. The full cover width changes with it.</p><p>So a cover made for 220 pages no longer fits the same book at 260 pages. The spine text drifts off the spine, and the printer's size check rejects the file. Changing from white to cream paper does the same thing.</p>",
+  "manual": [
+    "Note your new final page count and your paper (white or cream).",
+    "Get the new full cover size and spine width from your printer's own calculator or template.",
+    "Change your cover document to the new full size.",
+    "Move the front to the right edge, re-center the spine text on the new spine, and keep the back in place. Re-export as a print PDF.",
+    "Re-upload it to your printer and wait for the file review again. If it fails, you start over."
+  ],
+  "quickfix": "SparkPrep reads your page count, works out the new spine from your printer's own numbers, and tells you when your cover no longer fits.",
+  "spNote": "Made your cover in SparkPrep's Cover Studio? \"Re-fit my cover\" moves it onto the new spine for you. For a cover you uploaded, SparkPrep shows exactly how far off the size is.",
+  "cta": {
+    "text": "SparkPrep spots a cover that no longer fits your page count, and Cover Studio designs re-fit to the new spine.",
+    "button": "Check my cover still fits",
+    "href": "/"
+  },
+  "faq": [
+    {
+      "q": "Do I need a new cover if I add pages?",
+      "a": "You need a resized cover. The front and back art can stay the same, but the spine and full width change."
+    },
+    {
+      "q": "How many pages can I add before the cover is wrong?",
+      "a": "Any change in page count changes the spine width, so get a new size from your printer's calculator every time."
+    }
+  ],
+  "diy": []
+}

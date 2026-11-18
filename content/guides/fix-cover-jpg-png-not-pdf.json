@@ -1,0 +1,38 @@
+{
+  "slug": "fix-cover-jpg-png-not-pdf",
+  "date": "2026-11-11",
+  "category": "platform",
+  "job": "cover",
+  "title": "KDP or IngramSpark Won't Take Your JPG or PNG Cover? How to Make a Print PDF | SparkPrep",
+  "h1": "How to fix a book cover saved as a JPG or PNG instead of a PDF",
+  "description": "Paperback covers must be uploaded as a PDF. Learn why a JPG or PNG cover is turned away and how to turn it into a print-ready PDF.",
+  "platforms": "Amazon KDP · IngramSpark",
+  "lead": "Your cover looks perfect as a picture. But for a printed book, KDP and IngramSpark want a PDF.",
+  "error": "Cover file must be a PDF",
+  "errorNote": "Paraphrased. Each printer words this a little differently.",
+  "why": "<p>A JPG or PNG is just a picture. A print cover file also has to carry its exact size in inches, bleed and print color. That's why paperback cover uploads at KDP and IngramSpark expect a PDF.</p><p>Picture files bring other problems too: PNG and most JPGs are in screen color (RGB), and a picture saved for the web is usually far below 300 DPI at full cover size.</p>",
+  "manual": [
+    "Check your picture is at least 300 DPI at the full cover size (width in inches x 300 = pixels needed).",
+    "Open it in a design app and make a document at your printer's exact full cover size, including bleed.",
+    "Place the picture so it fills the whole page edge to edge.",
+    "Export as a PDF, using PDF/X-1a:2001 and CMYK if your app offers them.",
+    "Re-upload it to your printer and wait for the file review again. If it fails, you start over."
+  ],
+  "quickfix": "Upload your JPG, PNG or TIFF cover. SparkPrep checks its size and resolution, converts it to print color, and exports a print-ready PDF/X-1a.",
+  "cta": {
+    "text": "Upload your cover as a JPG, PNG or TIFF. SparkPrep checks the size and DPI, converts it to CMYK and exports a PDF/X-1a your printer accepts.",
+    "button": "Turn my cover into a PDF",
+    "href": "/"
+  },
+  "faq": [
+    {
+      "q": "Can I upload a JPG cover to KDP for a paperback?",
+      "a": "No. KDP's paperback cover upload expects a PDF. Turn the picture into a PDF at the exact full cover size first."
+    },
+    {
+      "q": "Does saving a JPG as a PDF fix it?",
+      "a": "Only if the PDF is the exact full cover size with bleed, and the picture has enough resolution at that size."
+    }
+  ],
+  "diy": []
+}

@@ -10,6 +10,7 @@ const ROOT = new URL("../", import.meta.url);
 const TODAY = process.env.GUIDES_TODAY || new Date().toISOString().slice(0, 10);
 
 export const CATEGORIES = [
+  { key: "start", name: "Start Here: Your First Book", blurb: "Plain-English basics for first-time self-publishers: sizes, pictures, ISBNs, covers and formats." },
   { key: "cover", name: "Cover & Spine", blurb: "Spine width, bleed, barcode placement and spine text." },
   { key: "interior", name: "Interior Formatting", blurb: "Page size, margins and gutters, safety areas and fonts." },
   { key: "color", name: "Color & Resolution", blurb: "300 DPI images, CMYK vs RGB and ink limits." },
@@ -24,7 +25,7 @@ const REEDSY = {
   source: "https://reedsy.com/blog/guide/how-to-self-publish-a-book/cost-to-self-publish/",
 };
 // What a guide's problem would cost to hand to a freelancer: the cover, the inside pages, or both.
-const JOB = { cover: "cover", interior: "interior", color: "both", platform: "both", compare: "both" };
+const JOB = { start: "both", cover: "cover", interior: "interior", color: "both", platform: "both", compare: "both" };
 
 function costBox(g) {
   const job = g.job || JOB[g.category];

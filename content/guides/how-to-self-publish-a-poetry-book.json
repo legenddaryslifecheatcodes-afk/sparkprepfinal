@@ -1,0 +1,35 @@
+{
+  "slug": "how-to-self-publish-a-poetry-book",
+  "category": "start",
+  "date": "2026-11-21",
+  "title": "How to Self-Publish a Poetry Book: Size, Layout and Cover Guide | Legenddary's SparkPrep",
+  "h1": "How to self-publish a poetry book: size, layout and cover",
+  "description": "A plain-English guide to publishing your first poetry book on KDP or IngramSpark: the best sizes, keeping line breaks, page-count limits, spine rules and free poetry cover templates.",
+  "platforms": "Amazon KDP, IngramSpark",
+  "lead": "Poetry is one of the trickiest books to format, because every line break and space is part of the poem. The good news: once you set it up right, publishing a poetry book is free and fast. Here's how.",
+  "answer": {
+    "q": "What size should a poetry book be?",
+    "a": "Most self-published poetry books are 5 x 8, 5.5 x 8.5 or 6 x 9 inches. Pick the narrowest size your longest lines fit without wrapping. KDP paperbacks need at least 24 pages, and spine text is only allowed above 79 pages, which many thin poetry books don't reach."
+  },
+  "body": "\n  <h2>Step 1: Pick a size your longest line fits</h2>\n  <p>Find your longest line. Choose the smallest common size where that line fits on one line at a comfortable font size (11 or 12 point). Common choices are 5 x 8, 5.5 x 8.5 and 6 x 9 inches. All three work on both KDP and IngramSpark. See exact <a href=\"/specs\">trim sizes and margins</a>.</p>\n\n  <h2>Step 2: Protect your line breaks</h2>\n  <ul>\n    <li>In Word, press <strong>Shift + Enter</strong> for a line break inside a stanza, and Enter between stanzas. This keeps spacing even.</li>\n    <li>Use a <strong>left alignment</strong>, never \"justified\": justified text stretches the spaces in your lines.</li>\n    <li>Use real indents (the ruler or paragraph settings), not the space bar.</li>\n    <li>Start each poem on a new page with a <strong>page break</strong> (Ctrl + Enter), not by pressing Enter many times.</li>\n  </ul>\n\n  <h2>Step 3: Export a PDF, not a Word file</h2>\n  <p>Uploading a Word file lets the printer re-flow your text, and your line breaks can move. A PDF locks every line in place. Read <a href=\"/guides/export-print-ready-pdf-from-word/\">how to export a print-ready PDF from Word</a>, with fonts embedded.</p>\n\n  <h2>Step 4: Know the page-count rules</h2>\n  <div class=\"table-wrap\"><table>\n    <tr><th>Rule</th><th>Amazon KDP</th><th>IngramSpark</th></tr>\n    <tr><td>Fewest pages</td><td>24 (paperback)</td><td>Check its size table for your book</td></tr>\n    <tr><td>Spine text allowed</td><td>More than 79 pages</td><td>48 pages or more (paperback)</td></tr>\n  </table></div>\n  <p>Short collection? Your spine will be too thin for a title, and that's fine. Leave the spine blank rather than squeezing text on it, or the file is rejected. More: <a href=\"/guides/fix-spine-text-not-allowed/\">spine text not allowed</a>.</p>\n\n  <h2>Step 5: The cover</h2>\n  <p>Poetry covers tend to be simple: one strong image or texture, a clear title and your name. You can start from free <a href=\"/templates/poetry-book-covers/\">poetry book cover templates</a> already sized for your book. You'll need the front, spine and back as one file, at the size in the <a href=\"/book-cover-dimensions/\">book cover dimensions chart</a>.</p>\n\n  <h2>Step 6: Check it before you upload</h2>\n  <p>Poetry books get rejected for the same few things: wrong page size, text too close to the edge, fonts not embedded, and spine text on a thin book. SparkPrep is an <a href=\"/automated-publishing-production-system/\">Automated Publishing Production System</a> (A.P.P.S.) that checks all of those on your cover and every page, then fixes what it can, so your first upload is your last.</p>",
+  "faq": [
+    {
+      "q": "Can I self-publish a poetry book for free?",
+      "a": "Yes. Amazon KDP and IngramSpark charge nothing to publish a paperback. Printing is taken out of each sale. You can also get a free ISBN from either one."
+    },
+    {
+      "q": "How many poems do I need for a book?",
+      "a": "There's no fixed number, but KDP paperbacks need at least 24 pages. Many first collections have 30 to 60 poems, about 50 to 100 pages."
+    },
+    {
+      "q": "Why did my poem's line breaks change after uploading?",
+      "a": "You likely uploaded a Word file and the printer re-flowed the text. Upload a PDF with fonts embedded instead; a PDF keeps every line exactly where you put it."
+    }
+  ],
+  "cta": {
+    "text": "Upload your poetry book and SparkPrep checks the page size, margins, fonts and spine against KDP's or IngramSpark's rules, free through Dec 31.",
+    "button": "Check my poetry book",
+    "href": "/audit"
+  },
+  "updated": "2026-11-21"
+}

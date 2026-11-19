@@ -1,0 +1,35 @@
+{
+  "slug": "what-is-a-proof-copy",
+  "category": "start",
+  "date": "2026-11-25",
+  "title": "What Is a Proof Copy? Ordering a KDP Proof Before You Publish | Legenddary's SparkPrep",
+  "h1": "What is a proof copy, and should you order one before publishing?",
+  "description": "A proof copy is a printed test copy of your book. Plain-English guide for first-time authors: what a KDP proof is, how it differs from an author copy, what it costs and what to check when it arrives.",
+  "platforms": "Amazon KDP, IngramSpark",
+  "lead": "A proof copy is a real printed copy of your book that you check before anyone can buy it. It's the single best way to catch problems a screen can hide. Here's what to know.",
+  "answer": {
+    "q": "What is a proof copy of a book?",
+    "a": "A proof copy is a printed test copy you order before your book goes on sale, so you can check it on paper. KDP proofs have a \"Not for Resale\" mark and a barcode with no ISBN. You pay for printing and shipping, earn no royalty, and can't resell them."
+  },
+  "body": "\n  <h2>Proof copy vs author copy</h2>\n  <div class=\"table-wrap\"><table>\n    <tr><th></th><th>Proof copy</th><th>Author copy</th></tr>\n    <tr><td>When</td><td>Before you publish</td><td>After your book is live</td></tr>\n    <tr><td>Looks like</td><td>\"Not for Resale\" mark, barcode with no ISBN</td><td>Same as the book readers buy</td></tr>\n    <tr><td>Can you sell it?</td><td>No</td><td>Yes, or give it away</td></tr>\n    <tr><td>Royalties</td><td>None</td><td>None (you pay the printing cost)</td></tr>\n  </table></div>\n  <p class=\"note\">From KDP's <a href=\"https://kdp.amazon.com/en_US/help/topic/G7BBN68RYX5UMDZF\" rel=\"nofollow noopener\">Proof and Author Copies</a> help page, checked November 2026. Proof and author copy orders don't show in your KDP sales reports.</p>\n\n  <h2>Why it's worth ordering</h2>\n  <p>A screen makes everything look fine. Paper doesn't. A proof shows you things you'll only see in your hands:</p>\n  <ul>\n    <li><strong>Blurry pictures.</strong> Anything under about 300 DPI looks soft in print. (Check first with the <a href=\"/image-dpi-checker/\">free DPI checker</a>.)</li>\n    <li><strong>Words too close to the edge or the middle fold.</strong> Hard to read, or cut off.</li>\n    <li><strong>Spine text that slides onto the front or back.</strong> Common on thin books.</li>\n    <li><strong>Colors that print darker</strong> than on screen.</li>\n    <li><strong>Typos.</strong> Many authors find mistakes on paper they missed ten times on screen.</li>\n  </ul>\n\n  <h2>What to check when it arrives</h2>\n  <ol>\n    <li>The cover: title, name and spine line up, nothing near the edges.</li>\n    <li>The size: it matches the <a href=\"/specs\">trim size</a> you picked.</li>\n    <li>Every picture: sharp, nothing cut off.</li>\n    <li>Margins: text isn't lost in the middle fold.</li>\n    <li>Page numbers, chapter starts and blank pages are where you expect.</li>\n    <li>Read it. Mark every mistake with a pen.</li>\n  </ol>\n\n  <h2>Save a proof (and a week)</h2>\n  <p>Every fix means a new upload and, often, a new proof. Catching problems before you order saves time and money. That's the job of SparkPrep, an <a href=\"/automated-publishing-production-system/\">Automated Publishing Production System</a> (A.P.P.S.): it checks your cover and every page against KDP's or IngramSpark's rules first, so your proof shows your book, not your file problems.</p>",
+  "faq": [
+    {
+      "q": "Do I have to order a proof copy?",
+      "a": "No, it's optional on KDP. But it's the best way to see your book exactly as readers will, and most problems are easier to spot on paper."
+    },
+    {
+      "q": "Can I sell a proof copy?",
+      "a": "No. KDP proof copies are marked \"Not for Resale\" and have a barcode with no ISBN. Order author copies after publishing if you want copies to sell or give away."
+    },
+    {
+      "q": "Do proof copies earn royalties?",
+      "a": "No. You pay for the copy and shipping, and proof or author copy orders don't count as sales in your KDP reports."
+    }
+  ],
+  "cta": {
+    "text": "Check your files before you order a proof. SparkPrep checks your cover and every page against your printer's rules, free through Dec 31.",
+    "button": "Check my book first",
+    "href": "/audit"
+  },
+  "updated": "2026-11-25"
+}

@@ -1,0 +1,35 @@
+{
+  "slug": "how-to-write-a-book-description",
+  "category": "start",
+  "date": "2026-11-28",
+  "title": "How to Write a Book Description and Back Cover Blurb (With Examples) | Legenddary's SparkPrep",
+  "h1": "How to write your book description and back-cover blurb",
+  "description": "A simple formula for first-time authors: write a book description that sells on Amazon and a back-cover blurb that fits, with KDP's 4,000-character limit, a 150-word target and examples.",
+  "platforms": "Amazon KDP, IngramSpark, any bookstore listing",
+  "lead": "After the cover, your description is what makes a stranger buy your book. You don't have to be a marketer. A simple four-part formula works for almost any book.",
+  "answer": {
+    "q": "How long should a book description be?",
+    "a": "Aim for about 150 words, which is what Amazon KDP suggests: short, simple sentences a shopper can scan in seconds. KDP allows 30 to 4,000 characters. Your back-cover blurb is usually the same text trimmed to fit, often 100 to 200 words, leaving room for the barcode."
+  },
+  "body": "\n  <h2>The four-part formula</h2>\n  <ol>\n    <li><strong>The hook (1 line).</strong> One sentence that makes them curious. \"She had one night to forget everything she knew.\"</li>\n    <li><strong>The setup (2-3 sentences).</strong> Who it's about and what they want. For nonfiction: who the book is for and the problem it solves.</li>\n    <li><strong>The stakes (2-3 sentences).</strong> What stands in the way and what happens if they fail. Don't give away the ending.</li>\n    <li><strong>The close (1 line).</strong> Who'll love it, or a simple invitation: \"Perfect for fans of...\" or \"Start reading today.\"</li>\n  </ol>\n\n  <h2>An example (fiction)</h2>\n  <div class=\"card\"><p style=\"margin:0\"><strong>Nobody in Harlow Creek talks about the summer of 1999. Mara is about to find out why.</strong><br>When Mara comes home to sell her late father's farm, she finds a box of letters he never sent, all addressed to a girl who vanished the year Mara turned ten. The town wants the past buried. The letters say it isn't finished.<br>A quiet, twisting mystery for readers who love small towns with big secrets.</p></div>\n\n  <h2>Amazon's rules</h2>\n  <ul>\n    <li>Between <strong>30 and 4,000 characters</strong>.</li>\n    <li>KDP suggests keeping it short and simple, about a <strong>150-word paragraph</strong>.</li>\n    <li>Leave out contact details and time-limited promotions; KDP's metadata guidelines don't allow them.</li>\n  </ul>\n  <p class=\"note\">From KDP's <a href=\"https://kdp.amazon.com/en_US/help/topic/G201189630\" rel=\"nofollow noopener\">Write a Book Description</a> and description-writing help topics, checked November 2026.</p>\n\n  <h2>Turning it into a back-cover blurb</h2>\n  <p>The back cover uses the same words, trimmed to fit. Remember what else lives there:</p>\n  <ul>\n    <li>The <strong>barcode</strong> takes the bottom-right corner (<a href=\"/guides/book-cover-barcode-placement/\">where the barcode goes</a>).</li>\n    <li>Text must stay inside the safe area, away from the edges and spine.</li>\n    <li>Use at least 7-point text (KDP's minimum), and more like 10 to 12 point so it's easy to read.</li>\n  </ul>\n  <p>Your back cover is the same size as your front. Find yours in the <a href=\"/book-cover-dimensions/\">book cover dimensions chart</a>, or start from a free template.</p>\n\n  <h2>Quick checklist</h2>\n  <ul>\n    <li>Does the first line make you want the second?</li>\n    <li>Is it clear what kind of book it is in 5 seconds?</li>\n    <li>Short paragraphs, no spoilers, no typos?</li>\n    <li>Does the back-cover version fit around the barcode with room to spare?</li>\n  </ul>\n  <p>Once the words are ready, SparkPrep, an <a href=\"/automated-publishing-production-system/\">Automated Publishing Production System</a> (A.P.P.S.), checks the finished cover for text near the edge, the barcode area and the 7-point minimum, alongside the rest of the file.</p>",
+  "faq": [
+    {
+      "q": "What is the difference between a blurb and a book description?",
+      "a": "They're usually the same text. The book description is what shows on Amazon and other stores; the blurb is the version printed on the back cover, often trimmed to fit around the barcode."
+    },
+    {
+      "q": "How many characters can a KDP book description have?",
+      "a": "Between 30 and 4,000 characters, including spaces and punctuation. KDP suggests aiming for about a 150-word paragraph."
+    },
+    {
+      "q": "Should I put reviews on my back cover?",
+      "a": "Only real quotes you have permission to use. Never make up reviews. A first book can skip them and let a strong blurb do the work."
+    }
+  ],
+  "cta": {
+    "text": "Got your blurb on the cover? SparkPrep checks that the text stays clear of the edges, spine and barcode, and meets the printer's rules.",
+    "button": "Check my cover",
+    "href": "/audit"
+  },
+  "updated": "2026-11-28"
+}

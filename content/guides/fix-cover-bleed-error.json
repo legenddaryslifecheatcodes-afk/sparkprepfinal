@@ -79,9 +79,15 @@
     "Re-export as a print PDF (PDF/X-1a:2001 if your program has it) with the bleed included and no crop marks or printer marks.",
     "Re-upload it to your printer and wait for the file review again. If it fails, you start over."
   ],
-  "updated": "2026-11-15",
+  "updated": "2026-11-20",
   "answer": {
     "q": "What is bleed in printing?",
     "a": "Bleed in printing is extra artwork that runs past the edge where the page will be cut. For books, it's 0.125 inch (3.2 mm) on each outside edge. Printers trim the sheet after printing, and the cut can drift slightly, so bleed stops thin white lines from showing at the edges."
-  }
+  },
+  "mistake": "Making the cover file the exact trim size and then stretching the art. The page itself has to be bigger, not just the picture.",
+  "check": [
+    "In Acrobat (File, Properties), the page size is the full size with bleed: for a 6\" x 9\" paperback the height is 9.25\".",
+    "Zoom into all four corners. The background color or photo runs right to the edge of the page with no white sliver.",
+    "No crop marks, printer marks or white border were added when you exported."
+  ]
 }

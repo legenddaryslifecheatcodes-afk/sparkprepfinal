@@ -61,9 +61,15 @@
     "Make the spine text smaller so it has empty space on both sides of each fold, then re-export as PDF/X-1a:2001.",
     "Re-upload it to your printer and wait for the file review again. If it fails, you start over."
   ],
-  "updated": "2026-11-15",
+  "updated": "2026-11-20",
   "answer": {
     "q": "Why is my spine width wrong?",
     "a": "Spine width equals your page count times the thickness of one page, so adding pages or switching from white to cream paper changes it. A cover built for the old count no longer fits. Rebuild the cover with the new spine width, and keep spine text at least 0.0625\" from each fold on KDP."
-  }
+  },
+  "mistake": "Using spine width from a different paper. Cream paper is thicker than white, so the same page count gives a wider spine.",
+  "check": [
+    "The spine width in your file matches the printer's calculator for your exact page count and paper.",
+    "Spine text sits at least 0.0625\" from each fold, with more room on thin books.",
+    "The spine text runs top to bottom (on US books), so it reads correctly when the book lies face up."
+  ]
 }

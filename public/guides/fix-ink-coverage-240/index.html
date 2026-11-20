@@ -15,7 +15,7 @@
 <meta name="twitter:card" content="summary">
 <link rel="icon" type="image/png" href="/favicon.png">
 <link rel="stylesheet" href="/tools/tools.css">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"How to fix \"ink coverage exceeds 240%\" (IngramSpark)","description":"IngramSpark rejected your file for ink coverage over 240%? Here's what total ink means, why rich black causes it, and how to fix it in Acrobat, InDesign or Word.","datePublished":"2026-10-28","dateModified":"2026-11-15","mainEntityOfPage":"https://sparkprep.legenddary.com/guides/fix-ink-coverage-240/","author":{"@type":"Organization","@id":"https://sparkprep.legenddary.com/#org","name":"Legenddary's SparkPrep","url":"https://sparkprep.legenddary.com/"},"publisher":{"@type":"Organization","@id":"https://sparkprep.legenddary.com/#org","name":"Legenddary's SparkPrep","logo":{"@type":"ImageObject","url":"https://sparkprep.legenddary.com/brand/sparkprep-logo.png"}},"image":"https://sparkprep.legenddary.com/brand/sparkprep-logo.png","articleSection":"Color & Resolution"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SparkPrep","item":"https://sparkprep.legenddary.com/"},{"@type":"ListItem","position":2,"name":"Guides","item":"https://sparkprep.legenddary.com/guides/"},{"@type":"ListItem","position":3,"name":"How to fix \"ink coverage exceeds 240%\" (IngramSpark)","item":"https://sparkprep.legenddary.com/guides/fix-ink-coverage-240/"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What does \"ink coverage exceeds 240%\" mean?","acceptedAnswer":{"@type":"Answer","text":"It means some part of your file uses more than 240% total ink (cyan, magenta, yellow and black added together), which is IngramSpark's limit. Too much ink smears and dries slowly. It usually comes from rich black text or dark photos. Fix it by using black-only text and limiting ink when converting to CMYK."}},{"@type":"Question","name":"What is the IngramSpark ink limit?","acceptedAnswer":{"@type":"Answer","text":"240% total ink coverage, meaning cyan, magenta, yellow and black added together in any one area."}},{"@type":"Question","name":"How do I check total ink coverage?","acceptedAnswer":{"@type":"Answer","text":"In Adobe Acrobat Pro, open Print Production, Output Preview and tick Total Area Coverage set to 240%. Anything over the limit is highlighted."}}]}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"How to fix \"ink coverage exceeds 240%\" (IngramSpark)","description":"IngramSpark rejected your file for ink coverage over 240%? Here's what total ink means, why rich black causes it, and how to fix it in Acrobat, InDesign or Word.","datePublished":"2026-10-28","dateModified":"2026-11-20","mainEntityOfPage":"https://sparkprep.legenddary.com/guides/fix-ink-coverage-240/","author":{"@type":"Organization","@id":"https://sparkprep.legenddary.com/#org","name":"Legenddary's SparkPrep","url":"https://sparkprep.legenddary.com/"},"publisher":{"@type":"Organization","@id":"https://sparkprep.legenddary.com/#org","name":"Legenddary's SparkPrep","logo":{"@type":"ImageObject","url":"https://sparkprep.legenddary.com/brand/sparkprep-logo.png"}},"image":"https://sparkprep.legenddary.com/brand/sparkprep-logo.png","articleSection":"Color & Resolution"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SparkPrep","item":"https://sparkprep.legenddary.com/"},{"@type":"ListItem","position":2,"name":"Guides","item":"https://sparkprep.legenddary.com/guides/"},{"@type":"ListItem","position":3,"name":"How to fix \"ink coverage exceeds 240%\" (IngramSpark)","item":"https://sparkprep.legenddary.com/guides/fix-ink-coverage-240/"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What does \"ink coverage exceeds 240%\" mean?","acceptedAnswer":{"@type":"Answer","text":"It means some part of your file uses more than 240% total ink (cyan, magenta, yellow and black added together), which is IngramSpark's limit. Too much ink smears and dries slowly. It usually comes from rich black text or dark photos. Fix it by using black-only text and limiting ink when converting to CMYK."}},{"@type":"Question","name":"What is the IngramSpark ink limit?","acceptedAnswer":{"@type":"Answer","text":"240% total ink coverage, meaning cyan, magenta, yellow and black added together in any one area."}},{"@type":"Question","name":"How do I check total ink coverage?","acceptedAnswer":{"@type":"Answer","text":"In Adobe Acrobat Pro, open Print Production, Output Preview and tick Total Area Coverage set to 240%. Anything over the limit is highlighted."}}]}]}</script>
 </head>
 <body>
 <header class="site">
@@ -25,7 +25,7 @@
 <main>
   <div class="eyebrow"><a href="/guides/" style="color:inherit">Guides</a> · Color &amp; Resolution</div>
   <h1>How to fix &quot;ink coverage exceeds 240%&quot; (IngramSpark)</h1>
-  <p class="note">Updated November 15, 2026 · IngramSpark</p>
+  <p class="note">Updated November 20, 2026 · IngramSpark</p>
   <p class="lead">This one sounds technical, but the cause is usually simple: black that's made from all four inks instead of black ink alone.</p>
   <div class="card" id="answer"><p style="margin:0"><strong>What does &quot;ink coverage exceeds 240%&quot; mean?</strong> It means some part of your file uses more than 240% total ink (cyan, magenta, yellow and black added together), which is IngramSpark's limit. Too much ink smears and dries slowly. It usually comes from rich black text or dark photos. Fix it by using black-only text and limiting ink when converting to CMYK.</p></div>
 
@@ -51,20 +51,14 @@
   <h4>Color cover or interior</h4>
   <ol><li>Make black text 100% black (C0 M0 Y0 K100), not rich black.</li><li>Convert images to CMYK with a profile that limits total ink, such as US Web Coated (SWOP) v2 (300% max), then lower further if needed.</li><li>In InDesign, export with the PDF/X-1a preset and check Output Preview again.</li></ol>
 
-  <div class="card"><p style="margin:0">You can fix this by hand with the steps above. Or drop your file into SparkPrep and let it find the problem and fix it for you, in minutes. <a href="/">Try it on your file</a>.</p></div>
+  <div class="card"><p style="margin:0"><strong>The most common mistake:</strong> Using &quot;rich black&quot; (all four inks mixed) for big dark backgrounds. That is the usual cause of going over 240%.</p></div>
+  <h2>How to check it's fixed before you upload again</h2>
+  <ul><li>In Acrobat Pro, Print Production, Output Preview, Total Area Coverage set to 240% shows no highlighted areas.</li><li>Large black areas use a sensible black mix, such as 60% cyan, 40% magenta, 40% yellow and 100% black, or less.</li><li>Dark photos were converted with an ink limit of 240% (IngramSpark's color profile) instead of a general CMYK setting.</li></ul>
 
   <section class="cta">
     <h2>How to fix it instantly (the SparkPrep way)</h2>
-    <p>If you don't have expensive design software, or you just want to get your book published without the headache, let SparkPrep handle it.</p>
-    <p>SparkPrep is an <a href="/automated-publishing-production-system/">Automated Publishing Production System</a> (A.P.P.S.), built by a self-published author whose own book was rejected 18 times. It checks your files against the exact print rules Amazon KDP, IngramSpark, Barnes &amp; Noble Press and Lulu publish.</p>
-    <p>When you upload your file to SparkPrep:</p>
-    <ul>
-      <li>We automatically scan for page size, bleed, spine width, safety margins, ink coverage and embedded fonts.</li>
-      <li>We explain any hidden errors in plain English.</li>
-      <li>We fix what can be fixed automatically, tell you exactly what's left, and export a print-ready PDF/X-1a, checked again before you download it.</li>
-    </ul>
+    <p>No design software? Upload your file to SparkPrep, an <a href="/automated-publishing-production-system/">Automated Publishing Production System</a> (A.P.P.S.). It checks it against the printer's own rules, explains each problem in plain English, fixes what it safely can and exports a print-ready PDF.</p>
     
-    <p><strong>Stop fighting the bots. Drop your file into SparkPrep today and get back to marketing your book!</strong></p>
     <a class="btn" href="/">Fix my ink coverage</a>
   </section>
 

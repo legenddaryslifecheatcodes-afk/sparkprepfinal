@@ -68,6 +68,17 @@ PAGES = [
 },
 ]
 
+# "Keep going" links. A page never links to itself; the beginner guides go first (2026-11-20).
+def keep_going(slug):
+    links = [
+        ("how-to-self-publish-a-book", "/how-to-self-publish-a-book/", "How to self publish a book: 7 steps"),
+        ("book-formatting", "/book-formatting/", "Book formatting for KDP and IngramSpark"),
+        ("", "/guides/what-is-preflight-first-time-authors/", "New to this? Why your book needs a check before you upload"),
+        ("", "/guides/do-i-need-an-isbn-to-self-publish/", "Do you need an ISBN to self-publish?"),
+        ("", "/guides/what-is-bleed-in-book-printing/", "What is bleed in printing?"),
+    ]
+    return "\n".join(f'    <li><a href="{h}">{e(t)}</a></li>' for s, h, t in links if s != slug)
+
 def build(p):
     url = f"{B}/{p['slug']}/"
     graph = [
@@ -130,8 +141,7 @@ def build(p):
         out.append(f'  <h3>{e(q)}</h3>\n  <p>{e(a)}</p>\n')
     out.append(f'''  <h2>Keep going</h2>
   <ul class="links">
-    <li><a href="/how-to-self-publish-a-book/">How to self publish a book: 7 steps</a></li>
-    <li><a href="/book-formatting/">Book formatting for KDP and IngramSpark</a></li>
+{keep_going(p["slug"])}
     <li><a href="/guides/self-publishing-on-amazon-pros-and-cons/">Self-publishing on Amazon: pros and cons</a></li>
     <li><a href="/guides/ingramspark-promo-code-and-fees/">What IngramSpark costs in 2026 (and promo codes)</a></li>
     <li><a href="/guides/barnes-and-noble-self-publishing/">Barnes and Noble self-publishing, explained</a></li>

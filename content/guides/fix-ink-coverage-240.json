@@ -62,9 +62,15 @@
     "Re-export as PDF/X-1a:2001, then check in Acrobat Pro (Print Production → Output Preview → Total Area Coverage at 240%) that nothing is highlighted.",
     "Re-upload it to IngramSpark and wait for the file review and new e-proof."
   ],
-  "updated": "2026-11-15",
+  "updated": "2026-11-20",
   "answer": {
     "q": "What does \"ink coverage exceeds 240%\" mean?",
     "a": "It means some part of your file uses more than 240% total ink (cyan, magenta, yellow and black added together), which is IngramSpark's limit. Too much ink smears and dries slowly. It usually comes from rich black text or dark photos. Fix it by using black-only text and limiting ink when converting to CMYK."
-  }
+  },
+  "mistake": "Using \"rich black\" (all four inks mixed) for big dark backgrounds. That is the usual cause of going over 240%.",
+  "check": [
+    "In Acrobat Pro, Print Production, Output Preview, Total Area Coverage set to 240% shows no highlighted areas.",
+    "Large black areas use a sensible black mix, such as 60% cyan, 40% magenta, 40% yellow and 100% black, or less.",
+    "Dark photos were converted with an ink limit of 240% (IngramSpark's color profile) instead of a general CMYK setting."
+  ]
 }

@@ -38,5 +38,11 @@
     "q": "What does \"font cannot be embedded because of licensing restrictions\" mean?",
     "a": "It means the font's license doesn't allow it to be packed inside a PDF, so it gets left out and the printer can't use it. This is common with fonts from free font sites. The fix is to switch to a font whose license allows embedding, such as a Google Font, and export again."
   },
-  "updated": "2026-11-15"
+  "updated": "2026-11-20",
+  "mistake": "Swapping the font name in the document but leaving the old font in a header, a page number style or a text box.",
+  "check": [
+    "In Acrobat, File, Properties, Fonts, every font says \"(Embedded)\" or \"(Embedded Subset)\".",
+    "The font that caused the error no longer appears in that list at all.",
+    "The new font's license allows print embedding. Free fonts from Google Fonts do."
+  ]
 }

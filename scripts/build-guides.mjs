@@ -132,11 +132,17 @@ function akaList(g) {
   <ul>${g.aka.map((a) => `<li>${q(a)}</li>`).join("")}</ul>`;
 }
 
-// The soft bridge in the middle of a guide: fix it by hand, or let SparkPrep do it.
-function bridge(g) {
-  return `
-  <div class="card"><p style="margin:0">You can fix this by hand with the steps above. Or drop your file into SparkPrep and let it find the problem and fix it for you, in minutes. <a href="${g.cta.href || "/"}">Try it on your file</a>.</p></div>`;
+// Page-specific "most common mistake" + "how to check it's fixed" (2026-11-20). Every guide gets its own
+// words here, so Google sees real, different help on each page instead of the same sales block
+// (16 guides sat in Search Console as "Crawled - currently not indexed").
+function checkFixed(g) {
+  if (!g.mistake && !(g.check && g.check.length)) return "";
+  return `${g.mistake ? `
+  <div class="card"><p style="margin:0"><strong>The most common mistake:</strong> ${esc(g.mistake)}</p></div>` : ""}${g.check && g.check.length ? `
+  <h2>How to check it's fixed before you upload again</h2>
+  <ul>${g.check.map((c) => `<li>${esc(c)}</li>`).join("")}</ul>` : ""}`;
 }
+
 
 function treyFormat(g, diy) {
   const eh = errorHeading(g);
@@ -153,20 +159,12 @@ function treyFormat(g, diy) {
   <p>If you want to try adjusting the files yourself, here are the steps you need to follow:</p>
   <ol>${g.manual.map((s) => `<li>${s}</li>`).join("")}</ol>
 ${diy ? `  <h3 style="margin-top:28px">Step by step in your app</h3>${diy.replace(/<h3>/g, "<h4>").replace(/<\/h3>/g, "</h4>")}` : ""}
-${bridge(g)}
+${checkFixed(g)}
 
   <section class="cta">
     <h2>How to fix it instantly (the SparkPrep way)</h2>
-    <p>If you don't have expensive design software, or you just want to get your book published without the headache, let SparkPrep handle it.</p>
-    <p>SparkPrep is an <a href="/automated-publishing-production-system/">Automated Publishing Production System</a> (A.P.P.S.), built by a self-published author whose own book was rejected 18 times. It checks your files against the exact print rules Amazon KDP, IngramSpark, Barnes &amp; Noble Press and Lulu publish.</p>
-    <p>When you upload your file to SparkPrep:</p>
-    <ul>
-      <li>We automatically scan for page size, bleed, spine width, safety margins, ink coverage and embedded fonts.</li>
-      <li>We explain any hidden errors in plain English.</li>
-      <li>We fix what can be fixed automatically, tell you exactly what's left, and export a print-ready PDF/X-1a, checked again before you download it.</li>
-    </ul>
+    <p>No design software? Upload your file to SparkPrep, an <a href="/automated-publishing-production-system/">Automated Publishing Production System</a> (A.P.P.S.). It checks it against the printer's own rules, explains each problem in plain English, fixes what it safely can and exports a print-ready PDF.</p>
     ${g.spNote ? `<p>${g.spNote}</p>` : ""}
-    <p><strong>Stop fighting the bots. Drop your file into SparkPrep today and get back to marketing your book!</strong></p>
     <a class="btn" href="${g.cta.href || "/"}">${esc(g.cta.button)}</a>
   </section>
 ${costBox(g)}`;
@@ -228,7 +226,7 @@ ${g.manual ? treyFormat(g, diy) : `${g.body ? g.body : `  <h2>1. The error${erro
 
   <h2>3. The do-it-yourself fix</h2>
   ${g.diyIntro || ""}${diy}
-${bridge(g)}`}
+${checkFixed(g)}`}
 ${costBox(g)}
 
   <section class="cta">

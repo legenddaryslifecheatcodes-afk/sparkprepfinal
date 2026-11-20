@@ -68,9 +68,15 @@
     "Turn off image compression before you export (Word: File → Options → Advanced → \"Do not compress images in file\"), then re-export the PDF.",
     "Re-upload it to your printer and wait for the file review again. If it fails, you start over."
   ],
-  "updated": "2026-11-15",
+  "updated": "2026-11-20",
   "answer": {
     "q": "What resolution do images need for a printed book?",
     "a": "Images need 300 DPI at the size they're printed in your book. A 1200 x 1800 pixel photo is sharp at 4\" x 6\" but blurry across a full 6\" x 9\" page. Making a small picture bigger doesn't add detail, so start with the largest, highest-quality version of every image."
-  }
+  },
+  "mistake": "Changing the DPI number in an image program without adding real detail. Stretching a small picture up does not make it sharp.",
+  "check": [
+    "Each picture is at least 300 DPI at the size it is placed in the book, not just in the original file.",
+    "Zoom to 200% in Acrobat. Lines and text inside pictures look crisp, with no jagged steps or blur.",
+    "Photos taken from websites or social media were replaced with the original files."
+  ]
 }

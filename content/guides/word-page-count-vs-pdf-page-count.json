@@ -53,5 +53,11 @@
     "q": "Why doesn't my Word page count match my book's page count?",
     "a": "Word counts pages at the size you type on, often letter size. At a book size like 6\" x 9\", the same words fill more pages. Printers also count every page, including blanks, title and copyright pages. The only count that matters is the page count of your final interior PDF."
   },
-  "updated": "2026-11-15"
+  "updated": "2026-11-20",
+  "mistake": "Reading the page count in Word's status bar. The number that matters is the page count of the exported PDF at your trim size.",
+  "check": [
+    "You exported the PDF at your real trim size (for example 6 x 9), not Letter, and counted its pages.",
+    "Blank pages count too. If your printer wants an even page count, add one blank page at the end.",
+    "You entered this same page count into KDP or IngramSpark and used it for the spine width."
+  ]
 }

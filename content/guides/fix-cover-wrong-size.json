@@ -38,5 +38,11 @@
     "q": "Why does KDP say my cover is the wrong size?",
     "a": "Your cover's full size depends on trim size, spine width and bleed. For a 6\" x 9\" paperback it's 9.25\" tall and 0.125\" + 6\" + spine + 6\" + 0.125\" wide. If the cover was made without bleed, with the wrong paper type, or before the page count changed, the size won't match."
   },
-  "updated": "2026-11-15"
+  "updated": "2026-11-20",
+  "mistake": "Using a spine width from an old page count. Add or remove even a few pages and the cover size changes.",
+  "check": [
+    "Your page count in the PDF matches the page count you typed into KDP or IngramSpark.",
+    "You worked out the full cover size again with the KDP cover calculator or your printer's template, using the right paper (white or cream).",
+    "The PDF page size in Acrobat matches that number to two decimal places, bleed included."
+  ]
 }

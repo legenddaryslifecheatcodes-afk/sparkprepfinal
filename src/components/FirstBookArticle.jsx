@@ -16,8 +16,12 @@ const SOURCES = {
 // No SparkPrep prices here, because the structured data can't read live prices.
 export const HOME_FAQ = [
   {
+    q: "What is an Automated Publishing Production System?",
+    a: "An Automated Publishing Production System (A.P.P.S.) is the next step in the evolution of self-publishing. Publishing software started as separate tools for formatting, preflight, prepress and cover design. An A.P.P.S. brings them into one system that makes your book, checks it against the printer's rules, fixes the problems and double-checks every fix. Legenddary SparkPrep is the category pioneer.",
+  },
+  {
     q: "What is SparkPrep?",
-    a: "Legenddary's SparkPrep is an all-in-one self-publishing suite. You design your book cover, write and format your inside pages, check both against the print rules of Amazon KDP, IngramSpark, Barnes & Noble and Lulu, fix every problem, and download print-ready files, all in one place.",
+    a: "Legenddary's SparkPrep is an Automated Publishing Production System (A.P.P.S.): an all-in-one self-publishing suite. You design your book cover, write and format your inside pages, check both against the print rules of Amazon KDP, IngramSpark, Barnes & Noble and Lulu, fix every problem, and download print-ready files, all in one place.",
   },
   {
     q: "Is the SparkPrep book file audit free?",
@@ -135,7 +139,7 @@ export function FirstBookArticle({ pricing, auditPrice, auditNote }) {
 
         <h3 className="font-display font-bold text-2xl text-white mt-12 tracking-tight">What SparkPrep does</h3>
         <p className="mt-4">
-          SparkPrep was built by an author whose own book failed to print 18 times. It's an all-in-one self-publishing suite: you design, format, check, fix and export your book in one place. Our rule for every tool: power without complexity.
+          SparkPrep was built by an author whose own book failed to print 18 times. It&apos;s an <a href="/automated-publishing-production-system/" className="text-[#D4AF37] underline underline-offset-2 hover:text-white">Automated Publishing Production System (A.P.P.S.)</a>, an all-in-one self-publishing suite: you design, format, check, fix and export your book in one place. Our rule for every tool: power without complexity.
         </p>
         <ul className="mt-4 space-y-2 list-disc pl-6 marker:text-[#D4AF37]">
           <li><strong className="text-white">Free design tools:</strong> make your cover in Cover Studio and your pages in Interior Studio, already sized for your printer.</li>

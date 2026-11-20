@@ -1,0 +1,35 @@
+{
+  "slug": "what-is-bleed-in-book-printing",
+  "category": "start",
+  "date": "2026-11-20",
+  "title": "What Is Bleed in Book Printing? Simple Explanation for New Authors | Legenddary's SparkPrep",
+  "h1": "What is bleed in printing? A simple explanation for your first book",
+  "description": "Bleed explained in plain English: why printers want your pictures to run 0.125 inch past the edge, the page sizes to use, and when your book needs bleed at all.",
+  "platforms": "Amazon KDP, IngramSpark, Lulu, Barnes & Noble Press",
+  "lead": "Bleed is one of the first printing words new authors run into, usually in a rejection email. It sounds technical. It isn't. It's just a little extra picture around the edge, so nothing white shows when the paper is cut.",
+  "answer": {
+    "q": "What is bleed in book printing?",
+    "a": "Bleed is extra picture or color that runs past the edge of the page, so no thin white line shows after the printer trims it. KDP trims 0.125 inch from the top, bottom and outside edge, so anything meant to touch the edge must extend 0.125 inch past it. Every KDP cover needs bleed."
+  },
+  "body": "\n  <h2>Why printers need it</h2>\n  <p>Printers don't print on paper cut to your book's exact size. They print on bigger sheets, then cut them down. The blade can move a tiny bit. If your picture stops exactly at the edge, that tiny shift leaves a thin white line. Bleed is the safety cushion: you extend the picture past the cut, so the cut always lands on picture.</p>\n\n  <h2>How much bleed?</h2>\n  <p><strong>0.125 inch (3.2 mm)</strong> on each side that is cut. For inside pages, that's the top, bottom and outside edge, not the spine side. So you add <strong>0.125 inch to the width</strong> and <strong>0.25 inch to the height</strong>.</p>\n  <div class=\"table-wrap\"><table>\n    <tr><th>Book size</th><th>Page size with bleed</th></tr>\n    <tr><td>5 x 8</td><td>5.125 x 8.25</td></tr>\n    <tr><td>5.5 x 8.5</td><td>5.625 x 8.75</td></tr>\n    <tr><td>6 x 9</td><td>6.125 x 9.25</td></tr>\n    <tr><td>8.5 x 8.5</td><td>8.625 x 8.75</td></tr>\n    <tr><td>8.5 x 11</td><td>8.625 x 11.25</td></tr>\n  </table></div>\n  <p class=\"note\">From KDP's own bleed table. All the other sizes are in the <a href=\"/specs\">trim size and margin chart</a>.</p>\n\n  <h2>Does my book need bleed?</h2>\n  <ul>\n    <li><strong>Your cover: always.</strong> Every KDP and IngramSpark cover needs bleed on all four outside edges.</li>\n    <li><strong>Inside pages with only text:</strong> no. Most novels don't need bleed inside.</li>\n    <li><strong>Inside pages with a picture or color that touches the edge:</strong> yes, and if even one page needs it, the whole file must be set up with bleed.</li>\n  </ul>\n\n  <h2>Bleed's partner: the safe zone</h2>\n  <p>Bleed is for pictures. Words need the opposite: keep them well inside the edge, so the cut never clips them. On KDP, keep text at least 0.375 inch from the edge on pages with bleed. Read: <a href=\"/guides/fix-cover-text-too-close-to-edge/\">text too close to the edge</a>.</p>\n\n  <h2>If your file got rejected for bleed</h2>\n  <p>Follow the step-by-step guide: <a href=\"/guides/fix-cover-bleed-error/\">how to fix a cover bleed error</a>. Or let SparkPrep handle it. It's an <a href=\"/automated-publishing-production-system/\">Automated Publishing Production System</a> (A.P.P.S.) that measures your bleed on every page and the cover, and adds it for you when your picture allows it.</p>",
+  "faq": [
+    {
+      "q": "How much bleed does KDP need?",
+      "a": "0.125 inch (3.2 mm) past each trimmed edge: top, bottom and outside. That makes a 6 x 9 book's page size 6.125 x 9.25 inches."
+    },
+    {
+      "q": "Do novels need bleed?",
+      "a": "Usually only on the cover. If the inside pages are just text with white margins, the interior doesn't need bleed."
+    },
+    {
+      "q": "What happens if I don't add bleed?",
+      "a": "The printer may reject the file, or you may get a thin white line along the edge of the printed cover or picture pages."
+    }
+  ],
+  "cta": {
+    "text": "SparkPrep measures bleed on your cover and every page, and adds it for you when it can, so your book isn't sent back for a white line.",
+    "button": "Check my bleed",
+    "href": "/audit"
+  },
+  "updated": "2026-11-20"
+}

@@ -34,5 +34,15 @@
       "a": "Only if the PDF is the exact full cover size with bleed, and the picture has enough resolution at that size."
     }
   ],
-  "diy": []
+  "diy": [],
+  "answer": {
+    "q": "Can I upload a JPG or PNG as my paperback cover?",
+    "a": "Paperback cover uploads at KDP and IngramSpark expect a PDF. A JPG or PNG is just a picture and doesn't carry the cover's exact size in inches, bleed or print color. Most are also in screen color (RGB), and pictures saved for the web are usually far below 300 DPI at full cover size."
+  },
+  "mistake": "Taking a cover picture saved for the web or social media and blowing it up to full print size.",
+  "check": [
+    "The file you upload ends in .pdf and opens at your printer's exact full cover size with bleed.",
+    "The picture's pixel width is at least 300 times the cover width in inches.",
+    "Zoomed to 200%, text and edges are sharp, not blurry or blocky."
+  ]
 }

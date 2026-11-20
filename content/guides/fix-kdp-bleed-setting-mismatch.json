@@ -33,5 +33,15 @@
       "a": "Usually not. You only need bleed when pictures, color blocks or shapes run off the edge of the page."
     }
   ],
-  "diy": []
+  "diy": [],
+  "answer": {
+    "q": "What does KDP's bleed setting mean for my interior?",
+    "a": "No bleed means nothing touches the page edge, so each PDF page is exactly your trim size, like 6\" x 9\". Bleed means pictures or color run off the edge, so pages must be 0.125\" wider and 0.25\" taller: 6.125\" x 9.25\" for a 6\" x 9\" book. A mismatch gets flagged or leaves white edges."
+  },
+  "mistake": "Choosing \"Bleed\" in KDP setup because the book has pictures, even though none of them actually reach the edge of the page.",
+  "check": [
+    "Your KDP setup (Bleed or No bleed) matches what you built.",
+    "In Acrobat (File, Properties), page size is the trim size for no bleed, or trim + 0.125\" wide and + 0.25\" tall for bleed.",
+    "With bleed, edge-to-edge pictures reach the page edge and text stays inside the margins."
+  ]
 }

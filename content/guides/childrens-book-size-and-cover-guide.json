@@ -1,0 +1,35 @@
+{
+  "slug": "childrens-book-size-and-cover-guide",
+  "category": "start",
+  "date": "2026-11-22",
+  "title": "Children's Book Sizes and Covers: A Beginner's Self-Publishing Guide | Legenddary's SparkPrep",
+  "h1": "Children's picture books: the right size, pictures and cover for your first one",
+  "description": "Plain-English guide to self-publishing a children's picture book: popular KDP sizes, color paper options, the picture sizes illustrations need at 300 DPI, bleed, and free cover templates.",
+  "platforms": "Amazon KDP, IngramSpark",
+  "lead": "Picture books are full of color art that runs right to the edge of the page, which makes them the easiest kind of book to get rejected. Get three things right — size, picture quality and bleed — and most problems disappear.",
+  "answer": {
+    "q": "What size is a self-published children's picture book?",
+    "a": "Popular picture-book sizes on Amazon KDP are 8.5 x 8.5, 8.25 x 8.25, 8 x 10 and 8.5 x 11 inches. Each illustration needs about 300 DPI: a full 8.5 x 8.5 inch page with bleed needs art about 2,588 x 2,625 pixels. Pages with art to the edge need 0.125 inch bleed."
+  },
+  "body": "\n  <h2>Step 1: Choose a size</h2>\n  <div class=\"table-wrap\"><table>\n    <tr><th>Size (inches)</th><th>Shape</th><th>Good for</th></tr>\n    <tr><td>8.5 x 8.5 or 8.25 x 8.25</td><td>Square</td><td>Classic picture books</td></tr>\n    <tr><td>8 x 10</td><td>Tall</td><td>Picture books with more words</td></tr>\n    <tr><td>8.25 x 6</td><td>Wide (landscape)</td><td>Wide scenes, board-book feel</td></tr>\n    <tr><td>8.5 x 11</td><td>Large tall</td><td>Activity and coloring books</td></tr>\n  </table></div>\n  <p>All are KDP \"large trim sizes\", which cost a bit more to print. Full list and margins: <a href=\"/specs\">trim sizes for KDP and IngramSpark</a>.</p>\n\n  <h2>Step 2: Pick the color paper</h2>\n  <p>KDP offers <strong>standard color</strong> (cheaper, needs at least 72 pages) and <strong>premium color</strong> (richer, from 24 pages). Most picture books are 24 to 40 pages, so on KDP they usually need premium color.</p>\n  <p class=\"note\">Page ranges from KDP's <a href=\"https://kdp.amazon.com/en_US/help/topic/GVBQ3CMEQW3W2VL6\" rel=\"nofollow noopener\">trim size table</a>, checked November 2026.</p>\n\n  <h2>Step 3: Make sure the art is big enough</h2>\n  <p>Ask your illustrator for files at <strong>300 DPI at the full printed size</strong>, including bleed. Multiply inches by 300:</p>\n  <ul>\n    <li>Full page, 8.5 x 8.5 book with bleed (8.625 x 8.75 inches): about <strong>2,588 x 2,625 pixels</strong></li>\n    <li>Two-page spread, same book: about <strong>5,175 x 2,625 pixels</strong></li>\n    <li>Full page, 8 x 10 with bleed (8.125 x 10.25 inches): about <strong>2,438 x 3,075 pixels</strong></li>\n  </ul>\n  <p>Got art already? Check it in seconds with the free <a href=\"/image-dpi-checker/\">image DPI checker</a>. New to this? Read <a href=\"/guides/what-is-dpi-for-book-printing/\">what DPI means</a>.</p>\n\n  <h2>Step 4: Set up bleed and the safe zone</h2>\n  <p>Art that touches the edge must run 0.125 inch past it. Words, and faces your reader must see, should stay at least 0.375 inch inside the edge, and further from the middle fold. More: <a href=\"/guides/what-is-bleed-in-book-printing/\">what bleed is</a>.</p>\n\n  <h2>Step 5: The cover</h2>\n  <p>Start with a free <a href=\"/templates/childrens-book-covers/\">children's book cover template</a> made for your size, then find the exact cover size (front, spine and back) in the <a href=\"/book-cover-dimensions/\">book cover dimensions chart</a>. Thin picture books have narrow spines, often too narrow for any spine text.</p>\n\n  <h2>Step 6: One check before you upload</h2>\n  <p>A picture book has dozens of full-color pages, and one low-resolution picture or missing bleed gets the whole file sent back. SparkPrep is an <a href=\"/automated-publishing-production-system/\">Automated Publishing Production System</a> (A.P.P.S.): it checks every page and the cover for picture quality, bleed, safe zone and color, and tells you the exact page to fix.</p>",
+  "faq": [
+    {
+      "q": "How many pages is a children's picture book?",
+      "a": "Most picture books are 24 to 40 pages, and 32 is the traditional length. KDP premium color paperbacks start at 24 pages; standard color needs at least 72."
+    },
+    {
+      "q": "What DPI should children's book illustrations be?",
+      "a": "300 DPI at the size they'll print, including bleed. A full 8.5 x 8.5 inch page with bleed needs art about 2,588 x 2,625 pixels."
+    },
+    {
+      "q": "Do children's books need bleed?",
+      "a": "Yes, almost always. Any page where the art touches the edge needs 0.125 inch of bleed, and if one page needs it the whole file must be set up with bleed."
+    }
+  ],
+  "cta": {
+    "text": "Upload your picture book and SparkPrep checks every illustration, the bleed, the safe zone and your cover size, free through Dec 31.",
+    "button": "Check my picture book",
+    "href": "/audit"
+  },
+  "updated": "2026-11-22"
+}

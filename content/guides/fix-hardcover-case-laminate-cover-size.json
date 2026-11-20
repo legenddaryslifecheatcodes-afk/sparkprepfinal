@@ -33,5 +33,15 @@
       "a": "No. KDP uses a 0.591\" wrap and different board and spine numbers, so build from each printer's own calculator."
     }
   ],
-  "diy": []
+  "diy": [],
+  "answer": {
+    "q": "What size is a case laminate hardcover cover?",
+    "a": "Bigger than a paperback cover, because it wraps around the boards. IngramSpark needs 0.625\" of wrap on every outside edge and a 0.5\" hinge on each side of the spine. Amazon KDP uses 0.591\" wrap with the hinge inside the panels. Hardcover spines come from each printer's own table, not the paperback formula."
+  },
+  "mistake": "Reusing the paperback cover file, or using KDP's hardcover numbers for an IngramSpark book (or the other way round).",
+  "check": [
+    "Your file's full size matches your own printer's hardcover calculator or template.",
+    "Background art reaches the outer wrap edge.",
+    "No text or faces sit in the wrap or hinge areas."
+  ]
 }

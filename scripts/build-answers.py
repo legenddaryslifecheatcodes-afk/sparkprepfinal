@@ -2,6 +2,9 @@ import json, html, sys
 ROOT = sys.argv[1]
 B = "https://sparkprep.legenddary.com"
 QA = [
+ ("what-is-apps","What is an Automated Publishing Production System?",
+  "An Automated Publishing Production System (A.P.P.S.) is the next step in the evolution of self-publishing. Publishing software started as separate tools for formatting, preflight, prepress and cover design. An A.P.P.S. brings them into one system that makes your book, checks it against the printer's rules, fixes the problems and double-checks every fix. Legenddary SparkPrep is the category pioneer.",
+  [("/automated-publishing-production-system/#definition","The official A.P.P.S. definition"),("/glossary/#apps","A.P.P.S. in the glossary"),("/apps-vs-traditional-publishing-software/","Why an A.P.P.S. is different")]),
  ("check-before-kdp","How do I check my book file before I upload it to KDP?",
   "Check five things before you upload: the page size matches your trim size, the cover art runs 0.125 inch past every edge (bleed), text stays inside the margins, every picture is 300 DPI, and every font is built into the PDF. SparkPrep's free audit checks all of this for you in minutes.",
   [("/audit","Free book file audit"),("/free-manuscript-checklist/","Free manuscript checklist")]),
@@ -16,19 +19,25 @@ QA = [
   [("/ingramspark-rejection-fixes/","IngramSpark rejection fixes"),("/guides/fix-ink-coverage-240/","Fix the 240% ink limit"),("/guides/fix-ingramspark-interior-safety-area/","Fix the safety area error")]),
  ("what-is-preflight","What is a book preflight check?",
   "A preflight check looks at your cover and inside pages the same way the printer will, before you upload them. It checks page size, bleed, margins, spine width, colors, ink, picture sharpness and fonts, so you fix problems first instead of waiting for a rejection email.",
-  [("/guides/what-is-preflight-first-time-authors/","What is preflight? A first-time author's guide")]),
+  [("/guides/what-is-preflight-first-time-authors/","What is preflight? A first-time author's guide"),("/glossary/#preflight","Preflight in the glossary")]),
  ("what-is-bleed","What is bleed on a book cover?",
   "Bleed is extra art that runs past the edge of your cover, because the printer trims the edge off. For KDP and IngramSpark paperbacks the bleed is 0.125 inch on every outside edge. Without it, a thin white line can show on the printed book.",
   [("/guides/fix-cover-bleed-error/","Fix a bleed error"),("/kdp-cover-calculator/","KDP cover size calculator")]),
  ("spine-width","How wide should my book spine be?",
   "Spine width depends on your page count and paper. On KDP, white paper is page count times 0.002252 inch and cream paper is page count times 0.0025 inch, so a 300-page book on white paper has a 0.676 inch spine. KDP only allows spine text on books with more than 79 pages.",
-  [("/book-spine-width-calculator/","Free spine width calculator")]),
+  [("/book-spine-width-calculator/","Free spine width calculator"),("/book-cover-dimensions/","Book cover dimensions for every trim size")]),
  ("kdp-margins","What margins does KDP require?",
   "KDP's inside (gutter) margin grows with page count: 0.375 inch for 24 to 150 pages, 0.5 inch for 151 to 300, 0.625 inch for 301 to 500, 0.75 inch for 501 to 700 and 0.875 inch above that. Outside margins must be at least 0.25 inch, or 0.375 inch with bleed.",
-  [("/book-margin-calculator/","Free book margin calculator"),("/guides/fix-kdp-margin-error/","Fix a KDP margin error")]),
+  [("/book-margin-calculator/","Free book margin calculator"),("/specs","KDP margin and trim size specs"),("/guides/fix-kdp-margin-error/","Fix a KDP margin error")]),
  ("dpi","What resolution do pictures in a printed book need?",
   "Pictures in a printed book need 300 DPI at the size they are printed. Anything lower can print soft or blocky. A picture that looks sharp on your screen can still be too small for print, so check it before you upload.",
-  [("/image-dpi-checker/","Free image DPI checker"),("/guides/fix-low-resolution-images/","Fix low resolution images")]),
+  [("/image-dpi-checker/","Check the resolution of your pictures and PDF"),("/guides/fix-low-resolution-images/","Fix low resolution images")]),
+ ("isbn","What is an ISBN number?",
+  "An ISBN (International Standard Book Number) is the 13-digit number that identifies one book in one format, so stores and libraries order the right one. It goes above the barcode on the back cover and on the copyright page. Paperback, hardcover and ebook each need their own. KDP and IngramSpark give free ones; Bowker sells them in the U.S.",
+  [("/guides/what-is-an-isbn-number/","What is an ISBN number?"),("/guides/do-i-need-an-isbn-to-self-publish/","Do I need an ISBN? Free vs paid")]),
+ ("ebook-cover-size","What size should an ebook cover be?",
+  "For Kindle, Amazon recommends 1,600 pixels wide by 2,560 pixels tall, saved as a JPEG in RGB color, under 50 MB. It is the front only, with no spine, back cover, bleed or barcode. A print cover is different: it is sized in inches from your trim size, page count and bleed.",
+  [("/guides/ebook-cover-size-kindle/","Ebook cover size for Kindle"),("/book-cover-dimensions/","Print book cover size chart")]),
  ("cmyk","Do I need CMYK colors for KDP or IngramSpark?",
   "KDP accepts RGB covers and converts them itself, but colors can shift. IngramSpark wants CMYK, and black and white interiors should be grayscale only. Converting to CMYK yourself first lets you see the real printed colors before you pay for a proof.",
   [("/guides/rgb-vs-cmyk-book-cover/","RGB vs CMYK for book covers")]),
@@ -49,10 +58,10 @@ QA = [
   [("/cover-studio","Open Cover Studio"),("/templates/","Free book cover templates")]),
  ("kdp-vs-ingramspark","Can I use the same files for KDP and IngramSpark?",
   "Often not without changes. IngramSpark needs a 0.5 inch safety margin inside the pages, keeps total ink under 240%, and uses its own spine width, so the cover usually needs its own template. Check each file against each printer's own rules.",
-  [("/guides/kdp-vs-ingramspark-vs-lulu-file-rules/","KDP vs IngramSpark vs Lulu file rules")]),
+  [("/guides/kdp-vs-ingramspark-vs-lulu-file-rules/","KDP vs IngramSpark vs Lulu file rules"),("/specs","IngramSpark and KDP trim sizes")]),
  ("all-in-one","What is an all-in-one self-publishing suite?",
   "An all-in-one self-publishing suite lets you design your cover, format your inside pages, check both against printer rules, fix the problems and download print-ready files in one place. SparkPrep is one: it works with Amazon KDP, IngramSpark, Barnes & Noble Press and Lulu.",
-  [("/","What SparkPrep does"),("/about/","About SparkPrep")]),
+  [("/automated-publishing-production-system/","What is an A.P.P.S.?"),("/","What SparkPrep does"),("/about/","About SparkPrep")]),
  ("self-publish","How do I self publish a book?",
   "Finish and edit your book, pick your trim size (6 x 9 inches is common), format the inside pages as a PDF, make a full wrap cover sized to your page count, check both files against your printer's rules, then upload them free to Amazon KDP or IngramSpark. Order a proof copy before you publish.",
   [("/how-to-self-publish-a-book/","How to self publish a book: 7 steps")]),
@@ -63,15 +72,15 @@ QA = [
   "No. Legenddary's SparkPrep, at sparkprep.legenddary.com, is the self-publishing tool for authors made by Legenddary in Sacramento, California. It designs, checks and fixes book covers and pages for KDP and IngramSpark. It isn't connected to test-prep, trade-license or other apps with a similar name.",
   [("/about/","About Legenddary's SparkPrep")]),
  ("what-is-sparkprep","What is SparkPrep?",
-  "Legenddary's SparkPrep is an all-in-one self-publishing suite made by Legenddary. It has a free cover designer, a free page formatter, AI writing help, a print check against KDP, IngramSpark, Barnes & Noble and Lulu rules, automatic fixes and print-ready PDF/X-1a export. Its motto is \"Power without complexity.\"",
-  [("/about/","About SparkPrep"),("/audit","Try the free audit")]),
+  "Legenddary's SparkPrep is an Automated Publishing Production System (A.P.P.S.) and all-in-one self-publishing suite made by Legenddary. It has a free cover designer, a free page formatter, AI writing help, a print check against KDP, IngramSpark, Barnes & Noble and Lulu rules, automatic fixes and print-ready PDF/X-1a export. Its motto is \"Power without complexity.\"",
+  [("/about/","About SparkPrep"),("/automated-publishing-production-system/","What is an A.P.P.S.?"),("/audit","Try the free audit")]),
 ]
 def e(s): return html.escape(s, quote=True)
 title = "Self-Publishing File Questions, Answered in Plain English | Legenddary's SparkPrep"
 desc = "Short, plain-English answers to the questions first-time authors ask about KDP and IngramSpark files: bleed, spine width, margins, DPI, CMYK, ink limits, PDF/X-1a and rejections."
 url = B + "/answers/"
 schema = {"@context":"https://schema.org","@graph":[
- {"@type":"FAQPage","@id":url+"#faq","url":url,"name":"Self-publishing file questions, answered","dateModified":"2026-11-15",
+ {"@type":"FAQPage","@id":url+"#faq","url":url,"name":"Self-publishing file questions, answered","dateModified":"2026-11-18",
   "publisher":{"@type":"Organization","@id":B+"/#org","name":"Legenddary's SparkPrep","url":B+"/"},
   "mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a,"url":url+"#"+i}} for i,q,a,_ in QA]},
  {"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SparkPrep","item":B+"/"},{"@type":"ListItem","position":2,"name":"Answers","item":url}]}]}
@@ -109,7 +118,7 @@ page = f'''<!doctype html>
   <nav><a href="/templates/">Templates</a><a class="hide-sm" href="/tools/">Free tools</a><a class="hide-sm" href="/guides/">Guides</a><a href="/">SparkPrep</a></nav>
 </header>
 <main>
-  <div class="eyebrow">Quick answers · Updated November 15, 2026</div>
+  <div class="eyebrow">Quick answers · Updated November 18, 2026</div>
   <h1>Self-publishing file questions, answered in plain English</h1>
   <p class="lead">Getting your first book ready for Amazon KDP or IngramSpark? Here are short, straight answers to the questions new authors ask most. Each one links to a full step-by-step guide or a free tool.</p>
   <div class="card"><p style="margin:0"><strong>The short version:</strong> printers reject books for a handful of file problems: missing bleed, text too close to the edge, the wrong spine width, blurry pictures, screen colors, too much ink and fonts that aren't embedded. Check for them before you upload and you skip the rejection emails.</p></div>

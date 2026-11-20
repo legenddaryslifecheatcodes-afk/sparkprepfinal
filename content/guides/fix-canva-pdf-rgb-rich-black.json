@@ -35,5 +35,15 @@
       "a": "Black made from several inks mixed together instead of black ink alone. It can break ink limits and isn't allowed in black-and-white books."
     }
   ],
-  "diy": []
+  "diy": [],
+  "answer": {
+    "q": "Why is my Canva PDF rejected for color?",
+    "a": "Canva designs in RGB, the color of screens, but printers use CMYK ink. When RGB black becomes ink it often turns into rich black that mixes all four inks. A black-and-white interior may only use black ink, and dark areas can pass IngramSpark's 240% total ink limit, so the file gets rejected."
+  },
+  "mistake": "Downloading as \"PDF Standard\" instead of \"PDF Print\", or using a dark photo or gradient for black text so it can't print as plain black.",
+  "check": [
+    "Acrobat Pro's Output Preview shows no RGB objects.",
+    "With Output Preview's total area coverage set to 240%, no areas are highlighted.",
+    "On a black-and-white interior, the cyan, magenta and yellow plates are empty."
+  ]
 }

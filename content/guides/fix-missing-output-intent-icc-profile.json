@@ -33,5 +33,15 @@
       "a": "Use the one your printer recommends. US Web Coated (SWOP) v2 is a common choice for US book printing."
     }
   ],
-  "diy": []
+  "diy": [],
+  "answer": {
+    "q": "What does \"output intent is missing\" mean?",
+    "a": "A PDF/X-1a file must carry an output intent: a note saying which printing conditions the colors were made for, usually with a built-in ICC color profile. Without it, the printer can't be sure how to read your CMYK colors. Files often lose it when they're re-saved, merged or \"optimized\" in another program."
+  },
+  "mistake": "Exporting a correct PDF/X-1a file, then opening and re-saving it in a different app, which strips the output intent.",
+  "check": [
+    "Acrobat Pro's Preflight reports the file as PDF/X-1a compliant.",
+    "File, Properties, Description shows PDF/X-1a under PDF/X version or in the document's details.",
+    "You upload the exported file itself, not a copy that was re-saved or compressed afterwards."
+  ]
 }

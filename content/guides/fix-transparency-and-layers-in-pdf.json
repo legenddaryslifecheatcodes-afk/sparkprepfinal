@@ -40,9 +40,15 @@
   ],
   "date": "2026-10-28",
   "diy": [],
-  "updated": "2026-11-15",
+  "updated": "2026-11-20",
   "answer": {
     "q": "What does \"PDF contains transparency or layers\" mean?",
     "a": "It means your PDF still has see-through effects (shadows, glows, faded images) or separate layers. They can print unevenly, so the PDF/X-1a standard that IngramSpark asks for doesn't allow them. Fix it by flattening transparency when you export, for example with a PDF/X-1a preset."
-  }
+  },
+  "mistake": "Flattening only the cover but not the inside pages. Shadows and see-through effects in interior pictures cause the same error.",
+  "check": [
+    "Acrobat's Layers panel is empty or shows only one layer.",
+    "Output Preview or Preflight shows no transparency left in the file.",
+    "Drop shadows, glows and see-through shapes still look right after flattening, with no white boxes around them."
+  ]
 }

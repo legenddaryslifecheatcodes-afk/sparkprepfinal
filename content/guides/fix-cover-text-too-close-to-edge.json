@@ -38,5 +38,11 @@
     "q": "How far from the edge should cover text be?",
     "a": "Keep all cover text at least 0.125\" inside the trim line for KDP, and 0.25\" or more to be safe. Printers trim covers after printing and the cut can move slightly, so text right at the edge can get clipped. Spine text also needs room so it doesn't touch the folds."
   },
-  "updated": "2026-11-15"
+  "updated": "2026-11-20",
+  "mistake": "Checking the gap against the edge of the file instead of the trim line. Measure from where the book gets cut, not from the outer bleed edge.",
+  "check": [
+    "With trim guides on, every letter of the title, subtitle and author name sits at least 0.25\" inside the trim line.",
+    "Spine text has room on both sides and does not touch either fold.",
+    "Small things count too: the publisher logo, a review quote and the website link on the back all sit inside the safe zone."
+  ]
 }

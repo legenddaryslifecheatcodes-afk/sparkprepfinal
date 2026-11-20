@@ -59,5 +59,11 @@
     "q": "Where does the barcode go on a book cover?",
     "a": "The barcode goes in the lower right corner of the back cover. KDP needs an empty area 2\" wide by 1.2\" tall there, and IngramSpark needs 1.75\" wide by 1\" tall. Keep text and art out of that box, and make sure the barcode carries the same ISBN you entered for this edition."
   },
-  "updated": "2026-11-15"
+  "updated": "2026-11-20",
+  "mistake": "Putting the barcode box on the front cover or across the spine. It always goes on the back cover, usually bottom right.",
+  "check": [
+    "The white barcode box sits on the back cover, at least 0.25\" in from the trim and from the spine fold.",
+    "For KDP, you left a clear 2\" x 1.2\" space and did not add your own barcode, because KDP adds it for you.",
+    "For IngramSpark, the barcode shows the same ISBN as your title setup, and the price code matches (90000 means no price is printed)."
+  ]
 }

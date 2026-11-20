@@ -34,5 +34,15 @@
       "a": "No. KDP's hardcover is case laminate only, so it has no dust jacket option."
     }
   ],
-  "diy": []
+  "diy": [],
+  "answer": {
+    "q": "How big is a hardcover dust jacket?",
+    "a": "A dust jacket has a back flap, fold, back panel, spine, front panel, fold and front flap. Flaps are 3.25\" and folds 0.25\", plus 0.125\" bleed. For a 6\" x 9\" book, IngramSpark's template is 20.438\" x 9.5\" and Barnes & Noble Press's is 20.451\" x 9.5\". KDP and Lulu don't offer dust jackets."
+  },
+  "mistake": "Making the jacket panels the same size as the book's trim. They have to be bigger because the jacket covers the boards.",
+  "check": [
+    "Your file's full size matches your own printer's jacket template, not the other printer's.",
+    "No text or faces sit on the 0.25\" folds.",
+    "Flap text stays well inside each 3.25\" flap."
+  ]
 }

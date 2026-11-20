@@ -33,5 +33,15 @@
       "a": "Yes. Printers count every page in the PDF, including blank ones."
     }
   ],
-  "diy": []
+  "diy": [],
+  "answer": {
+    "q": "What is the minimum page count for a paperback?",
+    "a": "The limits SparkPrep uses for paperbacks: Amazon KDP 24 to 828 pages, IngramSpark 18 to 1,200, Barnes & Noble Press 48 to 800, and Lulu 32 to 800. Limits can change with trim size, paper and color, so confirm on your printer's own calculator. The printer counts every page in the PDF, blanks included."
+  },
+  "mistake": "Counting pages in Word instead of in the exported PDF, which can have a different number of pages.",
+  "check": [
+    "The PDF's own page count is inside your printer's limits for your trim size and paper.",
+    "The page count in your book setup matches the PDF.",
+    "Your cover's spine was resized for the new page count."
+  ]
 }

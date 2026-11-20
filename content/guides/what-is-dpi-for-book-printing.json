@@ -1,0 +1,35 @@
+{
+  "slug": "what-is-dpi-for-book-printing",
+  "category": "start",
+  "date": "2026-11-18",
+  "title": "What Is DPI? A Beginner's Guide to Sharp Pictures in a Printed Book | Legenddary's SparkPrep",
+  "h1": "What is DPI? Sharp pictures in your printed book, explained simply",
+  "description": "DPI in plain English for first-time authors: why printers want 300 DPI, how to work out the pixels you need for any book size, and how to check a picture for free.",
+  "platforms": "Amazon KDP, IngramSpark and any print-on-demand printer",
+  "lead": "A picture can look perfect on your phone and come out blurry in print. The reason is DPI. Here is what it means, the one number to remember, and how to check your pictures with a <a href=\"/image-dpi-checker/\">free DPI checker</a> before you upload.",
+  "answer": {
+    "q": "What DPI do I need for a printed book?",
+    "a": "Use 300 DPI for every picture in a printed book, including the cover. DPI means dots per inch: how many pixels are packed into each printed inch. At 300 DPI, a full 6 x 9 inch page needs a picture about 1,800 x 2,700 pixels. Fewer pixels than that will look soft or blocky in print."
+  },
+  "body": "\n  <h2>What DPI means</h2>\n  <p>DPI stands for <strong>dots per inch</strong>. A digital picture is made of tiny squares called pixels. When it is printed, those pixels are spread over paper. DPI tells you how many of them land in each inch. More pixels per inch means a sharper picture. (You will also see <strong>PPI</strong>, pixels per inch. For books, people use the two words to mean the same thing.)</p>\n\n  <h2>The one number to remember: 300</h2>\n  <p>Printers want pictures at <strong>300 DPI</strong>. Amazon KDP's own help pages say images should be at least 300 PPI for the best results. Below that, pictures start to look soft, and photos with fine detail can look blocky.</p>\n  <p>Your screen is the trap. A screen shrinks a picture to fit, so even a small picture looks crisp there. On paper it has to cover real inches, and that's when missing pixels show.</p>\n\n  <h2>How many pixels do you need? Simple math</h2>\n  <p>Multiply the printed size in inches by 300. That's it.</p>\n  <div class=\"table-wrap\"><table>\n    <tr><th>Printed size</th><th>Pixels you need at 300 DPI</th></tr>\n    <tr><td>Full page, 5 x 8 inch book</td><td>1,500 x 2,400</td></tr>\n    <tr><td>Full page, 6 x 9 inch book</td><td>1,800 x 2,700</td></tr>\n    <tr><td>Full page with bleed, 6 x 9 (6.125 x 9.25 inches)</td><td>about 1,838 x 2,775</td></tr>\n    <tr><td>Half-page picture, 6 inches wide</td><td>1,800 pixels wide</td></tr>\n    <tr><td>Full page, 8.5 x 8.5 inch picture book</td><td>2,550 x 2,550</td></tr>\n  </table></div>\n  <p>Not sure what size your book is? See the <a href=\"/specs\">trim sizes and margins for KDP and IngramSpark</a>.</p>\n\n  <h2>Can I just make a small picture bigger?</h2>\n  <p>Not really. Changing the DPI number in a photo app, or stretching a small picture, does not add real detail. It just makes each pixel bigger. The only true fixes are to use the original, larger file (from your camera, illustrator or stock site) or print the picture smaller.</p>\n\n  <h2>How to check DPI for free in 10 seconds</h2>\n  <ol>\n    <li>Open SparkPrep's <a href=\"/image-dpi-checker/\">free DPI checker</a> (an online image DPI checker).</li>\n    <li>Pick your picture and type the size it will print at.</li>\n    <li>It tells you the real DPI at that size. Nothing is uploaded; it runs in your browser.</li>\n  </ol>\n  <p>Checking the resolution of a whole PDF? The DPI checker works on one picture at a time, so for a full book file, checking pictures one by one gets slow. That is the kind of job SparkPrep was built for. It is an <a href=\"/automated-publishing-production-system/\">Automated Publishing Production System</a> (A.P.P.S.): it opens your cover and every interior page, finds pictures under 300 DPI, and tells you exactly which page they are on.</p>\n\n  <h2>Ebook covers are different</h2>\n  <p>For a Kindle ebook cover, what matters is the pixel size, not DPI. Amazon suggests <strong>2,560 x 1,600 pixels</strong> (tall), with a minimum of 1,000 x 625. See every size in one place in the <a href=\"/book-cover-dimensions/\">book cover dimensions chart</a>.</p>",
+  "faq": [
+    {
+      "q": "Is 72 DPI OK for a printed book?",
+      "a": "No. 72 DPI is a screen setting. Printed pictures need about 300 DPI, or they will look blurry. 72 DPI is fine only for things people see on a screen, like an ebook cover thumbnail."
+    },
+    {
+      "q": "Does DPI matter for black and white books?",
+      "a": "Yes. Photos and drawings in a black and white book still need about 300 DPI to print sharp. Plain text doesn't, because your fonts print sharp at any size."
+    },
+    {
+      "q": "How do I check the DPI of a picture for free?",
+      "a": "Use SparkPrep's free <a href=\"/image-dpi-checker/\">free DPI checker</a>. Pick the picture, enter the printed size, and it shows the real DPI. The file never leaves your computer."
+    }
+  ],
+  "cta": {
+    "text": "Pictures are just one part of a print-ready book. Upload your file and SparkPrep checks every picture, page size and margin against your printer's rules, free through Dec 31.",
+    "button": "Check my book's pictures",
+    "href": "/audit"
+  },
+  "updated": "2026-11-18"
+}

@@ -35,5 +35,15 @@
       "a": "Any change in page count changes the spine width, so get a new size from your printer's calculator every time."
     }
   ],
-  "diy": []
+  "diy": [],
+  "answer": {
+    "q": "Why doesn't my cover fit after I changed the page count?",
+    "a": "Spine width comes from your page count and your paper. Add pages and the spine gets wider; cut pages and it gets thinner, so the whole cover width changes. A cover made for 220 pages won't fit the same book at 260 pages, and switching between white and cream paper changes it too."
+  },
+  "mistake": "Only widening the spine strip in the middle and forgetting that the front cover has to move right by the same amount.",
+  "check": [
+    "Your file's full width matches the new size from your printer's own calculator for the new page count and paper.",
+    "The spine text is centered on the new spine with room on both sides.",
+    "The page count in your book setup matches the real page count of your interior PDF."
+  ]
 }

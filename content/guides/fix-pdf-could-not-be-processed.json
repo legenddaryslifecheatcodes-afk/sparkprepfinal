@@ -33,5 +33,15 @@
       "a": "Security settings, a partly damaged export, or unusual PDF features can all pass on your screen but fail the printer's check. A fresh export from the original file usually fixes it."
     }
   ],
-  "diy": []
+  "diy": [],
+  "answer": {
+    "q": "Why does my printer say my file could not be processed?",
+    "a": "Usually the printer's system can't open every page. Common causes are a password or security setting, even one that only blocks printing or editing; a damaged file from an export that stopped early or a bad download; or a file that isn't really a PDF, like a renamed Word or image file."
+  },
+  "mistake": "Renaming a Word or image file to end in .pdf, or converting it on a free website, instead of exporting a real PDF from the original program.",
+  "check": [
+    "Acrobat's File, Properties, Security shows \"No Security\".",
+    "The PDF opens without warnings and you can scroll through every page.",
+    "The file came straight from your original program's Export or Save As PDF."
+  ]
 }

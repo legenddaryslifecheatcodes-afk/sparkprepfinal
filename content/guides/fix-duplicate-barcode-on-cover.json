@@ -35,5 +35,15 @@
       "a": "2\" x 1.2\" on KDP and 1.75\" x 1\" on IngramSpark, in the lower right of the back cover."
     }
   ],
-  "diy": []
+  "diy": [],
+  "answer": {
+    "q": "Why does my book have two barcodes, or none?",
+    "a": "Amazon KDP can add a barcode for you in a 2\" x 1.2\" area on the lower right of the back cover. If your designer already added one and you don't tell KDP, you can get two. IngramSpark needs a barcode in a 1.75\" x 1\" area, and a missing one, or one that doesn't match your ISBN, is rejected."
+  },
+  "mistake": "Letting the designer add a barcode and the printer add one too, because nobody decided who was doing it.",
+  "check": [
+    "The printer's preview or proof shows exactly one barcode on the back cover.",
+    "The numbers under the barcode match your book's ISBN exactly.",
+    "The barcode area is clear of text and busy art."
+  ]
 }

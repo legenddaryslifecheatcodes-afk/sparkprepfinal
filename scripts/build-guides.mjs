@@ -10,6 +10,7 @@ const ROOT = new URL("../", import.meta.url);
 const TODAY = process.env.GUIDES_TODAY || new Date().toISOString().slice(0, 10);
 
 export const CATEGORIES = [
+  { key: "start", name: "Start Here: Your First Book", blurb: "Plain-English basics for first-time self-publishers: sizes, pictures, ISBNs, covers and formats." },
   { key: "cover", name: "Cover & Spine", blurb: "Spine width, bleed, barcode placement and spine text." },
   { key: "interior", name: "Interior Formatting", blurb: "Page size, margins and gutters, safety areas and fonts." },
   { key: "color", name: "Color & Resolution", blurb: "300 DPI images, CMYK vs RGB and ink limits." },
@@ -24,7 +25,7 @@ const REEDSY = {
   source: "https://reedsy.com/blog/guide/how-to-self-publish-a-book/cost-to-self-publish/",
 };
 // What a guide's problem would cost to hand to a freelancer: the cover, the inside pages, or both.
-const JOB = { cover: "cover", interior: "interior", color: "both", platform: "both", compare: "both" };
+const JOB = { start: "both", cover: "cover", interior: "interior", color: "both", platform: "both", compare: "both" };
 
 function costBox(g) {
   const job = g.job || JOB[g.category];
@@ -131,11 +132,17 @@ function akaList(g) {
   <ul>${g.aka.map((a) => `<li>${q(a)}</li>`).join("")}</ul>`;
 }
 
-// The soft bridge in the middle of a guide: fix it by hand, or let SparkPrep do it.
-function bridge(g) {
-  return `
-  <div class="card"><p style="margin:0">You can fix this by hand with the steps above. Or drop your file into SparkPrep and let it find the problem and fix it for you, in minutes. <a href="${g.cta.href || "/"}">Try it on your file</a>.</p></div>`;
+// Page-specific "most common mistake" + "how to check it's fixed" (2026-11-20). Every guide gets its own
+// words here, so Google sees real, different help on each page instead of the same sales block
+// (16 guides sat in Search Console as "Crawled - currently not indexed").
+function checkFixed(g) {
+  if (!g.mistake && !(g.check && g.check.length)) return "";
+  return `${g.mistake ? `
+  <div class="card"><p style="margin:0"><strong>The most common mistake:</strong> ${esc(g.mistake)}</p></div>` : ""}${g.check && g.check.length ? `
+  <h2>How to check it's fixed before you upload again</h2>
+  <ul>${g.check.map((c) => `<li>${esc(c)}</li>`).join("")}</ul>` : ""}`;
 }
+
 
 function treyFormat(g, diy) {
   const eh = errorHeading(g);
@@ -152,20 +159,12 @@ function treyFormat(g, diy) {
   <p>If you want to try adjusting the files yourself, here are the steps you need to follow:</p>
   <ol>${g.manual.map((s) => `<li>${s}</li>`).join("")}</ol>
 ${diy ? `  <h3 style="margin-top:28px">Step by step in your app</h3>${diy.replace(/<h3>/g, "<h4>").replace(/<\/h3>/g, "</h4>")}` : ""}
-${bridge(g)}
+${checkFixed(g)}
 
   <section class="cta">
     <h2>How to fix it instantly (the SparkPrep way)</h2>
-    <p>If you don't have expensive design software, or you just want to get your book published without the headache, let SparkPrep handle it.</p>
-    <p>SparkPrep was built by a self-published author whose own book was rejected 18 times. It checks your files against the exact print rules Amazon KDP, IngramSpark, Barnes &amp; Noble Press and Lulu publish.</p>
-    <p>When you upload your file to SparkPrep:</p>
-    <ul>
-      <li>We automatically scan for page size, bleed, spine width, safety margins, ink coverage and embedded fonts.</li>
-      <li>We explain any hidden errors in plain English.</li>
-      <li>We fix what can be fixed automatically, tell you exactly what's left, and export a print-ready PDF/X-1a, checked again before you download it.</li>
-    </ul>
+    <p>No design software? Upload your file to SparkPrep, an <a href="/automated-publishing-production-system/">Automated Publishing Production System</a> (A.P.P.S.). It checks it against the printer's own rules, explains each problem in plain English, fixes what it safely can and exports a print-ready PDF.</p>
     ${g.spNote ? `<p>${g.spNote}</p>` : ""}
-    <p><strong>Stop fighting the bots. Drop your file into SparkPrep today and get back to marketing your book!</strong></p>
     <a class="btn" href="${g.cta.href || "/"}">${esc(g.cta.button)}</a>
   </section>
 ${costBox(g)}`;
@@ -227,7 +226,7 @@ ${g.manual ? treyFormat(g, diy) : `${g.body ? g.body : `  <h2>1. The error${erro
 
   <h2>3. The do-it-yourself fix</h2>
   ${g.diyIntro || ""}${diy}
-${bridge(g)}`}
+${checkFixed(g)}`}
 ${costBox(g)}
 
   <section class="cta">
@@ -239,6 +238,7 @@ ${costBox(g)}
   <h2>Quick answers</h2>
 ${faq.map((f) => `  <h3>${esc(f.q)}</h3>\n  <p>${f.a}</p>`).join("\n")}
 ` : ""}
+${beforeUpload(g)}
   <h2>More guides</h2>
   <ul class="links">
 ${more.map((o) => `    <li><a href="/guides/${o.slug}/">${esc(o.h1)}</a></li>`).join("\n")}
@@ -246,6 +246,21 @@ ${more.map((o) => `    <li><a href="/guides/${o.slug}/">${esc(o.h1)}</a></li>`).
   </ul>
 ${PRICE_SCRIPT}
 ${FOOT}`;
+}
+
+// "Before you upload" links: three plain links, with the words people search,
+// into the pages already closest to Google's top 3. A page never links to itself.
+function beforeUpload(g) {
+  const links = [
+    ["what-is-preflight-first-time-authors", "/guides/what-is-preflight-first-time-authors/", "What is preflight?", "the check every book file needs before you upload"],
+    ["", "/free-manuscript-checklist/", "Free manuscript checklist", "26 checks you can tick off and print"],
+    ["", "/specs", "KDP trim sizes", "every size, margin and bleed rule in one chart"],
+  ].filter(([slug]) => slug !== g.slug);
+  return `  <h2>Before you upload</h2>
+  <ul class="links">
+${links.map(([, href, text, note]) => `    <li><a href="${href}">${text}</a>: ${note}</li>`).join("\n")}
+  </ul>
+`;
 }
 
 function hub(all) {
@@ -287,7 +302,7 @@ ${sections}
 
   <section class="cta">
     <h2>Rather not fix it by hand?</h2>
-    <p>Upload your cover and interior. SparkPrep checks them against your printer's rules, explains every problem in plain English and fixes it for you.</p>
+    <p>Upload your cover and interior. SparkPrep, an A.P.P.S. (one system that makes, checks and fixes your book), checks them against your printer's rules, explains every problem in plain English and fixes it for you.</p>
     <a class="btn" href="/">Check my book files</a>
   </section>
 ${FOOT}`;

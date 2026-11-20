@@ -15,7 +15,7 @@
 <meta name="twitter:card" content="summary">
 <link rel="icon" type="image/png" href="/favicon.png">
 <link rel="stylesheet" href="/tools/tools.css">
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"How to fix \"output intent is missing\" or \"no ICC profile\" in your PDF","description":"Your print PDF says it's PDF/X-1a but has no output intent or ICC profile, so it fails the check. What that means in plain English and how to fix it.","datePublished":"2026-11-06","dateModified":"2026-11-06","mainEntityOfPage":"https://sparkprep.legenddary.com/guides/fix-missing-output-intent-icc-profile/","author":{"@type":"Organization","@id":"https://sparkprep.legenddary.com/#org","name":"Legenddary's SparkPrep","url":"https://sparkprep.legenddary.com/"},"publisher":{"@type":"Organization","@id":"https://sparkprep.legenddary.com/#org","name":"Legenddary's SparkPrep","logo":{"@type":"ImageObject","url":"https://sparkprep.legenddary.com/brand/sparkprep-logo.png"}},"image":"https://sparkprep.legenddary.com/brand/sparkprep-logo.png","articleSection":"Color & Resolution"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SparkPrep","item":"https://sparkprep.legenddary.com/"},{"@type":"ListItem","position":2,"name":"Guides","item":"https://sparkprep.legenddary.com/guides/"},{"@type":"ListItem","position":3,"name":"How to fix \"output intent is missing\" or \"no ICC profile\" in your PDF","item":"https://sparkprep.legenddary.com/guides/fix-missing-output-intent-icc-profile/"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is an output intent in a PDF?","acceptedAnswer":{"@type":"Answer","text":"A note inside a print PDF that says which printing conditions its colors were prepared for, usually with an ICC color profile embedded."}},{"@type":"Question","name":"Which ICC profile should I use?","acceptedAnswer":{"@type":"Answer","text":"Use the one your printer recommends. US Web Coated (SWOP) v2 is a common choice for US book printing."}}]}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"How to fix \"output intent is missing\" or \"no ICC profile\" in your PDF","description":"Your print PDF says it's PDF/X-1a but has no output intent or ICC profile, so it fails the check. What that means in plain English and how to fix it.","datePublished":"2026-11-06","dateModified":"2026-11-06","mainEntityOfPage":"https://sparkprep.legenddary.com/guides/fix-missing-output-intent-icc-profile/","author":{"@type":"Organization","@id":"https://sparkprep.legenddary.com/#org","name":"Legenddary's SparkPrep","url":"https://sparkprep.legenddary.com/"},"publisher":{"@type":"Organization","@id":"https://sparkprep.legenddary.com/#org","name":"Legenddary's SparkPrep","logo":{"@type":"ImageObject","url":"https://sparkprep.legenddary.com/brand/sparkprep-logo.png"}},"image":"https://sparkprep.legenddary.com/brand/sparkprep-logo.png","articleSection":"Color & Resolution"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"SparkPrep","item":"https://sparkprep.legenddary.com/"},{"@type":"ListItem","position":2,"name":"Guides","item":"https://sparkprep.legenddary.com/guides/"},{"@type":"ListItem","position":3,"name":"How to fix \"output intent is missing\" or \"no ICC profile\" in your PDF","item":"https://sparkprep.legenddary.com/guides/fix-missing-output-intent-icc-profile/"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What does \"output intent is missing\" mean?","acceptedAnswer":{"@type":"Answer","text":"A PDF/X-1a file must carry an output intent: a note saying which printing conditions the colors were made for, usually with a built-in ICC color profile. Without it, the printer can't be sure how to read your CMYK colors. Files often lose it when they're re-saved, merged or \"optimized\" in another program."}},{"@type":"Question","name":"What is an output intent in a PDF?","acceptedAnswer":{"@type":"Answer","text":"A note inside a print PDF that says which printing conditions its colors were prepared for, usually with an ICC color profile embedded."}},{"@type":"Question","name":"Which ICC profile should I use?","acceptedAnswer":{"@type":"Answer","text":"Use the one your printer recommends. US Web Coated (SWOP) v2 is a common choice for US book printing."}}]}]}</script>
 </head>
 <body>
 <header class="site">
@@ -27,6 +27,7 @@
   <h1>How to fix &quot;output intent is missing&quot; or &quot;no ICC profile&quot; in your PDF</h1>
   <p class="note">Updated November 6, 2026 · IngramSpark · Barnes &amp; Noble Press · Lulu</p>
   <p class="lead">This one sounds technical, but it's just a missing label inside your file that tells the printer what kind of printing it was made for.</p>
+  <div class="card" id="answer"><p style="margin:0"><strong>What does &quot;output intent is missing&quot; mean?</strong> A PDF/X-1a file must carry an output intent: a note saying which printing conditions the colors were made for, usually with a built-in ICC color profile. Without it, the printer can't be sure how to read your CMYK colors. Files often lose it when they're re-saved, merged or &quot;optimized&quot; in another program.</p></div>
 
   <h2>The error: “PDF/X-1a output intent is missing or has no embedded ICC profile”</h2>
   <blockquote>PDF/X-1a output intent is missing or has no embedded ICC profile</blockquote>
@@ -42,20 +43,14 @@
   <ol><li>Go back to your original design file (InDesign, Affinity, Illustrator).</li><li>Export again using the built-in "PDF/X-1a:2001" preset. Don't re-save it in another app afterwards.</li><li>No InDesign? In Acrobat Pro, open Print Production → Preflight and run "Convert to PDF/X-1a", choosing a CMYK profile such as US Web Coated (SWOP) v2.</li><li>Run Preflight again to confirm "PDF/X-1a compliant".</li><li>Re-upload it to your printer and wait for the file review again. If it fails, you start over.</li></ol>
 
 
-  <div class="card"><p style="margin:0">You can fix this by hand with the steps above. Or drop your file into SparkPrep and let it find the problem and fix it for you, in minutes. <a href="/">Try it on your file</a>.</p></div>
+  <div class="card"><p style="margin:0"><strong>The most common mistake:</strong> Exporting a correct PDF/X-1a file, then opening and re-saving it in a different app, which strips the output intent.</p></div>
+  <h2>How to check it's fixed before you upload again</h2>
+  <ul><li>Acrobat Pro's Preflight reports the file as PDF/X-1a compliant.</li><li>File, Properties, Description shows PDF/X-1a under PDF/X version or in the document's details.</li><li>You upload the exported file itself, not a copy that was re-saved or compressed afterwards.</li></ul>
 
   <section class="cta">
     <h2>How to fix it instantly (the SparkPrep way)</h2>
-    <p>If you don't have expensive design software, or you just want to get your book published without the headache, let SparkPrep handle it.</p>
-    <p>SparkPrep was built by a self-published author whose own book was rejected 18 times. It checks your files against the exact print rules Amazon KDP, IngramSpark, Barnes &amp; Noble Press and Lulu publish.</p>
-    <p>When you upload your file to SparkPrep:</p>
-    <ul>
-      <li>We automatically scan for page size, bleed, spine width, safety margins, ink coverage and embedded fonts.</li>
-      <li>We explain any hidden errors in plain English.</li>
-      <li>We fix what can be fixed automatically, tell you exactly what's left, and export a print-ready PDF/X-1a, checked again before you download it.</li>
-    </ul>
+    <p>No design software? Upload your file to SparkPrep, an <a href="/automated-publishing-production-system/">Automated Publishing Production System</a> (A.P.P.S.). It checks it against the printer's own rules, explains each problem in plain English, fixes what it safely can and exports a print-ready PDF.</p>
     
-    <p><strong>Stop fighting the bots. Drop your file into SparkPrep today and get back to marketing your book!</strong></p>
     <a class="btn" href="/">Export a proper PDF/X-1a</a>
   </section>
 
@@ -72,6 +67,13 @@
   <p>A note inside a print PDF that says which printing conditions its colors were prepared for, usually with an ICC color profile embedded.</p>
   <h3>Which ICC profile should I use?</h3>
   <p>Use the one your printer recommends. US Web Coated (SWOP) v2 is a common choice for US book printing.</p>
+
+  <h2>Before you upload</h2>
+  <ul class="links">
+    <li><a href="/guides/what-is-preflight-first-time-authors/">What is preflight?</a>: the check every book file needs before you upload</li>
+    <li><a href="/free-manuscript-checklist/">Free manuscript checklist</a>: 26 checks you can tick off and print</li>
+    <li><a href="/specs">KDP trim sizes</a>: every size, margin and bleed rule in one chart</li>
+  </ul>
 
   <h2>More guides</h2>
   <ul class="links">

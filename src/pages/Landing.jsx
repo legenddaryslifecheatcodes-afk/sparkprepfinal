@@ -46,6 +46,10 @@ export default function Landing() {
               <span className="text-[#D4AF37]" style={{ background: "linear-gradient(180deg, #E5C158, #D4AF37 55%, #B8933E)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>for KDP &amp; IngramSpark.</span>
             </h1>
             <p className="mt-6 font-display font-bold italic text-2xl md:text-3xl text-[#D4AF37]" data-testid="hero-motto">Power without complexity.</p>
+            {/* A.P.P.S. category line (2026-11-18, Trey). Text + link only. */}
+            <a href="/automated-publishing-production-system/" className="mt-3 inline-flex items-center gap-2 font-mono-spec text-xs md:text-sm tracking-[0.16em] uppercase text-neutral-200 hover:text-[#D4AF37]" data-testid="hero-apps">
+              The Automated Publishing Production System (A.P.P.S.) <ArrowRight className="w-3.5 h-3.5" />
+            </a>
             <HeroPriceStrip pricing={pricing} />
 
             <p className="mt-8 text-lg text-neutral-300 max-w-xl leading-relaxed" data-testid="hero-gift">
@@ -108,6 +112,10 @@ export default function Landing() {
               </span>
             </h1>
             <p className="mt-6 font-display font-bold italic text-2xl md:text-3xl text-[#D4AF37]" data-testid="hero-motto">Power without complexity.</p>
+            {/* A.P.P.S. category line (2026-11-18, Trey). Text + link only. */}
+            <a href="/automated-publishing-production-system/" className="mt-3 inline-flex items-center gap-2 font-mono-spec text-xs md:text-sm tracking-[0.16em] uppercase text-neutral-200 hover:text-[#D4AF37]" data-testid="hero-apps">
+              The Automated Publishing Production System (A.P.P.S.) <ArrowRight className="w-3.5 h-3.5" />
+            </a>
             <HeroPriceStrip pricing={pricing} />
 
             <p className="mt-8 text-lg text-neutral-300 max-w-xl leading-relaxed">
@@ -130,7 +138,7 @@ export default function Landing() {
             <div className="mt-10 max-w-xl border-l-2 border-[#D4AF37] bg-[#D4AF37]/[0.06] px-5 py-4" data-testid="hero-definition">
               <h2 className="font-display font-bold text-lg text-white tracking-tight">What is SparkPrep?</h2>
               <p className="mt-2 text-neutral-300 leading-relaxed">
-                Legenddary&apos;s SparkPrep is an all-in-one self-publishing suite. You design your book cover, write and format your inside pages, check both against the print rules of Amazon KDP, IngramSpark, Barnes &amp; Noble and Lulu, fix every problem, and download print-ready files, all in one place.
+                Legenddary&apos;s SparkPrep is an <a href="/automated-publishing-production-system/" className="text-white underline decoration-[#D4AF37]/60 underline-offset-2 hover:text-[#D4AF37]">Automated Publishing Production System (A.P.P.S.)</a>: an all-in-one self-publishing suite. You design your book cover, write and format your inside pages, check both against the print rules of Amazon KDP, IngramSpark, Barnes &amp; Noble and Lulu, fix every problem, and download print-ready files, all in one place.
               </p>
             </div>
 
@@ -183,12 +191,19 @@ export default function Landing() {
               <p className="mt-6 text-lg text-neutral-300 max-w-xl leading-relaxed">
                 Design your cover, write and format your pages, check them against Amazon KDP and IngramSpark's print rules, fix every problem, and download print-ready files. <span className="text-white font-semibold">Everything you need to publish, in one place</span>, in plain English.
               </p>
+              {/* A.P.P.S. positioning (2026-11-18, Trey's wording). */}
+              <div className="mt-8 max-w-xl border border-[#D4AF37]/30 px-5 py-4" data-testid="apps-positioning">
+                <p className="font-mono-spec text-[11px] tracking-[0.22em] uppercase text-[#D4AF37]">Legenddary SparkPrep · The Automated Publishing Production System</p>
+                <p className="mt-2 font-display font-bold text-xl text-white">Beyond formatting. Beyond preflight. Beyond prepress.</p>
+                <p className="mt-1 text-neutral-300">One integrated system. Multiple production capabilities. A smarter way to publish.</p>
+                <a href="/automated-publishing-production-system/" className="mt-3 inline-flex items-center gap-2 text-[#D4AF37] hover:text-white font-mono-spec text-xs tracking-widest uppercase">What is an A.P.P.S.? <ArrowRight className="w-3.5 h-3.5" /></a>
+              </div>
             </div>
             <div className="md:col-span-5">
               <div className="border-l-2 border-[#D4AF37] bg-[#D4AF37]/[0.06] px-5 py-4" data-testid="suite-definition">
                 <h3 className="font-display font-bold text-lg text-white tracking-tight">What is SparkPrep?</h3>
                 <p className="mt-2 text-neutral-300 leading-relaxed">
-                  Legenddary&apos;s SparkPrep is an all-in-one self-publishing suite. You design your book cover, write and format your inside pages, check both against the print rules of Amazon KDP, IngramSpark, Barnes &amp; Noble and Lulu, fix every problem, and download print-ready files, all in one place.
+                  Legenddary&apos;s SparkPrep is an <a href="/automated-publishing-production-system/" className="text-white underline decoration-[#D4AF37]/60 underline-offset-2 hover:text-[#D4AF37]">Automated Publishing Production System (A.P.P.S.)</a>: an all-in-one self-publishing suite. You design your book cover, write and format your inside pages, check both against the print rules of Amazon KDP, IngramSpark, Barnes &amp; Noble and Lulu, fix every problem, and download print-ready files, all in one place.
                 </p>
               </div>
               <div className="mt-6 flex flex-wrap gap-6 text-xs font-mono-spec tracking-widest text-neutral-500 uppercase">
@@ -377,6 +392,10 @@ export default function Landing() {
           <a href="/tools/" className="hover:text-white">Free tools</a>
           <a href="/guides/" className="hover:text-white">Guides</a>
           <a href="/answers/" className="hover:text-white">Quick answers</a>
+          <a href="/automated-publishing-production-system/" className="hover:text-white">What is an A.P.P.S.?</a>
+          <a href="/apps-vs-traditional-publishing-software/" className="hover:text-white">A.P.P.S. vs traditional software</a>
+          <a href="/evolution-of-self-publishing/" className="hover:text-white">The evolution of self-publishing</a>
+          <a href="/glossary/" className="hover:text-white">Glossary</a>
           <a href="/how-to-self-publish-a-book/" className="hover:text-white">How to self publish a book</a>
           <a href="/book-formatting/" className="hover:text-white">Book formatting</a>
           <a href="/kdp-cover-calculator/" className="hover:text-white">KDP cover calculator</a>

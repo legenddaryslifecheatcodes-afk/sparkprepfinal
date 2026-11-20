@@ -33,5 +33,15 @@
       "a": "At least 0.5\" from every trim edge."
     }
   ],
-  "diy": []
+  "diy": [],
+  "answer": {
+    "q": "What margins do Lulu and Barnes & Noble Press need?",
+    "a": "Both want everything on the page, including page numbers and headers, at least 0.5\" from every trim edge. Pages are trimmed after printing and the inside edge curves into the spine, so text closer than that can be cut off or lost. Thick books need more space on the inside edge."
+  },
+  "mistake": "Fixing the body text margins but leaving page numbers and headers in Word's header and footer area, close to the edge.",
+  "check": [
+    "Every page is your exact trim size.",
+    "Body text, page numbers, headers and pictures all sit at least 0.5\" from every edge.",
+    "Mirror margins are on, with the wider margin on the spine side."
+  ]
 }

@@ -1,0 +1,35 @@
+{
+  "slug": "copyright-page-for-self-published-book",
+  "category": "start",
+  "date": "2026-11-26",
+  "title": "Copyright Page for a Self-Published Book: What to Include | Legenddary's SparkPrep",
+  "h1": "Your book's copyright page: what to put on it, in plain English",
+  "description": "What a copyright page is, what a first-time self-published author should put on it (with a simple example), whether you need to register your copyright, and the U.S. Copyright Office fee.",
+  "platforms": "Any self-published book (U.S. focus)",
+  "lead": "The copyright page is the small page right after the title page, full of fine print. It's not hard to write, and you don't need a lawyer for a basic one. Here's what goes on it.",
+  "answer": {
+    "q": "What goes on a copyright page in a self-published book?",
+    "a": "A basic copyright page has the copyright line (© 2026 Your Name), \"All rights reserved\", your ISBN for that format, the edition, and a contact or website. Add a fiction disclaimer if it's a novel. Your book is copyrighted the moment you write it; registering is optional and costs $45 online for one author's single work."
+  },
+  "body": "\n  <h2>Where it goes</h2>\n  <p>On the back of the title page (the left-hand page right after it). In an ebook it's often moved to the end of the book.</p>\n\n  <h2>What to include</h2>\n  <ul>\n    <li><strong>The copyright line:</strong> Copyright © 2026 by Your Name (or your pen name).</li>\n    <li><strong>\"All rights reserved\"</strong> plus a short sentence saying no part may be copied without permission, except short quotes in reviews.</li>\n    <li><strong>The ISBN</strong> for this format. Paperback, hardcover and ebook each have their own (see <a href=\"/guides/do-i-need-an-isbn-to-self-publish/\">do I need an ISBN?</a>).</li>\n    <li><strong>Edition:</strong> First edition, 2026.</li>\n    <li><strong>Publisher or imprint name</strong>, if you have one, and a website or email.</li>\n    <li><strong>Credits:</strong> cover designer, editor, photo credits.</li>\n    <li><strong>For fiction:</strong> a line saying names and events are made up and any likeness to real people is a coincidence.</li>\n  </ul>\n\n  <h2>A simple example</h2>\n  <div class=\"card\"><p style=\"margin:0\">Copyright © 2026 by Jane Author<br>All rights reserved. No part of this book may be reproduced in any form without written permission from the author, except for brief quotations in a book review.<br>This is a work of fiction. Names, characters and events are products of the author's imagination.<br>ISBN 978-0-000000-00-0 (paperback)<br>First edition, 2026<br>Cover design by Name · janeauthor.com</p></div>\n  <p class=\"note\">The ISBN above is a placeholder. Use your real one, and make sure it matches the barcode on your cover; a mismatch gets books rejected (<a href=\"/guides/fix-isbn-mismatch-on-cover/\">how to fix it</a>).</p>\n\n  <h2>Do you need to register your copyright?</h2>\n  <p>In the U.S., your book is protected by copyright as soon as you write it down. Registering with the U.S. Copyright Office is optional, but it gives you a public record and is needed before you can sue someone for copying your book in a U.S. court.</p>\n  <ul>\n    <li>Online, one author, one work, not made for hire: <strong>$45</strong></li>\n    <li>Standard online application: <strong>$65</strong></li>\n  </ul>\n  <p class=\"note\">Fees from the <a href=\"https://www.copyright.gov/about/fees.html\" rel=\"nofollow noopener\">U.S. Copyright Office fee page</a>, checked November 2026. The Office says its fees change on January 5, 2027, so check before you file. This is general information, not legal advice.</p>\n\n  <h2>Formatting tips</h2>\n  <ul>\n    <li>Use a smaller font than your story (but at least 7 point, KDP's minimum).</li>\n    <li>Keep it inside the same margins as every other page (<a href=\"/specs\">margin chart</a>).</li>\n    <li>No page number is usually shown on this page.</li>\n  </ul>\n  <p>SparkPrep, an <a href=\"/automated-publishing-production-system/\">Automated Publishing Production System</a> (A.P.P.S.), checks the ISBN barcode on your cover against your book details, and checks every page's margins, fonts and page size.</p>",
+  "faq": [
+    {
+      "q": "Do I need a copyright page in my book?",
+      "a": "It isn't legally required, but every professional book has one. It states who owns the book, the ISBN and the edition, and stores and libraries expect it."
+    },
+    {
+      "q": "How much does it cost to copyright a book?",
+      "a": "Your book is copyrighted for free the moment you write it. Registering it with the U.S. Copyright Office costs $45 online for one author's single work, or $65 for the standard online application (fees checked November 2026)."
+    },
+    {
+      "q": "Can I use a pen name on my copyright page?",
+      "a": "Yes. Many authors put their pen name in the copyright line. The U.S. Copyright Office also lets you register under a pseudonym."
+    }
+  ],
+  "cta": {
+    "text": "SparkPrep checks your cover's ISBN barcode against your book details, plus every page's margins and fonts, before you upload.",
+    "button": "Check my book for free",
+    "href": "/audit"
+  },
+  "updated": "2026-11-26"
+}

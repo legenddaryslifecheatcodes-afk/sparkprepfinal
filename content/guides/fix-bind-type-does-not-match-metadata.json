@@ -33,5 +33,15 @@
       "a": "No. KDP hardcovers are case laminate only, so a dust jacket file is an IngramSpark (or Lulu, Barnes & Noble Press) thing."
     }
   ],
-  "diy": []
+  "diy": [],
+  "answer": {
+    "q": "What does \"bind type does not match the metadata\" mean?",
+    "a": "It means the cover file you uploaded is the wrong shape for the binding you chose in IngramSpark. Paperback, case laminate and dust jacket covers are all different sizes. A case laminate needs 0.625\" wrap and a 0.5\" hinge, and a jacket needs two 3.25\" flaps, so a paperback-shaped file is off by inches."
+  },
+  "mistake": "Changing the binding in the title setup (for example paperback to hardcover) and re-uploading the old cover file without making a new one.",
+  "check": [
+    "The binding and trim size in your IngramSpark title setup match the template you downloaded.",
+    "Your file's page size in Acrobat (File, Properties) equals the template's full size.",
+    "For a jacket, both 3.25\" flaps are there; for case laminate, art reaches the 0.625\" wrap edge."
+  ]
 }

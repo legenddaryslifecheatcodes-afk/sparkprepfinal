@@ -40,5 +40,11 @@
     "q": "Why does the printer say my cover ISBN doesn't match?",
     "a": "Each edition (paperback, hardcover, ebook) has its own ISBN, and the barcode on your back cover must carry the exact ISBN entered for this edition. The error usually happens when a cover is reused from another edition. Fix it by making a new barcode with the right ISBN and replacing the old one."
   },
-  "updated": "2026-11-15"
+  "updated": "2026-11-20",
+  "mistake": "Using the ISBN for the ebook or hardcover on the paperback cover. Each format has its own ISBN.",
+  "check": [
+    "The 13 digits on the cover barcode match the ISBN on your copyright page.",
+    "Both match the ISBN you entered for this exact format in KDP or IngramSpark.",
+    "Scanning the barcode with a phone barcode app shows the same 13 digits."
+  ]
 }

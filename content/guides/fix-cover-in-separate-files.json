@@ -35,5 +35,15 @@
       "a": "Left to right: back cover, spine, front cover."
     }
   ],
-  "diy": []
+  "diy": [],
+  "answer": {
+    "q": "Can I upload my book cover as separate front, spine and back files?",
+    "a": "No. A paperback cover prints on one sheet and wraps around the book, so the printer needs one file laid out left to right: back cover, spine, front cover, with 0.125\" bleed around the outside. Uploading just the front or three separate pictures gets rejected, or the front art is stretched to fill the space."
+  },
+  "mistake": "Uploading only the front cover picture and expecting the printer to fill in the spine and back.",
+  "check": [
+    "Your PDF is one page, at the template's full width (back + spine + front + bleed).",
+    "Back is on the left, front is on the right, and the spine text sits on the spine.",
+    "Art runs to every outside edge with no white sliver."
+  ]
 }

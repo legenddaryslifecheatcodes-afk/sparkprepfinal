@@ -178,6 +178,10 @@ export default function AuditLanding() {
             <p className="mt-6 text-lg text-neutral-400 max-w-xl leading-relaxed">
               IngramSpark, KDP and Barnes & Noble often reject a file with a short note like <span className="font-mono-spec text-sm text-white">"resolution insufficient"</span> and no details. Upload your cover or inside pages here. We'll find every problem, show you exactly where it is, and tell you which printer rule it breaks. {freeAudit ? "Free this holiday season. No sign-up." : <>{auditPrice ? `${auditPrice}. ` : ""}No account.</>}
             </p>
+            {/* A.P.P.S. framing (2026-11-21, Trey): the audit is the entry point into the system. */}
+            <p className="mt-4 text-sm text-neutral-300 max-w-xl" data-testid="audit-apps-line">
+              This audit is your first step into the SparkPrep <a href="/automated-publishing-production-system/" className="text-[#D4AF37] underline underline-offset-2 hover:text-white">Automated Publishing Production System (A.P.P.S.)</a>. When you're ready, the same system fixes what it finds.
+            </p>
             <div className="mt-8 flex flex-wrap gap-3 text-xs font-mono-spec tracking-widest text-neutral-500 uppercase">
               <span className="border border-neutral-700 px-2 py-1">✓ Every problem found</span>
               <span className="border border-neutral-700 px-2 py-1">✓ The printer rule shown</span>

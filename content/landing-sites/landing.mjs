@@ -45,7 +45,7 @@ export const pages = [
 <tr><th>Way</th><th>Cost</th><th>Time</th><th>Catch</th></tr>
 <tr><td>Check it yourself with a checklist</td><td>Free</td><td>An evening or two</td><td>You need Adobe Acrobat Pro for some checks, and you have to know what you're looking at. <a href="/preflight-checklist/">Use our checklist.</a></td></tr>
 <tr><td>Pay a designer or formatter</td><td>Reedsy's pros: median ~$930 for a cover, ~$800 average for formatting</td><td>Days to weeks</td><td>Not every freelancer checks your printer's exact rules. A pretty file can still be rejected.</td></tr>
-<tr><td>Use a preflight tool like SparkPrep</td><td>Free scan, ${PRICES.audit} audit</td><td>Minutes</td><td>You upload your PDF. SparkPrep checks it against your printer's own numbers and can fix what it finds.</td></tr>
+<tr><td>Use SparkPrep (an A.P.P.S. with a built-in preflight check)</td><td>Free scan, ${PRICES.audit} audit</td><td>Minutes</td><td>You upload your PDF. SparkPrep checks it against your printer's own numbers and can fix what it finds.</td></tr>
 </table></div>
 <p>For the full story on costs and timing, read <a href="${site("newauthor", "/costs/")}">what it really costs to get a print book ready</a>.</p>
 `,
@@ -112,7 +112,7 @@ export const pages = [
 `,
     faq: [
       { q: "What should I check before uploading to KDP?", a: "Page size, margins for your page count, embedded fonts, 300 DPI pictures, full cover size with the right spine width, 0.125 inch bleed, barcode space and spine text rules." },
-      { q: "Do I need Adobe Acrobat to preflight a book?", a: "For a few checks (embedded fonts, ink coverage and true color), Acrobat Pro or a preflight tool such as SparkPrep is the reliable way. The rest you can check by eye with the right numbers." },
+      { q: "Do I need Adobe Acrobat to preflight a book?", a: "For a few checks (embedded fonts, ink coverage and true color), Acrobat Pro or SparkPrep's built-in preflight check is the reliable way. The rest you can check by eye with the right numbers." },
     ],
   },
   {

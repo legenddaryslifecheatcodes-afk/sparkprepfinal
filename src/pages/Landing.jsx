@@ -8,6 +8,7 @@ import { CheckCircle2, Zap, FileCheck2, Palette, Ruler, Layers, Flame, ArrowRigh
 import { usePricing, money, isBookModel, specialNote } from "@/lib/pricing";
 import { HOME_FAQ, FirstBookArticle } from "@/components/FirstBookArticle";
 import HomePriceBlock, { HeroPriceStrip } from "@/components/HomePriceBlock";
+import HowSparkPrepWorks from "@/components/HowSparkPrepWorks";
 
 export default function Landing() {
   const pricing = usePricing();
@@ -219,6 +220,9 @@ export default function Landing() {
           </div>
         </section>
       )}
+
+      {/* How SparkPrep works, in Trey's own words, cleaned up (2026-11-21). */}
+      <HowSparkPrepWorks />
 
       {/* First-time author article (2026-11-01, Trey: talk to new authors, honest numbers). */}
       <FirstBookArticle pricing={pricing} auditPrice={freeAudit && pricing ? "free" : auditPrice.trim()} auditNote={freeAudit ? "" : specialNote(pricing, "audit")} />

@@ -22,52 +22,69 @@ export default function Landing() {
       <SeasonBanner />
       <Nav dark />
 
-      {/* Hero (2026-11-01, Trey: built the way Google reads a page -- one keyword H1, a short
-          plain-English answer right under it, the commercial in the hero, then the first-time
-          author article and an FAQ further down. Buttons, links and test ids are unchanged.) */}
       <section className="relative overflow-hidden">
         <BrandWatermark variant="dark" position="hero-left" scale={0.62} maxPx={780} />
 
         <div className="relative max-w-7xl mx-auto px-6 pt-16 pb-20 grid md:grid-cols-12 gap-10 items-center">
-          {freeAudit ? (
+          {/* Hero (2026-11-21, Trey's A.P.P.S. directive + mockup): the MESSAGE starts with what SparkPrep is
+              (the A.P.P.S. category), and the ACTION is the free audit, right under it, as the biggest button
+              on the page. One flow, never two competing options side by side. Test ids, links and the
+              data-next-step marker are unchanged, so tracking and the "Click to fix" pointer still work. */}
           <div className="md:col-span-7">
             <div className="flex items-center gap-3">
               <LogoMark size={32} />
               <span className="font-mono-spec text-[10px] tracking-[0.28em] uppercase text-[#D4AF37]">
-                Legenddary&apos;s SparkPrep: the evolution of self-publishing
+                Legenddary SparkPrep · The evolution of self-publishing
               </span>
             </div>
 
-            <span className="mt-8 inline-flex items-center gap-2 font-mono-spec text-xs tracking-widest uppercase text-black bg-[#D4AF37] px-3 py-1.5" data-testid="hero-tag">
-              <Gift className="w-3.5 h-3.5" /> Holiday gift · Free for a limited time
+            <span className="mt-8 inline-flex items-center gap-2 font-mono-spec text-xs tracking-[0.3em] uppercase text-black bg-gradient-to-r from-[#B8933E] via-[#E5C158] to-[#B8933E] px-4 py-1.5" data-testid="hero-tag">
+              Introducing A.P.P.S.
             </span>
 
-            <h1 className="mt-8 font-display font-black text-5xl md:text-7xl tracking-tighter leading-[0.92]" data-testid="hero-title">
-              Free book file audit<br />
-              <span className="text-[#D4AF37]" style={{ background: "linear-gradient(180deg, #E5C158, #D4AF37 55%, #B8933E)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>for KDP &amp; IngramSpark.</span>
+            <h1 className="mt-5 font-display font-black text-4xl md:text-6xl tracking-tighter leading-[0.95]" data-testid="hero-title">
+              <span style={{ background: "linear-gradient(180deg, #F3DC8A, #D4AF37 55%, #B8933E)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>The Automated Publishing</span><br />
+              <span className="text-white">Production System.</span>
             </h1>
-            <p className="mt-6 font-display font-bold italic text-2xl md:text-3xl text-[#D4AF37]" data-testid="hero-motto">Power without complexity.</p>
-            {/* A.P.P.S. category line (2026-11-18, Trey). Text + link only. */}
-            <a href="/automated-publishing-production-system/" className="mt-3 inline-flex items-center gap-2 font-mono-spec text-xs md:text-sm tracking-[0.16em] uppercase text-neutral-200 hover:text-[#D4AF37]" data-testid="hero-apps">
-              The Automated Publishing Production System (A.P.P.S.) <ArrowRight className="w-3.5 h-3.5" />
-            </a>
-            <HeroPriceStrip pricing={pricing} />
-
-            <p className="mt-8 text-lg text-neutral-300 max-w-xl leading-relaxed" data-testid="hero-gift">
-              Times are hard. Gas prices are high and a lot feels uncertain. So this holiday season, SparkPrep is giving self-publishers a gift: <span className="text-white font-semibold">check your book file for free.</span> Upload your cover or inside pages. See every problem that could get your book rejected, where it is, and the printer rule it breaks.
-            </p>
-            <p className="mt-4 text-sm text-emerald-300 max-w-xl" data-testid="hero-free-terms">
-              No sign-up. No card. Just your email.{regularAudit ? ` Regular price ${regularAudit} from January.` : ""}
+            <p className="mt-5 text-lg md:text-xl text-neutral-200 max-w-xl leading-relaxed" data-testid="hero-positioning">
+              Legenddary SparkPrep is an <a href="/automated-publishing-production-system/" className="text-white underline decoration-[#D4AF37]/60 underline-offset-4 hover:text-[#D4AF37]">Automated Publishing Production System (A.P.P.S.)</a>: one system that helps you make your book, find and fix every print problem, and export print-ready files before you publish.
             </p>
 
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link to="/audit" className="btn-gold px-7 py-4 font-mono-spec text-xs tracking-widest uppercase flex items-center gap-2 btn-industrial" data-testid="hero-cta-audit" data-next-step="Start here">
-                <Gift className="w-4 h-4" /> Get My Free Audit <ArrowRight className="w-4 h-4" />
+            {/* The jobs that used to be separate tools are parts of the one system. */}
+            <ul className="mt-5 flex flex-wrap gap-2 max-w-xl" aria-label="What the system brings together" data-testid="hero-capabilities">
+              {["Cover & page design", "Preflight check", "Prepress fixes", "Second check & export"].map((c) => (
+                <li key={c} className="flex items-center gap-1.5 border border-[#D4AF37]/40 bg-[#D4AF37]/[0.07] px-3 py-1.5 text-xs font-mono-spec tracking-wider uppercase text-neutral-200">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#D4AF37] shrink-0" /> {c}
+                </li>
+              ))}
+            </ul>
+            <p className="mt-5 font-display font-bold italic text-2xl md:text-3xl text-[#D4AF37]" data-testid="hero-motto">Power without complexity.</p>
+
+            {/* The entry point: the free audit is how people first experience the A.P.P.S. Biggest action on the page. */}
+            <div className="mt-8 max-w-xl border-2 border-[#D4AF37] bg-gradient-to-b from-[#D4AF37]/[0.14] to-black/60 px-6 py-6 shadow-[0_0_40px_rgba(212,175,55,0.18)]" data-testid="hero-audit-box">
+              <h2 className="font-display font-black italic text-2xl md:text-3xl text-white tracking-tight leading-tight" data-testid="hero-gift">
+                See what your book needs <span className="text-[#D4AF37]">before</span> you publish.
+              </h2>
+              <p className="mt-3 text-neutral-300 leading-relaxed">
+                {freeAudit
+                  ? <>Get a <span className="text-white font-semibold">free book audit</span> for Amazon KDP and IngramSpark. Upload your cover or inside pages and see every problem that could get your book rejected, where it is, and the printer rule it breaks.</>
+                  : <>Run a {auditPrice}book audit for Amazon KDP and IngramSpark. Upload your cover or inside pages and see every problem that could get your book rejected, where it is, and the printer rule it breaks.</>}
+              </p>
+              <Link to="/audit" className="mt-5 btn-gold w-full justify-center px-7 py-5 font-display font-black text-lg md:text-xl tracking-wide uppercase flex items-center gap-3 btn-industrial" data-testid="hero-cta-audit" data-next-step="Start here">
+                {freeAudit ? <><Gift className="w-5 h-5" /> Get my free book audit</> : <><Flame className="w-5 h-5" /> Get my book audit</>} <ArrowRight className="w-5 h-5" />
               </Link>
-              <Link to="/register" className="border border-white text-white hover:bg-white hover:text-black px-7 py-4 font-mono-spec text-xs tracking-widest uppercase flex items-center gap-2 btn-industrial" data-testid="hero-cta-primary">
-                Prep My First Book
-              </Link>
+              <p className="mt-3 text-center text-sm text-neutral-300">Your first step into the SparkPrep A.P.P.S.</p>
+              {freeAudit && (
+                <p className="mt-1 text-center text-xs text-emerald-300" data-testid="hero-free-terms">
+                  Free through December 31. No sign-up. No card. Just your email.{regularAudit ? ` Regular price ${regularAudit} from January.` : ""}
+                </p>
+              )}
             </div>
+            <p className="mt-4 text-sm text-neutral-400 max-w-xl">
+              Ready for the whole book? <Link to="/register" className="text-white underline decoration-[#D4AF37]/60 underline-offset-2 hover:text-[#D4AF37]" data-testid="hero-cta-primary">Start my first book</Link>. Or <a href="/automated-publishing-production-system/" className="text-white underline decoration-[#D4AF37]/60 underline-offset-2 hover:text-[#D4AF37]" data-testid="hero-apps">read what an A.P.P.S. is</a>.
+            </p>
+
+            <HeroPriceStrip pricing={pricing} />
 
             <div className="mt-10 max-w-xl" data-testid="hero-free-tools">
               <h2 className="font-display font-bold text-lg text-white tracking-tight">Also free for every author</h2>
@@ -85,61 +102,7 @@ export default function Landing() {
             <div className="mt-10 max-w-xl border-l-2 border-[#D4AF37] bg-[#D4AF37]/[0.06] px-5 py-4" data-testid="hero-definition">
               <h2 className="font-display font-bold text-lg text-white tracking-tight">What is a book file audit?</h2>
               <p className="mt-2 text-neutral-300 leading-relaxed">
-                A book file audit checks your cover and inside pages against the printer's rules before you upload. It finds problems like missing bleed, the wrong size or spine width, blurry pictures, screen colors and missing fonts, shows where each one is, and names the Amazon KDP or IngramSpark rule it breaks.
-              </p>
-            </div>
-          </div>
-          ) : (
-          <div className="md:col-span-7">
-            <div className="flex items-center gap-3">
-              <LogoMark size={32} />
-              <span className="font-mono-spec text-[10px] tracking-[0.28em] uppercase text-[#D4AF37]">
-                Publish · Automate · Elevate
-              </span>
-            </div>
-
-            <span className="mt-8 inline-flex items-center gap-2 font-mono-spec text-xs tracking-widest uppercase text-[#D4AF37] border border-[#D4AF37]/50 bg-[#D4AF37]/10 px-3 py-1.5" data-testid="hero-tag">
-              Built by an author whose book was rejected 18 times
-            </span>
-
-            <h1 className="mt-8" data-testid="hero-title">
-              <span className="block font-mono-spec text-sm md:text-base tracking-[0.18em] uppercase text-neutral-300">
-                Legenddary&apos;s SparkPrep: the evolution of self-publishing
-              </span>
-              <span className="block font-display font-black text-5xl md:text-7xl lg:text-8xl tracking-tighter mt-4 leading-[0.9]">
-                The all-in-one<br />
-                <span className="text-[#D4AF37]" style={{ background: "linear-gradient(180deg, #E5C158, #D4AF37 55%, #B8933E)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>publishing</span><br />
-                suite.
-              </span>
-            </h1>
-            <p className="mt-6 font-display font-bold italic text-2xl md:text-3xl text-[#D4AF37]" data-testid="hero-motto">Power without complexity.</p>
-            {/* A.P.P.S. category line (2026-11-18, Trey). Text + link only. */}
-            <a href="/automated-publishing-production-system/" className="mt-3 inline-flex items-center gap-2 font-mono-spec text-xs md:text-sm tracking-[0.16em] uppercase text-neutral-200 hover:text-[#D4AF37]" data-testid="hero-apps">
-              The Automated Publishing Production System (A.P.P.S.) <ArrowRight className="w-3.5 h-3.5" />
-            </a>
-            <HeroPriceStrip pricing={pricing} />
-
-            <p className="mt-8 text-lg text-neutral-300 max-w-xl leading-relaxed">
-              Design your cover, write and format your pages, check them against Amazon KDP and IngramSpark's print rules, fix every problem, and download print-ready files. <span className="text-white font-semibold">Everything you need to publish, in one place</span>, in plain English.
-            </p>
-
-            <div className="mt-10 flex flex-wrap gap-3">
-              <Link to="/register" className="btn-gold px-7 py-4 font-mono-spec text-xs tracking-widest uppercase flex items-center gap-2 btn-industrial" data-testid="hero-cta-primary" data-next-step="Start here">
-                Prep My First Book <ArrowRight className="w-4 h-4" />
-              </Link>
-              <Link to="/audit" className="btn-spark px-7 py-4 font-mono-spec text-xs tracking-widest uppercase text-white flex items-center gap-2 btn-industrial" data-testid="hero-cta-audit">
-                <Flame className="w-3.5 h-3.5" /> Try the {auditPrice}Audit
-              </Link>
-            </div>
-            {/* "See Pricing" used to sit here as a third hero button -- pricing is
-                one click away in the nav on every page, so a dedicated hero button
-                for it just competed with the two real entry points above. */}
-
-            {/* Short answer box: written as a 40-60 word definition so Google can lift it as a featured snippet. */}
-            <div className="mt-10 max-w-xl border-l-2 border-[#D4AF37] bg-[#D4AF37]/[0.06] px-5 py-4" data-testid="hero-definition">
-              <h2 className="font-display font-bold text-lg text-white tracking-tight">What is SparkPrep?</h2>
-              <p className="mt-2 text-neutral-300 leading-relaxed">
-                Legenddary&apos;s SparkPrep is an <a href="/automated-publishing-production-system/" className="text-white underline decoration-[#D4AF37]/60 underline-offset-2 hover:text-[#D4AF37]">Automated Publishing Production System (A.P.P.S.)</a>: an all-in-one self-publishing suite. You design your book cover, write and format your inside pages, check both against the print rules of Amazon KDP, IngramSpark, Barnes &amp; Noble and Lulu, fix every problem, and download print-ready files, all in one place.
+                A book file audit is the first step of the SparkPrep A.P.P.S. It checks your cover and inside pages against the printer's rules before you upload. It finds problems like missing bleed, the wrong size or spine width, blurry pictures, screen colors and missing fonts, shows where each one is, and names the Amazon KDP or IngramSpark rule it breaks.
               </p>
             </div>
 
@@ -150,7 +113,6 @@ export default function Landing() {
               <span className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-[#D4AF37]" /> Lulu</span>
             </div>
           </div>
-          )}
 
           {/* The SparkPrep commercial, now in the hero. Click to play: no autoplay, nothing downloads until pressed. */}
           <div className="md:col-span-5 flex flex-col items-center">
@@ -178,19 +140,19 @@ export default function Landing() {
       {/* Book prices, big, right under the hero (2026-11-10). */}
       <HomePriceBlock pricing={pricing} />
 
-      {/* While the Holiday Free Audit leads the hero, the "all-in-one suite" intro sits right below it. */}
-      {freeAudit && (
+      {/* What the A.P.P.S. brings together, right under the hero (2026-11-21: was "the all-in-one suite"). */}
+      {(
         <section className="border-t border-neutral-900" aria-labelledby="suite-intro" data-testid="suite-intro">
           <div className="max-w-7xl mx-auto px-6 py-20 grid md:grid-cols-12 gap-10 items-start">
             <div className="md:col-span-7">
               <span className="font-mono-spec text-xs tracking-widest uppercase text-[#D4AF37]">[ Built by an author whose book was rejected 18 times ]</span>
               <h2 id="suite-intro" className="font-display font-black text-5xl md:text-7xl tracking-tighter mt-4 leading-[0.9]">
-                The all-in-one<br />
-                <span className="text-[#D4AF37]">publishing</span> suite.
+                One system.<br />
+                <span className="text-[#D4AF37]">Every step</span> of your book.
               </h2>
               <p className="mt-6 font-display font-bold italic text-2xl text-[#D4AF37]">Power without complexity.</p>
               <p className="mt-6 text-lg text-neutral-300 max-w-xl leading-relaxed">
-                Design your cover, write and format your pages, check them against Amazon KDP and IngramSpark's print rules, fix every problem, and download print-ready files. <span className="text-white font-semibold">Everything you need to publish, in one place</span>, in plain English.
+                Formatting, preflight and prepress used to be separate tools and separate people. In the SparkPrep A.P.P.S. they are parts of one system: design your cover, write and format your pages, check them against Amazon KDP and IngramSpark's print rules, fix every problem, and download print-ready files. <span className="text-white font-semibold">Everything you need to publish, in one place</span>, in plain English.
               </p>
               {/* A.P.P.S. positioning (2026-11-18, Trey's wording). */}
               <div className="mt-8 max-w-xl border border-[#D4AF37]/30 px-5 py-4" data-testid="apps-positioning">
@@ -204,7 +166,7 @@ export default function Landing() {
               <div className="border-l-2 border-[#D4AF37] bg-[#D4AF37]/[0.06] px-5 py-4" data-testid="suite-definition">
                 <h3 className="font-display font-bold text-lg text-white tracking-tight">What is SparkPrep?</h3>
                 <p className="mt-2 text-neutral-300 leading-relaxed">
-                  Legenddary&apos;s SparkPrep is an <a href="/automated-publishing-production-system/" className="text-white underline decoration-[#D4AF37]/60 underline-offset-2 hover:text-[#D4AF37]">Automated Publishing Production System (A.P.P.S.)</a>: an all-in-one self-publishing suite. You design your book cover, write and format your inside pages, check both against the print rules of Amazon KDP, IngramSpark, Barnes &amp; Noble and Lulu, fix every problem, and download print-ready files, all in one place.
+                  Legenddary&apos;s SparkPrep is an <a href="/automated-publishing-production-system/" className="text-white underline decoration-[#D4AF37]/60 underline-offset-2 hover:text-[#D4AF37]">Automated Publishing Production System (A.P.P.S.)</a>: one system that helps authors make their book, find and fix every print problem, and export print-ready files before they publish. It brings cover design, page formatting, a preflight check against the print rules of Amazon KDP, IngramSpark, Barnes &amp; Noble and Lulu, automatic fixes and a second check together in one place.
                 </p>
               </div>
               <div className="mt-6 flex flex-wrap gap-6 text-xs font-mono-spec tracking-widest text-neutral-500 uppercase">
@@ -236,7 +198,7 @@ export default function Landing() {
             <ul className="mt-8 space-y-4 text-neutral-300 text-lg leading-relaxed max-w-xl">
               <li className="flex gap-3"><CheckCircle2 className="w-5 h-5 text-[#D4AF37] shrink-0 mt-1" /> Before printing, KDP and IngramSpark check your files by machine. If one thing is off, your book is sent back.</li>
               <li className="flex gap-3"><CheckCircle2 className="w-5 h-5 text-[#D4AF37] shrink-0 mt-1" /> They check things like bleed, colors, picture sharpness, margins and spine width. Most first-time authors have never heard of them.</li>
-              <li className="flex gap-3"><CheckCircle2 className="w-5 h-5 text-[#D4AF37] shrink-0 mt-1" /> Checking your files before you upload is called <span className="text-white font-semibold">preflight</span>. SparkPrep does it for you, and fixes what it finds.</li>
+              <li className="flex gap-3"><CheckCircle2 className="w-5 h-5 text-[#D4AF37] shrink-0 mt-1" /> Checking your files before you upload is called <span className="text-white font-semibold">preflight</span>. It's one part of the SparkPrep A.P.P.S., which also fixes what it finds.</li>
             </ul>
             <a href="/guides/what-is-preflight-first-time-authors/" className="inline-flex items-center gap-2 mt-8 text-[#D4AF37] hover:text-white font-mono-spec text-xs tracking-widest uppercase">New here? Start with this guide <ArrowRight className="w-4 h-4" /></a>
           </div>

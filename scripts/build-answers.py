@@ -60,7 +60,7 @@ QA = [
   "Often not without changes. IngramSpark needs a 0.5 inch safety margin inside the pages, keeps total ink under 240%, and uses its own spine width, so the cover usually needs its own template. Check each file against each printer's own rules.",
   [("/guides/kdp-vs-ingramspark-vs-lulu-file-rules/","KDP vs IngramSpark vs Lulu file rules"),("/specs","IngramSpark and KDP trim sizes")]),
  ("all-in-one","What is an all-in-one self-publishing suite?",
-  "An all-in-one self-publishing suite lets you design your cover, format your inside pages, check both against printer rules, fix the problems and download print-ready files in one place. SparkPrep is one: it works with Amazon KDP, IngramSpark, Barnes & Noble Press and Lulu.",
+  "An all-in-one self-publishing suite lets you design your cover, format your inside pages, check both against printer rules, fix the problems and download print-ready files in one place. SparkPrep goes further: it is an Automated Publishing Production System (A.P.P.S.) that also double-checks every fix, for Amazon KDP, IngramSpark, Barnes & Noble Press and Lulu.",
   [("/automated-publishing-production-system/","What is an A.P.P.S.?"),("/","What SparkPrep does"),("/about/","About SparkPrep")]),
  ("self-publish","How do I self publish a book?",
   "Finish and edit your book, pick your trim size (6 x 9 inches is common), format the inside pages as a PDF, make a full wrap cover sized to your page count, check both files against your printer's rules, then upload them free to Amazon KDP or IngramSpark. Order a proof copy before you publish.",
@@ -72,7 +72,7 @@ QA = [
   "No. Legenddary's SparkPrep, at sparkprep.legenddary.com, is the self-publishing tool for authors made by Legenddary in Sacramento, California. It designs, checks and fixes book covers and pages for KDP and IngramSpark. It isn't connected to test-prep, trade-license or other apps with a similar name.",
   [("/about/","About Legenddary's SparkPrep")]),
  ("what-is-sparkprep","What is SparkPrep?",
-  "Legenddary's SparkPrep is an Automated Publishing Production System (A.P.P.S.) and all-in-one self-publishing suite made by Legenddary. It has a free cover designer, a free page formatter, AI writing help, a print check against KDP, IngramSpark, Barnes & Noble and Lulu rules, automatic fixes and print-ready PDF/X-1a export. Its motto is \"Power without complexity.\"",
+  "Legenddary's SparkPrep is an Automated Publishing Production System (A.P.P.S.) made by Legenddary: one system that helps authors make their book, find and fix every print problem, and export print-ready files before they publish. Its parts include a free cover designer, a free page formatter, AI writing help, a print check against KDP, IngramSpark, Barnes & Noble and Lulu rules, automatic fixes and print-ready PDF/X-1a export.",
   [("/about/","About SparkPrep"),("/automated-publishing-production-system/","What is an A.P.P.S.?"),("/audit","Try the free audit")]),
 ]
 def e(s): return html.escape(s, quote=True)

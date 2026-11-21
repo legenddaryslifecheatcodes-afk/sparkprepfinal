@@ -283,7 +283,7 @@ ${TERMS.map(([t, d]) => `<div class="box"><dt><h3 style="margin:0" id="${t.toLow
 </ol>
 
 <h2>The mistake behind the mistakes</h2>
-<p>Most of these happen because nobody tells new authors the rules until a file comes back. That's not a talent problem; it's an information problem. The fix is checking your files against the printer's rules <em>before</em> you upload. That's called preflight, and it's what SparkPrep does: it checks your cover and every page against your printer's own numbers and tells you, in plain English, what to change.</p>
+<p>Most of these happen because nobody tells new authors the rules until a file comes back. That's not a talent problem; it's an information problem. The fix is checking your files against the printer's rules <em>before</em> you upload. That's called preflight, and it's one part of what SparkPrep, an Automated Publishing Production System, does: it checks your cover and every page against your printer's own numbers and tells you, in plain English, what to change.</p>
 
 <h2>A simple order that avoids all ten</h2>
 <ol class="steps">

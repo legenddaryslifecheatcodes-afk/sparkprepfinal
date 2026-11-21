@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Label } from "@/components/ui/label";
 import { Upload, ShieldAlert, Zap, FileSearch, FileCheck2, Lock, FileText } from "lucide-react";
 import { usePricing, money, isBookModel } from "@/lib/pricing";
+import { FIRST10_CODE, first10Active } from "@/lib/first10";
 
 const PROVENANCE_LABEL = { extracted: "Extracted", calculated: "Calculated", geometry: "From geometry", unresolved: "Unresolved" };
 
@@ -195,7 +196,7 @@ export default function AuditLanding() {
               <div className="mt-6 max-w-xl border border-[#D4AF37] bg-[#D4AF37]/10 px-4 py-3 text-sm text-neutral-200 leading-relaxed" data-testid="audit-advanced-intent">
                 <div className="font-display font-bold text-base text-white">Every-page Advanced Audit{advancedPrice ? `: ${advancedPrice}` : ""}</div>
                 {fileType === "interior" ? (
-                  <span>Upload your inside pages (interior PDF) below. Once it's read, tap <b>Advanced Audit</b> to check every page, up to {pricing.advanced_audit.max_pages}. You only pay after your file is uploaded.</span>
+                  <span>Upload your inside pages (interior PDF) below. Once it's read, tap <b>Advanced Audit</b> to check every page, up to {pricing.advanced_audit.max_pages}. You only pay after your file is uploaded.{first10Active() && <> <b className="text-[#D4AF37]">First 10 authors get it free</b> with code <b className="font-mono-spec text-white">{FIRST10_CODE}</b> at checkout, in return for an honest review.</>}</span>
                 ) : (
                   <span>The every-page audit is for inside pages. Switch "What are you uploading?" to <b>Inside pages</b>, or keep Cover for a cover check.</span>
                 )}

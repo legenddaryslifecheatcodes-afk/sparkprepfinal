@@ -89,3 +89,4 @@ ol.steps { padding-left: 22px; } ol.steps li { margin: 6px 0; }
 .offer-price { font-size: 30px; font-weight: 800; color: var(--gold-soft); }
 .offers [hidden], .next-step [hidden] { display: none !important; }
 #check-pdf, #full-audit, #too-small, #other-ways { scroll-margin-top: 96px; }
+.first10 { margin-top: 10px; padding: 10px 12px; border: 1px dashed var(--gold); border-radius: 10px; color: var(--gold-soft); font-size: 15px; }

@@ -77,3 +77,15 @@ footer.site a { color: var(--muted); margin: 0 8px; }
   .card { border-color: #999; background: #fff; } h2 { color: #000; } }
 /* PDF DPI checker results (2026-11-09) */
 .pdf-out tr.bad td { color: #ffd2cf; } .pdf-out tr.soft td { color: #ffe9a8; } .pdf-out tr.good td { color: #cff3df; }
+/* DPI checker answer box + free vs paid offers (2026-11-21) */
+.card.answer { border-color: #5a4a14; }
+ol.steps { padding-left: 22px; } ol.steps li { margin: 6px 0; }
+.offers { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin: 16px 0 8px; }
+.offer { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 18px; position: relative; }
+.offer.best { border-color: var(--gold); }
+.offer h3 { margin: 4px 0 2px; }
+.offer p { margin: 6px 0; }
+.offer-tag { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #111; background: var(--gold); border-radius: 999px; padding: 3px 10px; }
+.offer-price { font-size: 30px; font-weight: 800; color: var(--gold-soft); }
+.offers [hidden], .next-step [hidden] { display: none !important; }
+#check-pdf, #full-audit, #too-small, #other-ways { scroll-margin-top: 96px; }

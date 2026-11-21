@@ -74,6 +74,27 @@ export default function AuditPreview() {
   const total = audit.summary?.total_issues ?? 0;
   const isInterior = audit.file_type === "interior";
   const price = pricing ? money(pricing.audit.price_cents) : "";
+  // Came from a "Check every page" link (?plan=advanced): show the Advanced Audit offer first, not last.
+  const advancedFirst = params.get("plan") === "advanced" && isInterior && !!pricing?.advanced_audit;
+  const advancedOffer = isInterior && pricing?.advanced_audit ? (
+    <div className={`mt-5 border p-4 ${advancedFirst ? "border-[#D4AF37] bg-[#D4AF37]/10" : "border-neutral-700"}`} data-testid="advanced-audit-offer">
+      <div className="font-display font-bold text-white">Advanced Audit — every page</div>
+      <p className="text-sm text-neutral-400 mt-1">The same audit on every page of your interior (up to {pricing.advanced_audit.max_pages}), not just page 1.</p>
+      <button
+        onClick={() => unlock("advanced")}
+        disabled={!!checkingOut}
+        className={`mt-3 w-full px-6 py-3 font-mono-spec text-xs tracking-widest uppercase disabled:opacity-50 btn-industrial ${advancedFirst ? "btn-gold" : "border border-white text-white hover:bg-white hover:text-black"}`}
+        data-testid="unlock-advanced-btn"
+      >
+        {checkingOut === "advanced" ? "Redirecting…" : `Advanced Audit — ${money(pricing.advanced_audit.price_cents)}`}
+      </button>
+      {specialNote(pricing, "advanced_audit") && (
+        <div className="mt-2 text-center text-xs text-emerald-300">
+          {specialNote(pricing, "advanced_audit")}{savePercent(pricing, "advanced_audit") ? ` — save ${savePercent(pricing, "advanced_audit")}%` : ""}
+        </div>
+      )}
+    </div>
+  ) : null;
 
   return (
     <div className="marketing min-h-screen noise-overlay">
@@ -89,6 +110,7 @@ export default function AuditPreview() {
             <h1 className="font-display font-black text-3xl md:text-4xl tracking-tighter" data-testid="preview-title">
               SparkPrep found {total} issue{total === 1 ? "" : "s"} that may stop this file from being accepted.
             </h1>
+            {advancedFirst && advancedOffer}
             <ul className="mt-6 space-y-2 text-sm text-neutral-300">
               <li className="flex items-center gap-2"><Sparkles className="w-4 h-4 text-white" /> Exactly where each problem is</li>
               <li className="flex items-center gap-2"><Sparkles className="w-4 h-4 text-white" /> What failed and why it gets rejected</li>
@@ -140,25 +162,7 @@ export default function AuditPreview() {
                 {specialNote(pricing, "audit")}{savePercent(pricing, "audit") ? ` — save ${savePercent(pricing, "audit")}%` : ""}
               </div>
             )}
-            {isInterior && pricing?.advanced_audit && (
-              <div className="mt-5 border border-neutral-700 p-4" data-testid="advanced-audit-offer">
-                <div className="font-display font-bold text-white">Advanced Audit — every page</div>
-                <p className="text-sm text-neutral-400 mt-1">The same audit on every page of your interior (up to {pricing.advanced_audit.max_pages}), not just page 1.</p>
-                <button
-                  onClick={() => unlock("advanced")}
-                  disabled={!!checkingOut}
-                  className="mt-3 w-full border border-white text-white px-6 py-3 font-mono-spec text-xs tracking-widest uppercase hover:bg-white hover:text-black disabled:opacity-50 btn-industrial"
-                  data-testid="unlock-advanced-btn"
-                >
-                  {checkingOut === "advanced" ? "Redirecting…" : `Advanced Audit — ${money(pricing.advanced_audit.price_cents)}`}
-                </button>
-                {specialNote(pricing, "advanced_audit") && (
-                  <div className="mt-2 text-center text-xs text-emerald-300">
-                    {specialNote(pricing, "advanced_audit")}{savePercent(pricing, "advanced_audit") ? ` — save ${savePercent(pricing, "advanced_audit")}%` : ""}
-                  </div>
-                )}
-              </div>
-            )}
+            {!advancedFirst && advancedOffer}
             <div className="mt-4 text-center text-xs text-neutral-400">
               {canFree ? "Free audit: no sign-up, no card. We never sell your email. Paid audits are secure via Stripe." : <>{isBookModel(pricing) && "Whatever you pay is credited in full toward your SparkPrep book. "}Secure via Stripe · No account needed.</>}
             </div>
@@ -171,6 +175,7 @@ export default function AuditPreview() {
               {isInterior ? "No issues found on page 1 of your interior." : "No issues found."}
             </p>
             <p className="text-neutral-400 text-sm mt-2">Your file passed SparkPrep's checks. Thank you for trying SparkPrep!</p>
+            {advancedOffer && <div className="text-left">{advancedOffer}</div>}
           </div>
         )}
 

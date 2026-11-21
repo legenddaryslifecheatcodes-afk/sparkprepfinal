@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { api, fmtErr } from "@/lib/api";
 import { toast } from "sonner";
 import Nav from "@/components/Nav";
@@ -15,6 +15,11 @@ const PROVENANCE_LABEL = { extracted: "Extracted", calculated: "Calculated", geo
 
 export default function AuditLanding() {
   const pricing = usePricing();
+  // ?plan=advanced (links from the DPI checker and other free tools): the author came to buy the every-page
+  // Advanced Audit. Skip the welcome pop-up, say what to upload, and open the preview with that offer on top.
+  const [searchParams] = useSearchParams();
+  const wantsAdvanced = searchParams.get("plan") === "advanced";
+  const advancedPrice = pricing?.advanced_audit ? money(pricing.advanced_audit.price_cents) : "";
   const auditPrice = pricing ? money(pricing.audit.price_cents) : "";
   // Holiday Free Audit (backend book_pass config): one free audit per account while it runs.
   const freeAudit = !!pricing?.free_audit?.active;
@@ -36,6 +41,7 @@ export default function AuditLanding() {
 
   // Welcome pop-up: 3 quick steps the first time someone opens the audit page (remembered per browser).
   const [showWelcome, setShowWelcome] = useState(() => {
+    if (new URLSearchParams(window.location.search).get("plan") === "advanced") return false;
     try { return localStorage.getItem("sp_audit_welcome_seen") !== "1"; } catch { return true; }
   });
   const closeWelcome = () => {
@@ -105,7 +111,7 @@ export default function AuditLanding() {
       const fd = new FormData();
       fd.append("file", file);
       await api.post(`/audit/${id}/upload`, fd, { headers: { "Content-Type": "multipart/form-data" } });
-      nav(`/audit/${id}/preview`);
+      nav(`/audit/${id}/preview${wantsAdvanced && fileType === "interior" ? "?plan=advanced" : ""}`);
     } catch (err) {
       toast.error(fmtErr(err.response?.data?.detail) || "Upload failed");
     } finally { setUploading(false); }
@@ -185,6 +191,16 @@ export default function AuditLanding() {
                 <span>Upload your file first. It's free. SparkPrep scans it and tells you honestly whether it found problems. Then pay{auditPrice ? ` ${auditPrice}` : ""} to see exactly what failed, where, and which printer rule it breaks. For inside pages, the audit checks page 1.</span>
               )}
             </div>
+            {wantsAdvanced && pricing?.advanced_audit && (
+              <div className="mt-6 max-w-xl border border-[#D4AF37] bg-[#D4AF37]/10 px-4 py-3 text-sm text-neutral-200 leading-relaxed" data-testid="audit-advanced-intent">
+                <div className="font-display font-bold text-base text-white">Every-page Advanced Audit{advancedPrice ? `: ${advancedPrice}` : ""}</div>
+                {fileType === "interior" ? (
+                  <span>Upload your inside pages (interior PDF) below. Once it's read, tap <b>Advanced Audit</b> to check every page, up to {pricing.advanced_audit.max_pages}. You only pay after your file is uploaded.</span>
+                ) : (
+                  <span>The every-page audit is for inside pages. Switch "What are you uploading?" to <b>Inside pages</b>, or keep Cover for a cover check.</span>
+                )}
+              </div>
+            )}
             <div className="mt-8 max-w-xl" data-testid="audit-quick-start">
               <button
                 type="button"

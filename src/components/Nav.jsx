@@ -48,6 +48,9 @@ export default function Nav({ dark = true }) {
             <SparkPrepLogo height={40} />
           </span>
         </Link>
+        {/* "What is A.P.P.S.?" sits on the left, beside the brand (2026-11-21): on the right it slid under the
+            big centered SparkPrep logo at desktop widths. */}
+        <a href="/automated-publishing-production-system/" className={`${linkCls} order-last md:order-none w-full md:w-auto text-center md:text-left md:mr-auto md:ml-6 text-sm`} data-testid="nav-apps">What is A.P.P.S.?</a>
         {/* SparkPrep's own main logo -- the brand being promoted, so it gets
             the dead-center spot at a larger size than the Legenddary mark.
             Matches the size of the SparkPrep logo in the landing page's
@@ -91,7 +94,6 @@ export default function Nav({ dark = true }) {
           <Link to="/audit" onClick={onAuditClick} className="font-mono-spec text-[10px] tracking-widest uppercase text-white bg-[#FF6A00] px-2.5 py-1.5 hover:brightness-110 btn-industrial" data-testid="nav-audit">
             {pricing?.free_audit?.active ? "Free Audit" : pricing ? `${money(pricing.audit.price_cents)} Audit` : "Audit"}
           </Link>
-          <a href="/automated-publishing-production-system/" className={linkCls} data-testid="nav-apps">What is A.P.P.S.?</a>
           <Link to="/cover-studio" className={linkCls} data-testid="nav-cover-studio">Cover Studio</Link>
           <Link to="/interior-studio" className={linkCls} data-testid="nav-interior-studio">Interior Studio</Link>
           <Link to="/specs" className={linkCls} data-testid="nav-specs">Specs</Link>

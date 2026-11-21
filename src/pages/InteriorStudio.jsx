@@ -19,6 +19,8 @@ import Toolbar from "@/components/interiorStudio/Toolbar";
 import PagesPreview from "@/components/interiorStudio/PagesPreview";
 import SendInteriorDialog from "@/components/interiorStudio/SendInteriorDialog";
 import WritingHelpPanel, { useWritingHelp } from "@/components/interiorStudio/WritingHelpPanel";
+import SizeStartDialog from "@/components/interiorStudio/SizeStartDialog";
+import SaveNudge from "@/components/interiorStudio/SaveNudge";
 import { WritingMarks } from "@/lib/interiorStudio/writingHelp";
 import { BookOpen, FileUp, Palette, Ruler, Send, NotebookPen, Eye, PenLine, SpellCheck } from "lucide-react";
 
@@ -148,6 +150,8 @@ export default function InteriorStudio() {
   const [details, setDetails] = useState(saved.current?.details || { title: "", author: "", toc: true });
   const [styleKey, setStyleKey] = useState(saved.current?.style || "classic_novel");
   const [linkedBook, setLinkedBook] = useState(saved.current?.linkedBook || null);
+  const [edited, setEdited] = useState(!!saved.current?.edited); // the author has written or imported something (not just the starter text)
+  const [sizeChosen, setSizeChosen] = useState(!!saved.current?.sizeChosen || !!saved.current?.linkedBook);
   const [styles, setStyles] = useState(null);
   const [lists, setLists] = useState(null);
   const [books, setBooks] = useState(null);
@@ -176,7 +180,7 @@ export default function InteriorStudio() {
       WritingMarks.configure({ onPick: (id) => pickRef.current?.(id) }),
     ],
     content: saved.current?.doc || STARTER,
-    onUpdate: () => setDocVersion((v) => v + 1),
+    onUpdate: () => { setDocVersion((v) => v + 1); setEdited(true); },
     editorProps: { attributes: { class: "interior-doc focus:outline-none", "data-testid": "interior-editor", spellcheck: spellcheck ? "true" : "false" } },
   });
 
@@ -249,14 +253,14 @@ export default function InteriorStudio() {
   useEffect(() => {
     if (!editor) return undefined;
     const t = setTimeout(() => {
-      const ok = writeSave({ doc: editor.getJSON(), details, style: styleKey, specs, linkedBook });
+      const ok = writeSave({ doc: editor.getJSON(), details, style: styleKey, specs, linkedBook, sizeChosen, edited });
       if (!ok && !savedWarned.current) {
         savedWarned.current = true;
         toast.warning("This book is too big to keep in your browser. Send it to your book to save it.");
       }
     }, 800);
     return () => clearTimeout(t);
-  }, [docVersion, details, styleKey, specs, linkedBook, editor]);
+  }, [docVersion, details, styleKey, specs, linkedBook, sizeChosen, edited, editor]);
 
   const onImport = async (e) => {
     const f = e.target.files?.[0];
@@ -411,6 +415,10 @@ export default function InteriorStudio() {
           <PagesPreview preview={preview} busy={previewBusy} error={previewError} trim={trim} />
         </aside>
       </div>
+
+      <SizeStartDialog open={!!lists && !sizeChosen && !linkedBook && !params.get("book")} lists={lists} specs={specs}
+        onDone={(v) => { setSpecs((s) => ({ ...s, ...v })); setSizeChosen(true); }} />
+      <SaveNudge saved={!!linkedBook} words={edited ? words : 0} loggedIn={!!user} onSave={() => setShowSend(true)} />
 
       <SendInteriorDialog open={showSend} onOpenChange={setShowSend} buildBody={buildBody} specs={{ ...specs, platformName }}
         details={details} linkedBook={linkedBook} onSent={setLinkedBook} pageCount={preview?.page_count} />

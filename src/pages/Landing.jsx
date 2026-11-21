@@ -4,7 +4,7 @@ import SeasonBanner from "@/components/SeasonBanner";
 import { LogoMark, SparkPrepLogo } from "@/components/Logo";
 import BrandWatermark from "@/components/BrandWatermark";
 import GuaranteeSeal from "@/components/GuaranteeSeal";
-import { CheckCircle2, Zap, FileCheck2, Palette, Ruler, Layers, Flame, ArrowRight, Gift } from "lucide-react";
+import { CheckCircle2, Check, Zap, FileCheck2, Palette, Ruler, Layers, Flame, ArrowRight, Gift, Search, Settings, ShieldCheck } from "lucide-react";
 import { usePricing, money, isBookModel, specialNote } from "@/lib/pricing";
 import { HOME_FAQ, FirstBookArticle } from "@/components/FirstBookArticle";
 import HomePriceBlock, { HeroPriceStrip } from "@/components/HomePriceBlock";
@@ -22,67 +22,108 @@ export default function Landing() {
       <SeasonBanner />
       <Nav dark />
 
-      <section className="relative overflow-hidden">
-        <BrandWatermark variant="dark" position="hero-left" scale={0.62} maxPx={780} />
+      {/* Hero (2026-11-21, Trey's A.P.P.S. directive + his mockup): centered, big glowing A.P.P.S. first (what
+          SparkPrep IS), then the free audit box right under it (the action). Lettering is large and high
+          contrast on purpose. The commercial moved to the section below. Test ids, links and the
+          data-next-step marker are unchanged, so tracking and the "Click to fix" pointer still work. */}
+      <section className="relative overflow-hidden" data-testid="hero">
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(ellipse 70% 55% at 50% 22%, rgba(229,193,88,0.22), rgba(212,175,55,0.06) 45%, transparent 70%)" }} />
+        <div aria-hidden="true" className="hidden md:block pointer-events-none absolute left-1/2 top-[262px] -translate-x-1/2 w-[900px] max-w-[140%] h-[2px]" style={{ background: "linear-gradient(90deg, transparent, #E5C158, transparent)", boxShadow: "0 0 24px 4px rgba(229,193,88,0.45)" }} />
 
-        <div className="relative max-w-7xl mx-auto px-6 pt-16 pb-20 grid md:grid-cols-12 gap-10 items-center">
-          {/* Hero (2026-11-21, Trey's A.P.P.S. directive + mockup): the MESSAGE starts with what SparkPrep is
-              (the A.P.P.S. category), and the ACTION is the free audit, right under it, as the biggest button
-              on the page. One flow, never two competing options side by side. Test ids, links and the
-              data-next-step marker are unchanged, so tracking and the "Click to fix" pointer still work. */}
-          <div className="md:col-span-7">
-            <div className="flex items-center gap-3">
-              <LogoMark size={32} />
-              <span className="font-mono-spec text-[10px] tracking-[0.28em] uppercase text-[#D4AF37]">
-                Legenddary SparkPrep · The evolution of self-publishing
-              </span>
-            </div>
-
-            <span className="mt-8 inline-flex items-center gap-2 font-mono-spec text-xs tracking-[0.3em] uppercase text-black bg-gradient-to-r from-[#B8933E] via-[#E5C158] to-[#B8933E] px-4 py-1.5" data-testid="hero-tag">
-              Introducing A.P.P.S.
+        <div className="relative max-w-5xl mx-auto px-5 pt-12 md:pt-16 pb-16 text-center">
+          <div className="flex items-center justify-center gap-3">
+            <LogoMark size={30} />
+            <span className="font-mono-spec text-[11px] md:text-xs tracking-[0.26em] uppercase text-[#E5C158]">
+              Legenddary SparkPrep · The evolution of self-publishing
             </span>
+          </div>
 
-            <h1 className="mt-5 font-display font-black text-4xl md:text-6xl tracking-tighter leading-[0.95]" data-testid="hero-title">
-              <span style={{ background: "linear-gradient(180deg, #F3DC8A, #D4AF37 55%, #B8933E)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>The Automated Publishing</span><br />
-              <span className="text-white">Production System.</span>
-            </h1>
-            <p className="mt-5 text-lg md:text-xl text-neutral-200 max-w-xl leading-relaxed" data-testid="hero-positioning">
-              Legenddary SparkPrep is an <a href="/automated-publishing-production-system/" className="text-white underline decoration-[#D4AF37]/60 underline-offset-4 hover:text-[#D4AF37]">Automated Publishing Production System (A.P.P.S.)</a>: one system that helps you make your book, find and fix every print problem, and export print-ready files before you publish.
-            </p>
+          <span className="mt-8 inline-block font-display font-black text-sm md:text-base tracking-[0.4em] uppercase text-black rounded-full px-7 py-2 shadow-[0_0_24px_rgba(229,193,88,0.55)]" style={{ background: "linear-gradient(180deg, #F3DC8A, #D4AF37 60%, #B8933E)" }} data-testid="hero-tag">
+            Introducing
+          </span>
 
-            {/* The jobs that used to be separate tools are parts of the one system. */}
-            <ul className="mt-5 flex flex-wrap gap-2 max-w-xl" aria-label="What the system brings together" data-testid="hero-capabilities">
-              {["Cover & page design", "Preflight check", "Prepress fixes", "Second check & export"].map((c) => (
-                <li key={c} className="flex items-center gap-1.5 border border-[#D4AF37]/40 bg-[#D4AF37]/[0.07] px-3 py-1.5 text-xs font-mono-spec tracking-wider uppercase text-neutral-200">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-[#D4AF37] shrink-0" /> {c}
+          <h1 className="mt-4" data-testid="hero-title">
+            <span className="block font-display font-black italic tracking-tight leading-none text-[4.25rem] sm:text-[6.5rem] md:text-[8rem]" style={{ background: "linear-gradient(180deg, #FFF1B8 0%, #F3DC8A 25%, #D4AF37 60%, #9C7A2E 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", filter: "drop-shadow(0 0 22px rgba(229,193,88,0.55)) drop-shadow(0 4px 2px rgba(0,0,0,0.8))" }}>
+              A.P.P.S.
+            </span>
+            <span className="block mt-2 font-display font-black italic text-3xl sm:text-4xl md:text-5xl tracking-tight leading-tight" style={{ textShadow: "0 2px 12px rgba(0,0,0,0.9)" }}>
+              <span className="text-[#F3DC8A]">Automated Publishing</span> <span className="text-white">Production System</span>
+            </span>
+          </h1>
+          <p className="mt-5 text-lg md:text-2xl text-white max-w-3xl mx-auto leading-snug font-medium" style={{ textShadow: "0 2px 10px rgba(0,0,0,0.9)" }}>
+            A new approach to <span className="text-[#F3DC8A] font-bold">making</span>, <span className="text-[#F3DC8A] font-bold">checking</span> and <span className="text-[#F3DC8A] font-bold">fixing</span> your book <span className="text-[#F3DC8A] font-bold">for publishing</span>.
+          </p>
+
+          {/* Left: what the system brings together. Right: its parts, as gold badges (like the mockup). */}
+          <div className="mt-10 grid md:grid-cols-2 gap-10 items-center text-left">
+            <div>
+              <p className="font-display font-black italic text-2xl md:text-3xl leading-tight text-white" data-testid="hero-positioning">
+                <span className="text-[#F3DC8A]">SparkPrep brings together everything</span> you need, in one powerful, easy-to-use system.
+              </p>
+              <ul className="mt-5 space-y-3 text-lg md:text-xl text-white font-medium">
+                {["Find every problem that could get your book rejected", "See if your book is ready to print", "Fix what it finds, then double-check every fix", "Export print-ready files with confidence"].map((t) => (
+                  <li key={t} className="flex items-start gap-3">
+                    <span className="mt-0.5 shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-black" style={{ background: "linear-gradient(180deg, #F3DC8A, #D4AF37 60%, #B8933E)" }}><Check className="w-4 h-4" strokeWidth={3.5} /></span>
+                    <span>{t}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <ul className="grid grid-cols-4 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-5" aria-label="Parts of the system" data-testid="hero-capabilities">
+              {[[Palette, "Cover & page design"], [Search, "Preflight check"], [Settings, "Prepress fixes"], [ShieldCheck, "Second check & export"]].map(([Icon, label]) => (
+                <li key={label} className="flex flex-col items-center text-center">
+                  <span className="w-14 h-14 md:w-20 md:h-20 rounded-full border-2 border-[#E5C158] bg-black/70 flex items-center justify-center shadow-[0_0_22px_rgba(229,193,88,0.45)]">
+                    <Icon className="w-7 h-7 md:w-9 md:h-9 text-[#F3DC8A]" strokeWidth={2.2} />
+                  </span>
+                  <span className="mt-2 md:mt-3 font-bold text-[11px] sm:text-sm md:text-base text-white leading-tight">{label}</span>
                 </li>
               ))}
             </ul>
-            <p className="mt-5 font-display font-bold italic text-2xl md:text-3xl text-[#D4AF37]" data-testid="hero-motto">Power without complexity.</p>
+          </div>
 
-            {/* The entry point: the free audit is how people first experience the A.P.P.S. Biggest action on the page. */}
-            <div className="mt-8 max-w-xl border-2 border-[#D4AF37] bg-gradient-to-b from-[#D4AF37]/[0.14] to-black/60 px-6 py-6 shadow-[0_0_40px_rgba(212,175,55,0.18)]" data-testid="hero-audit-box">
-              <h2 className="font-display font-black italic text-2xl md:text-3xl text-white tracking-tight leading-tight" data-testid="hero-gift">
-                See what your book needs <span className="text-[#D4AF37]">before</span> you publish.
-              </h2>
-              <p className="mt-3 text-neutral-300 leading-relaxed">
-                {freeAudit
-                  ? <>Get a <span className="text-white font-semibold">free book audit</span> for Amazon KDP and IngramSpark. Upload your cover or inside pages and see every problem that could get your book rejected, where it is, and the printer rule it breaks.</>
-                  : <>Run a {auditPrice}book audit for Amazon KDP and IngramSpark. Upload your cover or inside pages and see every problem that could get your book rejected, where it is, and the printer rule it breaks.</>}
-              </p>
-              <Link to="/audit" className="mt-5 btn-gold w-full justify-center px-7 py-5 font-display font-black text-lg md:text-xl tracking-wide uppercase flex items-center gap-3 btn-industrial" data-testid="hero-cta-audit" data-next-step="Start here">
-                {freeAudit ? <><Gift className="w-5 h-5" /> Get my free book audit</> : <><Flame className="w-5 h-5" /> Get my book audit</>} <ArrowRight className="w-5 h-5" />
-              </Link>
-              <p className="mt-3 text-center text-sm text-neutral-300">Your first step into the SparkPrep A.P.P.S.</p>
-              {freeAudit && (
-                <p className="mt-1 text-center text-xs text-emerald-300" data-testid="hero-free-terms">
-                  Free through December 31. No sign-up. No card. Just your email.{regularAudit ? ` Regular price ${regularAudit} from January.` : ""}
-                </p>
-              )}
-            </div>
-            <p className="mt-4 text-sm text-neutral-400 max-w-xl">
-              Ready for the whole book? <Link to="/register" className="text-white underline decoration-[#D4AF37]/60 underline-offset-2 hover:text-[#D4AF37]" data-testid="hero-cta-primary">Start my first book</Link>. Or <a href="/automated-publishing-production-system/" className="text-white underline decoration-[#D4AF37]/60 underline-offset-2 hover:text-[#D4AF37]" data-testid="hero-apps">read what an A.P.P.S. is</a>.
+          {/* The entry point: the free audit is how people first experience the A.P.P.S. Biggest action on the page. */}
+          <div className="mt-12 max-w-3xl mx-auto border-2 border-[#E5C158] rounded-2xl bg-gradient-to-b from-[#D4AF37]/[0.16] to-black/80 px-5 md:px-10 py-8 shadow-[0_0_50px_rgba(229,193,88,0.28)]" data-testid="hero-audit-box">
+            <h2 className="font-display font-black italic text-3xl md:text-5xl text-white tracking-tight leading-tight" style={{ textShadow: "0 2px 12px rgba(0,0,0,0.9)" }} data-testid="hero-gift">
+              See What Your Book Needs <span className="text-[#F3DC8A]">Before</span> You Publish.
+            </h2>
+            <p className="mt-4 text-lg md:text-xl text-white font-medium">
+              {freeAudit
+                ? <>Find the problems that could get your book rejected by Amazon KDP or IngramSpark with a <span className="text-[#F3DC8A] font-bold underline underline-offset-4">free</span> SparkPrep book audit.</>
+                : <>Find the problems that could get your book rejected by Amazon KDP or IngramSpark with a {auditPrice}SparkPrep book audit.</>}
             </p>
+            <Link to="/audit" className="mt-6 btn-gold w-full justify-center rounded-xl px-6 py-5 md:py-6 font-display font-black italic text-xl md:text-3xl tracking-wide uppercase flex items-center gap-3 btn-industrial shadow-[0_0_30px_rgba(229,193,88,0.5)]" data-testid="hero-cta-audit" data-next-step="Start here">
+              {freeAudit ? <><Search className="w-7 h-7" strokeWidth={3} /> Get your free book audit</> : <><Search className="w-7 h-7" strokeWidth={3} /> Get your book audit</>} <ArrowRight className="w-7 h-7" strokeWidth={3} />
+            </Link>
+            <div className="mt-5 flex items-center gap-3 text-white">
+              <span className="h-px flex-1 bg-[#E5C158]/60" />
+              <span className="italic text-base md:text-lg">Your first step into the SparkPrep A.P.P.S.</span>
+              <span className="h-px flex-1 bg-[#E5C158]/60" />
+            </div>
+            {freeAudit && (
+              <p className="mt-2 text-sm md:text-base text-emerald-300 font-medium" data-testid="hero-free-terms">
+                Free through December 31. No sign-up. No card. Just your email.{regularAudit ? ` Regular price ${regularAudit} from January.` : ""}
+              </p>
+            )}
+          </div>
+
+          <p className="mt-8 font-display font-bold italic text-2xl md:text-3xl text-[#F3DC8A]" data-testid="hero-motto">Power without complexity.</p>
+          <p className="mt-3 text-base text-neutral-200">
+            Ready for the whole book? <Link to="/register" className="text-white font-semibold underline decoration-[#D4AF37] underline-offset-4 hover:text-[#F3DC8A]" data-testid="hero-cta-primary">Start my first book</Link>. Or <a href="/automated-publishing-production-system/" className="text-white font-semibold underline decoration-[#D4AF37] underline-offset-4 hover:text-[#F3DC8A]" data-testid="hero-apps">read what an A.P.P.S. is</a>.
+          </p>
+        </div>
+      </section>
+
+      {/* Under the hero: the plain definition, prices, free tools and the commercial (moved down from the hero). */}
+      <section className="relative overflow-hidden border-t border-neutral-900">
+        <BrandWatermark variant="dark" position="hero-left" scale={0.62} maxPx={780} />
+        <div className="relative max-w-7xl mx-auto px-6 pt-16 pb-20 grid md:grid-cols-12 gap-10 items-start">
+          <div className="md:col-span-7">
+            <div className="max-w-xl border-l-2 border-[#D4AF37] bg-[#D4AF37]/[0.06] px-5 py-4" data-testid="hero-what-is">
+              <h2 className="font-display font-bold text-xl text-white tracking-tight">What is SparkPrep?</h2>
+              <p className="mt-2 text-neutral-200 leading-relaxed">
+                Legenddary SparkPrep is an <a href="/automated-publishing-production-system/" className="text-white underline decoration-[#D4AF37]/60 underline-offset-4 hover:text-[#D4AF37]">Automated Publishing Production System (A.P.P.S.)</a>: one system that helps you make your book, find and fix every print problem, and export print-ready files before you publish.
+              </p>
+            </div>
 
             <HeroPriceStrip pricing={pricing} />
 
@@ -114,7 +155,7 @@ export default function Landing() {
             </div>
           </div>
 
-          {/* The SparkPrep commercial, now in the hero. Click to play: no autoplay, nothing downloads until pressed. */}
+          {/* The SparkPrep commercial (moved below the hero 2026-11-21). Click to play: no autoplay, nothing downloads until pressed. */}
           <div className="md:col-span-5 flex flex-col items-center">
             <div className="relative w-full max-w-[320px]">
               <GuaranteeSeal

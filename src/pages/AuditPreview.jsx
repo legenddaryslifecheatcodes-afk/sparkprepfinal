@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import Nav from "@/components/Nav";
 import { Check, Sparkles, Gift } from "lucide-react";
 import { usePricing, money, isBookModel, specialNote, savePercent } from "@/lib/pricing";
+import { FIRST10_CODE, first10Active } from "@/lib/first10";
 
 // Owner's rule: one defined audit, no free preview. Before paying, the customer sees only the honest total --
 // never which issues, their severity, or a rejection risk. The server enforces this too (audit_get).
@@ -88,6 +89,11 @@ export default function AuditPreview() {
       >
         {checkingOut === "advanced" ? "Redirecting…" : `Advanced Audit — ${money(pricing.advanced_audit.price_cents)}`}
       </button>
+      {first10Active() && (
+        <p className="mt-2 text-center text-xs text-[#D4AF37]" data-testid="first10-note">
+          First 10 authors: type code <span className="font-mono-spec font-bold text-white">{FIRST10_CODE}</span> at checkout and it's free. We just ask for an honest review afterward.
+        </p>
+      )}
       {specialNote(pricing, "advanced_audit") && (
         <div className="mt-2 text-center text-xs text-emerald-300">
           {specialNote(pricing, "advanced_audit")}{savePercent(pricing, "advanced_audit") ? ` — save ${savePercent(pricing, "advanced_audit")}%` : ""}

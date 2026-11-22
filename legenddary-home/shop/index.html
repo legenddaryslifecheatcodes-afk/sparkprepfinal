@@ -87,13 +87,32 @@ window.SHOP_PRODUCTS = [
   </div>
 </header>
 
+<!-- Live products from the Legenddary Merch Studio (legenddary-spark-prep repo, studio/).
+     Products appear here when they're put in the Shop in the studio. Checkout is Stripe;
+     paid orders go to Printful/Printify automatically. Hidden while nothing is live. -->
+<section id="new-drops" hidden class="scroll-mt-20 border-b border-[#D4AF37]/20 bg-black px-5 py-14 sm:px-8">
+  <div class="mx-auto max-w-[1300px]">
+    <p class="text-[10px] font-bold uppercase tracking-[0.3em] text-[#D4AF37]">Available now</p>
+    <h2 class="mt-3 font-serif text-4xl tracking-[-0.03em] text-[#F4E8BE]">New Drops</h2>
+    <p class="mt-2 max-w-xl text-white/55">Pick your color and size, then check out. Each piece is printed when you order.</p>
+    <div class="mt-8" id="legenddary-shop" data-empty="hide"></div>
+  </div>
+</section>
+<script src="https://legenddary-merch-studio.onrender.com/shop.js" defer></script>
+<script>
+  document.addEventListener("legenddary-shop:ready", function (e) {
+    if (e.detail && e.detail.count > 0) document.getElementById("new-drops").hidden = false;
+  });
+  if (/[?&](paid|cancelled)=1/.test(location.search)) document.getElementById("new-drops").hidden = false;
+</script>
+
 <div id="collections"></div>
 
 <section class="border-t border-[#D4AF37]/20 bg-[#030303] px-5 py-14 sm:px-8">
   <div class="mx-auto grid max-w-[1300px] gap-6 text-sm text-white/55 sm:grid-cols-3">
     <div><p class="font-serif text-xl text-[#F4E8BE]">Made when you order</p><p class="mt-2 leading-6">Nothing sits in a warehouse. Your item is printed after you buy it, then shipped to you.</p></div>
     <div><p class="font-serif text-xl text-[#F4E8BE]">Going green</p><p class="mt-2 leading-6">Legenddary is moving toward clothing that is safe for your body and the planet. Look for the organic cotton tag.</p></div>
-    <div><p class="font-serif text-xl text-[#F4E8BE]">Secure checkout</p><p class="mt-2 leading-6">You pay on our print partner's secure checkout page (Printful or Printify), and they handle shipping and tracking.</p></div>
+    <div><p class="font-serif text-xl text-[#F4E8BE]">Secure checkout</p><p class="mt-2 leading-6">You pay on a secure Stripe checkout page. Our print partners (Printful and Printify) make your item and ship it with tracking.</p></div>
   </div>
 </section>
 

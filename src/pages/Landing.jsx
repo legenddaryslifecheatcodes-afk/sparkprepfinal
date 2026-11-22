@@ -153,7 +153,7 @@ export default function Landing() {
             </div>
           </div>
 
-          {/* The SparkPrep commercial (moved below the hero 2026-11-21). Click to play: no autoplay, nothing downloads until pressed. */}
+          {/* The animated 72-second ad (2026-11-22, Trey: "it's important"; the 40-second live-action ad stays on /video/). Click to play: no autoplay, nothing downloads until pressed. */}
           <div className="md:col-span-5 flex flex-col items-center">
             <div className="relative w-full max-w-[320px]">
               <GuaranteeSeal
@@ -162,16 +162,16 @@ export default function Landing() {
               />
               <video
                 className="w-full aspect-[9/16] bg-black border border-[#D4AF37]/40 shadow-[0_20px_60px_rgba(0,0,0,0.6)]"
-                src="/media/sparkprep-commercial.mp4"
-                poster="/media/sparkprep-commercial-poster.jpg"
+                src="/media/sparkprep-animated-ad.mp4"
+                poster="/media/sparkprep-animated-ad-poster.jpg"
                 controls
                 playsInline
                 preload="none"
-                aria-label="SparkPrep commercial: a rejected book file, fixed by SparkPrep (dramatization, AI-generated actors)"
+                aria-label="Animated SparkPrep ad for first-time authors: what a freelancer costs, the risks, and what SparkPrep does"
                 data-testid="home-commercial"
               />
             </div>
-            <p className="mt-3 text-[11px] text-neutral-500 text-center max-w-[320px]">Watch the 40-second ad. Dramatization with AI-generated actors. <a href="/video/" className="underline hover:text-[#D4AF37]">Open the video page</a></p>
+            <p className="mt-3 text-sm text-neutral-300 text-center max-w-[320px]">Watch the 72-second story: what publishing your first book really costs, and how SparkPrep does it for less. <a href="/video/" className="underline text-[#D4AF37] hover:text-white">See our other ad</a></p>
           </div>
         </div>
       </section>

@@ -6,9 +6,33 @@ import { toast } from "sonner";
 import { Check, AlertTriangle, XCircle, MapPin, BookOpen, Wrench, CheckCircle2 } from "lucide-react";
 import { usePricing, money, isBookModel } from "@/lib/pricing";
 import ScreenOnlyGuard from "@/components/ScreenOnlyGuard";
+import { BOOK10_CODE, BOOK10_ENDS, BOOK10_ENDS_LABEL, BOOK10_OFF_CENTS, book10Active } from "@/lib/book10";
 
 const sevIcon = (s) => s === "pass" ? <Check className="w-4 h-4" /> : s === "warning" ? <AlertTriangle className="w-4 h-4" /> : <XCircle className="w-4 h-4" />;
 const sevClass = (s) => s === "pass" ? "text-emerald-400 border-emerald-400/30 bg-emerald-500/10" : s === "warning" ? "text-amber-400 border-amber-400/30 bg-amber-500/10" : "text-red-400 border-red-400/30 bg-red-500/10";
+
+// Live countdown to the real BOOK10 deadline (the same moment the Stripe code expires).
+function Book10Offer({ pricing }) {
+  const [now, setNow] = useState(Date.now());
+  useEffect(() => { const t = setInterval(() => setNow(Date.now()), 1000); return () => clearInterval(t); }, []);
+  if (!book10Active(now)) return null;
+  const left = Math.max(0, BOOK10_ENDS - now);
+  const h = Math.floor(left / 3600000), m = Math.floor((left % 3600000) / 60000), sec = Math.floor((left % 60000) / 1000);
+  const pad = (n) => String(n).padStart(2, "0");
+  const book = pricing?.book;
+  return (
+    <div className="mt-5 border border-dashed border-[#E5C158] bg-black/40 p-4 md:p-5" data-testid="book10-offer">
+      <div className="font-display font-black text-2xl md:text-3xl text-[#E5C158] tracking-tight">$10 off your book. 72 hours only.</div>
+      <p className="text-neutral-200 mt-2">
+        Type <span className="font-mono-spec text-white bg-white/10 px-2 py-0.5 border border-white/30" data-testid="book10-code">{BOOK10_CODE}</span> in the promotion code box at checkout.
+        {book && <> One book becomes {money(book.price_cents - BOOK10_OFF_CENTS)}, or {money(book.member_price_cents - BOOK10_OFF_CENTS)} with the membership.</>}
+      </p>
+      <div className="mt-3 font-mono-spec text-xs tracking-widest uppercase text-neutral-300" data-testid="book10-countdown">
+        Ends {BOOK10_ENDS_LABEL} · <span className="text-white">{h}h {pad(m)}m {pad(sec)}s left</span>
+      </div>
+    </div>
+  );
+}
 
 export default function AuditReport() {
   const { id } = useParams();
@@ -130,6 +154,7 @@ export default function AuditReport() {
               SparkPrep fixes {findings.length === 1 ? "this problem" : `these ${findings.length} problems`} for you and gives you print-ready files.
               {pricing?.book && pricing?.membership && <> One book is {money(pricing.book.price_cents)}, or {money(pricing.book.member_price_cents)} with a {money(pricing.membership?.price_cents)}/month membership.</>}
             </p>
+            {!(audit?.credit_cents > 0) && <Book10Offer pricing={pricing} />}
             <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
               <Link to={`/pricing?audit=${id}`} className="btn-gold px-8 py-4 font-mono-spec text-sm tracking-widest uppercase btn-industrial" data-testid="fix-all-now-btn" data-next-step="Fix it all">
                 Fix All of This Now

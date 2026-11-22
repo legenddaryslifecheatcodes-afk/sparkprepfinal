@@ -162,7 +162,7 @@ export default function Landing() {
               />
               <video
                 className="w-full aspect-[9/16] bg-black border border-[#D4AF37]/40 shadow-[0_20px_60px_rgba(0,0,0,0.6)]"
-                src="/media/sparkprep-animated-ad.mp4"
+                src="/media/sparkprep-animated-ad-theme.mp4"
                 poster="/media/sparkprep-animated-ad-poster.jpg"
                 controls
                 playsInline

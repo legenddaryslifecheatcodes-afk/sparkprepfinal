@@ -5,7 +5,9 @@ import { useAuth } from "@/context/AuthContext";
 import { Logo, SparkPrepLogo } from "@/components/Logo";
 import { usePricing, money } from "@/lib/pricing";
 
-export default function Nav({ dark = true }) {
+// heroLogo: the page shows the big SparkPrep logo itself (homepage hero, 2026-11-21), so the centered
+// nav logo is skipped there to avoid showing it twice.
+export default function Nav({ dark = true, heroLogo = false }) {
   const { user, logout } = useAuth();
   const pricing = usePricing();
   const location = useLocation();
@@ -72,14 +74,14 @@ export default function Nav({ dark = true }) {
             links (which stay in normal flow, so they keep their own
             default stacking) means only the portion below the bar, where
             nothing else is, actually reads as "breaking out." */}
-        <Link
+        {!heroLogo && <Link
           to="/"
           className={`hidden md:block absolute left-1/2 top-2 -translate-x-1/2 -z-10 pointer-events-none transition-opacity duration-300 ${scrolled ? "opacity-0" : "opacity-100"}`}
           data-testid="nav-sparkprep-logo"
           data-shrunk={scrolled ? "true" : "false"}
         >
           <SparkPrepLogo height={140} />
-        </Link>
+        </Link>}
         <div className="flex flex-wrap items-center justify-end gap-x-5 gap-y-2 text-sm">
           {user?.beta_active && (
             <Link to="/beta/feedback" className="font-mono-spec text-[10px] tracking-widest uppercase text-black bg-[#D4AF37] px-2.5 py-1.5 hover:brightness-110 btn-industrial" data-testid="nav-beta-badge">
@@ -122,9 +124,9 @@ export default function Nav({ dark = true }) {
             of them. Without this, SparkPrep's own logo was either invisible
             under 768px (the original bug) or overlapping nav text (the
             first attempt at fixing it). */}
-        <Link to="/" className="md:hidden w-full flex justify-center pt-1" data-testid="nav-sparkprep-logo-mobile">
+        {!heroLogo && <Link to="/" className="md:hidden w-full flex justify-center pt-1" data-testid="nav-sparkprep-logo-mobile">
           <SparkPrepLogo height={64} />
-        </Link>
+        </Link>}
       </div>
     </nav>
   );

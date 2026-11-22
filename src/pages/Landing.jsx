@@ -20,7 +20,7 @@ export default function Landing() {
   return (
     <div className="marketing min-h-screen noise-overlay">
       <SeasonBanner />
-      <Nav dark />
+      <Nav dark heroLogo />
 
       {/* Hero (2026-11-21, Trey's A.P.P.S. directive + his mockup): centered, big glowing A.P.P.S. first (what
           SparkPrep IS), then the free audit box right under it (the action). Lettering is large and high
@@ -28,25 +28,23 @@ export default function Landing() {
           data-next-step marker are unchanged, so tracking and the "Click to fix" pointer still work. */}
       <section className="relative overflow-hidden" data-testid="hero">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(ellipse 70% 55% at 50% 22%, rgba(229,193,88,0.22), rgba(212,175,55,0.06) 45%, transparent 70%)" }} />
-        <div aria-hidden="true" className="hidden md:block pointer-events-none absolute left-1/2 top-[262px] -translate-x-1/2 w-[900px] max-w-[140%] h-[2px]" style={{ background: "linear-gradient(90deg, transparent, #E5C158, transparent)", boxShadow: "0 0 24px 4px rgba(229,193,88,0.45)" }} />
+        <div aria-hidden="true" className="hidden md:block pointer-events-none absolute left-1/2 top-[478px] -translate-x-1/2 w-[900px] max-w-[140%] h-[2px]" style={{ background: "linear-gradient(90deg, transparent, #E5C158, transparent)", boxShadow: "0 0 24px 4px rgba(229,193,88,0.45)" }} />
 
         <div className="relative max-w-5xl mx-auto px-5 pt-12 md:pt-16 pb-16 text-center">
-          <div className="flex items-center justify-center gap-3">
-            <LogoMark size={30} />
-            <span className="font-mono-spec text-[11px] md:text-xs tracking-[0.26em] uppercase text-[#E5C158]">
-              Legenddary SparkPrep · The evolution of self-publishing
-            </span>
-          </div>
+          {/* The brand leads (Trey: nothing should outshine the brand it represents). */}
+          <a href="/" className="block w-fit mx-auto" data-testid="hero-brand-logo">
+            <img src="/brand/sparkprep-logo.png" alt="Legenddary SparkPrep: The Evolution of Self-Publishing" className="mx-auto h-[170px] sm:h-[210px] md:h-[250px] w-auto object-contain" style={{ filter: "drop-shadow(0 0 28px rgba(229,193,88,0.45))" }} draggable={false} fetchpriority="high" />
+          </a>
 
-          <span className="mt-8 inline-block font-display font-black text-sm md:text-base tracking-[0.4em] uppercase text-black rounded-full px-7 py-2 shadow-[0_0_24px_rgba(229,193,88,0.55)]" style={{ background: "linear-gradient(180deg, #F3DC8A, #D4AF37 60%, #B8933E)" }} data-testid="hero-tag">
+          <span className="mt-4 inline-block font-display font-black text-xs md:text-sm tracking-[0.4em] uppercase text-black rounded-full px-7 py-2 shadow-[0_0_24px_rgba(229,193,88,0.55)]" style={{ background: "linear-gradient(180deg, #F3DC8A, #D4AF37 60%, #B8933E)" }} data-testid="hero-tag">
             Introducing
           </span>
 
           <h1 className="mt-4" data-testid="hero-title">
-            <span className="block font-display font-black italic tracking-tight leading-none text-[4.25rem] sm:text-[6.5rem] md:text-[8rem]" style={{ background: "linear-gradient(180deg, #FFF1B8 0%, #F3DC8A 25%, #D4AF37 60%, #9C7A2E 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", filter: "drop-shadow(0 0 22px rgba(229,193,88,0.55)) drop-shadow(0 4px 2px rgba(0,0,0,0.8))" }}>
+            <span className="block font-display font-black italic tracking-tight leading-none text-[3.25rem] sm:text-[4.75rem] md:text-[6rem]" style={{ background: "linear-gradient(180deg, #FFF1B8 0%, #F3DC8A 25%, #D4AF37 60%, #9C7A2E 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", filter: "drop-shadow(0 0 22px rgba(229,193,88,0.55)) drop-shadow(0 4px 2px rgba(0,0,0,0.8))" }}>
               A.P.P.S.
             </span>
-            <span className="block mt-2 font-display font-black italic text-3xl sm:text-4xl md:text-5xl tracking-tight leading-tight" style={{ textShadow: "0 2px 12px rgba(0,0,0,0.9)" }}>
+            <span className="block mt-1 font-display font-black italic text-2xl sm:text-3xl md:text-4xl tracking-tight leading-tight" style={{ textShadow: "0 2px 12px rgba(0,0,0,0.9)" }}>
               <span className="text-[#F3DC8A]">Automated Publishing</span> <span className="text-white">Production System</span>
             </span>
           </h1>

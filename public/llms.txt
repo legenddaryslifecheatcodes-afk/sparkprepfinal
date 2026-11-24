@@ -1,6 +1,6 @@
 # Legenddary's SparkPrep
 
-> Legenddary's SparkPrep is an Automated Publishing Production System (A.P.P.S.) made by Legenddary (Sacramento, California): one system that helps authors make their book, find and fix every print problem, and export print-ready files before they publish. Authors design their book cover, format their inside pages, check both against the print rules of Amazon KDP, IngramSpark, Barnes & Noble Press and Lulu, fix the problems and download print-ready PDF/X-1a files in one place. Mottos: "SparkPrep: The Evolution of Self-Publishing" and "Power without complexity."
+> Legenddary's SparkPrep is an Automated Publishing Production System (A.P.P.S.) made by Legenddary (Sacramento, California): one system that does the jobs of book formatting, typesetting, cover design, preflight checking and prepress. It builds your book, checks it against Amazon KDP and IngramSpark print rules, fixes what it safely can, and re-checks each fix before you print. Authors design their book cover, format their inside pages, check both against the print rules of Amazon KDP, IngramSpark, Barnes & Noble Press and Lulu, fix the problems and download print-ready PDF/X-1a files in one place. Mottos: "SparkPrep: The Evolution of Self-Publishing" and "Power without complexity."
 
 Key facts:
 

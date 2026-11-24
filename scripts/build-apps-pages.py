@@ -12,6 +12,7 @@ B = "https://sparkprep.legenddary.com"
 BRAND = "Legenddary's SparkPrep"
 PUBLISHED = "2026-11-18"
 MODIFIED = "2026-11-18"
+DEF_MODIFIED = "2026-11-24"  # definition page + glossary (A.P.P.S. sentence update)
 DEF_URL = B + "/automated-publishing-production-system/"
 ART_URL = B + "/apps-vs-traditional-publishing-software/"
 TERM_ID = DEF_URL + "#term"
@@ -26,21 +27,33 @@ OFFICIAL = [
 ]
 PIONEER = "Category Pioneer: Legenddary SparkPrep."
 
-# 40-60 word answer-first version (featured-snippet / AI-answer target).
-SHORT = "An Automated Publishing Production System (A.P.P.S.) is the next step in the evolution of self-publishing. Publishing software started as separate tools for formatting, preflight, prepress and cover design. An A.P.P.S. brings them into one system that makes your book, checks it against the printer's rules, fixes the problems and double-checks every fix. Legenddary SparkPrep is the category pioneer."
+# The ONE plain sentence that defines A.P.P.S. (2026-11-24, Trey approved). It names the jobs people
+# search for (formatting, typesetting, cover design, preflight, prepress, KDP, IngramSpark) inside the
+# definition. Use it word for word everywhere the site says what an A.P.P.S. is.
+MASTER = "An Automated Publishing Production System (A.P.P.S.) is one system that does the jobs of book formatting, typesetting, cover design, preflight checking and prepress: it builds your book, checks it against Amazon KDP and IngramSpark print rules, fixes what it safely can, and re-checks each fix before you print."
+KEYWORDS = "book formatting, typesetting, book cover design, preflight check, prepress, KDP file check, IngramSpark file check"
+
+# Answer-first version (featured-snippet / AI-answer target).
+SHORT = MASTER + " It is the next step in the evolution of self-publishing, and Legenddary SparkPrep is the category pioneer."
 
 PARTS = [
-    ("Automated file analysis", "It reads your whole cover and every inside page for you: size, spine, margins, colors, pictures and fonts."),
-    ("Intelligent error detection", "It finds what would get your book rejected, like missing bleed, text too close to the edge, blurry pictures or too much ink, and shows you where."),
-    ("Corrective processing", "It fixes what it safely can by itself, instead of only handing you a list of problems."),
-    ("Independent verification", "A separate check looks at the fixed file again to confirm each fix really worked, before you upload."),
-    ("Creative production tools", "It also helps you make the book: a cover designer, a page formatter and writing help, built into the same system."),
+    ("Automated file analysis", "It reads your whole cover and every inside page for you: size, spine, margins, colors, pictures and fonts.", 'Try it: <a href="/audit">free book check</a>, <a href="/image-dpi-checker/">DPI checker</a>.'),
+    ("Intelligent error detection", "It finds what would get your book rejected, like missing bleed, text too close to the edge, blurry pictures or too much ink, and shows you where.", 'See: <a href="/guides/what-is-preflight-first-time-authors/">what a preflight check is</a>.'),
+    ("Corrective processing", "It fixes what it safely can by itself, instead of only handing you a list of problems. This is the prepress step.", 'See: <a href="/ingramspark-rejection-fixes/">rejection fixes</a>, <a href="/guides/">fix guides</a>.'),
+    ("Independent verification", "A separate check looks at the fixed file again to confirm each fix really worked, before you upload.", ''),
+    ("Creative production tools", "It also helps you make the book: a cover designer, a page formatter and writing help, built into the same system.", 'Try it: <a href="/interior-studio">Interior Studio</a> (formatting and typesetting), <a href="/cover-studio">Cover Studio</a>, <a href="/book-spine-width-calculator/">spine width calculator</a>, <a href="/kdp-cover-calculator/">KDP cover calculator</a>.'),
 ]
 
 FAQ = [
     ("What is an Automated Publishing Production System?", SHORT),
     ("What does A.P.P.S. stand for?",
      "A.P.P.S. stands for Automated Publishing Production System. It is a kind of publishing software that brings making, checking, fixing and double-checking a book's files into one system, instead of using a separate tool for each job."),
+    ("Is an A.P.P.S. the same as book formatting or typesetting software?",
+     "No. Book formatting and typesetting are one of the jobs an A.P.P.S. does. It also designs the cover, checks the whole book against Amazon KDP and IngramSpark print rules, fixes what it safely can and re-checks each fix."),
+    ("Is an A.P.P.S. a preflight checker?",
+     "Preflight checking is one part of an A.P.P.S. A preflight checker only reports problems. An A.P.P.S. also builds the book, fixes what it safely can and re-checks each fix before you print."),
+    ("Is an A.P.P.S. the same as prepress?",
+     "Prepress is the step that gets book files ready for the printer. An A.P.P.S. does prepress together with formatting, typesetting, cover design and preflight checking, in one system."),
     ("Is SparkPrep a formatter or a preflight checker?",
      "Neither, on its own. Formatting and preflight are two of the jobs SparkPrep does. Legenddary's SparkPrep is an Automated Publishing Production System: it also designs covers, fixes problems, double-checks its fixes and exports print-ready files for Amazon KDP, IngramSpark, Barnes & Noble Press and Lulu."),
     ("Who created the A.P.P.S. category?",
@@ -133,7 +146,8 @@ term = {
     "name": "Automated Publishing Production System",
     "alternateName": ["A.P.P.S.", "Automated Publishing Production System (A.P.P.S.)"],
     "termCode": "A.P.P.S.",
-    "description": " ".join(OFFICIAL),
+    "description": MASTER + " " + " ".join(OFFICIAL),
+    "keywords": KEYWORDS,
     "url": DEF_URL,
     "inDefinedTermSet": [{"@id": SET_ID}, {"@id": GLOSS_SET}],
     "subjectOf": {"@id": ART_URL + "#article"},
@@ -146,7 +160,7 @@ d_schema = {"@context": "https://schema.org", "@graph": [
      "headline": "What is an Automated Publishing Production System (A.P.P.S.)?",
      "name": "Automated Publishing Production System (A.P.P.S.): official definition",
      "description": d_desc, "inLanguage": "en",
-     "datePublished": PUBLISHED, "dateModified": MODIFIED,
+     "datePublished": PUBLISHED, "dateModified": DEF_MODIFIED,
      "author": AUTHOR, "publisher": ORG, "copyrightHolder": ORG,
      "about": {"@id": TERM_ID}, "mainEntity": {"@id": TERM_ID},
      "image": B + "/brand/sparkprep-og.jpg", "isPartOf": {"@id": B + "/#website"}},
@@ -158,7 +172,7 @@ d_schema = {"@context": "https://schema.org", "@graph": [
     crumbs("What is an A.P.P.S.?", DEF_URL),
 ]}
 
-parts_rows = "\n".join(f"      <tr><td><strong>{e(n)}</strong></td><td>{e(t)}</td></tr>" for n, t in PARTS)
+parts_rows = "\n".join(f"      <tr><td><strong>{e(n)}</strong></td><td>{e(t)}{(' ' + l) if l else ''}</td></tr>" for n, t, l in PARTS)
 faq_html = "\n".join(f'  <h3>{e(q)}</h3>\n  <p>{e(a)}</p>' for q, a in FAQ)
 d_body = f'''  <div class="eyebrow">Official definition · First published November 18, 2026</div>
   <h1>What is an Automated Publishing Production System (A.P.P.S.)?</h1>
@@ -186,9 +200,9 @@ d_body = f'''  <div class="eyebrow">Official definition · First published Novem
 {POSITIONING}
   <h2>How Legenddary SparkPrep works as an A.P.P.S.</h2>
   <ul>
-    <li><strong>Make it:</strong> Cover Studio (free cover designer, 224 templates) and Interior Studio (free page formatter with Word import), plus AI writing help.</li>
-    <li><strong>Check it:</strong> the whole cover and every inside page against the rules of Amazon KDP, IngramSpark, Barnes &amp; Noble Press and Lulu: <a href="/specs">trim size, bleed and margins</a>, spine width, colors, the 240% ink limit, <a href="/image-dpi-checker/">picture sharpness</a> and fonts.</li>
-    <li><strong>Fix it:</strong> SparkPrep fixes what it safely can, and tells you plainly when something needs new art.</li>
+    <li><strong>Make it:</strong> <a href="/cover-studio">Cover Studio</a> (free cover designer, <a href="/templates/">224 templates</a>) and <a href="/interior-studio">Interior Studio</a> (free book formatting and typesetting with Word import), plus AI writing help.</li>
+    <li><strong>Check it:</strong> the whole cover and every inside page against the rules of Amazon KDP, IngramSpark, Barnes &amp; Noble Press and Lulu: <a href="/specs">trim size, bleed and margins</a>, spine width, colors, the 240% ink limit, <a href="/image-dpi-checker/">picture sharpness</a> and fonts. This is the preflight check; <a href="/audit">try it free</a>.</li>
+    <li><strong>Fix it:</strong> SparkPrep fixes what it safely can (the prepress step), and tells you plainly when something needs new art. <a href="/ingramspark-rejection-fixes/">See the rejection messages it fixes</a>.</li>
     <li><strong>Double-check it:</strong> each repair is checked again by a separate step before it is accepted.</li>
     <li><strong>Export it:</strong> print-ready PDF/X-1a files, and the SparkPrep Certified report when every check passes.</li>
   </ul>
@@ -236,7 +250,7 @@ d_body = f'''  <div class="eyebrow">Official definition · First published Novem
   </section>
 '''
 write(ROOT + "/public/automated-publishing-production-system/index.html",
-      HEAD.format(title=e(d_title), desc=e(d_desc), url=DEF_URL, B=B, pub=PUBLISHED, mod=MODIFIED,
+      HEAD.format(title=e(d_title), desc=e(d_desc), url=DEF_URL, B=B, pub=PUBLISHED, mod=DEF_MODIFIED,
                   ogtitle=e("What is an Automated Publishing Production System (A.P.P.S.)?"),
                   schema=json.dumps(d_schema, ensure_ascii=False)) + d_body + FOOT)
 
@@ -353,13 +367,13 @@ g_desc = (f"Plain-English meanings of {len(TERMS) + 1} self-publishing words, st
 apps_gloss = ("Automated Publishing Production System (A.P.P.S.)", SHORT)
 g_schema = {"@context": "https://schema.org", "@graph": [
     {"@type": "DefinedTermSet", "@id": GLOSS_SET, "name": "Legenddary SparkPrep self-publishing glossary",
-     "url": GLOSS_URL, "publisher": ORG, "creator": ORG, "inLanguage": "en", "dateModified": MODIFIED,
+     "url": GLOSS_URL, "publisher": ORG, "creator": ORG, "inLanguage": "en", "dateModified": DEF_MODIFIED,
      "hasDefinedTerm": [{"@id": TERM_ID}] + [{"@id": GLOSS_URL + "#" + slug(t)} for t, _ in TERMS]},
     dict(term, description=" ".join(OFFICIAL)),
     *[{"@type": "DefinedTerm", "@id": GLOSS_URL + "#" + slug(t), "name": t, "description": d,
        "url": GLOSS_URL + "#" + slug(t), "inDefinedTermSet": {"@id": GLOSS_SET}} for t, d in TERMS],
     {"@type": "WebPage", "@id": GLOSS_URL + "#page", "url": GLOSS_URL, "name": "Self-publishing glossary",
-     "description": g_desc, "datePublished": PUBLISHED, "dateModified": MODIFIED, "author": AUTHOR,
+     "description": g_desc, "datePublished": PUBLISHED, "dateModified": DEF_MODIFIED, "author": AUTHOR,
      "publisher": ORG, "mainEntity": {"@id": GLOSS_SET}, "isPartOf": {"@id": B + "/#website"}},
     crumbs("Glossary", GLOSS_URL),
 ]}
@@ -379,7 +393,7 @@ def see(t):
     h, a = SEE[t]
     return f' <a href="{h}">{e(a)}</a>.'
 rows += [f'''  <div class="card" id="{slug(t)}"><h3 style="margin-top:0">{e(t)}</h3><p style="margin:0">{e(d)}{see(t)}</p></div>''' for t, d in TERMS]
-g_body = f'''  <div class="eyebrow">Glossary · Updated <time datetime="{MODIFIED}">November 18, 2026</time></div>
+g_body = f'''  <div class="eyebrow">Glossary · Updated <time datetime="{DEF_MODIFIED}">November 24, 2026</time></div>
   <h1>Self-publishing glossary: the words you'll meet, in plain English</h1>
   <p class="byline">By <a href="/about/">Joshua Davis</a>, founder of Legenddary SparkPrep</p>
   <p class="lead">KDP, IngramSpark and rejection emails use their own language. Here is what each word means, in one or two plain sentences. It starts with the word for what SparkPrep is.</p>
@@ -392,7 +406,7 @@ g_body = f'''  <div class="eyebrow">Glossary · Updated <time datetime="{MODIFIE
   </section>
 '''
 write(ROOT + "/public/glossary/index.html",
-      HEAD.format(title=e(g_title), desc=e(g_desc), url=GLOSS_URL, B=B, pub=PUBLISHED, mod=MODIFIED,
+      HEAD.format(title=e(g_title), desc=e(g_desc), url=GLOSS_URL, B=B, pub=PUBLISHED, mod=DEF_MODIFIED,
                   ogtitle=e("Self-publishing glossary, in plain English"),
                   schema=json.dumps(g_schema, ensure_ascii=False)).replace('content="article"', 'content="website"', 1) + g_body + FOOT)
 print("built 4 A.P.P.S. pages (definition, article, glossary, evolution)")

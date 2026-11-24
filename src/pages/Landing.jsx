@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import Nav from "@/components/Nav";
-import SeasonBanner from "@/components/SeasonBanner";
 import { LogoMark, SparkPrepLogo } from "@/components/Logo";
 import BrandWatermark from "@/components/BrandWatermark";
 import GuaranteeSeal from "@/components/GuaranteeSeal";
@@ -9,6 +8,7 @@ import { usePricing, money, isBookModel, specialNote } from "@/lib/pricing";
 import { HOME_FAQ, FirstBookArticle } from "@/components/FirstBookArticle";
 import HomePriceBlock, { HeroPriceStrip } from "@/components/HomePriceBlock";
 import HowSparkPrepWorks from "@/components/HowSparkPrepWorks";
+import FreeCheckBanner from "@/components/FreeCheckBanner";
 
 export default function Landing() {
   const pricing = usePricing();
@@ -16,10 +16,9 @@ export default function Landing() {
   // Holiday Free Audit (Nov 2026, Trey): the free audit leads the page while it runs. Until prices load we show
   // it too, so the page doesn't jump; once the server says the offer is over, the normal hero comes back.
   const freeAudit = pricing ? !!pricing.free_audit?.active : true;
-  const regularAudit = pricing?.free_audit?.regular_cents ? money(pricing.free_audit.regular_cents) : "";
   return (
     <div className="marketing min-h-screen noise-overlay">
-      <SeasonBanner />
+      <FreeCheckBanner pricing={pricing} />
       <Nav dark heroLogo />
 
       {/* Hero (2026-11-21, Trey's A.P.P.S. directive + his mockup): centered, big glowing A.P.P.S. first (what
@@ -79,34 +78,35 @@ export default function Landing() {
             </ul>
           </div>
 
-          {/* The entry point: the free audit is how people first experience the A.P.P.S. Biggest action on the page. */}
-          <div className="mt-12 max-w-3xl mx-auto border-2 border-[#E5C158] rounded-2xl bg-gradient-to-b from-[#D4AF37]/[0.16] to-black/80 px-5 md:px-10 py-8 shadow-[0_0_50px_rgba(229,193,88,0.28)]" data-testid="hero-audit-box">
-            <h2 className="font-display font-black italic text-3xl md:text-5xl text-white tracking-tight leading-tight" style={{ textShadow: "0 2px 12px rgba(0,0,0,0.9)" }} data-testid="hero-gift">
-              See What Your Book Needs <span className="text-[#F3DC8A]">Before</span> You Publish.
+          {/* The main action sells the whole book (2026-11-24, Trey: the hero advertises what pays; the free check
+              lives in the banner above and in one small link here). Prices come from /api/pricing. */}
+          <div className="mt-12 max-w-3xl mx-auto border-2 border-[#E5C158] rounded-2xl bg-gradient-to-b from-[#D4AF37]/[0.16] to-black/80 px-5 md:px-10 py-8 shadow-[0_0_50px_rgba(229,193,88,0.28)]" data-testid="hero-book-box">
+            <h2 className="font-display font-black italic text-3xl md:text-5xl text-white tracking-tight leading-tight" style={{ textShadow: "0 2px 12px rgba(0,0,0,0.9)" }} data-testid="hero-book-title">
+              Your Whole Book, <span className="text-[#F3DC8A]">Print-Ready.</span>
             </h2>
             <p className="mt-4 text-lg md:text-xl text-white font-medium">
-              {freeAudit
-                ? <>Find the problems that could get your book rejected by Amazon KDP or IngramSpark with a <span className="text-[#F3DC8A] font-bold underline underline-offset-4">free</span> SparkPrep book audit.</>
-                : <>Find the problems that could get your book rejected by Amazon KDP or IngramSpark with a {auditPrice}SparkPrep book audit.</>}
+              Design your cover, format your pages, check both against Amazon KDP and IngramSpark rules, fix the problems and download print-ready files. One system, one price per book.
             </p>
-            <Link to="/audit" className="mt-6 btn-gold w-full justify-center rounded-xl px-6 py-5 md:py-6 font-display font-black italic text-xl md:text-3xl tracking-wide uppercase flex items-center gap-3 btn-industrial shadow-[0_0_30px_rgba(229,193,88,0.5)]" data-testid="hero-cta-audit" data-next-step="Start here">
-              {freeAudit ? <><Search className="w-7 h-7" strokeWidth={3} /> Get your free book audit</> : <><Search className="w-7 h-7" strokeWidth={3} /> Get your book audit</>} <ArrowRight className="w-7 h-7" strokeWidth={3} />
-            </Link>
-            <div className="mt-5 flex items-center gap-3 text-white">
-              <span className="h-px flex-1 bg-[#E5C158]/60" />
-              <span className="italic text-base md:text-lg">Your first step into the SparkPrep A.P.P.S.</span>
-              <span className="h-px flex-1 bg-[#E5C158]/60" />
-            </div>
-            {freeAudit && (
-              <p className="mt-2 text-sm md:text-base text-emerald-300 font-medium" data-testid="hero-free-terms">
-                Free through December 31. No sign-up. No card. Just your email.{regularAudit ? ` Regular price ${regularAudit} from January.` : ""}
+            {pricing?.book?.price_cents ? (
+              <p className="mt-5 text-white" data-testid="hero-book-price">
+                <span className="font-display font-black text-4xl md:text-5xl">{money(pricing.book.price_cents)}</span>
+                <span className="text-neutral-300 text-base md:text-lg"> per book</span>
+                {pricing?.membership?.book_price_cents ? (
+                  <span className="text-neutral-300 text-base md:text-lg"> · or <span className="font-display font-black text-2xl md:text-3xl text-[#F3DC8A]">{money(pricing.membership.book_price_cents)}</span> with the {money(pricing.membership.price_cents)}/month membership</span>
+                ) : null}
               </p>
-            )}
+            ) : null}
+            <Link to="/register" className="mt-6 btn-gold w-full justify-center rounded-xl px-6 py-5 md:py-6 font-display font-black italic text-xl md:text-3xl tracking-wide uppercase flex items-center gap-3 btn-industrial shadow-[0_0_30px_rgba(229,193,88,0.5)]" data-testid="hero-cta-primary" data-next-step="Start here">
+              <Zap className="w-7 h-7" strokeWidth={3} /> Start my book <ArrowRight className="w-7 h-7" strokeWidth={3} />
+            </Link>
+            <p className="mt-4 text-base md:text-lg text-white">
+              Not ready yet? <Link to="/audit" className="text-[#F3DC8A] font-semibold underline underline-offset-4 hover:text-white" data-testid="hero-cta-audit">{freeAudit ? "Check your book free first" : "Get a book audit first"}</Link>.
+            </p>
           </div>
 
           <p className="mt-8 font-display font-bold italic text-2xl md:text-3xl text-[#F3DC8A]" data-testid="hero-motto">Power without complexity.</p>
           <p className="mt-3 text-base text-neutral-200">
-            Ready for the whole book? <Link to="/register" className="text-white font-semibold underline decoration-[#D4AF37] underline-offset-4 hover:text-[#F3DC8A]" data-testid="hero-cta-primary">Start my first book</Link>. Or <a href="/automated-publishing-production-system/" className="text-white font-semibold underline decoration-[#D4AF37] underline-offset-4 hover:text-[#F3DC8A]" data-testid="hero-apps">read what an A.P.P.S. is</a>.
+            New here? <a href="/automated-publishing-production-system/" className="text-white font-semibold underline decoration-[#D4AF37] underline-offset-4 hover:text-[#F3DC8A]" data-testid="hero-apps">Read what an A.P.P.S. is</a>.
           </p>
         </div>
       </section>
@@ -119,7 +119,7 @@ export default function Landing() {
             <div className="max-w-xl border-l-2 border-[#D4AF37] bg-[#D4AF37]/[0.06] px-5 py-4" data-testid="hero-what-is">
               <h2 className="font-display font-bold text-xl text-white tracking-tight">What is SparkPrep?</h2>
               <p className="mt-2 text-neutral-200 leading-relaxed">
-                Legenddary SparkPrep is an <a href="/automated-publishing-production-system/" className="text-white underline decoration-[#D4AF37]/60 underline-offset-4 hover:text-[#D4AF37]">Automated Publishing Production System (A.P.P.S.)</a>: one system that helps you make your book, find and fix every print problem, and export print-ready files before you publish.
+                Legenddary SparkPrep is an <a href="/automated-publishing-production-system/" className="text-white underline decoration-[#D4AF37]/60 underline-offset-4 hover:text-[#D4AF37]">Automated Publishing Production System (A.P.P.S.)</a>: one system that does the jobs of book formatting, typesetting, cover design, preflight checking and prepress. It builds your book, checks it against Amazon KDP and IngramSpark print rules, fixes what it safely can, and re-checks each fix before you print.
               </p>
             </div>
 
@@ -191,7 +191,7 @@ export default function Landing() {
               </h2>
               <p className="mt-6 font-display font-bold italic text-2xl text-[#D4AF37]">Power without complexity.</p>
               <p className="mt-6 text-lg text-neutral-300 max-w-xl leading-relaxed">
-                Formatting, preflight and prepress used to be separate tools and separate people. In the SparkPrep A.P.P.S. they are parts of one system: design your cover, write and format your pages, check them against Amazon KDP and IngramSpark's print rules, fix every problem, and download print-ready files. <span className="text-white font-semibold">Everything you need to publish, in one place</span>, in plain English.
+                Formatting, preflight and prepress used to be separate tools and separate people. In the SparkPrep A.P.P.S. they are parts of one system: design your cover, write and format your pages, check them against Amazon KDP and IngramSpark's print rules, fix what it safely can, and download print-ready files. <span className="text-white font-semibold">Everything you need to publish, in one place</span>, in plain English.
               </p>
               {/* A.P.P.S. positioning (2026-11-18, Trey's wording). */}
               <div className="mt-8 max-w-xl border border-[#D4AF37]/30 px-5 py-4" data-testid="apps-positioning">
@@ -205,7 +205,7 @@ export default function Landing() {
               <div className="border-l-2 border-[#D4AF37] bg-[#D4AF37]/[0.06] px-5 py-4" data-testid="suite-definition">
                 <h3 className="font-display font-bold text-lg text-white tracking-tight">What is SparkPrep?</h3>
                 <p className="mt-2 text-neutral-300 leading-relaxed">
-                  Legenddary&apos;s SparkPrep is an <a href="/automated-publishing-production-system/" className="text-white underline decoration-[#D4AF37]/60 underline-offset-2 hover:text-[#D4AF37]">Automated Publishing Production System (A.P.P.S.)</a>: one system that helps authors make their book, find and fix every print problem, and export print-ready files before they publish. It brings cover design, page formatting, a preflight check against the print rules of Amazon KDP, IngramSpark, Barnes &amp; Noble and Lulu, automatic fixes and a second check together in one place.
+                  Legenddary&apos;s SparkPrep is an <a href="/automated-publishing-production-system/" className="text-white underline decoration-[#D4AF37]/60 underline-offset-2 hover:text-[#D4AF37]">Automated Publishing Production System (A.P.P.S.)</a>: one system that does the jobs of book formatting, typesetting, cover design, preflight checking and prepress. It builds your book, checks it against Amazon KDP and IngramSpark print rules, fixes what it safely can, and re-checks each fix before you print. It also covers Barnes &amp; Noble Press and Lulu, and exports print-ready PDF/X-1a files.
                 </p>
               </div>
               <div className="mt-6 flex flex-wrap gap-6 text-xs font-mono-spec tracking-widest text-neutral-500 uppercase">

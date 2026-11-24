@@ -17,6 +17,7 @@ import IsbnBarcodePanel from "@/components/IsbnBarcodePanel";
 import CoverTemplateDialog from "@/components/CoverTemplateDialog";
 import AICoverDialog from "@/components/AICoverDialog";
 import RepairBay from "@/components/RepairBay";
+import SuggestedFixDialog, { SUGGESTED_FIX_IDS } from "@/components/SuggestedFixDialog";
 import BookReadyCelebration from "@/components/BookReadyCelebration";
 import CertifiedModal from "@/components/CertifiedModal";
 import StepGuide, { STEP_GLOW_CLASS } from "@/components/StepGuide";
@@ -441,6 +442,17 @@ export default function Editor() {
     };
   }, [busyNow]);
 
+  // Suggested fixes (2026-11-24): SparkPrep's best try at an author-decision problem; the author keeps it or not.
+  const [suggest, setSuggest] = useState(null);   // { slot, issueId }
+  const openSuggestedFix = (slot, issueId) => { if (needsBook("Suggested fixes")) return; setSuggest({ slot, issueId }); };
+  const onSuggestedFixKept = (data) => {
+    setProject((p) => {
+      const next = { ...p, slots: { ...(p.slots || {}), [data.slot]: { ...data.file_metadata, compliance: data.compliance } } };
+      if (data.slot === "full_wrap") return { ...next, uploaded_file: data.file_metadata.stored_filename, file_metadata: data.file_metadata, compliance: data.compliance };
+      return next;
+    });
+  };
+
   const aiEnhance = async (slot) => {
     if (needsBook("AI Upscale")) return;
     setEnhancingSlot(slot);
@@ -849,7 +861,10 @@ export default function Editor() {
   // One card, its own fix: sharpen a soft cover, fix what SparkPrep can fix, or ask for a new file only when it can't.
   // Each card's button names its own fix, as in the original fix buttons (Sep 19): "Convert to CMYK", "Clamp Ink to 240%"...
   const named = (action, c) => ({ ...action, label: fixButtonLabel(c, "Apply Fix") });
-  const coverCardAction = (c) => (!isOpenIssue(c) ? null : needBookAction || (isDpi(c) ? upscaleCoverAction : c.auto_fix ? named(fixCoverAction, c) : newCoverAction));
+  const canSuggest = (c) => !c.auto_fix && SUGGESTED_FIX_IDS.includes(c.id);
+  const suggestAction = (c, slot) => ({ label: "Try a suggested fix", onClick: () => openSuggestedFix(slot, c.id) });
+  const coverCardAction = (c) => (!isOpenIssue(c) ? null : needBookAction || (isDpi(c) ? upscaleCoverAction : c.auto_fix ? named(fixCoverAction, c)
+    : canSuggest(c) ? suggestAction(c, coverSlotName) : newCoverAction));
   const interiorCardAction = (c) => (!isOpenIssue(c) ? null : needBookAction || (c.auto_fix ? named(fixInteriorAction, c) : newInteriorAction));
   let guideNow;
   if (currentStep === "details") {
@@ -889,8 +904,13 @@ export default function Editor() {
     } else if (coverManual.length || interiorManual.length || caseManual.length) {
       const which = coverManual.length ? "cover" : interiorManual.length ? "interior" : "case cover";
       const first = (coverManual[0] || interiorManual[0] || caseManual[0]);
-      guideNow = { title: `Your ${which} needs a new file`, detail: `${plainCheckLabel(first)}: ${first.message} SparkPrep can't change this one by itself — fix it in your design file and upload it again.`,
-        action: { label: `Upload a new ${which}`, onClick: () => pickFile(coverManual.length ? coverSlotName : interiorManual.length ? "interior" : "case_wrap") } };
+      const firstSlot = coverManual.length ? coverSlotName : interiorManual.length ? "interior" : "case_wrap";
+      guideNow = canSuggest(first) && firstSlot !== "interior"
+        ? { title: `Your ${which} needs one decision`, detail: `${plainCheckLabel(first)}: ${first.message} SparkPrep can try a fix and show you before and after. Keep it, or upload your own.`,
+            action: suggestAction(first, firstSlot),
+            secondary: { label: `Or upload a new ${which}`, onClick: () => pickFile(firstSlot) } }
+        : { title: `Your ${which} needs a new file`, detail: `${plainCheckLabel(first)}: ${first.message} SparkPrep can't change this one by itself — fix it in your design file and upload it again.`,
+            action: { label: `Upload a new ${which}`, onClick: () => pickFile(firstSlot) } };
     }
   } else if (currentStep === "final") {
     guideNow = finalReview?.status === "red"
@@ -1558,6 +1578,15 @@ export default function Editor() {
             onLegacyFallback={() => { const b = bay; setBay(null); runAutofixLegacy(b.slot, b.setBusy, b.setResult); }}
           />
         )}
+        <SuggestedFixDialog
+          open={!!suggest}
+          onOpenChange={(o) => { if (!o) setSuggest(null); }}
+          projectId={id}
+          slot={suggest?.slot}
+          issueId={suggest?.issueId}
+          onAccepted={onSuggestedFixKept}
+          onUploadOwn={() => { const s = suggest?.slot; if (s) pickFile(s); }}
+        />
         {exporting && (
           <div className="fixed inset-0 z-[94] bg-black/85 backdrop-blur-sm flex items-center justify-center p-4" data-testid="exporting-overlay" data-next-step-scope role="status" aria-live="polite">
             <div className="max-w-md text-center">

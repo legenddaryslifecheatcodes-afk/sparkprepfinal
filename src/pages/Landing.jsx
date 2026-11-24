@@ -143,6 +143,7 @@ export default function Landing() {
               <p className="mt-2 text-neutral-300 leading-relaxed">
                 A book file audit is the first step of the SparkPrep A.P.P.S. It checks your cover and inside pages against the printer's rules before you upload. It finds problems like missing bleed, the wrong size or spine width, blurry pictures, screen colors and missing fonts, shows where each one is, and names the Amazon KDP or IngramSpark rule it breaks.
               </p>
+              <Link to="/audit?utm_source=home-audit-box" className="mt-3 inline-flex items-center gap-2 text-[#F3DC8A] font-semibold hover:text-white" data-testid="audit-box-cta">{freeAudit ? "Check my book free" : "Get my book audit"} <ArrowRight className="w-4 h-4" /></Link>
             </div>
 
             <div className="mt-8 flex flex-wrap gap-6 text-xs font-mono-spec tracking-widest text-neutral-500 uppercase">
@@ -287,10 +288,10 @@ export default function Landing() {
 
           <div className="grid md:grid-cols-12 gap-4 mt-14">
             {[
-              { icon: Ruler, title: "Sharp Pictures", desc: "Printing needs 300 DPI (dots per inch). SparkPrep shows which pictures will print blurry, in green, yellow or red.", span: "md:col-span-5", accent: true },
+              { icon: Ruler, title: "Sharp Pictures", desc: "Printing needs 300 DPI (dots per inch). SparkPrep shows which pictures will print blurry, in green, yellow or red.", span: "md:col-span-5", accent: true, link: ["/image-dpi-checker/", "Check a picture free"] },
               { icon: Palette, title: "Print-Safe Colors", desc: "Screens make color with light (RGB). Printers use ink (CMYK). SparkPrep switches your colors over in one click.", span: "md:col-span-4" },
               { icon: Layers, title: "No Print Surprises", desc: "See-through effects and stacked layers can print wrong. SparkPrep merges them into one flat picture for you.", span: "md:col-span-3" },
-              { icon: Zap, title: "The Right Spine Size", desc: "Type your page count. Get the exact spine width for your paper.", span: "md:col-span-4" },
+              { icon: Zap, title: "The Right Spine Size", desc: "Type your page count. Get the exact spine width for your paper.", span: "md:col-span-4", link: ["/book-spine-width-calculator/", "Spine width calculator"] },
               { icon: FileCheck2, title: "A File Printers Accept", desc: "Your finished PDF has every font built in, sharp pictures, and the exact size and bleed (the extra edge printers trim off). It's saved the way printers ask for (PDF/X-1a).", span: "md:col-span-5", accent: true },
               { icon: CheckCircle2, title: "Built for 4 Printers", desc: "Amazon KDP, IngramSpark, Barnes & Noble Press and Lulu, each checked against its own rules.", span: "md:col-span-3" },
             ].map((f, i) => (
@@ -301,9 +302,15 @@ export default function Landing() {
                 <div>
                   <h3 className="font-display font-bold text-2xl tracking-tight text-white">{f.title}</h3>
                   <p className="text-neutral-400 text-sm mt-2 leading-relaxed">{f.desc}</p>
+                  {f.link ? <a href={f.link[0]} className="mt-3 inline-flex items-center gap-1.5 text-sm text-[#D4AF37] font-semibold hover:text-white">{f.link[1]} <ArrowRight className="w-3.5 h-3.5" /></a> : null}
                 </div>
               </div>
             ))}
+          </div>
+          {/* In-flow buttons (2026-11-24, Trey): every section ends with the next step it talks about. */}
+          <div className="mt-10 flex flex-wrap items-center gap-4" data-testid="checks-ctas">
+            <Link to="/audit?utm_source=home-checks" className="btn-gold px-7 py-4 font-mono-spec text-xs tracking-widest uppercase btn-industrial inline-flex items-center gap-2" data-testid="checks-cta-audit"><Search className="w-4 h-4" /> {freeAudit ? "Check my book for these, free" : "Check my book for these"}</Link>
+            <Link to="/register" className="px-7 py-4 border border-[#D4AF37] text-[#F3DC8A] font-mono-spec text-xs tracking-widest uppercase hover:bg-[#D4AF37]/10 inline-flex items-center gap-2" data-testid="checks-cta-book">Fix them all with the A.P.P.S. <ArrowRight className="w-4 h-4" /></Link>
           </div>
         </div>
       </section>
@@ -320,6 +327,10 @@ export default function Landing() {
                 <div className={`font-display font-bold text-xl mt-4 tracking-tight ${i === 4 ? "text-[#D4AF37]" : "text-white"}`}>{step}</div>
               </div>
             ))}
+          </div>
+          <div className="mt-10 flex flex-wrap items-center gap-4" data-testid="steps-ctas">
+            <Link to="/register" className="btn-gold px-7 py-4 font-mono-spec text-xs tracking-widest uppercase btn-industrial inline-flex items-center gap-2" data-testid="steps-cta-book"><Zap className="w-4 h-4" /> Start step 1 now</Link>
+            <Link to="/interior-studio" className="text-neutral-300 hover:text-white underline decoration-[#D4AF37] underline-offset-4" data-testid="steps-cta-interior">No file yet? Write and format it in Interior Studio, free</Link>
           </div>
         </div>
       </section>
@@ -340,6 +351,9 @@ export default function Landing() {
               </details>
             ))}
           </div>
+          <p className="mt-8 text-neutral-300" data-testid="faq-cta">
+            Still not sure? <Link to="/audit?utm_source=home-faq" className="text-[#F3DC8A] font-semibold underline underline-offset-4 hover:text-white">{freeAudit ? "Check your book free" : "Get a book audit"}</Link> and see what SparkPrep finds, or <a href="/automated-publishing-production-system/" className="text-[#F3DC8A] font-semibold underline underline-offset-4 hover:text-white">read what an A.P.P.S. does</a>.
+          </p>
         </div>
       </section>
 

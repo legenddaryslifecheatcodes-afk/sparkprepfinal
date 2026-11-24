@@ -111,19 +111,43 @@
   <!-- GUIDES START (written by scripts/build-guides.mjs) -->
   <url>
     <loc>https://sparkprep.legenddary.com/guides/</loc>
-    <lastmod>2026-11-20</lastmod>
+    <lastmod>2026-11-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://sparkprep.legenddary.com/guides/why-pdf-pictures-print-blurry/</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://sparkprep.legenddary.com/guides/ebook-vs-paperback-vs-hardcover-first-book/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://sparkprep.legenddary.com/guides/childrens-book-size-and-cover-guide/</loc>
+    <lastmod>2026-11-22</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://sparkprep.legenddary.com/guides/how-to-self-publish-a-poetry-book/</loc>
+    <lastmod>2026-11-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://sparkprep.legenddary.com/guides/what-is-bleed-in-book-printing/</loc>
-    <lastmod>2026-11-20</lastmod>
+    <lastmod>2026-11-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sparkprep.legenddary.com/guides/kdp-trim-sizes-which-book-size-to-choose/</loc>
-    <lastmod>2026-11-19</lastmod>
+    <lastmod>2026-11-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>

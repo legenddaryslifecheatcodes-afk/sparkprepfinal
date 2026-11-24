@@ -176,7 +176,12 @@ function article(g, all) {
   const faq = g.faq || [];
   // The short "quick answer" (40-60 words) is shown as a card under the lead
   // (featured-snippet target) and goes first in the FAQPage data.
-  const faqLd = g.answer ? [g.answer, ...faq] : faq;
+  // Optional `definition` ({term, q, a, points[]}): a "What is X?" H2 right
+  // under the lead with a 40-60 word plain-English definition and a short list
+  // (definition-box / featured-snippet target). It also goes first in the
+  // FAQPage data and is published as a DefinedTerm in the glossary term set.
+  const d = g.definition;
+  const faqLd = [...(d ? [{ q: d.q, a: d.a }] : []), ...(g.answer ? [g.answer] : []), ...faq];
   const schema = {
     "@context": "https://schema.org",
     "@graph": [
@@ -200,6 +205,9 @@ function article(g, all) {
           { "@type": "ListItem", position: 3, name: g.h1, item: url },
         ],
       },
+      ...(d
+        ? [{ "@type": "DefinedTerm", "@id": `${url}#definition`, name: d.term, description: strip(d.a), url: `${url}#definition`, inDefinedTermSet: { "@id": `${SITE}/glossary/#termset` } }]
+        : []),
       ...(faqLd.length
         ? [{ "@type": "FAQPage", mainEntity: faqLd.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: strip(f.a) } })) }]
         : []),
@@ -215,7 +223,12 @@ function article(g, all) {
   <h1>${esc(g.h1)}</h1>
   <p class="note">Updated ${prettyDate(g.updated || g.date)} · ${esc(g.platforms || "")}</p>
   <p class="lead">${g.lead || ""}</p>
-${g.answer ? `  <div class="card" id="answer"><p style="margin:0"><strong>${esc(g.answer.q)}</strong> ${esc(g.answer.a)}</p></div>
+${d ? `  <h2 id="definition">${esc(d.q)}</h2>
+  <p><strong>${esc(d.term)}</strong>${esc(d.a.startsWith(d.term) ? d.a.slice(d.term.length) : `: ${d.a}`)}</p>
+${d.points && d.points.length ? `  <ul>
+${d.points.map((p) => `    <li>${p}</li>`).join("\n")}
+  </ul>
+` : ""}` : ""}${g.answer ? `  <div class="card" id="answer"><p style="margin:0"><strong>${esc(g.answer.q)}</strong> ${esc(g.answer.a)}</p></div>
 ` : ""}
 ${g.manual ? treyFormat(g, diy) : `${g.body ? g.body : `  <h2>1. The error${errorHeading(g) ? `: ${q(errorHeading(g))}` : ""}</h2>
   <blockquote>${esc(g.error)}</blockquote>

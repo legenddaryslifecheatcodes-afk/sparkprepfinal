@@ -119,7 +119,7 @@ export default function Landing() {
             <div className="max-w-xl border-l-2 border-[#D4AF37] bg-[#D4AF37]/[0.06] px-5 py-4" data-testid="hero-what-is">
               <h2 className="font-display font-bold text-xl text-white tracking-tight">What is SparkPrep?</h2>
               <p className="mt-2 text-neutral-200 leading-relaxed">
-                Legenddary SparkPrep is an <a href="/automated-publishing-production-system/" className="text-white underline decoration-[#D4AF37]/60 underline-offset-4 hover:text-[#D4AF37]">Automated Publishing Production System (A.P.P.S.)</a>: one system that helps you make your book, find and fix every print problem, and export print-ready files before you publish.
+                Legenddary SparkPrep is an <a href="/automated-publishing-production-system/" className="text-white underline decoration-[#D4AF37]/60 underline-offset-4 hover:text-[#D4AF37]">Automated Publishing Production System (A.P.P.S.)</a>: one system that does the jobs of book formatting, typesetting, cover design, preflight checking and prepress. It builds your book, checks it against Amazon KDP and IngramSpark print rules, fixes what it safely can, and re-checks each fix before you print.
               </p>
             </div>
 
@@ -191,7 +191,7 @@ export default function Landing() {
               </h2>
               <p className="mt-6 font-display font-bold italic text-2xl text-[#D4AF37]">Power without complexity.</p>
               <p className="mt-6 text-lg text-neutral-300 max-w-xl leading-relaxed">
-                Formatting, preflight and prepress used to be separate tools and separate people. In the SparkPrep A.P.P.S. they are parts of one system: design your cover, write and format your pages, check them against Amazon KDP and IngramSpark's print rules, fix every problem, and download print-ready files. <span className="text-white font-semibold">Everything you need to publish, in one place</span>, in plain English.
+                Formatting, preflight and prepress used to be separate tools and separate people. In the SparkPrep A.P.P.S. they are parts of one system: design your cover, write and format your pages, check them against Amazon KDP and IngramSpark's print rules, fix what it safely can, and download print-ready files. <span className="text-white font-semibold">Everything you need to publish, in one place</span>, in plain English.
               </p>
               {/* A.P.P.S. positioning (2026-11-18, Trey's wording). */}
               <div className="mt-8 max-w-xl border border-[#D4AF37]/30 px-5 py-4" data-testid="apps-positioning">
@@ -205,7 +205,7 @@ export default function Landing() {
               <div className="border-l-2 border-[#D4AF37] bg-[#D4AF37]/[0.06] px-5 py-4" data-testid="suite-definition">
                 <h3 className="font-display font-bold text-lg text-white tracking-tight">What is SparkPrep?</h3>
                 <p className="mt-2 text-neutral-300 leading-relaxed">
-                  Legenddary&apos;s SparkPrep is an <a href="/automated-publishing-production-system/" className="text-white underline decoration-[#D4AF37]/60 underline-offset-2 hover:text-[#D4AF37]">Automated Publishing Production System (A.P.P.S.)</a>: one system that helps authors make their book, find and fix every print problem, and export print-ready files before they publish. It brings cover design, page formatting, a preflight check against the print rules of Amazon KDP, IngramSpark, Barnes &amp; Noble and Lulu, automatic fixes and a second check together in one place.
+                  Legenddary&apos;s SparkPrep is an <a href="/automated-publishing-production-system/" className="text-white underline decoration-[#D4AF37]/60 underline-offset-2 hover:text-[#D4AF37]">Automated Publishing Production System (A.P.P.S.)</a>: one system that does the jobs of book formatting, typesetting, cover design, preflight checking and prepress. It builds your book, checks it against Amazon KDP and IngramSpark print rules, fixes what it safely can, and re-checks each fix before you print. It also covers Barnes &amp; Noble Press and Lulu, and exports print-ready PDF/X-1a files.
                 </p>
               </div>
               <div className="mt-6 flex flex-wrap gap-6 text-xs font-mono-spec tracking-widest text-neutral-500 uppercase">

@@ -17,11 +17,23 @@ const SOURCES = {
 export const HOME_FAQ = [
   {
     q: "What is an Automated Publishing Production System?",
-    a: "An Automated Publishing Production System (A.P.P.S.) is the next step in the evolution of self-publishing. Publishing software started as separate tools for formatting, preflight, prepress and cover design. An A.P.P.S. brings them into one system that makes your book, checks it against the printer's rules, fixes the problems and double-checks every fix. Legenddary SparkPrep is the category pioneer.",
+    a: "An Automated Publishing Production System (A.P.P.S.) is one system that does the jobs of book formatting, typesetting, cover design, preflight checking and prepress: it builds your book, checks it against Amazon KDP and IngramSpark print rules, fixes what it safely can, and re-checks each fix before you print. It is the next step in the evolution of self-publishing, and Legenddary SparkPrep is the category pioneer.",
   },
   {
     q: "What is SparkPrep?",
-    a: "Legenddary's SparkPrep is an Automated Publishing Production System (A.P.P.S.): one system that helps authors make their book, find and fix every print problem, and export print-ready files before they publish. It brings cover design, page formatting, a preflight check against the print rules of Amazon KDP, IngramSpark, Barnes & Noble and Lulu, automatic fixes and a second check together in one place.",
+    a: "Legenddary's SparkPrep is an Automated Publishing Production System (A.P.P.S.): one system that does the jobs of book formatting, typesetting, cover design, preflight checking and prepress. It builds your book, checks it against Amazon KDP and IngramSpark print rules, fixes what it safely can, and re-checks each fix before you print. It also covers Barnes & Noble Press and Lulu, and exports print-ready PDF/X-1a files.",
+  },
+  {
+    q: "Is an A.P.P.S. the same as book formatting or typesetting software?",
+    a: "No. Book formatting and typesetting are one of the jobs an A.P.P.S. does. It also designs the cover, checks the whole book against Amazon KDP and IngramSpark print rules, fixes what it safely can and re-checks each fix.",
+  },
+  {
+    q: "Is an A.P.P.S. a preflight checker?",
+    a: "Preflight checking is one part of an A.P.P.S. A preflight checker only reports problems. An A.P.P.S. also builds the book, fixes what it safely can and re-checks each fix before you print.",
+  },
+  {
+    q: "Is an A.P.P.S. the same as prepress?",
+    a: "Prepress is the step that gets book files ready for the printer. An A.P.P.S. does prepress together with formatting, typesetting, cover design and preflight checking, in one system.",
   },
   {
     q: "Is the SparkPrep book file audit free?",

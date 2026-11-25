@@ -40,6 +40,9 @@ export default function Landing() {
           </span>
 
           <h1 className="mt-4" data-testid="hero-title">
+            <span className="block mb-3 font-display font-black italic text-2xl sm:text-3xl md:text-4xl text-white tracking-tight leading-tight" style={{ textShadow: "0 2px 12px rgba(0,0,0,0.9)" }} data-testid="hero-check-line">
+              {freeAudit ? "Free " : ""}KDP &amp; IngramSpark Book Check
+            </span>
             <span className="block font-display font-black italic tracking-tight leading-none text-[3.25rem] sm:text-[4.75rem] md:text-[6rem]" style={{ background: "linear-gradient(180deg, #FFF1B8 0%, #F3DC8A 25%, #D4AF37 60%, #9C7A2E 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", filter: "drop-shadow(0 0 22px rgba(229,193,88,0.55)) drop-shadow(0 4px 2px rgba(0,0,0,0.8))" }}>
               A.P.P.S.
             </span>
@@ -47,16 +50,11 @@ export default function Landing() {
               <span className="text-[#F3DC8A]">Automated Publishing</span> <span className="text-white">Production System</span>
             </span>
           </h1>
-          {/* Hero copy (2026-11-25, Trey): two short plain-English intro paragraphs, then his six numbered
+          {/* Hero copy (2026-11-25, Trey): his one-line intro (same words as the page's meta description), then his six numbered
               points, then the book box (CTAs unchanged), then his story. Prices come from /api/pricing. */}
-          <div className="mt-6 max-w-3xl mx-auto space-y-4 text-lg md:text-xl text-white leading-relaxed font-medium" style={{ textShadow: "0 2px 10px rgba(0,0,0,0.9)" }} data-testid="hero-intro">
-            <p>
-              <strong className="text-[#F3DC8A]">Legenddary SparkPrep</strong> is an Automated Publishing Production System (A.P.P.S.). In plain words, it is one place to get your book ready to print: design the cover, set up the inside pages, check everything against the printer's rules, and fix what is wrong.
-            </p>
-            <p>
-              It is made for self-published authors, especially first-timers. Amazon KDP and IngramSpark send files back for small technical problems like missing bleed or the wrong spine width. Legenddary SparkPrep finds those problems before you upload, so you are not left guessing why your book was rejected.
-            </p>
-          </div>
+          <p className="mt-6 max-w-3xl mx-auto text-lg md:text-2xl text-white leading-relaxed font-medium" style={{ textShadow: "0 2px 10px rgba(0,0,0,0.9)" }} data-testid="hero-intro">
+            <strong className="text-[#F3DC8A]">Legenddary SparkPrep A.P.P.S.</strong> checks, fixes and prepares print-ready books to meet KDP, IngramSpark, Lulu and Barnes &amp; Noble Press specifications.
+          </p>
 
           <ol className="mt-12 grid md:grid-cols-2 gap-4 md:gap-5 text-left" aria-label="What Legenddary SparkPrep does" data-testid="hero-points">
             {heroPoints(pricing, freeAudit).map(([title, body], i) => (

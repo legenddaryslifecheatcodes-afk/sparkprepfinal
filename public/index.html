@@ -24,6 +24,7 @@
         {
           "@context": "https://schema.org",
           "@type": "SoftwareApplication",
+          "@id": "https://sparkprep.legenddary.com/#app",
           "name": "Legenddary's SparkPrep",
           "alternateName": "SparkPrep",
           "publisher": { "@id": "https://sparkprep.legenddary.com/#org" },
@@ -43,12 +44,61 @@
             "AI writing help: spelling, grammar and wording suggestions",
             "Covers and pages made in the studios go straight into one book for checking and export"
           ],
-          "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD",
-            "description": "Free book file audit through December 31, 2026, plus free cover and page design tools"
-          }
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "Holiday Free Audit (full cover + page 1 of the interior)",
+              "price": "0.00",
+              "priceCurrency": "USD",
+              "priceValidUntil": "2026-12-31",
+              "availability": "https://schema.org/InStock",
+              "url": "https://sparkprep.legenddary.com/audit",
+              "description": "Free preflight audit of your full book cover and page 1 of your interior through December 31, 2026 (Pacific time), 2 per email. No credit card required and no account sign-up needed, just your email. Cover Studio, Interior Studio and the free tools stay free."
+            },
+            {
+              "@type": "Offer",
+              "name": "Advanced Audit (every interior page, up to 300)",
+              "price": "9.99",
+              "priceCurrency": "USD",
+              "priceValidUntil": "2026-12-31",
+              "availability": "https://schema.org/InStock",
+              "url": "https://sparkprep.legenddary.com/audit?plan=advanced",
+              "description": "Checks every page of your interior, up to 300 pages, against your printer's rules. Holiday price; the fee is credited toward your book."
+            },
+            {
+              "@type": "Offer",
+              "name": "One book: check, fix and print-ready export (cover and interior)",
+              "price": "74.99",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock",
+              "url": "https://sparkprep.legenddary.com/pricing",
+              "description": "One book, cover, interior or both, same price: full cover and inside-page check and fix (every page up to 300), print-ready PDF/X-1a files and 7 days of unlimited exports."
+            },
+            {
+              "@type": "Offer",
+              "name": "SparkPrep Membership",
+              "price": "9.99",
+              "priceCurrency": "USD",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": "9.99",
+                "priceCurrency": "USD",
+                "referenceQuantity": { "@type": "QuantitativeValue", "value": 1, "unitCode": "MON" }
+              },
+              "availability": "https://schema.org/InStock",
+              "url": "https://sparkprep.legenddary.com/pricing",
+              "description": "Monthly membership. Books are not included; it makes every book $49.99 instead of $74.99."
+            },
+            {
+              "@type": "Offer",
+              "name": "One book for members: check, fix and print-ready export",
+              "price": "49.99",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock",
+              "url": "https://sparkprep.legenddary.com/pricing",
+              "description": "The same book as the $74.99 option, for SparkPrep Membership members ($9.99/month)."
+            }
+          ]
         }
         </script>
 
@@ -78,6 +128,7 @@
               "@id": "https://legenddary.com/#org",
               "name": "Legenddary",
               "url": "https://legenddary.com/",
+              "slogan": "The evolution of self publishing",
               "subOrganization": { "@id": "https://sparkprep.legenddary.com/#org" }
             },
             {

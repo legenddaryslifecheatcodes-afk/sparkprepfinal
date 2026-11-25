@@ -511,6 +511,19 @@
     </video:video>
   </url>
   <url>
+    <loc>https://sparkprep.legenddary.com/features/book-editor-interior-formatter/</loc>
+    <lastmod>2026-11-25</lastmod>
+    <video:video>
+      <video:thumbnail_loc>https://sparkprep.legenddary.com/media/interior-formatter-demo-poster.jpg</video:thumbnail_loc>
+      <video:title>Legenddary SparkPrep Interior Studio: writing turns into printed pages</video:title>
+      <video:description>A 32-second silent screen recording of the real Interior Studio: chapters become printed pages, the book style changes, and the margins re-set when the printer changes from Amazon KDP to IngramSpark.</video:description>
+      <video:content_loc>https://sparkprep.legenddary.com/media/interior-formatter-demo.mp4</video:content_loc>
+      <video:duration>32</video:duration>
+      <video:publication_date>2026-11-25T15:00:00-08:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+  </url>
+  <url>
     <loc>https://sparkprep.legenddary.com/automated-publishing-production-system/</loc>
     <lastmod>2026-11-18</lastmod>
     <priority>0.9</priority>

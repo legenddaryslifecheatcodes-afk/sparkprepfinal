@@ -1,0 +1,25 @@
+/* Shared look for every Feature Library page (public/features/<feature>/). */
+  .crumbs{font-size:13px;color:var(--muted);margin-bottom:6px}
+  .crumbs a{color:var(--muted)}
+  .step-h{display:flex;align-items:baseline;gap:12px;margin-top:44px}
+  .step-h .num{font-weight:800;color:var(--gold);font-size:15px;letter-spacing:.08em}
+  .step-h h2{margin:0}
+  figure.shot{margin:22px 0;background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  figure.shot img,figure.shot video{display:block;width:100%;height:auto;background:#000}
+  figure.shot figcaption{padding:12px 16px;font-size:15px;color:var(--text);line-height:1.55}
+  figure.shot figcaption b{color:var(--gold-soft)}
+  .demo-ctl{display:flex;gap:10px;flex-wrap:wrap;padding:0 16px 14px}
+  .demo-ctl button,.asst button{font:inherit;font-size:14px;font-weight:700;border-radius:10px;padding:9px 14px;cursor:pointer;border:1px solid var(--gold);background:transparent;color:var(--gold-soft)}
+  .demo-ctl button.on,.asst button.primary{background:var(--gold);color:#111}
+  details.transcript{padding:0 16px 14px;font-size:14px;color:var(--muted)}
+  details.transcript summary{cursor:pointer;color:var(--gold-soft);font-weight:700}
+  ol.how{padding-left:22px}
+  ol.how li{margin:10px 0}
+  .asst{display:flex;gap:18px;align-items:flex-start;background:linear-gradient(135deg,#1d1806,#141414);border:1px solid #5a4a14;border-radius:16px;padding:18px;margin:20px 0}
+  .asst img{width:96px;height:96px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);flex-shrink:0;background:#000}
+  .asst .bubble{margin:10px 0 12px;background:#0f0f0f;border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:16px;line-height:1.6}
+  .asst .ctl{display:flex;gap:8px;flex-wrap:wrap}
+  .asst .speaking img{box-shadow:0 0 0 4px rgba(212,175,55,.45)}
+  .asst-off{font-size:14px;color:var(--muted)}
+  .asst-off button{font:inherit;background:none;border:0;color:var(--gold-soft);text-decoration:underline;cursor:pointer;padding:0}
+  @media (max-width:560px){.asst{flex-direction:column;align-items:center;text-align:left}.asst img{width:84px;height:84px}}

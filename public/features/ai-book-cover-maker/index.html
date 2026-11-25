@@ -24,32 +24,7 @@
 {"@type":"Question","name":"Will the AI misspell my book title?","acceptedAnswer":{"@type":"Answer","text":"No. The AI only paints the artwork. Your title, author name and back-cover words are set as real, editable text by the Cover Studio, because AI picture tools often misspell words."}},
 {"@type":"Question","name":"Which printers does the cover maker size covers for?","acceptedAnswer":{"@type":"Answer","text":"Amazon KDP, IngramSpark, Barnes & Noble Press and Lulu. Pick your printer, binding, trim size, paper and page count, and the front, spine and back are sized to that printer's own numbers. If you change the page count later, the spine and your design move with it."}}]}
 ]}</script>
-<style>
-  .crumbs{font-size:13px;color:var(--muted);margin-bottom:6px}
-  .crumbs a{color:var(--muted)}
-  .step-h{display:flex;align-items:baseline;gap:12px;margin-top:44px}
-  .step-h .num{font-weight:800;color:var(--gold);font-size:15px;letter-spacing:.08em}
-  .step-h h2{margin:0}
-  figure.shot{margin:22px 0;background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden}
-  figure.shot img,figure.shot video{display:block;width:100%;height:auto;background:#000}
-  figure.shot figcaption{padding:12px 16px;font-size:15px;color:var(--text);line-height:1.55}
-  figure.shot figcaption b{color:var(--gold-soft)}
-  .demo-ctl{display:flex;gap:10px;flex-wrap:wrap;padding:0 16px 14px}
-  .demo-ctl button,.asst button{font:inherit;font-size:14px;font-weight:700;border-radius:10px;padding:9px 14px;cursor:pointer;border:1px solid var(--gold);background:transparent;color:var(--gold-soft)}
-  .demo-ctl button.on,.asst button.primary{background:var(--gold);color:#111}
-  details.transcript{padding:0 16px 14px;font-size:14px;color:var(--muted)}
-  details.transcript summary{cursor:pointer;color:var(--gold-soft);font-weight:700}
-  ol.how{padding-left:22px}
-  ol.how li{margin:10px 0}
-  .asst{display:flex;gap:18px;align-items:flex-start;background:linear-gradient(135deg,#1d1806,#141414);border:1px solid #5a4a14;border-radius:16px;padding:18px;margin:20px 0}
-  .asst img{width:96px;height:96px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);flex-shrink:0;background:#000}
-  .asst .bubble{margin:10px 0 12px;background:#0f0f0f;border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:16px;line-height:1.6}
-  .asst .ctl{display:flex;gap:8px;flex-wrap:wrap}
-  .asst .speaking img{box-shadow:0 0 0 4px rgba(212,175,55,.45)}
-  .asst-off{font-size:14px;color:var(--muted)}
-  .asst-off button{font:inherit;background:none;border:0;color:var(--gold-soft);text-decoration:underline;cursor:pointer;padding:0}
-  @media (max-width:560px){.asst{flex-direction:column;align-items:center;text-align:left}.asst img{width:84px;height:84px}}
-</style>
+<link rel="stylesheet" href="/features/feature-page.css">
 </head>
 <body>
 <header class="site">
@@ -178,55 +153,12 @@
     <li><a href="/book-spine-width-calculator/">Book spine width calculator</a></li>
     <li><a href="/kdp-cover-calculator/">KDP cover size calculator</a></li>
     <li><a href="/templates/">224 free book cover templates</a></li>
+    <li><a href="/features/book-editor-interior-formatter/">Feature: Book Editor &amp; Interior Formatter</a></li>
     <li><a href="/guides/fix-cover-wrong-size/">Fix: cover is the wrong size</a></li>
   </ul>
   <p class="note">Legenddary SparkPrep is an independent tool and is not affiliated with Amazon KDP, IngramSpark, Barnes &amp; Noble Press or Lulu. Final approval of any file is always up to the publisher.</p>
 </main>
 <footer class="site">© Legenddary SparkPrep, a <a href="https://legenddary.com/">Legenddary</a> product · <a href="/">Home</a><a href="/about/">About</a><a href="/tools/">Free tools</a><a href="/guides/">Guides</a><a href="/pricing">Pricing</a></footer>
-<script>
-(function () {
-  // Demo video: never autoplays. It starts only when the visitor presses play, then loops silently.
-  var v = document.getElementById("demo"), b = document.getElementById("demo-play");
-  if (v && b) {
-    b.addEventListener("click", function () {
-      if (v.paused) { v.play(); b.textContent = "Pause the demo"; } else { v.pause(); b.textContent = "Play the demo"; }
-    });
-    v.addEventListener("click", function () { b.click(); });
-  }
-
-  // The assistant: opt-in only. Nothing is spoken until the visitor presses play. Uses the browser's own voice.
-  var KEY = "sp_feature_assistant_off";
-  var box = document.getElementById("asst"), offMsg = document.getElementById("asst-offmsg");
-  var play = document.getElementById("asst-play"), mute = document.getElementById("asst-mute"), replay = document.getElementById("asst-replay");
-  var text = document.getElementById("asst-text").textContent;
-  var synth = window.speechSynthesis, muted = false;
-  function isOff() { try { return localStorage.getItem(KEY) === "1"; } catch (e) { return false; } }
-  function setOff(on) { try { on ? localStorage.setItem(KEY, "1") : localStorage.removeItem(KEY); } catch (e) {} }
-  function show(on) { box.hidden = !on; offMsg.hidden = on; if (!on && synth) synth.cancel(); }
-  if (!synth) { play.hidden = true; document.getElementById("asst-note").insertAdjacentText("afterbegin", "Your browser can't play his voice, so here's what he says. "); }
-  function speak() {
-    if (!synth) return;
-    synth.cancel();
-    var u = new SpeechSynthesisUtterance(text);
-    u.rate = 1; u.pitch = 1.05; muted = false; mute.textContent = "Mute";
-    var en = synth.getVoices().filter(function (x) { return /^en(-|_)US/i.test(x.lang); });
-    if (en.length) u.voice = en[0];
-    u.onstart = function () { box.classList.add("speaking"); };
-    u.onend = u.onerror = function () { box.classList.remove("speaking"); };
-    synth.speak(u);
-    play.hidden = true; mute.hidden = false; replay.hidden = false;
-  }
-  play.addEventListener("click", speak);
-  replay.addEventListener("click", speak);
-  mute.addEventListener("click", function () {
-    muted = !muted; mute.textContent = muted ? "Unmute" : "Mute";
-    if (!synth) return;
-    if (muted) synth.pause(); else if (synth.paused) synth.resume(); else speak();
-  });
-  document.getElementById("asst-off").addEventListener("click", function () { setOff(true); show(false); });
-  document.getElementById("asst-on").addEventListener("click", function () { setOff(false); show(true); });
-  show(!isOff());
-})();
-</script>
+<script src="/features/feature-page.js" defer></script>
 </body>
 </html>

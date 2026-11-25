@@ -3,7 +3,7 @@ import Nav from "@/components/Nav";
 import { LogoMark, SparkPrepLogo } from "@/components/Logo";
 import BrandWatermark from "@/components/BrandWatermark";
 import GuaranteeSeal from "@/components/GuaranteeSeal";
-import { CheckCircle2, Check, Zap, FileCheck2, Palette, Ruler, Layers, Flame, ArrowRight, Gift, Search, Settings, ShieldCheck } from "lucide-react";
+import { CheckCircle2, Zap, FileCheck2, Ruler, Layers, Flame, ArrowRight, Gift, Search, Palette } from "lucide-react";
 import { usePricing, money, isBookModel, specialNote } from "@/lib/pricing";
 import { HOME_FAQ, FirstBookArticle } from "@/components/FirstBookArticle";
 import HomePriceBlock, { HeroPriceStrip } from "@/components/HomePriceBlock";
@@ -40,6 +40,9 @@ export default function Landing() {
           </span>
 
           <h1 className="mt-4" data-testid="hero-title">
+            <span className="block mb-3 font-display font-black italic text-2xl sm:text-3xl md:text-4xl text-white tracking-tight leading-tight" style={{ textShadow: "0 2px 12px rgba(0,0,0,0.9)" }} data-testid="hero-check-line">
+              {freeAudit ? "Free " : ""}KDP &amp; IngramSpark Book Check
+            </span>
             <span className="block font-display font-black italic tracking-tight leading-none text-[3.25rem] sm:text-[4.75rem] md:text-[6rem]" style={{ background: "linear-gradient(180deg, #FFF1B8 0%, #F3DC8A 25%, #D4AF37 60%, #9C7A2E 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", filter: "drop-shadow(0 0 22px rgba(229,193,88,0.55)) drop-shadow(0 4px 2px rgba(0,0,0,0.8))" }}>
               A.P.P.S.
             </span>
@@ -47,36 +50,23 @@ export default function Landing() {
               <span className="text-[#F3DC8A]">Automated Publishing</span> <span className="text-white">Production System</span>
             </span>
           </h1>
-          <p className="mt-5 text-lg md:text-2xl text-white max-w-3xl mx-auto leading-snug font-medium" style={{ textShadow: "0 2px 10px rgba(0,0,0,0.9)" }}>
-            A new approach to <span className="text-[#F3DC8A] font-bold">making</span>, <span className="text-[#F3DC8A] font-bold">checking</span> and <span className="text-[#F3DC8A] font-bold">fixing</span> your book <span className="text-[#F3DC8A] font-bold">for publishing</span>.
+          {/* Hero copy (2026-11-25, Trey): his one-line intro (same words as the page's meta description), then his six numbered
+              points, then the book box (CTAs unchanged), then his story. Prices come from /api/pricing. */}
+          <p className="mt-6 max-w-3xl mx-auto text-lg md:text-2xl text-white leading-relaxed font-medium" style={{ textShadow: "0 2px 10px rgba(0,0,0,0.9)" }} data-testid="hero-intro">
+            <strong className="text-[#F3DC8A]">Legenddary SparkPrep A.P.P.S.</strong> checks, fixes and prepares print-ready books to meet KDP, IngramSpark, Lulu and Barnes &amp; Noble Press specifications.
           </p>
 
-          {/* Left: what the system brings together. Right: its parts, as gold badges (like the mockup). */}
-          <div className="mt-10 grid md:grid-cols-2 gap-10 items-center text-left">
-            <div>
-              <p className="font-display font-black italic text-2xl md:text-3xl leading-tight text-white" data-testid="hero-positioning">
-                <span className="text-[#F3DC8A]">SparkPrep brings together everything</span> you need, in one powerful, easy-to-use system.
-              </p>
-              <ul className="mt-5 space-y-3 text-lg md:text-xl text-white font-medium">
-                {["Find every problem that could get your book rejected", "See if your book is ready to print", "Fix what it finds, then double-check every fix", "Export print-ready files with confidence"].map((t) => (
-                  <li key={t} className="flex items-start gap-3">
-                    <span className="mt-0.5 shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-black" style={{ background: "linear-gradient(180deg, #F3DC8A, #D4AF37 60%, #B8933E)" }}><Check className="w-4 h-4" strokeWidth={3.5} /></span>
-                    <span>{t}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <ul className="grid grid-cols-4 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-5" aria-label="Parts of the system" data-testid="hero-capabilities">
-              {[[Palette, "Cover & page design"], [Search, "Preflight check"], [Settings, "Prepress fixes"], [ShieldCheck, "Second check & export"]].map(([Icon, label]) => (
-                <li key={label} className="flex flex-col items-center text-center">
-                  <span className="w-14 h-14 md:w-20 md:h-20 rounded-full border-2 border-[#E5C158] bg-black/70 flex items-center justify-center shadow-[0_0_22px_rgba(229,193,88,0.45)]">
-                    <Icon className="w-7 h-7 md:w-9 md:h-9 text-[#F3DC8A]" strokeWidth={2.2} />
-                  </span>
-                  <span className="mt-2 md:mt-3 font-bold text-[11px] sm:text-sm md:text-base text-white leading-tight">{label}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <ol className="mt-12 grid md:grid-cols-2 gap-4 md:gap-5 text-left" aria-label="What Legenddary SparkPrep does" data-testid="hero-points">
+            {heroPoints(pricing, freeAudit).map(([title, body], i) => (
+              <li key={title} className="flex gap-4 rounded-2xl border border-[#D4AF37]/40 bg-black/70 p-5 md:p-6">
+                <span className="shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center font-display font-black text-xl md:text-2xl text-black" style={{ background: "linear-gradient(180deg, #F3DC8A, #D4AF37 60%, #B8933E)" }} aria-hidden="true">{i + 1}</span>
+                <div>
+                  <h2 className="font-display font-black italic text-xl md:text-2xl text-[#F3DC8A] leading-tight">{title}</h2>
+                  <p className="mt-2 text-base md:text-lg text-neutral-100 leading-relaxed">{body}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
 
           {/* The main action sells the whole book (2026-11-24, Trey: the hero advertises what pays; the free check
               lives in the banner above and in one small link here). Prices come from /api/pricing. */}
@@ -103,6 +93,30 @@ export default function Landing() {
               Not ready yet? <Link to="/audit" className="text-[#F3DC8A] font-semibold underline underline-offset-4 hover:text-white" data-testid="hero-cta-audit">{freeAudit ? "Check your book free first" : "Get a book audit first"}</Link>.
             </p>
           </div>
+
+          {/* Trey's story (2026-11-25), lightly smoothed. */}
+          <article className="mt-14 max-w-3xl mx-auto text-left border-l-4 border-[#D4AF37] bg-[#D4AF37]/[0.07] rounded-r-2xl px-5 md:px-10 py-8" aria-labelledby="hero-story-title" data-testid="hero-story">
+            <h2 id="hero-story-title" className="font-display font-black italic text-3xl md:text-4xl text-white tracking-tight leading-tight">
+              Struggle Gave Birth to <span className="text-[#F3DC8A]">Legenddary SparkPrep</span>
+            </h2>
+            <div className="mt-5 space-y-4 text-base md:text-lg text-neutral-100 leading-relaxed">
+              <p>Legenddary SparkPrep was born out of frustration, determination, and a desire to make a difference.</p>
+              <p>Bringing a book into the world isn't always easy. The process can be overwhelming, confusing, expensive, and at times discouraging. For independent authors and self-publishers, finding the right information, resources, and help can feel like an uphill battle.</p>
+              <p>We know because we've lived that struggle ourselves.</p>
+              <p>Legenddary SparkPrep grew out of that experience, with a simple belief: no author should have to walk that road feeling helpless or alone.</p>
+              <p>Our goal is to make publishing knowledge, practical resources, and professional help easier to reach for the people who need them. Whether you're writing your first manuscript, getting a book ready to publish, or building a career as an independent author, we want Legenddary SparkPrep to be a resource you can depend on.</p>
+              <p>We believe the hard things we go through can have a purpose beyond ourselves. What we learn from those challenges can make the road easier for someone else.</p>
+              <p>The struggle doesn't have to be for nothing. The pain doesn't have to be permanent. And what we build from it can last far longer than the hardship that inspired it.</p>
+              <p className="font-display font-bold italic text-xl md:text-2xl text-[#F3DC8A]">May our story inspire you to give birth to your own dreams, and never let the pain stop you.</p>
+              <p className="text-neutral-300">Joshua Davis, Founder</p>
+            </div>
+            <div className="mt-6 flex flex-wrap gap-x-6 gap-y-3">
+              <Link to="/register" className="btn-gold rounded-xl px-5 py-3 font-display font-black italic uppercase tracking-wide inline-flex items-center gap-2" data-testid="hero-story-cta">
+                <Zap className="w-5 h-5" strokeWidth={3} /> Start my book
+              </Link>
+              <Link to="/audit?utm_source=home-story" className="self-center text-[#F3DC8A] font-semibold underline underline-offset-4 hover:text-white" data-testid="hero-story-audit">{freeAudit ? "Check my book free" : "Get my book audit"}</Link>
+            </div>
+          </article>
 
           <p className="mt-8 font-display font-bold italic text-2xl md:text-3xl text-[#F3DC8A]" data-testid="hero-motto">Power without complexity.</p>
           <p className="mt-3 text-base text-neutral-200">
@@ -447,4 +461,24 @@ export default function Landing() {
       </footer>
     </div>
   );
+}
+
+// The six hero points (Trey, 2026-11-25). Prices and the free-check deadline come from /api/pricing.
+function heroPoints(pricing, freeAudit) {
+  const book = pricing?.book?.price_cents ? money(pricing.book.price_cents) : null;
+  const member = pricing?.membership?.book_price_cents ? money(pricing.membership.book_price_cents) : null;
+  const monthly = pricing?.membership?.price_cents ? money(pricing.membership.price_cents) : null;
+  const priceLine = book
+    ? `Legenddary SparkPrep gives you the tools, the checks and the fixes for ${book} per book. Members pay ${member || book} per book${monthly ? ` (membership is ${monthly} a month)` : ""}.`
+    : "Legenddary SparkPrep gives you the tools, the checks and the fixes for one low price per book.";
+  return [
+    freeAudit
+      ? ["Free Book Check", "Use our free book check before December 31. It looks at your whole cover and the first page of your inside pages for problems that get files rejected by Amazon KDP and IngramSpark. No account and no credit card, just your email. It's a smart first step before you submit."]
+      : ["Book Check First", "Start with a book check. It looks at your cover and inside pages for problems that get files rejected by Amazon KDP and IngramSpark, so you know what needs fixing before you submit."],
+    ["Finds the Problems", "The Legenddary SparkPrep A.P.P.S. (Automated Publishing Production System) looks through your book files for print problems, from missing bleed to the wrong spine width, so you know what needs attention before you submit."],
+    ["Fixes Them and Checks Again", "Finding problems is only the start. The A.P.P.S. fixes what it safely can, then checks each fix a second time, so your files line up with the printer's rules."],
+    ["Write, Design and Export in One Place", "Write and edit your book with the built-in book editor and writing helper. Make a cover with AI help or start from one of 224 templates. Format your inside pages and download print-ready files, all in one place. Your cover is built to the printer's size rules from the start, which helps avoid common layout mistakes."],
+    ["Costs Far Less Than Hiring It Out", `Why pay hundreds or even thousands of dollars for separate publishing services? ${priceLine}`],
+    ["Built for Every Major Printer", "The A.P.P.S. knows the print rules of Amazon KDP, IngramSpark, Barnes & Noble Press and Lulu. It checks your files against each one's rules before you submit. Final approval is always up to the publisher."],
+  ];
 }

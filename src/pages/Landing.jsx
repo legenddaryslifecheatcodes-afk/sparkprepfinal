@@ -424,6 +424,7 @@ export default function Landing() {
         <nav aria-label="Free tools" className="mb-4 flex flex-wrap justify-center gap-x-6 gap-y-2 normal-case tracking-normal text-neutral-400">
           <a href="/tools/" className="hover:text-white">Free tools</a>
           <a href="/guides/" className="hover:text-white">Guides</a>
+          <a href="/features/ai-book-cover-maker/" className="hover:text-white">AI Book Cover Maker</a>
           <a href="/answers/" className="hover:text-white">Quick answers</a>
           <a href="/automated-publishing-production-system/" className="hover:text-white">What is an A.P.P.S.?</a>
           <a href="/apps-vs-traditional-publishing-software/" className="hover:text-white">A.P.P.S. vs traditional software</a>

@@ -1,6 +1,8 @@
 # SparkPrep welcomes search engines and AI assistants.
 User-agent: *
 Allow: /
+# Members-only Author Studio: private pages, never for search
+Disallow: /studio
 
 # AI answer engines and assistants (named so it's clear they're welcome)
 User-agent: OAI-SearchBot
@@ -15,5 +17,6 @@ User-agent: Google-Extended
 User-agent: Applebot-Extended
 User-agent: Bingbot
 Allow: /
+Disallow: /studio
 
 Sitemap: https://sparkprep.legenddary.com/sitemap.xml

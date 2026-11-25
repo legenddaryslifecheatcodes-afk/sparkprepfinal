@@ -28,6 +28,12 @@ import AdminTraffic from "@/pages/AdminTraffic";
 // The Cover Studio carries its own drawing engine, so it loads only when someone opens it.
 const CoverStudio = lazy(() => import("@/pages/CoverStudio"));
 const InteriorStudio = lazy(() => import("@/pages/InteriorStudio"));
+// Legenddary SparkPrep Author Studio (members' workspace, 2026-11-25)
+const StudioHome = lazy(() => import("@/pages/studio/StudioHome"));
+const StudioBook = lazy(() => import("@/pages/studio/StudioBook"));
+const StudioTemplates = lazy(() => import("@/pages/studio/StudioTemplates"));
+const StudioLibrary = lazy(() => import("@/pages/studio/StudioLibrary"));
+const studioWait = <div className="min-h-screen bg-[#0a0908] p-10 text-sm font-mono-spec text-neutral-500">Opening the Author Studio…</div>;
 
 function Protected({ children }) {
   const { user, loading, openHouse, startGuest } = useAuth();
@@ -97,6 +103,11 @@ export default function App() {
           <Route path="/dashboard" element={<Protected><Dashboard /></Protected>} />
           <Route path="/editor/:id" element={<Protected><Editor /></Protected>} />
           <Route path="/account" element={<Protected><Account /></Protected>} />
+          <Route path="/studio" element={<Protected><Suspense fallback={studioWait}><StudioHome /></Suspense></Protected>} />
+          <Route path="/studio/book/:id" element={<Protected><Suspense fallback={studioWait}><StudioBook /></Suspense></Protected>} />
+          <Route path="/studio/templates" element={<Protected><Suspense fallback={studioWait}><StudioTemplates /></Suspense></Protected>} />
+          <Route path="/studio/library" element={<Protected><Suspense fallback={studioWait}><StudioLibrary /></Suspense></Protected>} />
+          <Route path="/studio/library/:slug" element={<Protected><Suspense fallback={studioWait}><StudioLibrary /></Suspense></Protected>} />
           <Route path="/payment/success" element={<PaymentSuccess />} />
           <Route path="/payment/cancel" element={<PaymentCancel />} />
           <Route path="*" element={<Navigate to="/" />} />

@@ -105,6 +105,7 @@ export default function Nav({ dark = true, heroLogo = false }) {
           {user ? (
             <>
               <Link to="/dashboard" className={linkCls} data-testid="nav-dashboard">Dashboard</Link>
+              <Link to="/studio" className="text-[#D4AF37] hover:text-[#F3DC8C] transition-colors" data-testid="nav-studio">Author Studio</Link>
               <Link to="/account" className={linkCls} data-testid="nav-account">Account</Link>
               <button onClick={logout} className={`${linkCls} font-mono-spec text-xs tracking-widest uppercase`} data-testid="nav-logout">Logout</button>
             </>

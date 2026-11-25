@@ -10,7 +10,7 @@ const SITE = "https://sparkprep.legenddary.com";
 // can bake the same ones into each page's HTML for crawlers that don't run JavaScript.
 
 // Private or one-off pages that should never show up in search results.
-const NOINDEX = /^\/(login|dashboard|editor|account|admin|beta|payment|audit\/[^/]+\/)/;
+const NOINDEX = /^\/(login|dashboard|editor|account|admin|beta|payment|studio|audit\/[^/]+\/)/;
 
 function setMeta(selector, attr, value) {
   let el = document.head.querySelector(selector);

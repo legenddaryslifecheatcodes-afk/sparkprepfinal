@@ -51,6 +51,8 @@ const PRICE_SCRIPT = `<script>
 (function(){fetch("https://sparkprep-v9fp.onrender.com/api/pricing").then(function(r){return r.json()}).then(function(p){
 var c=p&&p.book&&p.book.price_cents;if(!c)return;var d="$"+(c/100).toFixed(2);
 document.querySelectorAll(".sp-book-price").forEach(function(e){e.textContent=d+" per book";});
+var m=p.book.member_price_cents,f=p.membership&&p.membership.price_cents;
+if(m&&f)document.querySelectorAll(".sp-member-price").forEach(function(e){e.textContent="$"+(m/100).toFixed(2)+" per book with the $"+(f/100).toFixed(2)+"/month membership";});
 document.querySelectorAll(".sp-times").forEach(function(e){var x=Math.floor(Number(e.dataset.pro)/(c/100));if(x>=2)e.textContent=" That's about "+x+" times what SparkPrep costs.";});
 }).catch(function(){});})();
 </script>`;
@@ -59,6 +61,19 @@ const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replac
 const strip = (html) => html.replace(/<[^>]+>/g, "").replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&lt;/g, "<").replace(/&gt;/g, ">");
 const ld = (obj) => `<script type="application/ld+json">${JSON.stringify(obj).replace(/</g, "\\u003c")}</script>`;
 const prettyDate = (d) => new Date(`${d}T12:00:00Z`).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" });
+
+// The holiday free audit ends 2026-12-31 11:59 PM Pacific (backend config.py). A guide's optional `promo`
+// ({description, html}) is used only until then: `promo.description` replaces the meta description and
+// `promo.html` fills the <!-- FREE-AUDIT --> marker in the body. From Jan 1 the daily build drops both,
+// so no page keeps promising a free audit that has ended.
+const FREE_AUDIT_END = "2026-12-31";
+const FREE_AUDIT_ON = TODAY <= FREE_AUDIT_END;
+function applyPromo(g) {
+  const p = g.promo;
+  if (p && FREE_AUDIT_ON && p.description) g.description = p.description;
+  if (g.body) g.body = g.body.replace("<!-- FREE-AUDIT -->", p && FREE_AUDIT_ON ? p.html || "" : "");
+  return g;
+}
 
 const REQUIRED = ["slug", "category", "title", "h1", "description", "date", "cta"];
 
@@ -71,7 +86,7 @@ function load() {
     if (!CATEGORIES.some((c) => c.key === g.category)) throw new Error(`${f}: unknown category "${g.category}"`);
     if (!/^\d{4}-\d{2}-\d{2}$/.test(g.date)) throw new Error(`${f}: date must be YYYY-MM-DD`);
     if (!g.body) for (const k of g.manual ? ["error", "why"] : ["error", "why", "diy"]) if (!g[k]) throw new Error(`${f}: missing "${k}" (or give a "body")`);
-    return g;
+    return applyPromo(g);
   });
   return guides.filter((g) => g.date <= TODAY).sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : a.title.localeCompare(b.title)));
 }
@@ -182,11 +197,15 @@ function article(g, all) {
   // FAQPage data and is published as a DefinedTerm in the glossary term set.
   const d = g.definition;
   const faqLd = [...(d ? [{ q: d.q, a: d.a }] : []), ...(g.answer ? [g.answer] : []), ...faq];
+  // treyFormat's CTA always links the A.P.P.S. definition; body guides only when their own text does.
+  const mentionsApps = Boolean(g.manual) || JSON.stringify(g).includes("/automated-publishing-production-system/");
   const schema = {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": "Article",
+        "@id": `${url}#article`,
+        isPartOf: { "@id": `${SITE}/#website` },
         headline: g.h1,
         description: g.description,
         datePublished: g.date,
@@ -196,9 +215,14 @@ function article(g, all) {
         publisher: { "@type": "Organization", "@id": `${SITE}/#org`, name: "Legenddary's SparkPrep", logo: { "@type": "ImageObject", url: `${SITE}/brand/sparkprep-logo.png` } },
         image: `${SITE}/brand/sparkprep-logo.png`,
         articleSection: cat.name,
+        // Shared @ids from the homepage graph (2026-11-25, Trey's schema): a guide that is about SparkPrep
+        // itself says so, and every guide that links the A.P.P.S. definition points at that one term.
+        ...(g.aboutSparkPrep ? { about: { "@id": `${SITE}/#app` } } : {}),
+        ...(mentionsApps ? { mentions: { "@id": `${SITE}/automated-publishing-production-system/#term` } } : {}),
       },
       {
         "@type": "BreadcrumbList",
+        "@id": `${url}#breadcrumb`,
         itemListElement: [
           { "@type": "ListItem", position: 1, name: "SparkPrep", item: `${SITE}/` },
           { "@type": "ListItem", position: 2, name: "Guides", item: `${SITE}/guides/` },

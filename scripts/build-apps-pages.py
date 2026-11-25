@@ -125,7 +125,7 @@ POSITIONING = '''  <div class="pos">
 '''
 
 def crumbs(name, url):
-    return {"@type": "BreadcrumbList", "itemListElement": [
+    return {"@type": "BreadcrumbList", "@id": url + "#breadcrumb", "itemListElement": [
         {"@type": "ListItem", "position": 1, "name": "SparkPrep", "item": B + "/"},
         {"@type": "ListItem", "position": 2, "name": name, "item": url}]}
 

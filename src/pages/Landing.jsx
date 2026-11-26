@@ -427,6 +427,7 @@ export default function Landing() {
           <a href="/features/ai-book-cover-maker/" className="hover:text-white">AI Book Cover Maker</a>
           <a href="/features/book-editor-interior-formatter/" className="hover:text-white">Book Editor &amp; Interior Formatter</a>
           <a href="/features/ai-writing-assistant/" className="hover:text-white">AI Writing Assistant</a>
+          <a href="/features/automated-book-preflight/" className="hover:text-white">Automated Book Preflight</a>
           <a href="/answers/" className="hover:text-white">Quick answers</a>
           <a href="/automated-publishing-production-system/" className="hover:text-white">What is an A.P.P.S.?</a>
           <a href="/apps-vs-traditional-publishing-software/" className="hover:text-white">A.P.P.S. vs traditional software</a>

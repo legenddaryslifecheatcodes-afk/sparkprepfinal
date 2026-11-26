@@ -41,7 +41,11 @@ export default function Nav({ dark = true, heroLogo = false }) {
   const linkCls = dark ? "text-neutral-400 hover:text-white transition-colors" : "text-neutral-600 hover:text-neutral-900 transition-colors";
   return (
     <nav className={`relative md:sticky top-0 z-50 ${base}`} data-testid="top-nav">
-      <div className="max-w-7xl mx-auto relative flex flex-wrap items-center justify-between gap-y-1 px-6 py-4 overflow-visible">
+      {/* Wide screens (xl+): a 3-column grid. The big SparkPrep logo gets its own middle column, so the menu
+          links can never slide under it (it covered "Free Audit" at laptop widths, 2026-11-26); when space is
+          short the links wrap instead. Below xl the logo sits on its own row under the links (see the end). */}
+      <div className={`max-w-7xl mx-auto relative flex flex-wrap items-center justify-between gap-y-1 px-6 py-4 overflow-visible ${heroLogo ? "" : "xl:grid xl:grid-cols-[auto_minmax(216px,1fr)_auto] xl:gap-x-6"}`}>
+        <div className="contents xl:flex xl:items-center">
         <Link to="/" className="flex items-center gap-3" data-testid="nav-logo">
           <Logo dark={dark} compact />
           {/* Once scrolled, the SparkPrep logo moves here, small, beside the
@@ -53,6 +57,7 @@ export default function Nav({ dark = true, heroLogo = false }) {
         {/* "What is A.P.P.S.?" sits on the left, beside the brand (2026-11-21): on the right it slid under the
             big centered SparkPrep logo at desktop widths. */}
         <a href="/automated-publishing-production-system/" className={`${linkCls} order-last md:order-none w-full md:w-auto text-center md:text-left md:mr-auto md:ml-6 text-sm`} data-testid="nav-apps">What is A.P.P.S.?</a>
+        </div>
         {/* SparkPrep's own main logo -- the brand being promoted, so it gets
             the dead-center spot at a larger size than the Legenddary mark.
             Matches the size of the SparkPrep logo in the landing page's
@@ -74,14 +79,16 @@ export default function Nav({ dark = true, heroLogo = false }) {
             links (which stay in normal flow, so they keep their own
             default stacking) means only the portion below the bar, where
             nothing else is, actually reads as "breaking out." */}
-        {!heroLogo && <Link
-          to="/"
-          className={`hidden md:block absolute left-1/2 top-2 -translate-x-1/2 -z-10 pointer-events-none transition-opacity duration-300 ${scrolled ? "opacity-0" : "opacity-100"}`}
-          data-testid="nav-sparkprep-logo"
-          data-shrunk={scrolled ? "true" : "false"}
-        >
-          <SparkPrepLogo height={140} />
-        </Link>}
+        {!heroLogo && <div className="hidden xl:block relative self-stretch">
+          <Link
+            to="/"
+            className={`absolute left-1/2 -top-2 -translate-x-1/2 pointer-events-none transition-opacity duration-300 ${scrolled ? "opacity-0" : "opacity-100"}`}
+            data-testid="nav-sparkprep-logo"
+            data-shrunk={scrolled ? "true" : "false"}
+          >
+            <SparkPrepLogo height={140} />
+          </Link>
+        </div>}
         <div className="flex flex-wrap items-center justify-end gap-x-5 gap-y-2 text-sm">
           {user?.beta_active && (
             <Link to="/beta/feedback" className="font-mono-spec text-[10px] tracking-widest uppercase text-black bg-[#D4AF37] px-2.5 py-1.5 hover:brightness-110 btn-industrial" data-testid="nav-beta-badge">
@@ -127,7 +134,7 @@ export default function Nav({ dark = true, heroLogo = false }) {
             of them. Without this, SparkPrep's own logo was either invisible
             under 768px (the original bug) or overlapping nav text (the
             first attempt at fixing it). */}
-        {!heroLogo && <Link to="/" className="md:hidden w-full flex justify-center pt-1" data-testid="nav-sparkprep-logo-mobile">
+        {!heroLogo && <Link to="/" className="xl:hidden w-full flex justify-center pt-1" data-testid="nav-sparkprep-logo-mobile">
           <SparkPrepLogo height={64} />
         </Link>}
       </div>

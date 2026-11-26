@@ -1,0 +1,35 @@
+{
+ "slug": "how-to-format-a-book-interior-for-print",
+ "category": "start",
+ "date": "2026-12-01",
+ "title": "How to Format a Book Interior for Print: 8 Steps for KDP & IngramSpark | Legenddary's SparkPrep",
+ "h1": "How to format a book interior for print, in 8 steps",
+ "description": "A plain-English guide to formatting the inside pages of a printed book: trim size, margins by page count, bleed, fonts, pictures, page numbers, chapter starts and exporting a print-ready PDF for KDP or IngramSpark.",
+ "platforms": "Amazon KDP · IngramSpark",
+ "lead": "A Word document is not a book yet. The inside pages of a printed book need the right page size, a bigger margin near the fold, embedded fonts and sharp pictures. Here's the order to do it in, with the real numbers.",
+ "answer": {
+  "q": "How do you format a book interior for print?",
+  "a": "Set the page size to your trim size (for example 6\" x 9\"), set margins from your page count (KDP's inside margin is 0.375\" up to 150 pages, then grows), use a readable 10.5 to 12 pt book font, start chapters on a new page, use 300 DPI pictures, and export a PDF with every font embedded."
+ },
+ "body": "\n  <h2>1. Pick your trim size first</h2>\n  <p>Trim size is the size of the finished book. Set your document's page size to it <em>before</em> you format anything else, because changing it later moves every page. 6\" x 9\" is the most common for novels and non-fiction; 5\" x 8\" and 5.5\" x 8.5\" are popular for fiction. See <a href=\"/guides/kdp-trim-sizes-which-book-size-to-choose/\">which size to choose</a> and every size in the <a href=\"/specs\">printer spec library</a>.</p>\n\n  <h2>2. Set margins from your page count</h2>\n  <p>The inside margin (the one near the fold, called the gutter) must grow as the book gets thicker, or words disappear into the spine. KDP's minimums:</p>\n  <div class=\"table-wrap\"><table>\n    <tr><th>Pages</th><th>Inside margin</th></tr>\n    <tr><td>24 to 150</td><td>0.375\"</td></tr>\n    <tr><td>151 to 300</td><td>0.5\"</td></tr>\n    <tr><td>301 to 500</td><td>0.625\"</td></tr>\n    <tr><td>501 to 700</td><td>0.75\"</td></tr>\n    <tr><td>701 to 828</td><td>0.875\"</td></tr>\n  </table></div>\n  <p>Outside, top and bottom: at least 0.25\" (0.375\" if pictures run off the page). <strong>IngramSpark wants everything at least 0.5\" from every edge.</strong> Printing at both? Use 0.5\" or more all around. The free <a href=\"/book-margin-calculator/\">margin calculator</a> does this for your book.</p>\n  <p class=\"note\">From KDP's paperback margin table and IngramSpark's file creation guide, as used in our margin calculator.</p>\n\n  <h2>3. Only add bleed if pictures touch the edge</h2>\n  <p>Most novels don't need bleed. If a picture or color runs to the edge of the page, make each page 0.125\" wider and 0.25\" taller than the trim size, and stretch the picture into that extra area. See <a href=\"/guides/what-is-bleed-in-book-printing/\">what bleed is</a>.</p>\n\n  <h2>4. Choose a book font, not a screen font</h2>\n  <p>Use a serif font made for long reading (like Garamond, Caslon or Crimson) at about 10.5 to 12 pt with a little extra line spacing. Make sure you're allowed to use it in a printed book. See <a href=\"/guides/best-fonts-for-printing-a-book/\">the best fonts for printing</a>.</p>\n\n  <h2>5. Make it look like a book</h2>\n  <ul>\n    <li>Start each chapter on a new page (many books start on a right-hand page).</li>\n    <li>Indent paragraphs instead of putting blank lines between them, except the first paragraph of a chapter.</li>\n    <li>Justify the text and turn on hyphenation so there are no big gaps.</li>\n    <li>Page numbers on the pages, not on blank pages or the chapter's first page.</li>\n    <li>Front pages in order: title page, <a href=\"/guides/copyright-page-for-self-published-book/\">copyright page</a>, then contents if you have one.</li>\n  </ul>\n\n  <h2>6. Pictures: 300 DPI, black and white if the book is</h2>\n  <p>Every picture needs 300 DPI at the size it prints, or it looks soft. Check with the <a href=\"/image-dpi-checker/\">free DPI checker</a>. In a black-and-white book, use grayscale pictures; colored ones can be rejected. See <a href=\"/guides/fix-rgb-in-black-and-white-interior/\">color in a B&amp;W interior</a>.</p>\n\n  <h2>7. Export a print-ready PDF</h2>\n  <p>Export a PDF at exactly your trim size (plus bleed if you used it) with every font embedded. A plain \"Save as PDF\" can leave fonts out. See <a href=\"/guides/export-print-ready-pdf-from-word/\">exporting from Word</a>. IngramSpark asks for PDF/X-1a.</p>\n\n  <h2>8. Check it before you upload</h2>\n  <p>Your page count also sets your spine width, so check the PDF's final page count before you make the cover. Then check the whole interior: page size, margins, fonts, pictures. A <a href=\"/guides/what-is-a-proof-copy/\">proof copy</a> is the last check on paper.</p>\n\n  <h2>Or skip most of this</h2>\n  <p>Legenddary SparkPrep, an <a href=\"/automated-publishing-production-system/\">Automated Publishing Production System</a> (A.P.P.S.), has a free <a href=\"/features/book-editor-interior-formatter/\">Interior Studio</a>: write or import your Word file, pick a book style, and it sets the page size and margins from your printer's own numbers for you. Already have a PDF? Its check tells you exactly what's off.</p>",
+ "faq": [
+  {
+   "q": "What margins do I need for a KDP paperback?",
+   "a": "The inside margin depends on page count: 0.375 inch for 24 to 150 pages, 0.5 inch for 151 to 300, 0.625 inch for 301 to 500, 0.75 inch for 501 to 700 and 0.875 inch above that. Outside, top and bottom need at least 0.25 inch, or 0.375 inch with bleed."
+  },
+  {
+   "q": "What font size is best for a printed book?",
+   "a": "Most printed books use a serif font at about 10.5 to 12 point. Smaller trims and longer books lean toward 10.5 or 11 point; large print books go bigger."
+  },
+  {
+   "q": "Does my book interior need bleed?",
+   "a": "Only if pictures or colors run to the edge of the page. Most text-only books don't. If you use bleed, each page is 0.125 inch wider and 0.25 inch taller than the trim size."
+  }
+ ],
+ "cta": {
+  "text": "Already formatted? Upload your interior PDF and Legenddary SparkPrep checks the page size, margins, fonts and pictures against your printer's rules. Free through Dec 31.",
+  "button": "Check my interior free",
+  "href": "/audit?utm_source=guide-format-interior"
+ },
+ "updated": "2026-11-26"
+}

@@ -1,0 +1,35 @@
+{
+ "slug": "why-ingramspark-rejects-covers",
+ "category": "start",
+ "date": "2026-11-30",
+ "title": "Why IngramSpark Rejects Book Covers: 8 Real Reasons and Fixes | Legenddary's SparkPrep",
+ "h1": "Why IngramSpark rejects book covers: 8 real reasons, and how to fix each",
+ "description": "IngramSpark rejected your cover? These are the 8 reasons covers fail most, with the real wording from IngramSpark rejection emails: wrong spine width, no bleed, ink over 240%, template leftovers, ISBN mismatch and more.",
+ "platforms": "IngramSpark",
+ "lead": "IngramSpark checks every cover against its own template, and it is stricter than KDP. The founder of Legenddary SparkPrep had his own book fail to print 18 times. These are the reasons that keep coming up, with the real wording where we have it.",
+ "answer": {
+  "q": "Why does IngramSpark reject book covers?",
+  "a": "Most IngramSpark cover rejections come from a few problems: the spine width doesn't match the page count and paper, the art doesn't run 0.125\" past the trim (bleed), total ink goes over 240%, template guide lines are left in, or the barcode ISBN doesn't match the title. Each one has a clear fix."
+ },
+ "body": "\n  <h2>1. The spine is the wrong width</h2>\n  <blockquote>\"JACKET LAYOUT NOT BUILT TO SPEC. INCORRECT SPINE WIDTH — SPINE SHOULD BE 0.313\" FOR 78 PAGES. REDUCE SPINE TEXT TO FIT.\"</blockquote>\n  <p class=\"note\">Quoted from a real IngramSpark rejection.</p>\n  <p>IngramSpark's spine comes from your page count and <em>its</em> paper: white 50 lb is 512 pages per inch, creme 50 lb is 444. That's different from KDP, so a KDP cover usually doesn't fit. IngramSpark also builds covers for an even page count (197 pages is treated as 198). Fix: download a fresh template from IngramSpark's cover template generator with your final page count and paper. <a href=\"/guides/fix-spine-text-too-wide/\">Full fix</a>.</p>\n\n  <h2>2. No bleed</h2>\n  <blockquote>\"INSUFFICIENT OR NO BLEED ON COVER LAYOUT\"</blockquote>\n  <p class=\"note\">Quoted from a real IngramSpark rejection.</p>\n  <p>The background must run 0.125\" past every trim edge. If it stops at the trim, it's rejected. Fix: stretch the background into the bleed area of the template, not the words. <a href=\"/guides/fix-cover-bleed-error/\">Full fix</a>.</p>\n\n  <h2>3. Too much ink (over 240%)</h2>\n  <blockquote>\"Ink coverage exceeds 240%\"</blockquote>\n  <p class=\"note\">Quoted from IngramSpark rejection emails.</p>\n  <p>Add up cyan, magenta, yellow and black at any spot: IngramSpark's limit is 240%. Dark photos and \"rich black\" backgrounds often go over. KDP doesn't check this, so a cover can pass KDP and fail here. <a href=\"/guides/fix-ink-coverage-240/\">Full fix</a>.</p>\n\n  <h2>4. Template guide lines left in the file</h2>\n  <p>IngramSpark's template has colored boxes, labels and lines. If any are still in your exported PDF, they'd print on the book, so the file is sent back. Hide the template layer before exporting, but keep the file at the template's full size. <a href=\"/guides/fix-template-elements-on-cover/\">Full fix</a>.</p>\n\n  <h2>5. The barcode ISBN doesn't match</h2>\n  <p>Every edition has its own ISBN. If the barcode on your back cover carries the hardcover's ISBN on the paperback (or an old one), it's rejected. Make a new barcode with this edition's exact ISBN. <a href=\"/guides/fix-isbn-mismatch-on-cover/\">Full fix</a>.</p>\n\n  <h2>6. Text too close to the edge or the spine folds</h2>\n  <p>Words near the trim can be cut off, and spine words that touch the folds can wrap onto the front or back. Keep text well inside the safe area and leave space on both sides of the spine. <a href=\"/guides/fix-cover-text-too-close-to-edge/\">Full fix</a>.</p>\n\n  <h2>7. Not a print-ready PDF</h2>\n  <p>IngramSpark asks for PDF/X-1a: CMYK color, every font embedded, no live transparency or layers. A plain \"Save as PDF\" from Word or Canva often breaks these. <a href=\"/guides/fix-pdf-not-pdf-x1a/\">Full fix</a>, and <a href=\"/guides/fix-transparency-and-layers-in-pdf/\">flattening layers</a>.</p>\n\n  <h2>8. Dust jackets built like a paperback cover</h2>\n  <blockquote>\"JACKET LAYOUT NOT BUILT TO THE CORRECT SPECIFICATIONS\"</blockquote>\n  <p class=\"note\">Wording from IngramSpark rejection emails.</p>\n  <p>A jacket has flaps and folds a paperback doesn't. At IngramSpark the flaps are 3.25\" wide. A hardcover with a dust jacket also needs its own case cover file. <a href=\"/guides/fix-text-on-dust-jacket-fold/\">Full fix</a>.</p>\n\n  <h2>Why the same cover passed KDP</h2>\n  <p>KDP and IngramSpark use different paper (so different spines), different barcode areas, and only IngramSpark checks the 240% ink limit. One design can work at both, but each printer needs its own file. See <a href=\"/features/multi-platform-prep/\">one book, three printers</a> for the real numbers side by side.</p>\n\n  <h2>Catch it before IngramSpark does</h2>\n  <p>Each rejection can cost days. Legenddary SparkPrep, an <a href=\"/automated-publishing-production-system/\">Automated Publishing Production System</a> (A.P.P.S.), was built after those 18 rejections. It checks your cover for every reason above using IngramSpark's own numbers, and when you make your book with it, fixes what it safely can.</p>",
+ "faq": [
+  {
+   "q": "Is IngramSpark stricter than KDP about covers?",
+   "a": "Usually, yes. IngramSpark limits total ink to 240 percent, checks the spine against its own paper thickness, and wants a PDF/X-1a file, so a cover that passed KDP can still be rejected."
+  },
+  {
+   "q": "Can I use my KDP cover on IngramSpark?",
+   "a": "Usually not as is. The spine width is different because the paper is different, and the barcode area and ink limit differ too. Keep the design, but rebuild it on IngramSpark's own template."
+  },
+  {
+   "q": "Does IngramSpark charge to upload a fixed cover?",
+   "a": "IngramSpark says revisions are free since February 1, 2026. A rejection still costs time, so it's worth checking the file before you upload."
+  }
+ ],
+ "cta": {
+  "text": "Upload your cover, pick IngramSpark, and Legenddary SparkPrep checks spine width, bleed, ink, the safe area and more against IngramSpark's own numbers. Free through Dec 31.",
+  "button": "Check my cover for IngramSpark",
+  "href": "/audit?utm_source=guide-ingramspark-rejects-covers"
+ },
+ "updated": "2026-11-26"
+}

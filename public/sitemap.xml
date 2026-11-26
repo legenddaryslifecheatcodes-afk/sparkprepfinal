@@ -537,6 +537,19 @@
     </video:video>
   </url>
   <url>
+    <loc>https://sparkprep.legenddary.com/features/multi-platform-prep/</loc>
+    <lastmod>2026-11-26</lastmod>
+    <video:video>
+      <video:thumbnail_loc>https://sparkprep.legenddary.com/media/multi-platform-demo-poster.jpg</video:thumbnail_loc>
+      <video:title>Legenddary SparkPrep Multi-Platform Prep: one book, three printers</video:title>
+      <video:description>A 24-second silent screen recording of the real Cover Studio: the same 6 x 9 inch, 200-page book is switched from Amazon KDP to IngramSpark to Lulu, and the spine and full cover size change to each printer's own numbers.</video:description>
+      <video:content_loc>https://sparkprep.legenddary.com/media/multi-platform-demo.mp4</video:content_loc>
+      <video:duration>24</video:duration>
+      <video:publication_date>2026-11-26T19:00:00-08:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+  </url>
+  <url>
     <loc>https://sparkprep.legenddary.com/features/automated-book-preflight/</loc>
     <lastmod>2026-11-26</lastmod>
     <video:video>

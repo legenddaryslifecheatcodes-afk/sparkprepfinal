@@ -230,7 +230,7 @@ export default function AuditReport() {
                     <MapPin className="w-3 h-3" /> Where in your file
                   </div>
                   <div className="text-sm text-neutral-200 mt-1.5 font-mono-spec leading-relaxed break-words">
-                    Region: <span className="text-white">{f.pinpoint.region}</span>
+                    {f.pinpoint.region ? <>Region: <span className="text-white">{f.pinpoint.region}</span></> : <span className="text-neutral-400">See the explanation above</span>}
                     {f.pinpoint.actual_dpi != null && <> · Actual DPI: <span className="text-red-300">{f.pinpoint.actual_dpi}</span> / Required: <span className="text-white">{f.pinpoint.required_dpi || 300}</span></>}
                     {f.pinpoint.actual_pixels && <> · Actual: <span className="text-red-300">{f.pinpoint.actual_pixels[0]}×{f.pinpoint.actual_pixels[1]}px</span></>}
                     {f.pinpoint.required_pixels && <> · Required: <span className="text-white">{f.pinpoint.required_pixels[0]}×{f.pinpoint.required_pixels[1]}px</span></>}

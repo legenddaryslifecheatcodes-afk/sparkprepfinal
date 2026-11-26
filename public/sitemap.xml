@@ -537,6 +537,19 @@
     </video:video>
   </url>
   <url>
+    <loc>https://sparkprep.legenddary.com/features/automated-book-preflight/</loc>
+    <lastmod>2026-11-26</lastmod>
+    <video:video>
+      <video:thumbnail_loc>https://sparkprep.legenddary.com/media/preflight-demo-poster.jpg</video:thumbnail_loc>
+      <video:title>Legenddary SparkPrep book preflight check: a real practice file</video:title>
+      <video:description>A 31-second silent screen recording of the real free book check: a practice file is checked for Amazon KDP, 3 issues are found, and the report shows each problem, the rule it breaks and where it is.</video:description>
+      <video:content_loc>https://sparkprep.legenddary.com/media/preflight-demo.mp4</video:content_loc>
+      <video:duration>31</video:duration>
+      <video:publication_date>2026-11-26T14:00:00-08:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+  </url>
+  <url>
     <loc>https://sparkprep.legenddary.com/automated-publishing-production-system/</loc>
     <lastmod>2026-11-18</lastmod>
     <priority>0.9</priority>

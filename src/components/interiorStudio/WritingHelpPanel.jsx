@@ -46,6 +46,7 @@ export function useWritingHelp(editor, { title, genre }) {
     const id = ++runId.current;
     const groups = batches(lines);
     let found = 0;
+    let failed = false;
     for (let g = 0; g < groups.length; g += 1) {
       if (stop.current) break;
       setStatus(groups.length > 1 ? `Checking part ${g + 1} of ${groups.length}…` : "Reading your writing…");
@@ -63,12 +64,13 @@ export function useWritingHelp(editor, { title, genre }) {
         if (s === 401) setBlocked("login");
         else if (s === 402) setBlocked("book");
         else toast.error(fmtErr(e?.response?.data?.detail) || "Couldn't reach the AI writing helper. Try again shortly.");
+        failed = true; // never show "no mistakes found" for a check that didn't run
         break;
       }
     }
     if (id !== runId.current) return;
     setStatus(null);
-    setLastRun({ mode, found });
+    if (!failed) setLastRun({ mode, found });
   };
 
   const accept = (items) => {

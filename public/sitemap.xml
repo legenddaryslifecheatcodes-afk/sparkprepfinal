@@ -550,6 +550,19 @@
     </video:video>
   </url>
   <url>
+    <loc>https://sparkprep.legenddary.com/features/cover-template-designer/</loc>
+    <lastmod>2026-11-26</lastmod>
+    <video:video>
+      <video:thumbnail_loc>https://sparkprep.legenddary.com/media/cover-templates-demo-poster.jpg</video:thumbnail_loc>
+      <video:title>Legenddary SparkPrep Cover Template Designer: one book, many templates, any size</video:title>
+      <video:description>A 30-second silent screen recording of the real Cover Studio: the author's title appears on every template, the genre changes, two templates are tried on the same words, and the trim size changes with the cover re-fitting itself.</video:description>
+      <video:content_loc>https://sparkprep.legenddary.com/media/cover-templates-demo.mp4</video:content_loc>
+      <video:duration>30</video:duration>
+      <video:publication_date>2026-11-26T18:00:00-08:00</video:publication_date>
+      <video:family_friendly>yes</video:family_friendly>
+    </video:video>
+  </url>
+  <url>
     <loc>https://sparkprep.legenddary.com/automated-publishing-production-system/</loc>
     <lastmod>2026-11-18</lastmod>
     <priority>0.9</priority>

@@ -152,7 +152,7 @@ def build(p):
   </ul>
   <p class="note">{e(BRAND)}: the evolution of self-publishing. Power without complexity. SparkPrep is an independent tool and is not affiliated with Amazon KDP, IngramSpark, Barnes &amp; Noble Press or Lulu.</p>
 </main>
-<footer class="site">© {e(BRAND)}, a <a href="https://legenddary.com/">Legenddary</a> product · <a href="/">Home</a><a href="/answers/">Answers</a><a href="/about/">About</a><a href="/tools/">Free tools</a><a href="/guides/">Guides</a><a href="/pricing">Pricing</a></footer>
+<footer class="site">© {e(BRAND)}, a <a href="https://www.legenddary.com/">Legenddary</a> product · <a href="/">Home</a><a href="/answers/">Answers</a><a href="/about/">About</a><a href="/tools/">Free tools</a><a href="/guides/">Guides</a><a href="/pricing">Pricing</a></footer>
 </body>
 </html>
 ''')

@@ -79,6 +79,7 @@ function fieldName(el) {
 // otherwise on whichever side of the button covers the least of the rest of the page.
 const SIDES = ["right", "left", "below", "above"];
 const AVOID = "button,a[href],input,select,textarea,label,[role='button'],h1,h2,h3,p,img";
+const CLICKABLE = "button,a[href],input,select,textarea,[role='button']";
 
 function placeAt(side, r, vw, vh, w, h) {
   const midY = r.top + r.height / 2 - h / 2;
@@ -101,7 +102,8 @@ function bestSide(target, r, vw, vh, w, h, current) {
   for (const el of document.querySelectorAll(AVOID)) {
     if (el === target || target.contains(el) || el.contains(target) || el.closest("[data-next-step-ui]")) continue;
     const o = el.getBoundingClientRect();
-    if (o.width && o.height && o.bottom > 0 && o.top < vh) others.push(o);
+    // Covering another button or box (e.g. the form's own submit button on a phone) is much worse than covering text.
+    if (o.width && o.height && o.bottom > 0 && o.top < vh) others.push({ r: o, k: el.matches(CLICKABLE) ? 20 : 1 });
   }
   let best = SIDES[0];
   let bestCost = Infinity;
@@ -110,7 +112,7 @@ function bestSide(target, r, vw, vh, w, h, current) {
     const box = { left: p.x, top: p.y, right: p.x + w, bottom: p.y + h };
     // Covering the button itself is the worst; then anything else on the page; then a mild preference order.
     let cost = area(box, r) * 50 + i * 40;
-    for (const o of others) cost += area(box, o);
+    for (const o of others) cost += area(box, o.r) * o.k;
     if (side === current) cost *= 0.7; // don't hop sides over small differences
     if (cost < bestCost) { bestCost = cost; best = side; }
   });

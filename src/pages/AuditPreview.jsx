@@ -127,7 +127,7 @@ export default function AuditPreview() {
               <form data-testid="free-audit-offer" onSubmit={(e) => { e.preventDefault(); claimFree(); }}>
                 {!user && (
                   <label className="mt-7 block">
-                    <span className="block font-display font-bold text-lg text-white">What email should your results go to?</span>
+                    <span className="block font-display font-bold text-lg text-white">Type your email to see your results</span>
                     <input
                       type="email"
                       required

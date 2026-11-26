@@ -1,0 +1,35 @@
+{
+ "slug": "kdp-paperback-cover-requirements",
+ "category": "start",
+ "date": "2026-11-29",
+ "title": "KDP Paperback Cover Requirements: The Full Checklist (2026) | Legenddary's SparkPrep",
+ "h1": "KDP paperback cover requirements: the full checklist",
+ "description": "Every Amazon KDP paperback cover rule in plain English: one PDF, 0.125\" bleed, the cover size formula, spine width by paper, 300 DPI, spine text over 79 pages, and the mistakes that get covers rejected.",
+ "platforms": "Amazon KDP",
+ "lead": "KDP wants your paperback cover as one file that wraps around the whole book. Get a few numbers right and it goes through. Get one wrong and it comes back. Here is every rule, from KDP's own help pages, in plain English.",
+ "answer": {
+  "q": "What are the KDP paperback cover requirements?",
+  "a": "KDP wants one PDF with the back, spine and front together, 0.125\" bleed on every side, and images at 300 DPI or more. Cover width is bleed + back + spine + front + bleed. Keep text at least 0.125\" inside the trim, and only put words on the spine if the book has more than 79 pages."
+ },
+ "body": "\n  <h2>1. One file, three parts</h2>\n  <p>A KDP paperback cover is a <strong>single PDF</strong>: back cover on the left, spine in the middle, front cover on the right, as one continuous image. Not three files, and not just the front.</p>\n\n  <h2>2. The size: use this formula</h2>\n  <ul>\n    <li><strong>Width</strong> = 0.125\" bleed + back cover width + spine width + front cover width + 0.125\" bleed</li>\n    <li><strong>Height</strong> = 0.125\" bleed + trim height + 0.125\" bleed</li>\n  </ul>\n  <p>Example: a 6\" x 9\" book with 200 pages on white paper has a 0.451\" spine, so the cover is <strong>12.701\" x 9.25\"</strong>. Work out yours with the free <a href=\"/kdp-cover-calculator/\">KDP cover calculator</a> or see every size on <a href=\"/book-cover-dimensions/\">book cover dimensions</a>.</p>\n\n  <h2>3. The spine depends on your paper</h2>\n  <div class=\"table-wrap\"><table>\n    <tr><th>Paper</th><th>Spine = page count x</th><th>200 pages</th></tr>\n    <tr><td>White (black ink)</td><td>0.002252\"</td><td>0.451\"</td></tr>\n    <tr><td>Cream (black ink)</td><td>0.0025\"</td><td>0.5\"</td></tr>\n    <tr><td>Standard color</td><td>0.002252\"</td><td>0.451\"</td></tr>\n    <tr><td>Premium color</td><td>0.002347\"</td><td>0.469\"</td></tr>\n  </table></div>\n  <p>Change your page count or paper and the spine changes, so the whole cover changes. That's the most common reason a cover that \"used to fit\" gets rejected. More on this in <a href=\"/guides/white-vs-cream-paper-spine-width/\">white vs cream paper</a>.</p>\n\n  <h2>4. Bleed: color all the way past the edge</h2>\n  <p>Backgrounds and pictures must run <strong>0.125\" past the trim line</strong> on every side. That strip is cut off. If your background stops at the trim, you can get a thin white line on the edge of the printed book. See <a href=\"/guides/what-is-bleed-in-book-printing/\">what bleed is</a>.</p>\n\n  <h2>5. Keep words away from the edges</h2>\n  <ul>\n    <li>Text on the front and back: at least <strong>0.125\" inside the trim</strong>. KDP's guidelines also say anything you don't want cut off should be 0.25\" from the outside edge, so 0.25\" is the safer number.</li>\n    <li>No front or back text running onto the spine.</li>\n    <li>Text at least <strong>7 points</strong>, and a different enough color from the background to read.</li>\n  </ul>\n\n  <h2>6. Spine text: only on books over 79 pages</h2>\n  <p>KDP only prints spine text on books with <strong>more than 79 pages</strong>. A thinner book with spine text gets rejected. Keep spine words at least <strong>0.0625\"</strong> from each side of the spine, because the fold can shift a little.</p>\n\n  <h2>7. Pictures and color</h2>\n  <ul>\n    <li>At least <strong>300 DPI</strong> at the size they print. Check yours with the <a href=\"/image-dpi-checker/\">free DPI checker</a>.</li>\n    <li>KDP asks for images in <strong>CMYK</strong>, one color space, no spot colors. See <a href=\"/guides/rgb-vs-cmyk-book-cover/\">RGB vs CMYK</a>.</li>\n    <li>Flatten layers and transparency, and embed every font.</li>\n  </ul>\n\n  <h2>8. Leave room for the barcode</h2>\n  <p>You can add your own barcode, or leave the bottom of the back cover clear and KDP adds one. Don't put words or faces where it will go. See <a href=\"/guides/book-cover-barcode-placement/\">barcode placement</a>.</p>\n\n  <h2>9. Take these out before you upload</h2>\n  <ul>\n    <li>Crop marks, trim marks and color bars</li>\n    <li>Template guide lines and placeholder text</li>\n    <li>Watermarks or \"made with\" logos</li>\n    <li>Passwords or file locks</li>\n    <li>Emoji or odd symbols in the file name</li>\n  </ul>\n  <p>KDP lists each of these as a reason files fail. The title on your cover must also match the title you typed in KDP exactly.</p>\n  <p class=\"note\">All rules from KDP's <a href=\"https://kdp.amazon.com/en_US/help/topic/G201953020\" rel=\"nofollow noopener\">Create a Paperback Cover</a> and <a href=\"https://kdp.amazon.com/en_US/help/topic/G201857950\" rel=\"nofollow noopener\">Paperback Submission Guidelines</a> pages, checked November 26, 2026. KDP's limit is 650 MB per cover file; it recommends 40 MB or less.</p>\n\n  <h2>Check it in one pass</h2>\n  <p>That's a lot to get right by hand. Legenddary SparkPrep, an <a href=\"/automated-publishing-production-system/\">Automated Publishing Production System</a> (A.P.P.S.), checks your cover against every rule above for KDP and tells you exactly what's wrong and where. The free check covers your whole cover.</p>",
+ "faq": [
+  {
+   "q": "What file type does KDP want for a paperback cover?",
+   "a": "One PDF with the back cover, spine and front cover together as a single image. KDP's Cover Creator also takes JPG, PNG or GIF, but an uploaded cover must be a PDF."
+  },
+  {
+   "q": "How much bleed does a KDP cover need?",
+   "a": "0.125 inch on every side. Backgrounds and pictures should run 0.125 inch past the trim line so no white edge shows after cutting."
+  },
+  {
+   "q": "Can I put text on the spine of a thin book?",
+   "a": "Only if the book has more than 79 pages. KDP doesn't print spine text on thinner books and rejects covers that have it."
+  }
+ ],
+ "cta": {
+  "text": "Not sure your cover meets every KDP rule? Upload it and Legenddary SparkPrep checks size, spine, bleed, DPI, color and the safe area in one pass. Free through Dec 31.",
+  "button": "Check my cover free",
+  "href": "/audit?utm_source=guide-kdp-cover-requirements"
+ },
+ "updated": "2026-11-26"
+}

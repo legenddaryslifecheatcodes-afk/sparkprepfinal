@@ -426,6 +426,7 @@ export default function Landing() {
           <a href="/guides/" className="hover:text-white">Guides</a>
           <a href="/features/ai-book-cover-maker/" className="hover:text-white">AI Book Cover Maker</a>
           <a href="/features/book-editor-interior-formatter/" className="hover:text-white">Book Editor &amp; Interior Formatter</a>
+          <a href="/features/cover-template-designer/" className="hover:text-white">Cover Template Designer</a>
           <a href="/features/ai-writing-assistant/" className="hover:text-white">AI Writing Assistant</a>
           <a href="/features/automated-book-preflight/" className="hover:text-white">Automated Book Preflight</a>
           <a href="/features/multi-platform-prep/" className="hover:text-white">Multi-Platform Prep</a>

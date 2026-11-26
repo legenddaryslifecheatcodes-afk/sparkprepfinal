@@ -142,7 +142,7 @@ function footer(s) {
   return `<footer class="site"><div class="wrap"><div class="cols">
 <div><h2>Legenddary's SparkPrep</h2><ul>
 <li><a href="${MAIN_LINKS.home}">SparkPrep home</a></li>
-<li><a href="https://legenddary.com/">Legenddary (the company behind SparkPrep)</a></li>
+<li><a href="https://www.legenddary.com/">Legenddary (the company behind SparkPrep)</a></li>
 <li><a href="${MAIN_LINKS.audit}">Scan my book free</a></li>
 <li><a href="${MAIN_LINKS.coverStudio}">Cover Studio (free templates)</a></li>
 <li><a href="${MAIN_LINKS.interiorStudio}">Interior Studio (format your pages)</a></li>
@@ -155,7 +155,7 @@ function footer(s) {
 <li><a href="${MAIN_LINKS.guides}">All SparkPrep guides</a></li></ul></div>
 <div><h2>SparkPrep help sites</h2><ul>${SITES.map((x) => `<li><a href="https://${x.host}/">${esc(x.name)}</a></li>`).join("")}</ul></div>
 </div>
-<p class="legal">© 2026 <a href="https://legenddary.com/">Legenddary</a> · Legenddary's SparkPrep, made by Joshua Davis after his own book was rejected by the printer 18 times. Amazon KDP, IngramSpark, Barnes &amp; Noble Press and Lulu are trademarks of their owners; SparkPrep is not affiliated with them. Printer rules change, so always check your printer's current guide before you upload.</p>
+<p class="legal">© 2026 <a href="https://www.legenddary.com/">Legenddary</a> · Legenddary's SparkPrep, made by Joshua Davis after his own book was rejected by the printer 18 times. Amazon KDP, IngramSpark, Barnes &amp; Noble Press and Lulu are trademarks of their owners; SparkPrep is not affiliated with them. Printer rules change, so always check your printer's current guide before you upload.</p>
 </div></footer>`;
 }
 

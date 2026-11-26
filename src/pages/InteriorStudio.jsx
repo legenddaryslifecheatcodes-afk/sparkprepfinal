@@ -36,7 +36,7 @@ const STARTER = {
   type: "doc",
   content: [
     { type: "heading", attrs: { level: 1 }, content: [{ type: "text", text: "The Beginning" }] },
-    { type: "paragraph", content: [{ type: "text", text: "Start writing here, paste your book in, or bring in your Word file with the Import button at the top. Every line you type shows up on the printed pages on the right a moment later." }] },
+    { type: "paragraph", content: [{ type: "text", text: "Start writing here, paste your book in, or bring in your Word file with the Import button at the top. Every line you type shows up on the printed pages a moment later (on a phone, tap Pages to see them)." }] },
     { type: "paragraph", content: [{ type: "text", text: "Make a line a chapter title with the Style box (or Ctrl+Alt+1), and each chapter starts on its own page. Add a scene break for a pause inside a chapter." }] },
   ],
 };

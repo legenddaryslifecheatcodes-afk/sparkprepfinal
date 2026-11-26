@@ -460,8 +460,8 @@ export default function Landing() {
           <a href="https://sparkpreplandingnewauthor.legenddary.com/" className="hover:text-white">First book guide</a>
         </nav>
         <div className="mb-2 text-[#D4AF37]">Legenddary&apos;s SparkPrep · The Evolution of Self-Publishing · Power Without Complexity</div>
-        <div className="mb-2 normal-case tracking-normal text-neutral-500">SparkPrep is a <a href="https://legenddary.com/" className="text-neutral-300 underline hover:text-white">Legenddary</a> product.</div>
-        © <a href="https://legenddary.com/" className="hover:text-white">Legenddary</a> — Publish · Automate · Elevate · We Build. You Legenddary.
+        <div className="mb-2 normal-case tracking-normal text-neutral-500">SparkPrep is a <a href="https://www.legenddary.com/" className="text-neutral-300 underline hover:text-white">Legenddary</a> product.</div>
+        © <a href="https://www.legenddary.com/" className="hover:text-white">Legenddary</a> — Publish · Automate · Elevate · We Build. You Legenddary.
       </footer>
     </div>
   );

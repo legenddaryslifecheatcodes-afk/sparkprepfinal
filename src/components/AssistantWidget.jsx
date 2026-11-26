@@ -181,6 +181,9 @@ export default function AssistantWidget() {
 
   useEffect(() => {
     if (localStorage.getItem(HINT_SEEN_KEY)) return;
+    // On a phone the bubble lands on top of the page's own next-step card and buttons; the gold
+    // button (with its pulse) is enough there.
+    if (window.innerWidth < 768) return undefined;
     const t = setTimeout(() => setShowHint(true), 1800);
     return () => clearTimeout(t);
   }, []);

@@ -203,6 +203,19 @@ export class CoverEngine {
         nx = b.x + (cx - a.x) * sx;
         const s = Math.min(sx, sy);
         o.set({ scaleX: o.scaleX * s, scaleY: o.scaleY * s });
+        // The safe margin stays the same size while the panel shrinks, so a text box that filled the old
+        // safe area would now poke past it (a false "outside the safe area" warning after a smaller trim
+        // size). Narrow the box to the new safe width and keep it inside, if it was inside before.
+        if (o.type === "textbox") {
+          const m = this.geo?.safe_margin || 0.375;
+          const maxW = px(b.w - 2 * m) / (o.scaleX || 1);
+          if (o.width > maxW) { o.set({ width: maxW }); o.initDimensions?.(); }
+          const r = o.getBoundingRect();
+          const halfW = r.width / PPI / 2, halfH = r.height / PPI / 2;
+          const wasIn = cx - a.x >= m && a.x + a.w - cx >= m && cy - a.y >= m && a.y + a.h - cy >= m;
+          if (wasIn && halfW * 2 <= b.w - 2 * m) nx = Math.min(Math.max(nx, b.x + m + halfW), b.x + b.w - m - halfW);
+          if (wasIn && halfH * 2 <= b.h - 2 * m) ny = Math.min(Math.max(ny, b.y + m + halfH), b.y + b.h - m - halfH);
+        }
       }
       const before = o.getCenterPoint();
       o.setPositionByOrigin({ x: px(nx), y: px(ny) }, "center", "center");

@@ -77,13 +77,15 @@ function fieldName(el) {
 
 // Where the card parks itself: at the screen edge (pointing the way) when the button is scrolled out of view,
 // otherwise on whichever side of the button covers the least of the rest of the page.
-const SIDES = ["right", "left", "below", "above"];
+// "dock" = the bottom-left corner of a phone screen, for when every spot beside the button would cover another button.
+const SIDES = ["right", "left", "below", "above", "dock"];
 const AVOID = "button,a[href],input,select,textarea,label,[role='button'],h1,h2,h3,p,img";
 const CLICKABLE = "button,a[href],input,select,textarea,[role='button']";
 
 function placeAt(side, r, vw, vh, w, h) {
   const midY = r.top + r.height / 2 - h / 2;
   const midX = r.left + r.width / 2 - w / 2;
+  if (side === "dock") return { x: EDGE, y: vh - h - 16 };
   const p = side === "right" ? { x: r.right + 48, y: midY }
     : side === "left" ? { x: r.left - 48 - w, y: midY }
     : side === "below" ? { x: midX, y: r.bottom + 36 }
@@ -112,6 +114,7 @@ function bestSide(target, r, vw, vh, w, h, current) {
     const box = { left: p.x, top: p.y, right: p.x + w, bottom: p.y + h };
     // Covering the button itself is the worst; then anything else on the page; then a mild preference order.
     let cost = area(box, r) * 50 + i * 40;
+    if (side === "dock" && vw >= 640) cost = Infinity; // phones only
     for (const o of others) cost += area(box, o.r) * o.k;
     if (side === current) cost *= 0.7; // don't hop sides over small differences
     if (cost < bestCost) { bestCost = cost; best = side; }

@@ -159,9 +159,6 @@ export default function AuditReport() {
               <Link to={`/pricing?audit=${id}`} className="btn-gold px-8 py-4 font-mono-spec text-sm tracking-widest uppercase btn-industrial" data-testid="fix-all-now-btn" data-next-step="Fix it all">
                 Fix All of This Now
               </Link>
-              <a href="/fix-my-file/" className="border border-white text-white px-6 py-4 font-mono-spec text-xs tracking-widest uppercase hover:bg-white hover:text-black btn-industrial" data-testid="fix-my-file-link">
-                Or have us fix it for you
-              </a>
             </div>
           </div>
         )}

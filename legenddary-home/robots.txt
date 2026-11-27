@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /bbq-preview/
+
+Sitemap: https://www.legenddary.com/sitemap.xml

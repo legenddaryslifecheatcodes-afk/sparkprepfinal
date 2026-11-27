@@ -1,0 +1,23 @@
+# One-time helper: downloads the 3 homepage pictures that legenddary.com still loads from
+# Emergent's file server, so they can be saved in this repo. Uses no secrets.
+name: Fetch legenddary.com pictures from Emergent
+on:
+  push:
+    branches: [claude/legenddary-home-own-images]
+    paths: [.github/workflows/fetch-legenddary-images.yml]
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - run: |
+          mkdir img
+          B=https://customer-assets-eiarnc6j.emergentagent.net/job_sparkprep-awakening/artifacts
+          curl -fsS -o img/awakening-cover.png "$B/y2t5f80t_cover%20last%20final%20cover.png"
+          curl -fsS -o img/awakening-checklist.png "$B/16u8mwtf_ChatGPT%20Image%20Jul%2017%2C%202026%2C%2008_32_36%20PM.png"
+          curl -fsS -o img/legenddary-logo.png "$B/77z8wzk3_new%20legenddary%20logo%20for%20everything.png"
+          ls -la img; file img/*
+      - uses: actions/upload-artifact@v4
+        with:
+          name: legenddary-images
+          path: img/

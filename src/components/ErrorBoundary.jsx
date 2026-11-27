@@ -16,6 +16,8 @@ export default class ErrorBoundary extends Component {
 
   componentDidCatch(error, info) {
     console.error("Caught by ErrorBoundary:", error, info);
+    // Tell the owner's Insights page that a part of the page crashed (see public/track.js). Never throws.
+    try { window.spTrouble && window.spTrouble("crash", String((error && error.message) || error), ""); } catch (_) { /* ignore */ }
   }
 
   render() {

@@ -109,6 +109,8 @@ export default function Nav({ dark = true, heroLogo = false }) {
               (calculators, DPI checker, spec library, templates, guides), so one bright link gets them seen.
               The Specs and Pricing pages stay where they are; they're linked from the tools hub, the hero and footers. */}
           <a href="/tools/" className="font-display font-black text-sm md:text-base tracking-wide text-black px-3.5 py-1.5 rounded-md shadow-[0_0_16px_rgba(229,193,88,0.55)] hover:brightness-110 btn-industrial" style={{ background: "linear-gradient(180deg, #F3DC8A, #D4AF37 60%, #B8933E)" }} data-testid="nav-free-tools">Free Tools</a>
+          {/* Help & FAQ with the support email (Trey, 2026-11-27: "a place for them to reach out to"). */}
+          <a href="/faq/" className={linkCls} data-testid="nav-help">Help</a>
           {user ? (
             <>
               <Link to="/dashboard" className={linkCls} data-testid="nav-dashboard">Dashboard</Link>

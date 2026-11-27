@@ -146,7 +146,7 @@ export default function WritingHelpPanel({ wh, spellcheck, setSpellcheck }) {
           </div>
         )}
         {blocked === "login" && (
-          <div className="mt-3 text-xs p-2.5 pill-warn">AI writing help needs a free SparkPrep account. <Link to="/login?next=/interior-studio" className="underline font-semibold">Log in</Link> or <Link to="/register?next=/interior-studio" className="underline font-semibold">sign up</Link>. Your writing stays saved here while you do.</div>
+          <div className="mt-3 text-xs p-2.5 pill-warn">AI writing help comes with a SparkPrep book. Already have one? <Link to="/login?next=/interior-studio" className="underline font-semibold">Log in</Link>. If not, <Link to="/pricing" className="underline font-semibold">see pricing</Link>. Writing, the free spell check and the page preview stay free, and your writing stays saved here.</div>
         )}
         {blocked === "book" && (
           <div className="mt-3 text-xs p-2.5 pill-warn" data-testid="writing-needs-book">AI writing help comes with a SparkPrep book. <Link to="/pricing" className="underline font-semibold">See pricing</Link>. Writing, the free spell check and the page preview stay free.</div>

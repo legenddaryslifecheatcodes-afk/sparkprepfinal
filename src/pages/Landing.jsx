@@ -461,6 +461,9 @@ export default function Landing() {
           <a href="https://sparkpreplandingerrors.legenddary.com/" className="hover:text-white">Rejection messages decoded</a>
           <a href="https://sparkpreplandingnewauthor.legenddary.com/" className="hover:text-white">First book guide</a>
         </nav>
+        <div className="mb-4 normal-case tracking-normal text-neutral-300" data-testid="footer-help">
+          Need help? <a href="/faq/" className="text-[#D4AF37] underline hover:text-white">Questions &amp; help</a> · <a href="mailto:support@legenddary.com?subject=Help%20with%20SparkPrep" className="text-[#D4AF37] underline hover:text-white" data-track="Footer: contact support">Contact support</a>
+        </div>
         <div className="mb-2 text-[#D4AF37]">Legenddary&apos;s SparkPrep · The Evolution of Self-Publishing · Power Without Complexity</div>
         <div className="mb-2 normal-case tracking-normal text-neutral-500">SparkPrep is a <a href="https://www.legenddary.com/" className="text-neutral-300 underline hover:text-white">Legenddary</a> product.</div>
         © <a href="https://www.legenddary.com/" className="hover:text-white">Legenddary</a> — Publish · Automate · Elevate · We Build. You Legenddary.

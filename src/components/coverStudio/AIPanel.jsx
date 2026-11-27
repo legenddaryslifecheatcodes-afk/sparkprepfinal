@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { api, fmtErr } from "@/lib/api";
+import { usePricing, money, isBookModel } from "@/lib/pricing";
 import { useAuth } from "@/context/AuthContext";
 import { GENRES, LAYOUT_KEYS, STYLE_KEYS, TEMPLATES, templatesFor } from "@/lib/coverStudio/templates";
 import { toast } from "sonner";
@@ -16,6 +17,7 @@ const Lbl = ({ children }) => <div className="font-mono-spec text-[10px] trackin
 // never painted into the picture, because AI image models misspell titles.
 export default function AIPanel({ engine, geo, words, setWords, genre, setGenre, applyTemplate }) {
   const { user } = useAuth();
+  const pricing = usePricing();
   const [about, setAbout] = useState("");
   const [paint, setPaint] = useState(true);
   const [artPrompt, setArtPrompt] = useState("");
@@ -99,6 +101,13 @@ export default function AIPanel({ engine, geo, words, setWords, genre, setGenre,
       <p className="text-[11px] text-neutral-600">
         Tell SparkPrep about your book and it designs the whole cover: front, spine and back, sized to your book. You can change everything after.
       </p>
+      {/* Said up front (owner, 2026-11-27): a visitor signed up for "free", then learned the AI part was paid, and left. */}
+      {isBookModel(pricing) && (
+        <p className="text-[11px] p-2 border border-[#D4AF37]/50 bg-[#D4AF37]/10 text-neutral-700" data-testid="studio-ai-paid-note">
+          The AI designer comes with a SparkPrep book: {money(pricing.book?.price_cents)}, or {money(pricing.membership?.book_price_cents)} with
+          the {money(pricing.membership?.price_cents)}/month membership. Templates, fonts and every other design tool are free.
+        </p>
+      )}
       <div>
         <Lbl>Title</Lbl>
         <Input value={words.title} onChange={(e) => setWords({ ...words, title: e.target.value })} className="h-9" data-testid="studio-ai-title" />
@@ -124,7 +133,7 @@ export default function AIPanel({ engine, geo, words, setWords, genre, setGenre,
       </button>
 
       {blocked === "login" && (
-        <div className="text-xs p-2.5 pill-warn">The AI designer needs a free SparkPrep account. <Link to="/login" className="underline font-semibold">Log in</Link> or <Link to="/register" className="underline font-semibold">sign up</Link>. Templates and every design tool stay free without one.</div>
+        <div className="text-xs p-2.5 pill-warn">The AI designer comes with a SparkPrep book. Already have one? <Link to="/login" className="underline font-semibold">Log in</Link>. If not, <Link to="/pricing" className="underline font-semibold">see pricing</Link>. Templates and every design tool stay free, no account needed.</div>
       )}
       {blocked === "book" && (
         <div className="text-xs p-2.5 pill-warn">The AI designer comes with a SparkPrep book. <Link to="/pricing" className="underline font-semibold">See pricing</Link>. Templates, fonts and every design tool stay free.</div>

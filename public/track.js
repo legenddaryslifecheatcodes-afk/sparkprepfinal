@@ -50,6 +50,57 @@
     if (name) send("click", name);
   }, true);
 
+  // Trouble report (2026-11-27): if a page crashes, or the browser can't reach our server, send one short note
+  // (the error text, never what the person typed) so the owner's Insights page shows it within a minute.
+  var TROUBLE = API.replace(/\/pv$/, "/trouble"), sentTrouble = {}, troubleCount = 0;
+  function trouble(kind, msg, src) {
+    if (off) return;
+    try {
+      msg = String(msg || "").slice(0, 300);
+      var key = kind + "|" + msg;
+      if (sentTrouble[key] || troubleCount >= 5) return;
+      sentTrouble[key] = 1; troubleCount++;
+      var body = JSON.stringify({ k: kind, m: msg, s: String(src || "").slice(0, 160), p: location.pathname, wd: !!navigator.webdriver });
+      if (navigator.sendBeacon) navigator.sendBeacon(TROUBLE, new Blob([body], { type: "text/plain" }));
+    } catch (_) {}
+  }
+  window.spTrouble = trouble;
+  window.addEventListener("error", function (e) {
+    if (!e || !e.message) return;                     // a picture that failed to load, not a crash
+    var f = e.filename || "";
+    if (/^(chrome|moz|safari)-extension:/.test(f)) return; // the visitor's own browser add-ons
+    if (/ResizeObserver loop/.test(e.message)) return;    // harmless browser notice
+    trouble("page_error", e.message, f.split("/").pop() + ":" + (e.lineno || 0));
+  });
+  window.addEventListener("unhandledrejection", function (e) {
+    var r = e && e.reason;
+    if (r && (r.isAxiosError || r.response)) return;     // the server already records its own error answers
+    trouble("page_error", r && (r.message || r) || "Something failed in the background", "");
+  });
+  // "Couldn't reach the server": watch (never change) requests to our API that fail before any answer comes back.
+  var apiHost = API.split("/").slice(0, 3).join("/");
+  function isOurs(u) { u = String(u || ""); return u.indexOf(apiHost) === 0 && !/\/api\/(pv|trouble)\b/.test(u); }
+  try {
+    var xo = XMLHttpRequest.prototype.open, xs = XMLHttpRequest.prototype.send;
+    XMLHttpRequest.prototype.open = function (m, u) { this.__spUrl = u; return xo.apply(this, arguments); };
+    XMLHttpRequest.prototype.send = function () {
+      var x = this;
+      if (isOurs(x.__spUrl)) x.addEventListener("loadend", function () {
+        if (x.status === 0 && navigator.onLine !== false) trouble("offline", "No answer from the server", String(x.__spUrl).replace(apiHost, ""));
+      });
+      return xs.apply(this, arguments);
+    };
+  } catch (_) {}
+  if (window.fetch) {
+    var of = window.fetch;
+    window.fetch = function (input) {
+      var u = typeof input === "string" ? input : (input && input.url) || "";
+      var p = of.apply(this, arguments);
+      if (isOurs(u)) p.catch(function () { if (navigator.onLine !== false) trouble("offline", "No answer from the server", u.replace(apiHost, "")); });
+      return p;
+    };
+  }
+
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", pageview);
   else pageview();
 })();

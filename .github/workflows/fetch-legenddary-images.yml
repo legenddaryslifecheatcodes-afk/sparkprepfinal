@@ -21,9 +21,9 @@ jobs:
           curl -fsS -o /tmp/src/checklist.png "$B/16u8mwtf_ChatGPT%20Image%20Jul%2017%2C%202026%2C%2008_32_36%20PM.png"
           curl -fsS -o /tmp/src/logo.png "$B/77z8wzk3_new%20legenddary%20logo%20for%20everything.png"
           sha256sum /tmp/src/*
-          convert /tmp/src/cover.png -strip -quality 88 legenddary-home/img/awakening-cover.jpg
-          convert /tmp/src/checklist.png -strip -quality 88 legenddary-home/img/awakening-checklist.jpg
-          convert /tmp/src/logo.png -strip -quality 90 legenddary-home/img/legenddary-logo.jpg
+          cp /tmp/src/cover.png legenddary-home/img/awakening-cover.png
+          cp /tmp/src/checklist.png legenddary-home/img/awakening-checklist.png
+          cp /tmp/src/logo.png legenddary-home/img/legenddary-logo.png
           ls -la /tmp/src legenddary-home/img
           git config user.name "Claude"; git config user.email "noreply@anthropic.com"
           git add legenddary-home/img

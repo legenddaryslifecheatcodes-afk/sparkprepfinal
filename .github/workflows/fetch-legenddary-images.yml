@@ -1,23 +1,31 @@
 # One-time helper: downloads the 3 homepage pictures that legenddary.com still loads from
-# Emergent's file server, so they can be saved in this repo. Uses no secrets.
+# Emergent's file server and saves them in legenddary-home/img/ on this branch.
+# Uses only the built-in GitHub token (no Cloudflare secrets). Delete after use.
 name: Fetch legenddary.com pictures from Emergent
 on:
   push:
     branches: [claude/legenddary-home-own-images]
     paths: [.github/workflows/fetch-legenddary-images.yml]
+permissions:
+  contents: write
 jobs:
   fetch:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
+      - uses: actions/checkout@v4
       - run: |
-          mkdir img
+          mkdir -p legenddary-home/img /tmp/src
           B=https://customer-assets-eiarnc6j.emergentagent.net/job_sparkprep-awakening/artifacts
-          curl -fsS -o img/awakening-cover.png "$B/y2t5f80t_cover%20last%20final%20cover.png"
-          curl -fsS -o img/awakening-checklist.png "$B/16u8mwtf_ChatGPT%20Image%20Jul%2017%2C%202026%2C%2008_32_36%20PM.png"
-          curl -fsS -o img/legenddary-logo.png "$B/77z8wzk3_new%20legenddary%20logo%20for%20everything.png"
-          ls -la img; file img/*
-      - uses: actions/upload-artifact@v4
-        with:
-          name: legenddary-images
-          path: img/
+          curl -fsS -o /tmp/src/cover.png "$B/y2t5f80t_cover%20last%20final%20cover.png"
+          curl -fsS -o /tmp/src/checklist.png "$B/16u8mwtf_ChatGPT%20Image%20Jul%2017%2C%202026%2C%2008_32_36%20PM.png"
+          curl -fsS -o /tmp/src/logo.png "$B/77z8wzk3_new%20legenddary%20logo%20for%20everything.png"
+          sha256sum /tmp/src/*
+          convert /tmp/src/cover.png -strip -quality 88 legenddary-home/img/awakening-cover.jpg
+          convert /tmp/src/checklist.png -strip -quality 88 legenddary-home/img/awakening-checklist.jpg
+          convert /tmp/src/logo.png -strip -quality 90 legenddary-home/img/legenddary-logo.jpg
+          ls -la /tmp/src legenddary-home/img
+          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
+          git add legenddary-home/img
+          git commit -m "Save the 3 legenddary.com pictures in the repo (were on Emergent)"
+          git push

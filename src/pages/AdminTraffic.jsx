@@ -106,7 +106,10 @@ export default function AdminTraffic() {
             <span className="font-mono-spec text-[10px] tracking-widest uppercase text-[#D4AF37]">[ Admin · Traffic ]</span>
             <h1 className="font-display font-black text-3xl sm:text-4xl tracking-tighter mt-1">Who came to the site</h1>
           </div>
-          <Link to="/admin/beta" className="text-xs font-mono-spec uppercase tracking-widest text-neutral-400 underline">Other admin tools</Link>
+          <span className="flex gap-4">
+            <Link to="/admin/insights" className="text-xs font-mono-spec uppercase tracking-widest text-[#D4AF37] underline">How far people get</Link>
+            <Link to="/admin/beta" className="text-xs font-mono-spec uppercase tracking-widest text-neutral-400 underline">Other admin tools</Link>
+          </span>
         </div>
 
         <div className="mt-5 flex gap-2 flex-wrap items-center">

@@ -1,10 +1,10 @@
 # Static copy of the legenddary.com homepage (legenddary-home/), deployed to its own
 # Cloudflare Pages project "legenddary-home" -> https://legenddary-home.pages.dev
-# It asks Cloudflare to attach www.legenddary.com (safe to repeat). DNS stays at Namecheap:
-#   www  CNAME            -> legenddary-home.pages.dev
-#   @    URL Redirect 301 -> https://www.legenddary.com   (email forwarding/MX records untouched)
-# Cloudflare Pages can only serve a bare apex domain when the zone is on Cloudflare, and the
-# nameservers must never move (email forwarding lives at Namecheap), hence www + redirect.
+# It asks Cloudflare to attach www.legenddary.com (safe to repeat).
+# DNS moved to Cloudflare on 2026-11-27 (nameservers elaine/vick.ns.cloudflare.com; the domain
+# is still registered at Namecheap). Both www.legenddary.com and legenddary.com are custom
+# domains on this project; a Cloudflare Redirect Rule sends legenddary.com/* -> www (301),
+# because the pages' canonical URLs are www. Email forwarding is Cloudflare Email Routing.
 name: Deploy legenddary.com copy
 
 on:

@@ -1,7 +1,8 @@
 import { useEffect, useId, useRef, useState } from "react";
-import { Link } from "react-router-dom";
 import { api, fmtErr } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
+import AiCreditsNote from "@/components/ai/AiCreditsNote";
+import { refreshAiCredits } from "@/lib/aiCredits";
 import { toast } from "sonner";
 import { Check, CheckCheck, Loader2, Sparkles, SpellCheck, X } from "lucide-react";
 import {
@@ -24,6 +25,7 @@ export function useWritingHelp(editor, { title, genre }) {
   const [list, setList] = useState([]);
   const [status, setStatus] = useState(null);
   const [blocked, setBlocked] = useState(null);
+  const [blockedMsg, setBlockedMsg] = useState("");
   const [active, setActive] = useState(null);
   const [lastRun, setLastRun] = useState(null);
   const stop = useRef(false);
@@ -61,8 +63,9 @@ export function useWritingHelp(editor, { title, genre }) {
         setList((l) => [...l, ...pinned]);
       } catch (e) {
         const s = e?.response?.status;
+        const d = e?.response?.data?.detail;
         if (s === 401) setBlocked("login");
-        else if (s === 402) setBlocked("book");
+        else if (s === 402) { setBlocked("credits"); setBlockedMsg(typeof d === "object" && d?.msg ? d.msg : ""); }
         else toast.error(fmtErr(e?.response?.data?.detail) || "Couldn't reach the AI writing helper. Try again shortly.");
         failed = true; // never show "no mistakes found" for a check that didn't run
         break;
@@ -70,6 +73,7 @@ export function useWritingHelp(editor, { title, genre }) {
     }
     if (id !== runId.current) return;
     setStatus(null);
+    refreshAiCredits();
     if (!failed) setLastRun({ mode, found });
   };
 
@@ -91,13 +95,13 @@ export function useWritingHelp(editor, { title, genre }) {
     }
   };
 
-  return { scope, setScope, list, status, blocked, active, setActive, lastRun, run, accept, skip, show, stop: () => { stop.current = true; } };
+  return { scope, setScope, list, status, blocked, blockedMsg, active, setActive, lastRun, run, accept, skip, show, stop: () => { stop.current = true; } };
 }
 
 // AI Writing Help: a proofreader (spelling, grammar, punctuation) and a line editor (clearer wording), both
 // suggesting small changes the author accepts or skips one by one. Free red underlines come from the browser.
 export default function WritingHelpPanel({ wh, spellcheck, setSpellcheck }) {
-  const { scope, setScope, list, status, blocked, active, lastRun, run, accept, skip, show } = wh;
+  const { scope, setScope, list, status, blocked, blockedMsg, active, lastRun, run, accept, skip, show } = wh;
   const cards = useRef({});
   const group = useId(); // the panel can be on the page twice (side bar and small-screen strip)
 
@@ -145,12 +149,8 @@ export default function WritingHelpPanel({ wh, spellcheck, setSpellcheck }) {
             {scope === "book" && <button onClick={wh.stop} className="underline" data-testid="writing-stop">Stop</button>}
           </div>
         )}
-        {blocked === "login" && (
-          <div className="mt-3 text-xs p-2.5 pill-warn">AI writing help comes with a SparkPrep book. Already have one? <Link to="/login?next=/interior-studio" className="underline font-semibold">Log in</Link>. If not, <Link to="/pricing" className="underline font-semibold">see pricing</Link>. Writing, the free spell check and the page preview stay free, and your writing stays saved here.</div>
-        )}
-        {blocked === "book" && (
-          <div className="mt-3 text-xs p-2.5 pill-warn" data-testid="writing-needs-book">AI writing help comes with a SparkPrep book. <Link to="/pricing" className="underline font-semibold">See pricing</Link>. Writing, the free spell check and the page preview stay free.</div>
-        )}
+        {/* AI credits (owner, 2026-11-27): the book editor is free; AI writing help runs on credits. */}
+        <div className="mt-3"><AiCreditsNote pool="writing" blocked={blocked} message={blockedMsg} next="/interior-studio" /></div>
       </div>
 
       {!status && lastRun && list.length === 0 && (

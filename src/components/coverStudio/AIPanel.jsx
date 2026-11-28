@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { api, fmtErr } from "@/lib/api";
-import { usePricing, money, isBookModel } from "@/lib/pricing";
+import AiCreditsNote from "@/components/ai/AiCreditsNote";
+import { refreshAiCredits } from "@/lib/aiCredits";
 import { useAuth } from "@/context/AuthContext";
 import { GENRES, LAYOUT_KEYS, STYLE_KEYS, TEMPLATES, templatesFor } from "@/lib/coverStudio/templates";
 import { toast } from "sonner";
@@ -17,18 +17,18 @@ const Lbl = ({ children }) => <div className="font-mono-spec text-[10px] trackin
 // never painted into the picture, because AI image models misspell titles.
 export default function AIPanel({ engine, geo, words, setWords, genre, setGenre, applyTemplate }) {
   const { user } = useAuth();
-  const pricing = usePricing();
   const [about, setAbout] = useState("");
   const [paint, setPaint] = useState(true);
   const [artPrompt, setArtPrompt] = useState("");
   const [step, setStep] = useState(null);
   const [blocked, setBlocked] = useState(null);
+  const [blockedMsg, setBlockedMsg] = useState("");
 
   const explain = (e) => {
     const s = e?.response?.status;
     const d = e?.response?.data?.detail;
     if (s === 401) setBlocked("login");
-    else if (s === 402) setBlocked("book");
+    else if (s === 402) { setBlocked("credits"); setBlockedMsg(typeof d === "object" && d?.msg ? d.msg : ""); refreshAiCredits(); }
     return fmtErr(typeof d === "object" && d?.msg ? d.msg : d);
   };
 
@@ -80,6 +80,7 @@ export default function AIPanel({ engine, geo, words, setWords, genre, setGenre,
       toast.error(`The layout is in, but the artwork didn't finish: ${explain(e)}`);
     } finally {
       setStep(null);
+      refreshAiCredits();
     }
   };
 
@@ -92,6 +93,7 @@ export default function AIPanel({ engine, geo, words, setWords, genre, setGenre,
     } catch (e) {
       toast.error(explain(e));
     } finally {
+      refreshAiCredits();
       setStep(null);
     }
   };
@@ -101,13 +103,8 @@ export default function AIPanel({ engine, geo, words, setWords, genre, setGenre,
       <p className="text-[11px] text-neutral-600">
         Tell SparkPrep about your book and it designs the whole cover: front, spine and back, sized to your book. You can change everything after.
       </p>
-      {/* Said up front (owner, 2026-11-27): a visitor signed up for "free", then learned the AI part was paid, and left. */}
-      {isBookModel(pricing) && (
-        <p className="text-[11px] p-2 border border-[#D4AF37]/50 bg-[#D4AF37]/10 text-neutral-700" data-testid="studio-ai-paid-note">
-          The AI designer comes with a SparkPrep book: {money(pricing.book?.price_cents)}, or {money(pricing.membership?.book_price_cents)} with
-          the {money(pricing.membership?.price_cents)}/month membership. Templates, fonts and every other design tool are free.
-        </p>
-      )}
+      {/* AI credits (owner, 2026-11-27): the cover editor is free; the AI helpers run on credits. */}
+      <AiCreditsNote pool="cover" blocked={blocked} message={blockedMsg} next="/cover-studio" />
       <div>
         <Lbl>Title</Lbl>
         <Input value={words.title} onChange={(e) => setWords({ ...words, title: e.target.value })} className="h-9" data-testid="studio-ai-title" />
@@ -132,12 +129,6 @@ export default function AIPanel({ engine, geo, words, setWords, genre, setGenre,
         <Sparkles className="w-4 h-4" /> {step || "Design my cover"}
       </button>
 
-      {blocked === "login" && (
-        <div className="text-xs p-2.5 pill-warn">The AI designer comes with a SparkPrep book. Already have one? <Link to="/login" className="underline font-semibold">Log in</Link>. If not, <Link to="/pricing" className="underline font-semibold">see pricing</Link>. Templates and every design tool stay free, no account needed.</div>
-      )}
-      {blocked === "book" && (
-        <div className="text-xs p-2.5 pill-warn">The AI designer comes with a SparkPrep book. <Link to="/pricing" className="underline font-semibold">See pricing</Link>. Templates, fonts and every design tool stay free.</div>
-      )}
 
       <div className="pt-3 border-t border-neutral-200">
         <Lbl>Just paint a picture</Lbl>

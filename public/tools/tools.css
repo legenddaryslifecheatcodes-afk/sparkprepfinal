@@ -90,3 +90,8 @@ ol.steps { padding-left: 22px; } ol.steps li { margin: 6px 0; }
 .offers [hidden], .next-step [hidden] { display: none !important; }
 #check-pdf, #full-audit, #too-small, #other-ways { scroll-margin-top: 96px; }
 .first10 { margin-top: 10px; padding: 10px 12px; border: 1px dashed var(--gold); border-radius: 10px; color: var(--gold-soft); font-size: 15px; }
+
+/* Trust panels (Trey, 2026-11-28): deep navy behind help, FAQ, guarantee and founder story. Gold stays for buttons and accents. */
+.trust { background: linear-gradient(160deg, #123061, #0A1A36); border: 1px solid #2A4A7A; border-left: 4px solid var(--gold); border-radius: 14px; padding: 18px 20px; margin: 18px 0; }
+.trust h2 { margin-top: 4px; }
+.trust p:last-child { margin-bottom: 0; }

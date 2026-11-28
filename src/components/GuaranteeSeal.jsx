@@ -26,8 +26,8 @@ export default function GuaranteeSeal({ size = 168, className = "" }) {
         <path id={`${uid}-top`} d={topPath} fill="none" />
         <path id={`${uid}-bottom`} d={bottomPath} fill="none" />
         <radialGradient id={`${uid}-bg`} cx="50%" cy="42%" r="65%">
-          <stop offset="0%" stopColor="#161207" />
-          <stop offset="100%" stopColor="#0A0A0A" />
+          <stop offset="0%" stopColor="#163A70" />
+          <stop offset="100%" stopColor="#0A1A36" />
         </radialGradient>
         <linearGradient id={`${uid}-gold`} x1="0%" y1="0%" x2="0%" y2="100%">
           <stop offset="0%" stopColor="#F5E6B0" />

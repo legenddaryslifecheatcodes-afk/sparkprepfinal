@@ -57,12 +57,12 @@ export default function HowSparkPrepWorks() {
             </li>
           ))}
         </ol>
-        <div className="mt-10 max-w-3xl border-l-2 border-[#D4AF37] bg-[#D4AF37]/[0.06] px-5 py-4" data-testid="how-it-works-story">
+        <div className="mt-10 max-w-3xl border-l-2 border-[#D4AF37] bg-gradient-to-br from-[#123061] to-[#0A1A36] px-5 py-4" data-testid="how-it-works-story">
           <h3 className="font-display font-bold text-lg text-white tracking-tight">Why we built it</h3>
-          <p className="mt-2 text-neutral-300 leading-relaxed">
+          <p className="mt-2 text-neutral-200 leading-relaxed">
             Our founder's book was rejected by the printer 18 times, and he almost quit. That's why Legenddary SparkPrep exists: so no other author has to go through that. (The story in our video is acted out with AI, but it really happened.)
           </p>
-          <p className="mt-3 text-neutral-300 leading-relaxed">
+          <p className="mt-3 text-neutral-200 leading-relaxed">
             Don't worry about the confusing printing terms. SparkPrep learned them so you can focus on what matters: publishing your book. Congratulations on finishing it. We promise to make getting it print-ready painless.
           </p>
           <p className="mt-3 font-display font-bold italic text-[#D4AF37]">The evolution of self-publishing. Power without complexity.</p>

@@ -14,6 +14,7 @@ Facts here were true when written. Before acting on a status line (deployed / br
 - **Positioning (Trey, 2026-11-01):** SparkPrep is a **full all-in-one self-publishing suite** (design, format, write help, check, fix, export), NOT "a preflight checker"; preflight is one feature. **Two core mottos, use in every promotion, commercial and page:** **"SparkPrep: The Evolution of Self-Publishing"** and **"Power without complexity"** (the standard every tool is built to: powerful but easy to use).
 - **Motto:** **"Power without complexity."** Real, powerful work under the hood; one obvious next step on screen. Never fake a capability to look impressive.
 - **Major goal:** make **"SparkPrep Certified"** the industry's trusted seal. The report every finished book gets is named exactly **"The SparkPrep Certified Complete Publisher Preflight Report."** Only books whose final files pass *every* check (cover + every interior page) get it; everything else gets a plainer "SparkPrep Preflight Report." Never overclaim what was checked.
+- **Colors (Trey, 2026-11-28):** black and gold, plus **deep navy** (`#123061` to `#0A1A36`, lines `#2A4A7A`) as the trust color behind trust sections only: founder story (homepage + "Why we built it" + /about/ "Why it exists"), homepage FAQ, /faq/ questions and Contact support box, Guarantee seal. Buttons stay gold. Never baby blue. Static pages use the `.trust` class in `public/tools/tools.css`. legenddary.com (merch) stays black and gold.
 - **Live site:** https://sparkprep.legenddary.com
 
 ## 2. Owner's working rules (follow every time)
@@ -51,6 +52,8 @@ Facts here were true when written. Before acting on a status line (deployed / br
 - `.claude/launch.json` has preview configs: `seo-build` (serves `build/` on :8766), `start` (dev server :3000), `start-local-backend`, backend helpers.
 - The owner's PC is slow; `npm run build` takes ~6–7 minutes — run it in the background.
 - `three` / `@react-three/*` are still in package.json (unused, not bundled); removing them hits an npm peer conflict.
+
+**7-day file rule (2026-11-27, Trey):** book files (uploads, repairs, exports) and free-check files are erased for good 7 days after upload by the backend's hourly job (`file_retention.py`, sparkprep PR #34); a paid book keeps its files until its export window ends, and `keep_files_until` on a project holds them longer (special cases only). The download screen (`CertifiedModal.jsx`, `SEVEN_DAY_NOTICE`), the Editor (`files_kept_until` / `files_erased_at` from the backend) and both report PDFs say so. Keep the wording the same in all of them.
 
 ### Frontend map (this repo)
 - `src/App.js` — routes: `/`, `/login`, `/register`, `/pricing`, `/specs`, `/audit`, `/audit/:id/preview|report`, `/dashboard`, `/editor/:id`, `/account`, `/payment/*`, `/beta/*`, `/admin/beta`.

@@ -94,8 +94,8 @@ export default function Landing() {
             </p>
           </div>
 
-          {/* Trey's story (2026-11-25), lightly smoothed. */}
-          <article className="mt-14 max-w-3xl mx-auto text-left border-l-4 border-[#D4AF37] bg-[#D4AF37]/[0.07] rounded-r-2xl px-5 md:px-10 py-8" aria-labelledby="hero-story-title" data-testid="hero-story">
+          {/* Trey's story (2026-11-25), lightly smoothed. Deep navy panel = trust color (Trey, 2026-11-28): navy behind founder story, FAQ and guarantee; gold buttons stay gold. */}
+          <article className="mt-14 max-w-3xl mx-auto text-left border-l-4 border-[#D4AF37] bg-gradient-to-br from-[#123061] to-[#0A1A36] rounded-r-2xl px-5 md:px-10 py-8 shadow-[0_10px_40px_rgba(10,26,54,0.55)]" aria-labelledby="hero-story-title" data-testid="hero-story">
             <h2 id="hero-story-title" className="font-display font-black italic text-3xl md:text-4xl text-white tracking-tight leading-tight">
               Struggle Gave Birth to <span className="text-[#F3DC8A]">Legenddary SparkPrep</span>
             </h2>
@@ -350,22 +350,22 @@ export default function Landing() {
       </section>
 
       {/* FAQ: the same questions and answers are in the FAQPage structured data in public/index.html -- keep them matching. */}
-      <section className="border-t border-neutral-900" aria-labelledby="home-faq">
+      <section className="border-t border-[#1E3A66] bg-gradient-to-b from-[#0A1A36] to-[#0D2245]" aria-labelledby="home-faq">
         <div className="max-w-3xl mx-auto px-6 py-20">
           <span className="font-mono-spec text-xs tracking-widest uppercase text-[#D4AF37]">[ Questions ]</span>
           <h2 id="home-faq" className="font-display font-black text-4xl md:text-5xl tracking-tighter mt-3">Common questions</h2>
-          <div className="mt-10 divide-y divide-neutral-800 border-y border-neutral-800">
+          <div className="mt-10 divide-y divide-[#2A4A7A] border-y border-[#2A4A7A]">
             {HOME_FAQ.map((f, i) => (
               <details key={i} className="group py-5" data-testid={`home-faq-${i}`} open={i === 0}>
                 <summary className="cursor-pointer list-none flex items-start justify-between gap-4">
                   <h3 className="font-display font-bold text-xl text-white tracking-tight">{f.q}</h3>
                   <span className="text-[#D4AF37] text-2xl leading-none group-open:rotate-45 transition-transform">+</span>
                 </summary>
-                <p className="mt-3 text-neutral-300 leading-relaxed">{f.a}</p>
+                <p className="mt-3 text-neutral-200 leading-relaxed">{f.a}</p>
               </details>
             ))}
           </div>
-          <p className="mt-8 text-neutral-300" data-testid="faq-cta">
+          <p className="mt-8 text-neutral-200" data-testid="faq-cta">
             Still not sure? <Link to="/audit?utm_source=home-faq" className="text-[#F3DC8A] font-semibold underline underline-offset-4 hover:text-white">{freeAudit ? "Check your book free" : "Get a book audit"}</Link> and see what SparkPrep finds, or <a href="/automated-publishing-production-system/" className="text-[#F3DC8A] font-semibold underline underline-offset-4 hover:text-white">read what an A.P.P.S. does</a>.
           </p>
         </div>

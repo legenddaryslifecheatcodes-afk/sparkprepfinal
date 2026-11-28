@@ -56,6 +56,7 @@ export default function CertifiedModal({ result, title = "Your book", onClose, o
             </p>
           </>
         )}
+        <SevenDayNotice />
         {files.length > 0 ? (
           <FileList files={files} onDownloadFile={onDownloadFile} onDownloadZip={download} zipBusy={downloading} onClose={onClose} />
         ) : (<>
@@ -78,6 +79,17 @@ export default function CertifiedModal({ result, title = "Your book", onClose, o
         </div>
         </>)}
       </div>
+    </div>
+  );
+}
+
+/** Owner, 2026-11-27: files are kept 7 days only -- said plainly on the delivery screen, where it's seen. */
+export const SEVEN_DAY_NOTICE = "SparkPrep keeps your book files for 7 days after you upload them. After that they are erased for good and can't be brought back, so save your files now. SparkPrep isn't responsible for files that weren't saved in time. In special cases, if you tell us before the 7 days are up, we may keep a file longer, at SparkPrep's choice.";
+
+function SevenDayNotice() {
+  return (
+    <div className="mt-5 max-w-md mx-auto border border-[#D4AF37]/40 bg-[#D4AF37]/5 p-3 text-left text-xs text-neutral-300 leading-relaxed" data-testid="seven-day-notice">
+      <span className="font-bold text-[#D4AF37]">Save your files now.</span> {SEVEN_DAY_NOTICE}
     </div>
   );
 }

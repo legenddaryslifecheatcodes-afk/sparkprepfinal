@@ -52,6 +52,8 @@ Facts here were true when written. Before acting on a status line (deployed / br
 - The owner's PC is slow; `npm run build` takes ~6–7 minutes — run it in the background.
 - `three` / `@react-three/*` are still in package.json (unused, not bundled); removing them hits an npm peer conflict.
 
+**7-day file rule (2026-11-27, Trey):** book files (uploads, repairs, exports) and free-check files are erased for good 7 days after upload by the backend's hourly job (`file_retention.py`, sparkprep PR #34); a paid book keeps its files until its export window ends, and `keep_files_until` on a project holds them longer (special cases only). The download screen (`CertifiedModal.jsx`, `SEVEN_DAY_NOTICE`), the Editor (`files_kept_until` / `files_erased_at` from the backend) and both report PDFs say so. Keep the wording the same in all of them.
+
 ### Frontend map (this repo)
 - `src/App.js` — routes: `/`, `/login`, `/register`, `/pricing`, `/specs`, `/audit`, `/audit/:id/preview|report`, `/dashboard`, `/editor/:id`, `/account`, `/payment/*`, `/beta/*`, `/admin/beta`.
 - `src/pages/Editor.jsx` + `components/StepGuide.jsx` — the guided editor (Book details → Upload → Fix → Final check → Export & certify; one glowing button for the next action; "Next:" pop-up after every step; "Re-scan my book" always visible).

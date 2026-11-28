@@ -96,6 +96,11 @@ export default function Nav({ dark = true, heroLogo = false }) {
             </Link>
           )}
           {user?.is_admin && (
+            <Link to="/admin/insights" className="text-[#D4AF37] hover:text-[#F3DC8C] transition-colors font-semibold" data-testid="nav-site-stats">
+              Site stats
+            </Link>
+          )}
+          {user?.is_admin && (
             <Link to="/admin/beta" className={`${linkCls} font-mono-spec text-[10px] tracking-widest uppercase border ${dark ? "border-neutral-700" : "border-neutral-300"} px-2 py-1`} data-testid="nav-admin">
               Admin
             </Link>

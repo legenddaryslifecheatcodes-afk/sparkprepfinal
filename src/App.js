@@ -52,8 +52,17 @@ function Protected({ children }) {
 function AdminOnly({ children }) {
   const { user, loading } = useAuth();
   if (loading) return <div className="p-10 text-sm font-mono-spec text-neutral-500">Loading…</div>;
-  if (!user) return <Navigate to="/login" replace />;
-  if (!user.is_admin) return <Navigate to="/dashboard" replace />;
+  // After logging in, come straight back to the owner page that was asked for (2026-11-28: the owner logged in from
+  // /admin/insights and landed on My Books instead).
+  if (!user) return <Navigate to={`/login?next=${encodeURIComponent(window.location.pathname)}`} replace />;
+  if (!user.is_admin) {
+    return (
+      <div className="p-10 max-w-lg mx-auto text-sm" data-testid="admin-only-notice">
+        <p className="font-semibold">This page is only for the site owner's account.</p>
+        <p className="mt-2 text-neutral-600">You're logged in as {user.email}. Log out and log back in with the owner's account to see it.</p>
+      </div>
+    );
+  }
   return children;
 }
 

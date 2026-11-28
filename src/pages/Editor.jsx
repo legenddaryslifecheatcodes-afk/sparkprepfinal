@@ -1035,6 +1035,19 @@ export default function Editor() {
               </button>
             </div>
           )}
+          {project.files_erased_at ? (
+            <div className="mb-3 border border-neutral-700 bg-neutral-900 px-4 py-3 text-sm text-neutral-200" data-testid="files-erased-banner">
+              <span className="font-bold text-white">This book's files were erased.</span>{" "}
+              SparkPrep keeps book files for 7 days after upload, then erases them for good. Your book details are still here,
+              so upload your files again to keep going.
+            </div>
+          ) : project.files_kept_until ? (
+            <div className="mb-3 text-xs text-neutral-400" data-testid="files-kept-until">
+              Your files for this book are kept until{" "}
+              <span className="text-neutral-200">{new Date(project.files_kept_until).toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" })}</span>,
+              then erased for good. Save your print-ready files before then.
+            </div>
+          ) : null}
           <div className="sticky top-[64px] z-30 bg-[#0A0A0A] pb-1" data-testid="step-guide-pin">
             <StepGuide steps={guideSteps} current={currentStep} now={guideNow}
               rescan={filesUploaded && !project.results_locked && project.owns_product !== false
